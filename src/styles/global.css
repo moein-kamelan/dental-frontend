@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+
+      --color-primary: #00A6FB;
+      --color-secondary: #2AC28E;
+      --color-deepblue: #4589F4;
+      --color-paragray: #5C728E;
+      --color-dark: #031D36;
+    
+    
+    --font-iran-yekan-bold : "iran-yekan-bold";
+    --font-iran-yekan-thin : "iran-yekan-thin";
+    --font-iran-yekan-medium : "iran-yekan-medium";
+
+    --font-iran-sans-normal : "iran-normal";
+    --font-iran-sans-light : "iran-light";
+    --font-iran-sans-bold : "iran-bold";
+    --font-iran-sans-ultralight : "iran-ultralight";
+
+    --font-estedad-thin : "estedad-thin";
+    --font-estedad-verybold : "estedad-verybold";
+    --font-estedad-lightbold : "estedad-lightbold";
+    --font-estedad-light : "estedad-light";
+    --font-estedad-extralight : "estedad-extralight";
+    --font-estedad-medium : "estedad-medium";
+    --font-estedad-semibold : "estedad-semibold";
+    --font-estedad-thin : "estedad-thin";
+
+}
+
+:root {
+    direction: rtl;
+}
+
+@utility custom-title {
+    @apply text-dark font-estedad-verybold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-[70px]
+}
+
+@utility custom-sub-title {
+    @apply text-primary font-estedad-semibold md:text-lg border-r-2 border-r-primary pr-5 w-fit 
+}
+
