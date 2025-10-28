@@ -35,10 +35,13 @@
 }
 
 @utility custom-title {
-    @apply text-dark font-estedad-verybold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-[70px]
+    @apply text-dark font-estedad-verybold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-[70px] text-justify leading-12
 }
 
 @utility custom-sub-title {
     @apply text-primary font-estedad-semibold md:text-lg border-r-2 border-r-primary pr-5 w-fit 
 }
 
+@utility main-btn {
+    @apply bg-primary text-white py-3 px-10 rounded-[30px] font-estedad-semibold hover:bg-deepblue transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0  after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4
+}

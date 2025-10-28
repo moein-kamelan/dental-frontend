@@ -102,7 +102,7 @@ function Team() {
             </div>
             
             <div className="text-center mt-12">
-                <a href="doctor.html" className="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-deepblue transition font-semibold">
+                <a href="doctor.html" className="main-btn">
                     مشاهده همه
                 </a>
             </div>
