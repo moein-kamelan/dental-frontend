@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./fonts.css";
+@import 'swiper/css';
+@import 'swiper/css/navigation';
 
 @theme {
 
@@ -44,4 +46,12 @@
 
 @utility main-btn {
     @apply bg-primary text-white py-3 px-10 rounded-[30px] font-estedad-semibold hover:bg-deepblue transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0  after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4
+}
+
+.custom-bullet {
+     @apply inline-block w-4 h-2 bg-primary/30 rounded-full transition-all duration-300 cursor-pointer;
+}
+
+.swiper-pagination-bullet-active.custom-bullet {
+  @apply bg-primary w-8;
 }

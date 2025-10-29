@@ -4,16 +4,18 @@ function AboutUsSection() {
   return (
      <section className="py-20 md:py-24">
         <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="row-span-2">
+            <div className="grid xl:grid-cols-2 gap-12 items-center">
+                <div className="grid grid-cols-1  md:grid-cols-[3fr_2fr] gap-4 ">
+                    <div className="row-span-2 hidden md:block">
                         <img src="images/about-img1.jpg" alt="about" className="rounded-2xl w-full h-full object-cover"/>
                     </div>
-                    <div className="relative left-20 top-1/3">
+                    <div className="relative md:left-20 md:top-1/2 min-w-[280px] max-h-[400px]">
                         <img src="images/about_img2.jpg" alt="about" className="rounded-2xl w-full h-full object-cover"/>
                         <a href="#" className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-2xl hover:bg-opacity-50 transition">
                             <i className="fas fa-play text-white text-4xl"></i>
                         </a>
+
+                        <img src="/images/about_shape1.png" alt="shape" className='hidden md:block absolute -top-30 size-20 circular-animation left-10'/>
                     </div>
                 </div>
                 

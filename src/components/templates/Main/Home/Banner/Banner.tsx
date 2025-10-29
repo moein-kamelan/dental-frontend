@@ -3,7 +3,7 @@ import "./Banner.css"
 
 function Banner() {
   return (
- <section className="bg-[url('/public/images/banner_bg.jpg')] bg-cover  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
+ <section className="bg-[url('/public/images/banner_bg.jpg')] bg-cover lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
         <div className="container mx-auto px-4 h-full ">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                 <div className="space-y-6">
@@ -57,7 +57,7 @@ function Banner() {
                     <div className="hidden lg:block absolute top-[65%] -left-24  w-[170px] h-[90px] z-20">
                         <img src="images/Review.png" alt="react" className="w-full"/>
                     </div>
-                    <div className="hidden lg:block absolute top-8 xl:left-75 2xl:-left-14  size-25 z-20">
+                    <div className="hidden lg:block absolute top-8 -left-6 2xl:-left-14  size-25 z-20">
                         <img src="images/shape-1.png" alt="react" className="w-full"/>
                     </div>
                 </div>
