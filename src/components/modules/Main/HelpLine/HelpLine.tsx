@@ -1,57 +1,59 @@
 import React from 'react'
+import "./Helpline.css"
 
 function HelpLine() {
   return (
-        <section className="py-20 md:py-24">
+        <section className="py-20 md:py-24 bg-[#eef9ff]">
         <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-6">
                     <div className="space-y-4">
-                        <h5 className="text-primary font-bold text-lg">کمک اضطراری</h5>
-                        <h2 className="text-3xl md:text-4xl font-bold text-dark">نیاز به تماس ضروری</h2>
-                        <p className="text-paragray leading-relaxed">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+                        <h5 className="custom-sub-title">کمک اضطراری</h5>
+                        <h2 className="custom-title">نیاز به تماس ضروری</h2>
+                        <p className="text-paragray leading-relaxed font-estedad-light max-w-140">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
                     </div>
                     
                     <ul className="space-y-4 text-paragray">
-                        <li className="flex items-start gap-3">
-                            <i className="fas fa-check-circle text-secondary mt-1"></i>
+                        <li className="flex items-start gap-3 text-dark font-estedad-semibold">
+                            <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
                             <span>۲۴/۷ با بیمارستان ما تماس بگیرید.</span>
                         </li>
-                        <li className="flex items-start gap-3">
-                            <i className="fas fa-check-circle text-secondary mt-1"></i>
+                        <li className="flex items-start gap-3 text-dark font-estedad-semibold">
+                            <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
                             <span>۲۴ ساعت در بیمارستان ما باز است.</span>
                         </li>
-                        <li className="flex items-start gap-3">
-                            <i className="fas fa-check-circle text-secondary mt-1"></i>
+                        <li className="flex items-start gap-3 text-dark font-estedad-semibold">
+                            <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
                             <span>اورژانس با شماره تلفن ما تماس بگیرید.</span>
                         </li>
                     </ul>
                     
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
                         <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-2xl">
-                            <div className="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
-                                <i className="fas fa-phone-alt text-primary text-2xl"></i>
-                            </div>
-                            <div>
+                            <div className='space-y-2'>
                                 <p className="text-sm text-paragray">شماره تماس</p>
-                                <a href="callto:123456789" className="font-bold text-dark">۱۳ ۲۳۲۳ ۰۴۵ ۸۸۰+</a>
+                                <a href="callto:123456789" className=" text-[18px] text-paragray font-estedad-light text-nowrap">۱۳ ۲۳۲۳ ۰۴۵ ۸۸۰+</a>
+                            </div>
+                            <div className="shrink-0 size-12 bg-primary  rounded-full flex items-center justify-center">
+                                <i className="fas fa-phone-alt text-white "></i>
                             </div>
                         </div>
                         
                         <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-2xl">
-                            <div className="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
-                                <i className="fas fa-comment-alt-lines text-primary text-2xl"></i>
-                            </div>
-                            <div>
+                            <div className='space-y-2'>
                                 <p className="text-sm text-paragray">ارسال ایمیل</p>
-                                <a href="mailto:example@gmail.com" className="font-bold text-dark">help.info@gmail.com</a>
+                                <a href="mailto:example@gmail.com" className=" text-[18px] text-paragray font-estedad-light text-nowrap">help.info@gmail.com</a>
+                            </div>
+                            <div className="shrink-0 size-12 bg-primary  rounded-full flex items-center justify-center">
+                                <i className="fas fa-comment-alt text-white "></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div>
+                <div className='relative'>
                     <img src="images/helpline_img.png" alt="helpline" className="w-full"/>
+                    <img src="images/helpline_img2.png" alt="helpline2" className='max-sm:hidden absolute w-32 h-24 md:h-32  md:w-40 -top-6 left-20 lg:-top-20 lg:left-4  xl:-top-6 xl:left-20 scale-animation' />
                 </div>
             </div>
         </div>

@@ -31,17 +31,17 @@ function Appointment() {
                 <input
                   type="text"
                   placeholder="نام بیمار*"
-                  className="placeholder:text-paragray w-full px-6 py-3  bg-white  rounded-full text-dark  focus:outline-none "
+                  className="placeholder:text-paragray w-full py-3.5 px-5  bg-white  rounded-full text-dark  focus:outline-none "
                 />
                 <input
                   type="email"
                   placeholder="ایمیل*"
-                  className="placeholder:text-paragray w-full px-6 py-3  bg-white  rounded-full text-dark  focus:outline-none "
+                  className="placeholder:text-paragray w-full py-3.5 px-5  bg-white  rounded-full text-dark  focus:outline-none "
                 />
                 <input
                   type="text"
                   placeholder="شماره تماس*"
-                  className="placeholder:text-paragray w-full px-6 py-3  bg-white  rounded-full text-dark  focus:outline-none "
+                  className="placeholder:text-paragray w-full py-3.5 px-5  bg-white  rounded-full text-dark  focus:outline-none "
                 />
                 <Select<OptionType, false>
                   options={options}
@@ -94,7 +94,7 @@ function Appointment() {
                 <input
                   type="date"
                   placeholder="تاریخ را وارد نماید"
-                  className="placeholder:text-paragray w-full px-6 py-3  bg-white  rounded-full text-dark  focus:outline-none "
+                  className="placeholder:text-paragray w-full py-3.5 px-5  bg-white  rounded-full text-dark  focus:outline-none "
                 />
 
                 <Select<OptionType, false>
