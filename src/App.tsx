@@ -5,13 +5,13 @@ function App() {
 
 
   return (
-    <div className="font-estedad-medium text-dark scroll-smooth ">
+    
 
 
     <RouterProvider router={routes}/>
     
   
-    </div>
+    
   )
 }
 

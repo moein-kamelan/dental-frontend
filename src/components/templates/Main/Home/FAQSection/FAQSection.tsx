@@ -13,7 +13,7 @@ function FAQSection() {
                 <h2 className="custom-title text-center">سوالات خود را از ما بپرسید</h2>
             </div>
             
-            <div className="grid lg:grid-cols-2  gap-y-12 gap-x-8">
+            <div className="grid lg:grid-cols-[3fr_2fr]  gap-y-12 gap-x-8">
 
                 <div className="space-y-6">
 
@@ -25,10 +25,10 @@ function FAQSection() {
                     
                 </div>
                 
-             <div className='relative'>
+             <div className='relative lg:max-h-[364px]'>
                   <div className='absolute -bottom-1 -right-1 bg-gradient-to-b from-primary to-secondary size-40 z-20 rounded-br-lg'></div>
 
-                   <div className="relative bg-white pr-4 pb-4 z-50 h-full">
+                   <div className="relative bg-white pr-4 pb-4 z-50 h-full ">
 
 
                     <div className='absolute -top-4 -left-4 bg-primary rounded-2xl size-40 -z-10'></div>
