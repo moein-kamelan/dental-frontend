@@ -1,5 +1,7 @@
 import React from "react";
 
+
+
 function Process() {
   return (
     <section className="py-20 md:py-24 bg-[url('/images/work_bg.jpg')] bg-no-repeat bg-right bg-cover">

@@ -36,6 +36,18 @@
     direction: rtl;
 }
 
+button {
+    cursor: pointer;
+}
+
+input , select {
+    outline: none;
+}
+
+.css-1u9des2-indicatorSeparator {
+    display: none;
+}
+
 @utility custom-title {
     @apply text-dark font-estedad-verybold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-[70px] text-justify leading-12
 }

@@ -23,8 +23,6 @@ function Services() {
           }}
           spaceBetween={34}
           slidesPerView={1}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
           loop={true}
          autoplay={{
           delay: 2500,
