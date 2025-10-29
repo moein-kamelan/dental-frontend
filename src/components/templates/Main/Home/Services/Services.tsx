@@ -1,7 +1,7 @@
 import React from "react";
 import ServiceCard from "../../../../modules/Main/ServiceCard/ServiceCard";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination ,Autoplay  } from "swiper/modules";
 function Services() {
   return (
     <section className="py-20 md:py-24 bg-[url('/public/images/service_bg.jpg')] relative">
@@ -13,7 +13,7 @@ function Services() {
         </div>
 
         <Swiper
-          modules={[Pagination]}
+          modules={[Pagination , Autoplay ]}
           pagination={{
             el: ".custom-pagination",
             clickable: true,
@@ -21,11 +21,15 @@ function Services() {
               return `<span class="${className} custom-bullet"></span>`;
             },
           }}
-          spaceBetween={50}
+          spaceBetween={34}
           slidesPerView={1}
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}
           loop={true}
+         autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
           breakpoints={{
           640: {
             slidesPerView: 2,
