@@ -2,7 +2,10 @@ import React from 'react'
 
 function AboutUsSection() {
   return (
-     <section className="py-20 md:py-24">
+     <section className="py-20 md:py-24 relative">
+
+        <img src="/images/shape-5.png" alt="shape-5" className='hidden md:block absolute size-20 opacity-30 left-20 xl:right-20 bottom-20' />
+        
         <div className="container mx-auto px-4">
             <div className="grid xl:grid-cols-2 gap-12 items-center">
                 <div className="grid grid-cols-1  md:grid-cols-[3fr_2fr] gap-4 ">

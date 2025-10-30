@@ -1,7 +1,7 @@
 import React from 'react'
 function ServiceCard() {
   return (
-             <div className="bg-white rounded-[10px] overflow-hidden shadow-lg hover:shadow-xl transition p-5">
+             <div className="bg-white rounded-[10px] overflow-hidden shadow-lg  transition p-5 ">
                     <div className="relative h-64">
                         <img src="images/service-1.jpg" alt="service" className="w-full h-full object-cover rounded-[5px]"/>
                         <div className="absolute translate-y-1/2 bottom-0 left-4 w-16 h-16 bg-secondary  flex items-center justify-center shadow-lg rounded-[10px]">

@@ -29,7 +29,7 @@ function HelpLine() {
                     </ul>
                     
                     <div className="grid sm:grid-cols-2 gap-6">
-                        <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-2xl">
+                        <div className="flex items-center justify-between gap-2 bg-gray-50 p-6 rounded-2xl max-sm:w-[280px] shadow-sm">
                             <div className='space-y-2'>
                                 <p className="text-sm text-paragray">شماره تماس</p>
                                 <a href="callto:123456789" className=" text-[18px] text-paragray font-estedad-light text-nowrap">۱۳ ۲۳۲۳ ۰۴۵ ۸۸۰+</a>
@@ -39,7 +39,7 @@ function HelpLine() {
                             </div>
                         </div>
                         
-                        <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-2xl">
+                        <div className="flex items-center justify-between gap-2 bg-gray-50 p-6 rounded-2xl max-sm:w-[280px] shadow-sm">
                             <div className='space-y-2'>
                                 <p className="text-sm text-paragray">ارسال ایمیل</p>
                                 <a href="mailto:example@gmail.com" className=" text-[18px] text-paragray font-estedad-light text-nowrap">help.info@gmail.com</a>

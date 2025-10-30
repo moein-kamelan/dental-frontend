@@ -2,25 +2,40 @@ import React from 'react'
 
 function DoctorCard() {
   return (
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group">
-                    <div className="relative overflow-hidden">
-                        <img src="images/team-1.jpg" alt="team" className="w-full h-80 object-cover group-hover:scale-110 transition duration-300"/>
-                        <div className="absolute inset-0 bg-primary bg-opacity-0 group-hover:bg-opacity-80 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <ul className="flex gap-4 text-white text-xl">
-                                <li><a href="#"><i className="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i className="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i className="fab fa-whatsapp"></i></a></li>
-                                <li><a href="#"><i className="fab fa-linkedin-in"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="p-6">
-                        <h6 className="text-xl font-bold text-dark">دکتر دادار</h6>
-                        <p className="text-primary font-semibold">عصب شناسی</p>
-                        <span className="text-paragray text-sm block mb-2">MBBS, FCPS, FRCS</span>
-                        <a href="doctor_details.html" className="text-primary hover:text-deepblue"><i className="fal fa-plus"></i></a>
-                    </div>
-                </div>
+              <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group/card ">
+  <div className="relative overflow-hidden">
+    <img src="images/team-1.jpg" alt="team" className="w-full h-80 object-cover" />
+    
+    <div className="absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center">
+      <ul className="absolute invisible opacity-0 group-hover/card:visible group-hover/card:opacity-100 bottom-8 left-8 flex flex-col items-center bg-primary gap-2 px-1 py-2 rounded-4xl transition-all duration-500">
+        <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
+          <a href="#"><i className="fab fa-facebook-f text-white text-base group-hover:text-primary"></i></a>
+        </li>
+        <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
+          <a href="#"><i className="fab fa-twitter text-white text-base group-hover:text-primary"></i></a>
+        </li>
+        <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
+          <a href="#"><i className="fab fa-whatsapp text-white text-base group-hover:text-primary"></i></a>
+        </li>
+        <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
+          <a href="#"><i className="fab fa-linkedin-in text-white text-base group-hover:text-primary"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div className="px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex items-center justify-between">
+   <div className='flex flex-col gap-y-1 '>
+     <h6 className="text-xl font-estedad-semibold">دکتر دادار</h6>
+    <p className="">عصب شناسی</p>
+    <div className='flex items-center justify-center gap-3'>
+        <i className='	fas fa-graduation-cap'></i>
+    <span className="text-sm block  font-estedad-light">MBBS, FCPS, FRCS</span>
+    </div>
+   </div>
+    <a href="doctor_details.html" className='flex items-center justify-center size-9 bg-white rounded-full'><i className="fa fa-plus text-primary"></i></a>
+  </div>
+</div>
   )
 }
 
