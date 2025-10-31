@@ -6,12 +6,12 @@ function ContactForm() {
         <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-start">
 
-                <div className="hidden lg:block">
-                    <img src="images/contact_img.jpg" alt="contact" className="rounded-2xl w-full"/>
+                <div className="">
+                    <img src="images/contact_img.jpg" alt="contact" className="rounded-2xl max-lg:w-7/10 mx-auto max-h-[450px]"/>
                 </div>
                 
 
-                <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                <div className=" ">
                     <h2 className="text-3xl font-bold text-dark mb-8">پیام خود را ارسال کنید</h2>
                     <form className="space-y-6">
                         <div className="grid md:grid-cols-2 gap-6">
@@ -22,7 +22,7 @@ function ContactForm() {
                         </div>
                         <input type="text" placeholder="خدمات" className="w-full px-6 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-primary"/>
                         <textarea rows={5} placeholder="پیام*" className="w-full px-6 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:border-primary resize-none"></textarea>
-                        <button type="submit" className="w-full bg-primary text-white px-8 py-4 rounded-full hover:bg-deepblue transition font-semibold">
+                        <button type="submit" className="max-md:w-full main-btn">
                             ارسال کنید
                         </button>
                     </form>

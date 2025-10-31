@@ -1,111 +1,105 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md h-[76px] ">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full">
-          <a href="index.html" className="w-40">
+          <Link to={"/home"} className="w-40">
             <img
               src="../../../../../public/images/Logo_1.png"
               alt="logo"
               className="w-full"
             />
-          </a>
+          </Link>
 
           <div className="hidden lg:flex items-center gap-8">
             <ul className="flex items-center gap-8 font-iran-sans-bold">
               <li>
-                <a href="#" className="text-primary ">
+                <Link to={"/home"} className="text-primary ">
                   خانه
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="about.html" className="hover:text-primary">
+                <Link to={"/about-us"} className="hover:text-primary">
                   درباره ما
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="service.html" className="hover:text-primary">
+                <Link to={"/services"} className="hover:text-primary">
                   خدمات
-                </a>
+                </Link>
               </li>
               <li className="relative group">
-                <a href="#" className="hover:text-primary">
-                  صفحات <i className="far fa-plus"></i>
-                </a>
+                <button  className="hover:text-primary">
+                  صفحات <i className="fas fa-plus"></i>
+                </button>
                 <ul className="absolute top-full right-0 bg-white shadow-lg rounded-lg py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+             
                   <li>
-                    <a
-                      href="become_doctor.html"
+                    <Link
+                      to={"/doctors"}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
-                      دکتر شوید
-                    </a>
+                      پزشکان
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="doctor.html"
+                    <Link
+                      to={"/dashboard"}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
-                      دکتر
-                    </a>
+                      پروفایل کاربری
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="dashboard.html"
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      داشبورد
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="faq.html"
+                    <Link
+                      to={"/faq"}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       سوالات متداول
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="sign_in.html"
+                    <Link
+                      to={"/auth/sign-in"}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       ورود
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="sing_up.html"
+                    <Link
+                      to={"/auth/sign-up"}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       ثبت نام
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
               <li>
-                <a href="blog.html" className="hover:text-primary">
+                <Link to={"/blog"} className="hover:text-primary">
                   وبلاگ
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="contact.html" className="hover:text-primary">
+                <Link to={"/contact"} className="hover:text-primary">
                   تماس با ما
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
           <div className="hidden lg:flex items-center gap-8">
             <div className="flex items-center gap-4">
-              <a href="#" className="text-gray-600 hover:text-primary text-xl">
+              <Link to={""} className="text-gray-600 hover:text-primary text-xl">
                 <i className="fa fa-search"></i>
-              </a>
-                <a href="appointment.html" className="main-btn  " >
+              </Link>
+                <Link to={""} className="main-btn  " >
                   نوبت دکتر
-                </a>
+                </Link>
             </div>
           </div>
 

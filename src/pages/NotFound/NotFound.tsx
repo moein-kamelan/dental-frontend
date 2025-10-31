@@ -1,5 +1,6 @@
 import React from 'react'
 import Breadcrumb from '../../components/modules/Main/Breadcrumb/Breadcrumb'
+import { Link } from 'react-router-dom'
 
 function NotFound() {
   return (
@@ -14,9 +15,9 @@ function NotFound() {
                 </div>
                 <h3 className="text-4xl font-bold mb-4">اوپس! چیزی پیدا نشد</h3>
                 <p className="text-paragray text-lg mb-8">با عرض پوزش این صفحه یافت نشد نگاهی به محبوب‌ترین ما بیندازید</p>
-                <a href="index.html" className="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-deepblue transition font-semibold">
+                <Link to={"/home"} className="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-deepblue transition font-semibold">
                     برو به خانه
-                </a>
+                </Link>
             </div>
         </div>
     </section>

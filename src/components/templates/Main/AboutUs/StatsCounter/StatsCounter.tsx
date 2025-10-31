@@ -2,41 +2,43 @@ import React from 'react'
 
 function StatsCounter() {
   return (
-     <section className="py-20 bg-cover bg-center" style={{backgroundImage: "url('images/counter_bg.jpg')" ,backgroundColor: "rgba(0, 166, 251, 0.9)", backgroundBlendMode: "overlay"}}>
+     <section className="py-20 bg-cover bg-center" >
         <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div className="text-center text-white bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
-                    <div className="w-20 h-20 bg-primary bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-4">
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-8 lg:divide-x divide-gray-300 border border-gray-100  bg-[url('images/counter_bg.jpg')] rounded-xl p-8 shadow-sm bg-cover bg-no-repeat" > 
+                <div className="text-center text-white    ">
+                    <div className="w-20 h-20 bg-secondary  rounded-full flex items-center justify-center mx-auto mb-4">
                         <i className="fas fa-users text-3xl text-white"></i>
                     </div>
-                    <h4 className="text-4xl font-bold mb-2">۹۵۰</h4>
-                    <p className="text-white opacity-90">رضایت بیماران</p>
+                    <h4 className="text-[40px] font-estedad-semibold text-dark mb-2">۹۵۰ +</h4>
+                    <p className="text-paragray  font-estedad-light"> رضایت بیماران</p>
                 </div>
                 
-                <div className="text-center text-white bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
-                    <div className="w-20 h-20 bg-secondary bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-center text-white    ">
+                    <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                         <i className="fas fa-user-md text-3xl text-white"></i>
                     </div>
-                    <h4 className="text-4xl font-bold mb-2">۲۵۶</h4>
-                    <p className="text-white opacity-90">تعداد پزشک متخصص</p>
+                    <h4 className="text-[40px] font-estedad-semibold text-dark mb-2">۲۵۶ +</h4>
+                    <p className="text-paragray font-estedad-light"> تعداد پزشک متخصص</p>
                 </div>
                 
-                <div className="text-center text-white bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
-                    <div className="w-20 h-20 bg-yellow-500 bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i className="fas fa-trophy-alt text-3xl text-white"></i>
+                <div className="text-center text-white    ">
+                    <div className="w-20 h-20 bg-red-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i className="fas fa-trophy text-3xl text-white"></i>
                     </div>
-                    <h4 className="text-4xl font-bold mb-2">۹۰</h4>
-                    <p className="text-white opacity-90">برنده جایزه</p>
+                    <h4 className="text-[40px] font-estedad-semibold text-dark mb-2">۹۰ +</h4>
+                    <p className="text-paragray  font-estedad-light"> برنده جایزه</p>
                 </div>
                 
-                <div className="text-center text-white bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8">
-                    <div className="w-20 h-20 bg-red-500 bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i className="far fa-stars text-3xl text-white"></i>
+                <div className="text-center text-white    ">
+                    <div className="w-20 h-20 bg-yellow-500  rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i className="fas fa-star text-3xl text-white"></i>
                     </div>
-                    <h4 className="text-4xl font-bold mb-2">۴.۹</h4>
-                    <p className="text-white opacity-90">میانگین امتیاز</p>
+                    <h4 className="text-[40px] font-estedad-semibold text-dark mb-2">۴.۹</h4>
+                    <p className="text-paragray  font-estedad-light"> میانگین امتیاز</p>
                 </div>
             </div>
+            
         </div>
     </section>
   )

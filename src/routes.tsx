@@ -49,6 +49,10 @@ const routes = createBrowserRouter([
           { path: "upcoming-meeting", element: <UpcomingMeeting /> },
           { path: "messages", element: <Messages /> },
           { path: "meeting-history", element: <MeetingHistory /> },
+            { path: "*", element: <Navigate to="/404" replace /> },
+
+      
+
         ],
       },
       {
@@ -58,44 +62,22 @@ const routes = createBrowserRouter([
           { index: true, element: <Navigate to="sign-in" replace /> },
           { path: "sign-in", element: <Signin /> },
           { path: "sign-up", element: <Signup /> },
+      { path: "*", element: <Navigate to="/404" replace /> },
+      
+
         ],
       },
-      { path: "*", element: <NotFound /> },
 
+      { path: "404", element : <NotFound/> },
+      { path: "*", element : <Navigate to="/404" replace/> },
     ],
+
+
+    
   },
-  //   {
-  //     path: "/dashboard/*",
-  //     element: <Dashboard />,
-  //     children: [
-  //       { index: true, element: <Navigate to={"new-campaign"} replace /> },
-  //       { path: "new-campaign", element: <NewCampaign /> },
-  //       { path: "campaigns", element: <Campaigns /> },
-  //       {
-  //         path: "reports",
-  //         element: <Reports />,
-  //       },
-  //     ],
-  //   },
 
-  //   {
-  //     path: "/admin-dashboard/*",
-  //     element: <AdminDashboard />,
-  //     children: [
-  //       { index: true, element: <Navigate to={"user-managment"} replace /> },
-  //       { path: "user-managment", element: <UsersManagment /> },
-  //     ],
-  //   },
 
-  // {
-  //   path: "/auth/*",
-  //   element: <Auth />,
-  //   children: [
-  //     { index: true, element: <Navigate to="sign-in" replace /> },
-  //     { path: "sign-in", element: <Signin /> },
-  //     { path: "sign-up", element: <Signup /> },
-  //   ],
-  // },
+  
 ]);
 
 export default routes;

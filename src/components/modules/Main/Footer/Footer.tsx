@@ -2,8 +2,8 @@ import React from 'react'
 
 function Footer() {
   return (
-       <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 md:mt-15">
-        <div className="container mx-auto px-4 pt-46 sm:pt-40 lg:pt-32 relative ">
+       <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42">
+        <div className="container mx-auto px-4 max-sm:pt-52  pt-46 sm:pt-40 lg:pt-32 relative ">
             
             <div className="bg-primary  p-10 absolute rounded-xl lg:rounded-full left-0 right-0 top-0 -translate-y-1/2 mx-8">
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-6">

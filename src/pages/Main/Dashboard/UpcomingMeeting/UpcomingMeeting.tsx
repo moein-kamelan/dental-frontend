@@ -1,59 +1,117 @@
-import React from 'react'
+import React from "react";
 
 function UpcomingMeeting() {
   return (
-     <div className="lg:col-span-3">
-                    <div className="bg-white rounded-2xl shadow-lg p-8">
-                        <h5 className="text-2xl font-bold mb-6">نوبت‌های آینده</h5>
-                        
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-100">
-                                    <tr>
-                                        <th className="px-4 py-3 text-right font-semibold">ردیف</th>
-                                        <th className="px-4 py-3 text-right font-semibold">دکتر</th>
-                                        <th className="px-4 py-3 text-right font-semibold">تاریخ</th>
-                                        <th className="px-4 py-3 text-right font-semibold">مدت زمان</th>
-                                        <th className="px-4 py-3 text-right font-semibold">عملیات</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                    <tr className="hover:bg-gray-50">
-                                        <td className="px-4 py-4">1</td>
-                                        <td className="px-4 py-4 font-semibold">دکتر رحیمی</td>
-                                        <td className="px-4 py-4">
-                                            <p>۰۵ مهر ۱۴۰۲</p>
-                                            <span className="text-sm text-paragray">۴:۳۰ عصر</span>
-                                        </td>
-                                        <td className="px-4 py-4">۳۰ دقیقه</td>
-                                        <td className="px-4 py-4">
-                                            <div className="flex gap-2">
-                                                <button className="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">تایید</button>
-                                                <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">کنسل</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="hover:bg-gray-50">
-                                        <td className="px-4 py-4">۲</td>
-                                        <td className="px-4 py-4 font-semibold">دکتر نوبخت</td>
-                                        <td className="px-4 py-4">
-                                            <p>۱۵ مهر ۱۴۰۲</p>
-                                            <span className="text-sm text-paragray">۱۴:۳۰</span>
-                                        </td>
-                                        <td className="px-4 py-4">۶۰ دقیقه</td>
-                                        <td className="px-4 py-4">
-                                            <div className="flex gap-2">
-                                                <button className="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">تایید</button>
-                                                <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">کنسل</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-  )
+    <div className="lg:col-span-3">
+      <h5 className="text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-primary after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40">
+        نوبت‌های آینده
+      </h5>
+
+      <div className="max-md:max-w-[630px] max-sm:max-w-[470px] max-xs:!max-w-[290px] mx-auto overflow-x-auto border border-[#5e5b5b17] rounded-[10px] shadow-sm ">
+        <table className="w-full ">
+          <thead className="border-b border-[#5e5b5b17] ">
+            <tr className="*:text-right *:p-4.5 ">
+              <th>ردیف</th>
+              <th>دکتر</th>
+              <th>تاریخ</th>
+              <th>مدت زمان</th>
+              <th>وضعیت</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#5e5b5b17]">
+            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+              <td className=" font-estedad-light ">۱</td>
+              <td className="">
+                <p className="font-estedad-light">دکتر نوبخت</p>
+                <span className="text-sm font-estedad-light text-paragray">
+                  دندانپزشک
+                </span>
+              </td>
+              <td className="">
+                <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
+                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+              </td>
+              <td className=" text-dark">۳۰ دقیقه</td>
+              <td className="space-y-2.5">
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-secondary text-secondary hover:bg-secondary hover:text-white transition">
+                  تایید
+                </button>
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white transition">
+                  کنسل
+                </button>
+              </td>
+            </tr>
+            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+              <td className=" font-estedad-light ">۱</td>
+              <td className="">
+                <p className="font-estedad-light">دکتر نوبخت</p>
+                <span className="text-sm font-estedad-light text-paragray">
+                  دندانپزشک
+                </span>
+              </td>
+              <td className="">
+                <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
+                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+              </td>
+              <td className=" text-dark">۳۰ دقیقه</td>
+              <td className="space-y-2.5">
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-secondary text-secondary hover:bg-secondary hover:text-white transition">
+                  تایید
+                </button>
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white transition">
+                  کنسل
+                </button>
+              </td>
+            </tr>
+            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+              <td className=" font-estedad-light ">۱</td>
+              <td className="">
+                <p className="font-estedad-light">دکتر نوبخت</p>
+                <span className="text-sm font-estedad-light text-paragray">
+                  دندانپزشک
+                </span>
+              </td>
+              <td className="">
+                <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
+                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+              </td>
+              <td className=" text-dark">۳۰ دقیقه</td>
+              <td className="space-y-2.5">
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-secondary text-secondary hover:bg-secondary hover:text-white transition">
+                  تایید
+                </button>
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white transition">
+                  کنسل
+                </button>
+              </td>
+            </tr>
+            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+              <td className=" font-estedad-light ">۱</td>
+              <td className="">
+                <p className="font-estedad-light">دکتر نوبخت</p>
+                <span className="text-sm font-estedad-light text-paragray">
+                  دندانپزشک
+                </span>
+              </td>
+              <td className="">
+                <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
+                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+              </td>
+              <td className=" text-dark">۳۰ دقیقه</td>
+              <td className="space-y-2.5">
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-secondary text-secondary hover:bg-secondary hover:text-white transition">
+                  تایید
+                </button>
+                <button className="w-24 h-9 flex items-center justify-center rounded-full   border border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-white transition">
+                  کنسل
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
 
-export default UpcomingMeeting
+export default UpcomingMeeting;
