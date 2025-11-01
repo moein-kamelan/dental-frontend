@@ -5,9 +5,7 @@ function Profile() {
   return (
     <div className="lg:col-span-3">
       <div className="mb-8">
-        <h5 className="text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-primary after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40">
-          مشاهده کلی
-        </h5>
+        <h5 className="main-header">مشاهده کلی</h5>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           <StatItem />

@@ -3,9 +3,7 @@ import React from "react";
 function UpcomingMeeting() {
   return (
     <div className="lg:col-span-3">
-      <h5 className="text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-primary after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40">
-        نوبت‌های آینده
-      </h5>
+      <h5 className="main-header">نوبت‌های آینده</h5>
 
       <div className="max-md:max-w-[630px] max-sm:max-w-[470px] max-xs:!max-w-[290px] mx-auto overflow-x-auto border border-[#5e5b5b17] rounded-[10px] shadow-sm ">
         <table className="w-full ">

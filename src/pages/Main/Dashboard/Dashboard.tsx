@@ -1,6 +1,6 @@
 import React from "react";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 function Dashboard() {
   return (
@@ -42,67 +42,58 @@ function Dashboard() {
               <div className="">
                 <ul className="space-y-6 p-2">
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="dashboard.html"
+                    <Link
+                      to={"/dashboard/profile"}
                       className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
                     >
                       <span>پروفایل من</span>
                       <i className="fas fa-angle-left"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="dashboard_appoinment.html"
+                    <Link
+                      to={"/dashboard/turns"}
                       className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
                     >
                       <span>نوبت ها</span>
                       <i className="fas fa-angle-left"></i>
-                    </a>
+                    </Link>
                   </li>
+                 
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="dashboard_trannsaction_history.html"
-                      className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
-                    >
-                      <span>تاریخچه تراکنش ها</span>
-                      <i className="fas fa-angle-left"></i>
-                    </a>
-                  </li>
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="dashboard_meeting_history.html"
+                    <Link
+                      to={"/dashboard/meeting-history"}
                       className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
                     >
                       <span>تاریخچه نوبت ها</span>
                       <i className="fas fa-angle-left"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="dashboard_upcoming_meeting.html"
+                    <Link
+                      to={"/dashboard/upcoming-meeting"}
                       className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
                     >
                       <span>نوبت های آینده</span>
                       <i className="fas fa-angle-left"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="dashboard_message.html"
+                    <Link
+                      to={"/dashboard/messages"}
                       className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
                     >
                       <span>پیام ها</span>
                       <i className="fas fa-angle-left"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <a
-                      href="#"
-                      className="flex items-center justify-between py-3.5 px-5  bg-secondary text-white transition "
+                    <button                      
+                      className="flex items-center justify-between py-3.5 px-5  bg-secondary text-white transition w-full"
                     >
                       <span>خروج</span>
                       <i className="fas fa-angle-left"></i>
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>

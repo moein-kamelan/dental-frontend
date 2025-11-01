@@ -5,7 +5,7 @@ function StatsCounter() {
      <section className="py-20 bg-cover bg-center" >
         <div className="container mx-auto px-4">
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-8 lg:divide-x divide-gray-300 border border-gray-100  bg-[url('images/counter_bg.jpg')] rounded-xl p-8 shadow-sm bg-cover bg-no-repeat" > 
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-8 lg:divide-x divide-gray-300 border border-gray-100  bg-[url('/images/counter_bg.jpg')] rounded-xl p-8 shadow-sm bg-cover bg-no-repeat" > 
                 <div className="text-center text-white    ">
                     <div className="w-20 h-20 bg-secondary  rounded-full flex items-center justify-center mx-auto mb-4">
                         <i className="fas fa-users text-3xl text-white"></i>
