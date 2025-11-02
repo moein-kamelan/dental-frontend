@@ -32,7 +32,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className="relative group">
-                <button  className={({isActive}) => isActive ? "text-primary" : "text-dark hover:text-primary"}>
+                <button  className={ "text-primary text-dark hover:text-primary"}>
                   صفحات <i className="fas fa-plus"></i>
                 </button>
                 <ul className="absolute top-full right-0 bg-white shadow-lg rounded-lg py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">

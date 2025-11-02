@@ -1,12 +1,20 @@
 import React from "react";
-
+import {motion} from 'motion/react';
 
 
 function Process() {
   return (
     <section className="py-20 md:py-24 bg-[url('/images/work_bg.jpg')] bg-no-repeat bg-right bg-cover">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 text-white">
+
+               <motion.div
+          className=""
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+ <div className="text-center mb-12 text-white">
           <h5 className="custom-sub-title mx-auto">شیوه کار ما</h5>
           <h2 className="custom-title text-center">روند کاری ما</h2>
         </div>
@@ -82,6 +90,8 @@ function Process() {
             </p>
           </div>
         </div>
+          </motion.div>
+       
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Messages() {
   return (
-      <div className="lg:col-span-3">
+      <>
                     <div className="bg-white rounded-2xl shadow-lg p-8">
                         <h5 className="text-2xl font-bold mb-6">پیام‌ها</h5>
                         
@@ -85,7 +85,7 @@ function Messages() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </>
   )
 }
 

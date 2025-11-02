@@ -1,10 +1,18 @@
 import React from 'react'
+import {motion} from 'motion/react';
 
 function ContactInfo() {
   return (
        <section className="py-12">
         <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                                  <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            initial={{ opacity: 0, x: -300 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                 
                 <div className="bg-white rounded-2xl p-6 text-center   border-2 border-[rgba(94,91,91,0.09)]">
                     <div className="w-20 h-20 bg-semantic-red  rounded-full flex items-center justify-center mx-auto mb-4">
@@ -43,7 +51,8 @@ function ContactInfo() {
                     <p className="text-paragray font-estedad-light text-sm xl:text-base">۱۲۳۱ ۴۳۱۴ ۰۲۱+</p>
                     <p className="text-paragray font-estedad-light text-sm xl:text-base">۲۲۱۳ ۴۳۱۱ ۰۲۱+</p>
                 </div>
-            </div>
+
+          </motion.div>
         </div>
     </section>
   )

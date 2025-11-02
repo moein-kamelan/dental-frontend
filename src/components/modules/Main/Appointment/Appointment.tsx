@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import {motion} from 'motion/react';
 import Select, { components } from "react-select";
 import type { OptionType } from "../../../../types/types";
 const options: OptionType[] = [
@@ -13,6 +13,15 @@ function Appointment() {
   return (
     <section className="py-20 md:py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
+
+               <motion.div
+          className=""
+            initial={{ opacity: 0, y: 200 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+
         <div className="relative grid  xl:grid-cols-[3fr_2fr] gap-8 items-center bg-[url('images/appointment_bg.jpg')] z-10 p-6 sm:p-7.5 md:p-15 rounded-[10px] ">
           <div className="absolute inset-0 bg-primary opacity-90 -z-10 rounded-[10px]"></div>
 
@@ -140,6 +149,9 @@ function Appointment() {
             />
           </div>
         </div>
+
+          </motion.div>
+        
       </div>
     </section>
   );

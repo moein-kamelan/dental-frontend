@@ -1,11 +1,19 @@
 import React from 'react'
+import {motion} from 'motion/react';
 
 function Footer() {
   return (
        <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42">
         <div className="container mx-auto px-4 max-sm:pt-52  pt-46 sm:pt-40 lg:pt-32 relative ">
             
-            <div className="bg-primary  p-10 absolute rounded-xl lg:rounded-full left-0 right-0 top-0 -translate-y-1/2 mx-8">
+                                <motion.div
+          className="bg-primary  p-10 absolute rounded-xl lg:rounded-full left-0 right-0 top-0 -translate-y-1/2 mx-8"
+            initial={{ opacity: 0, y: 200 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
+         
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
                     <h2 className="text-2xl lg:text-[32px]/10 font-estedad-semibold">برای به‌روزرسانی‌های انحصاری مشترک شوید!</h2>
                     <form className="flex flex-col md:flex-row items-center justify-between gap-4 flex-1  w-full lg:max-w-md md:bg-white  p-2 pr-4 rounded-[30px]">
@@ -15,7 +23,9 @@ function Footer() {
                         </button>
                     </form>
                 </div>
-            </div>
+
+          </motion.div>
+          
 
             <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_2fr_3fr] gap-8 mb-12">
 

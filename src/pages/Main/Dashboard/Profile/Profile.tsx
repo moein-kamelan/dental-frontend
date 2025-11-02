@@ -3,7 +3,7 @@ import StatItem from "../../../../components/templates/Main/Dashboard/Profile/St
 
 function Profile() {
   return (
-    <div className="lg:col-span-3">
+    < >
       <div className="mb-8">
         <h5 className="main-header">مشاهده کلی</h5>
 
@@ -88,7 +88,7 @@ function Profile() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

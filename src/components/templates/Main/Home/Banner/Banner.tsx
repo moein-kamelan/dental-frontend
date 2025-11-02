@@ -1,12 +1,19 @@
-import React from 'react'
-import "./Banner.css"
-
+import React from "react";
+import "./Banner.css";
+import {motion} from 'motion/react';
 function Banner() {
   return (
- <section className="bg-[url('/public/images/banner_bg.jpg')] bg-cover lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
-        <div className="container mx-auto px-4 h-full ">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
-                <div className="space-y-6">
+    <section className="bg-[url('/public/images/banner_bg.jpg')] bg-cover lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
+      <div className="container mx-auto px-4 h-full ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
+          <motion.div
+          className="space-y-6"
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+
                     <div className="custom-sub-title">
 
                         <span>به مدیفکس خوش آمدید</span>
@@ -34,37 +41,48 @@ function Banner() {
                             <h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">۱۲۰<span className="text-2xl">+</span></h3>
                             <p className="text-paragray md:text-lg font-estedad-light ">دکترهای محبوب</p>
                         </div>
-                    </div>
                 </div>
-                
-                <div className="relative h-full  ">
+            
+          </motion.div>
 
-                    
-                     <img src="images/banner_img.png" alt="banner" className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"/>
-                    <div className=" z-10 h-full overflow-hidden">
-                        <img src="images/banner_img_bg.png" alt="banner-bg " className='translate-y-10 circular-animation '  />
-                       
-                    </div>
-                    <div className="hidden lg:block absolute top-[55%] -right-10  w-20 h-20 z-20">
-                        <img src="images/react.png" alt="react" className="w-full"/>
-                    </div>
-                    <div className="hidden lg:block absolute top-[36%] -left-5  w-20 h-20 z-20">
-                        <img src="images/Call.png" alt="react" className="w-full"/>
-                    </div>
-                    <div className="hidden lg:block absolute top-[12%] right-28  w-20 h-20 z-20">
-                        <img src="images/Video-call.png" alt="react" className="w-full"/>
-                    </div>
-                    <div className="hidden lg:block absolute top-[65%] -left-24  w-[170px] h-[90px] z-20">
-                        <img src="images/Review.png" alt="react" className="w-full"/>
-                    </div>
-                    <div className="hidden lg:block absolute top-8 -left-6 2xl:-left-14  size-25 z-20">
-                        <img src="images/shape-1.png" alt="react" className="w-full"/>
-                    </div>
-                </div>
+                          <motion.div className="relative h-full" initial={{ opacity: 0, x: 100 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.3 }} >
+        
+            <img
+              src="images/banner_img.png"
+              alt="banner"
+              className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
+            />
+            <div className=" z-10 h-full overflow-hidden">
+              <img
+                src="images/banner_img_bg.png"
+                alt="banner-bg "
+                className="translate-y-10 circular-animation "
+              />
             </div>
+            <div className="hidden lg:block absolute top-[55%] -right-10  w-20 h-20 z-20">
+              <img src="images/react.png" alt="react" className="w-full" />
+            </div>
+            <div className="hidden lg:block absolute top-[36%] -left-5  w-20 h-20 z-20">
+              <img src="images/Call.png" alt="react" className="w-full" />
+            </div>
+            <div className="hidden lg:block absolute top-[12%] right-28  w-20 h-20 z-20">
+              <img src="images/Video-call.png" alt="react" className="w-full" />
+            </div>
+            <div className="hidden lg:block absolute top-[65%] -left-24  w-[170px] h-[90px] z-20">
+              <img src="images/Review.png" alt="react" className="w-full" />
+            </div>
+            <div className="hidden lg:block absolute top-8 -left-6 2xl:-left-14  size-25 z-20">
+              <img src="images/shape-1.png" alt="react" className="w-full" />
+            </div>
+      </motion.div>
+
         </div>
+      </div>
     </section>
-  )
+  );
 }
 
-export default Banner
+export default Banner;

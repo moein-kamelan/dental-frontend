@@ -1,3 +1,4 @@
+import {motion} from 'motion/react';
 import React from "react";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import { NavLink, Outlet } from "react-router-dom";
@@ -11,7 +12,14 @@ function Dashboard() {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-4 gap-8">
             {/* <!-- Sidebar --> */}
-            <div className="lg:col-span-1">
+
+                                  <motion.div
+          className="lg:col-span-1"
+            initial={{ opacity: 0, x: 200 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
               <div
                 className="bg-[linear-gradient(45deg,_#CDFFF1_0%,_rgba(203,245,246,0.73)_28.13%,_rgba(240,251,224,0.80)_79.75%,_#F8FFDA_100%)]
  rounded-2xl shadow-sm p-6 mb-6 text-center "
@@ -96,10 +104,22 @@ function Dashboard() {
                     </button>
                   </li>
                 </ul>
-              </div>
             </div>
 
-            <Outlet />
+          </motion.div>
+                                <motion.div
+          className="lg:col-span-3"
+            initial={{ opacity: 0, x: -200 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+
+    <Outlet />
+          </motion.div>
+            
+
+            
           </div>
         </div>
       </section>

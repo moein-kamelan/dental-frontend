@@ -1,12 +1,19 @@
 import React from 'react'
 import "./Helpline.css"
-
+import {motion} from "motion/react"
 function HelpLine() {
   return (
         <section className="py-20 md:py-24 bg-[#eef9ff]">
         <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
+
+                       <motion.div
+          className="space-y-6"
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                     <div className="space-y-4">
                         <h5 className="custom-sub-title">کمک اضطراری</h5>
                         <h2 className="custom-title">نیاز به تماس ضروری</h2>
@@ -49,12 +56,21 @@ function HelpLine() {
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div className='relative'>
+
+          </motion.div>
+
+                 <motion.div
+          className="relative"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                     <img src="images/helpline_img.png" alt="helpline" className="w-full"/>
                     <img src="images/helpline_img2.png" alt="helpline2" className='max-sm:hidden absolute w-32 h-24 md:h-32  md:w-40 -top-6 left-20 lg:-top-20 lg:left-4  xl:-top-6 xl:left-20 scale-animation' />
-                </div>
+
+          </motion.div>
+                
             </div>
         </div>
     </section>

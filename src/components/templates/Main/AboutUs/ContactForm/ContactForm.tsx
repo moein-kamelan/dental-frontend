@@ -1,3 +1,4 @@
+import {motion} from 'motion/react';
 import React from 'react'
 
 function ContactForm() {
@@ -6,11 +7,26 @@ function ContactForm() {
         <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-start">
 
+                                      <motion.div
+          className=""
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                 <div className="">
                     <img src="images/contact_img.jpg" alt="contact" className="rounded-2xl max-lg:w-7/10 mx-auto max-h-[450px]"/>
                 </div>
-                
 
+          </motion.div>
+
+                                <motion.div
+          className=""
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                 <div className=" ">
                     <h2 className="text-3xl font-bold text-dark mb-8">پیام خود را ارسال کنید</h2>
                     <form className="space-y-6">
@@ -27,6 +43,11 @@ function ContactForm() {
                         </button>
                     </form>
                 </div>
+
+          </motion.div>
+
+                
+
             </div>
         </div>
     </section>

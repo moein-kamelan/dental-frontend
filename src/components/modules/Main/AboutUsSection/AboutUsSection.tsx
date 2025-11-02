@@ -1,4 +1,5 @@
 import React from 'react'
+import {motion} from "motion/react"
 
 function AboutUsSection() {
   return (
@@ -8,7 +9,15 @@ function AboutUsSection() {
         
         <div className="container mx-auto px-4">
             <div className="grid xl:grid-cols-2 gap-12 items-center">
-                <div className="grid grid-cols-1  md:grid-cols-[3fr_2fr] gap-4 ">
+                
+       <motion.div
+          className="grid grid-cols-1  md:grid-cols-[3fr_2fr] gap-4 "
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+
                     <div className="row-span-2 hidden md:block">
                         <img src="images/about-img1.jpg" alt="about" className="rounded-2xl w-full h-full object-cover"/>
                     </div>
@@ -20,9 +29,16 @@ function AboutUsSection() {
 
                         <img src="/images/about_shape1.png" alt="shape" className='hidden md:block absolute -top-30 size-20 circular-animation left-10'/>
                     </div>
-                </div>
+          </motion.div>
+
+                 <motion.div
+          className="space-y-6"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                 
-                <div className="space-y-6">
                     <div className="space-y-4 ">
                         <h5 className="custom-sub-title">درباره ما</h5>
                         <h2 className="custom-title w-fit">
@@ -59,7 +75,9 @@ function AboutUsSection() {
                     <a href="about.html" className="main-btn block w-fit">
                         مشاهده همه
                     </a>
-                </div>
+
+          </motion.div>
+                
             </div>
         </div>
     </section>

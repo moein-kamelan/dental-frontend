@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import FAQItem from '../../../../modules/Main/FAQItem/FAQItem'
+import {motion} from 'motion/react';
 
 function FAQSection() {
     
@@ -15,7 +16,13 @@ function FAQSection() {
             
             <div className="grid lg:grid-cols-[3fr_2fr]  gap-y-12 gap-x-8">
 
-                <div className="space-y-6">
+                       <motion.div
+          className="space-y-6"
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
 
       <FAQItem/>
       <FAQItem/>
@@ -23,9 +30,16 @@ function FAQSection() {
       <FAQItem/>
                     
                     
-                </div>
-                
-             <div className='relative lg:max-h-[364px]'>
+
+          </motion.div>
+
+       <motion.div
+          className="relative lg:max-h-[364px]"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
                   <div className='absolute -bottom-1 -right-1 bg-gradient-to-b from-primary to-secondary size-40 z-20 rounded-br-lg'></div>
 
                    <div className="relative bg-white pr-4 pb-4 z-50 h-full ">
@@ -45,7 +59,9 @@ function FAQSection() {
                  </div>
                 </div>
                 
-             </div>
+
+          </motion.div>
+                
             </div>
         </div>
     </section>
