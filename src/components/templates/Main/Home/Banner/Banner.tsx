@@ -3,7 +3,20 @@ import "./Banner.css";
 import {motion} from 'motion/react';
 function Banner() {
   return (
-    <section className="bg-[url('/public/images/banner_bg.jpg')] bg-cover lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
+     <motion.section
+          className="bg-[url('/public/images/banner_bg.jpg')] bg-cover lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden"
+           animate={{
+        background: [
+          "linear-gradient(135deg, #DFF5E7, #FAECC0)",          
+          "linear-gradient(135deg, #DFF5E7, #9DE0DD)",
+        ],
+      }}
+      transition={{
+        duration: 10, // کل زمان چرخه رنگ‌ها
+        ease: "linear",
+        repeat: Infinity, // تکرار بی‌نهایت
+      }}
+          >
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
           <motion.div
@@ -81,7 +94,8 @@ function Banner() {
 
         </div>
       </div>
-    </section>
+
+          </motion.section>
   );
 }
 
