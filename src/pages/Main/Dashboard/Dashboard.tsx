@@ -1,6 +1,6 @@
 import React from "react";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 function Dashboard() {
   return (
@@ -42,54 +42,54 @@ function Dashboard() {
               <div className="">
                 <ul className="space-y-6 p-2">
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <Link
+                    <NavLink
                       to={"/dashboard/profile"}
-                      className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>پروفایل من</span>
                       <i className="fas fa-angle-left"></i>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <Link
+                    <NavLink
                       to={"/dashboard/turns"}
-                      className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>نوبت ها</span>
                       <i className="fas fa-angle-left"></i>
-                    </Link>
+                    </NavLink>
                   </li>
                  
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <Link
+                    <NavLink
                       to={"/dashboard/meeting-history"}
-                      className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>تاریخچه نوبت ها</span>
                       <i className="fas fa-angle-left"></i>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <Link
+                    <NavLink
                       to={"/dashboard/upcoming-meeting"}
-                      className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>نوبت های آینده</span>
                       <i className="fas fa-angle-left"></i>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <Link
+                    <NavLink
                       to={"/dashboard/messages"}
-                      className="flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold"
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>پیام ها</span>
                       <i className="fas fa-angle-left"></i>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <button                      
-                      className="flex items-center justify-between py-3.5 px-5  bg-secondary text-white transition w-full"
+                      className="flex items-center justify-between py-3.5 px-5  bg-secondary/80 hover:bg-secondary text-white transition w-full"
                     >
                       <span>خروج</span>
                       <i className="fas fa-angle-left"></i>
