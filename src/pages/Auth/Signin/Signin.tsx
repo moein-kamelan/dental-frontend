@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { use, useState } from 'react'
+import CustomInput from '../../../components/modules/CustomInput/CustomInput'
 
 function Signin() {
+    const [mobileNumber , setMobileNumber] = useState("")
   return (
       <section className="py-20">
         <div className="container mx-auto px-4 max-w-md">
@@ -8,21 +10,16 @@ function Signin() {
                 <h2 className="text-3xl font-iran-yekan-bold text-center mb-8">خوش آمدید</h2>
                 <p className="text-center text-paragray mb-8">برای ادامه به حساب کاربری خود وارد شوید</p>
                 
-                <form className="space-y-6">
-                    <div>
+                <form className="space-y-4">
+
+<CustomInput inputType='phone' labelText='شماره تلفن' placeholder='شماره تلفن خود را وارد کنید *' value={mobileNumber} onChange={setMobileNumber}/>
+                    
+                    {/* <div>
                         <label className="block text-dark font-semibold mb-2">ایمیل یا نام کاربری</label>
                         <input type="text" placeholder="ایمیل یا نام کاربری خود را وارد کنید" className="w-full px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-primary"/>
-                    </div>
+                    </div> */}
                     
-                    <div>
-                        <label className="block text-dark font-semibold mb-2">رمز عبور</label>
-                        <div className="relative">
-                            <input type="password" placeholder="رمز عبور خود را وارد کنید" className="w-full px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-primary"/>
-                            <button type="button" className="absolute left-4 top-1/2 -translate-y-1/2 text-paragray hover:text-primary">
-                                <i className="far fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
+                 
                     
                     <div className="flex items-center justify-between">
                         <label className="flex items-center gap-2 text-paragray">
