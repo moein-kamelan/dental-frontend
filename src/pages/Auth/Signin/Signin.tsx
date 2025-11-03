@@ -4,8 +4,8 @@ function Signin() {
   return (
       <section className="py-20">
         <div className="container mx-auto px-4 max-w-md">
-            <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-                <h2 className="text-3xl font-bold text-center mb-8">خوش آمدید</h2>
+            <div className="bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12">
+                <h2 className="text-3xl font-iran-yekan-bold text-center mb-8">خوش آمدید</h2>
                 <p className="text-center text-paragray mb-8">برای ادامه به حساب کاربری خود وارد شوید</p>
                 
                 <form className="space-y-6">
@@ -43,25 +43,8 @@ function Signin() {
                         </a>
                     </div>
                     
-                    <div className="relative my-8">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-4 bg-white text-paragray">یا</span>
-                        </div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                        <button type="button" className="w-full border border-gray-300 rounded-full py-4 hover:bg-gray-50 transition flex items-center justify-center gap-4">
-                            <i className="fab fa-google text-red-500 text-xl"></i>
-                            <span>ورود با گوگل</span>
-                        </button>
-                        <button type="button" className="w-full border border-gray-300 rounded-full py-4 hover:bg-gray-50 transition flex items-center justify-center gap-4">
-                            <i className="fab fa-facebook text-blue-600 text-xl"></i>
-                            <span>ورود با فیسبوک</span>
-                        </button>
-                    </div>
+             
+            
                 </form>
             </div>
         </div>

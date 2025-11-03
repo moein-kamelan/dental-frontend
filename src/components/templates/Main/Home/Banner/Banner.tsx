@@ -1,12 +1,20 @@
-import  { useEffect } from "react";
+import  { useEffect, useState } from "react";
 import "./Banner.css";
-import {animate, motion, useMotionTemplate, useMotionValue} from 'motion/react';
+import {animate, motion, useMotionTemplate, useMotionValue, useMotionValueEvent,} from 'motion/react';
 function Banner() {
+   const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] = useState(0);
+   const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] = useState(0);
+   const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] = useState(0);
     const color1 = useMotionValue("#DFF5E7");
   const color2 = useMotionValue("#FAECC0");
 
   // از رنگ‌ها برای ساخت گرادیانت استفاده می‌کنیم
   const background = useMotionTemplate`linear-gradient(135deg, ${color1}, ${color2})`;
+
+   const patientsRecoverdCount = useMotionValue(0)
+   const susseccfulVisitsCount = useMotionValue(0)
+   const popularDoctorsCount = useMotionValue(0)
+
 
   useEffect(() => {
     const sequence = async () => {
@@ -19,6 +27,27 @@ function Banner() {
     };
     sequence();
   }, []);
+
+      useMotionValueEvent(patientsRecoverdCount, "change", (latest) => {
+    setDisplayPatientsRecoverdCount(Math.round(latest));
+  });
+      useMotionValueEvent(susseccfulVisitsCount, "change", (latest) => {
+    setDisplaySusseccfullVisitsCount(Math.round(latest));
+  });
+      useMotionValueEvent(popularDoctorsCount, "change", (latest) => {
+    setDisplayPopularDoctorsCount(Math.round(latest));
+  });
+
+    useEffect(() => {
+        const controls1 = animate(patientsRecoverdCount, 100, { duration: 2 })
+        const controls2 = animate(susseccfulVisitsCount, 280, { duration: 2 })
+        const controls3 = animate(popularDoctorsCount, 120, { duration: 2 })
+        return () => {
+          controls1.stop()
+          controls2.stop()
+          controls3.stop()
+        }
+    }, [])
   
   return (
      <motion.section
@@ -51,15 +80,24 @@ function Banner() {
                     
                     <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
                         <div>
-                            <h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">۳۵۵<span className="text-2xl">+</span></h3>
+                          <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+
+                            {displayPatientsRecoverdCount}<span className="text-2xl">+</span>
+                          </motion.h3>
                             <p className="text-paragray md:text-lg font-estedad-light ">بیماران بهبود یافته</p>
                         </div>
                         <div>
-                            <h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">۹۸<span className="text-2xl">%</span></h3>
+                           
+                                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+
+                            {displaySusseccfullVisitsCount}<span className="text-2xl">%</span>
+                          </motion.h3>
                             <p className="text-paragray md:text-lg font-estedad-light ">بازدید موفق</p>
                         </div>
                         <div>
-                            <h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">۱۲۰<span className="text-2xl">+</span></h3>
+                             <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+                           {displayPopularDoctorsCount}<span className="text-2xl">+</span>
+                          </motion.h3>
                             <p className="text-paragray md:text-lg font-estedad-light ">دکترهای محبوب</p>
                         </div>
                 </div>
