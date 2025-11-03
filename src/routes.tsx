@@ -21,6 +21,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import BlogDetails from "./pages/Main/BlogDetails/BlogDetails";
 import FAQ from "./pages/Main/FAQ/FAQ";
 import MeetingHistory from "./pages/Main/Dashboard/MeetingHistory/MeetingHistory";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 
 const routes = createBrowserRouter([
   {
@@ -55,6 +56,12 @@ const routes = createBrowserRouter([
 
         ],
       },
+
+      // {path : "/admin-dashboard/*" , element : <AdminDashboard/> , children : [
+      //   {index : true , element : <Navigate to={"home"} replace/>},
+      //   {path : "home" , element : <AdminDashboardHome/>}
+      // ]},
+      
       {
         path: "/auth/*",
         element: <Auth />,
@@ -75,6 +82,8 @@ const routes = createBrowserRouter([
 
     
   },
+      {path : "/admin-dashboard" , element : <AdminDashboard/>},
+
 
 
   

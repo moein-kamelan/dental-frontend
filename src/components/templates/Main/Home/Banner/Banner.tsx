@@ -1,21 +1,29 @@
-import React from "react";
+import  { useEffect } from "react";
 import "./Banner.css";
-import {motion} from 'motion/react';
+import {animate, motion, useMotionTemplate, useMotionValue} from 'motion/react';
 function Banner() {
+    const color1 = useMotionValue("#DFF5E7");
+  const color2 = useMotionValue("#FAECC0");
+
+  // از رنگ‌ها برای ساخت گرادیانت استفاده می‌کنیم
+  const background = useMotionTemplate`linear-gradient(135deg, ${color1}, ${color2})`;
+
+  useEffect(() => {
+    const sequence = async () => {
+      while (true) {
+        await animate(color1, "#9DE0DD", { duration: 3 });
+        await animate(color2, "#DFF5E7", { duration: 3 });
+        await animate(color1, "#DFF5E7", { duration: 3 });
+        await animate(color2, "#FAECC0", { duration: 3 });
+      }
+    };
+    sequence();
+  }, []);
+  
   return (
      <motion.section
-          className="bg-[url('/public/images/banner_bg.jpg')] bg-cover lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden"
-           animate={{
-        background: [
-          "linear-gradient(135deg, #DFF5E7, #FAECC0)",          
-          "linear-gradient(135deg, #DFF5E7, #9DE0DD)",
-        ],
-      }}
-      transition={{
-        duration: 10, // کل زمان چرخه رنگ‌ها
-        ease: "linear",
-        repeat: Infinity, // تکرار بی‌نهایت
-      }}
+          className=" lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden"
+          style={{background}}
           >
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">

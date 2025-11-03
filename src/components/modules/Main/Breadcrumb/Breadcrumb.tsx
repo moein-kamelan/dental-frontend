@@ -7,9 +7,9 @@ function Breadcrumb() {
                                   <motion.div
           className="container mx-auto  px-4 flex flex-col h-full"
             initial={{ opacity: 0, x: 300 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0 }}
           >
 
             <div className=" my-auto z-10  text-white" >

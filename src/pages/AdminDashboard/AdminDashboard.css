@@ -1,0 +1,55 @@
+        body {
+            
+        }
+        .dropdown-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .dropdown-content.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .submenu.show {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #4F46E5, #818CF8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+      
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                height: 100vh;
+                z-index: 50;
+                transition: right 0.3s ease;
+            }
+            .sidebar.show {
+                right: 0;
+            }
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+            }
+            .overlay.show {
+                display: block;
+            }
+        }
