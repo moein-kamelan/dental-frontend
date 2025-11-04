@@ -4,13 +4,14 @@
 @import "swiper/css/navigation";
 
 @theme {
-  --color-primary: #00A6FB;
-  --color-secondary: #2AC28E;
-  --color-deepblue: #4589F4;
-  --color-paragray: #5C728E;
-  --color-dark: #031D36;
+  --color-primary: #153d3d;
+  --color-secondary: #2a7a7a;
+  --color-deepblue: #3d8a8a;
+  --color-accent: #d4af37;
+  --color-paragray: #6b7a7a;
+  --color-dark: #153d3d;
   --color-semantic-red: #F7588D;
-  --color-semantic-yellow: #FFC422;
+  --color-semantic-yellow: #d4af37;
   --color-main-border-color: #5e5b5b17;
 
   --breakpoint-xs: 480px;
@@ -53,15 +54,15 @@ button {
 }
 
 @utility custom-sub-title {
-  @apply text-primary font-estedad-semibold md:text-lg border-r-2 border-r-primary pr-5 w-fit;
+  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit;
 }
 
 @utility main-btn {
-  @apply bg-primary text-white py-3 px-10 rounded-[30px] font-estedad-semibold hover:bg-deepblue transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0 after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4;
+  @apply bg-accent text-white py-3 px-10 rounded-[30px] font-estedad-semibold hover:bg-secondary transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0 after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4;
 }
 
 @utility main-header {
-    @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-primary after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40
+    @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40
 }
 
 
@@ -75,9 +76,9 @@ button {
 }
 
 .custom-bullet {
-  @apply inline-block w-4 h-2 bg-primary/30 rounded-full transition-all duration-300 cursor-pointer;
+  @apply inline-block w-4 h-2 bg-accent/30 rounded-full transition-all duration-300 cursor-pointer;
 }
 
 .swiper-pagination-bullet-active.custom-bullet {
-  @apply bg-primary w-8;
+  @apply bg-accent w-8;
 }

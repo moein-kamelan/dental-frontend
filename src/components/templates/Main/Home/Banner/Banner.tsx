@@ -5,8 +5,8 @@ function Banner() {
    const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] = useState(0);
    const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] = useState(0);
    const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] = useState(0);
-    const color1 = useMotionValue("#DFF5E7");
-  const color2 = useMotionValue("#FAECC0");
+    const color1 = useMotionValue("#E8F4F4");
+  const color2 = useMotionValue("#F5E8D4");
 
   // از رنگ‌ها برای ساخت گرادیانت استفاده می‌کنیم
   const background = useMotionTemplate`linear-gradient(135deg, ${color1}, ${color2})`;
@@ -19,10 +19,10 @@ function Banner() {
   useEffect(() => {
     const sequence = async () => {
       while (true) {
-        await animate(color1, "#9DE0DD", { duration: 3 });
-        await animate(color2, "#DFF5E7", { duration: 3 });
-        await animate(color1, "#DFF5E7", { duration: 3 });
-        await animate(color2, "#FAECC0", { duration: 3 });
+        await animate(color1, "#C4E8E8", { duration: 3 });
+        await animate(color2, "#F5E8D4", { duration: 3 });
+        await animate(color1, "#E8F4F4", { duration: 3 });
+        await animate(color2, "#F0E0C4", { duration: 3 });
       }
     };
     sequence();

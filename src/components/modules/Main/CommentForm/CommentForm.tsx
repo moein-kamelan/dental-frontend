@@ -18,22 +18,22 @@ function CommentForm() {
                     <input
                       type="text"
                       placeholder="نام..."
-                      className="px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-primary"
+                      className="px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-accent"
                     />
                     <input
                       type="email"
                       placeholder="ایمیل..."
-                      className="px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-primary"
+                      className="px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-accent"
                     />
                   </div>
                   <textarea
                     rows={4}
                     placeholder="ارسال دیدگاه..."
-                    className="w-full px-6 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-primary"
+                    className="w-full px-6 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-accent"
                   ></textarea>
                   <button
                     type="submit"
-                    className="bg-primary text-white px-8 py-4 rounded-full hover:bg-deepblue transition font-semibold"
+                    className="bg-accent text-white px-8 py-4 rounded-full hover:bg-secondary transition font-semibold"
                   >
                     ارسال سریع
                   </button>

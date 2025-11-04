@@ -31,7 +31,7 @@ function Process() {
               ۱
             </div>
 
-            <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-primary size-[70px] text-white mb-4">
+            <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-accent size-[70px] text-white mb-4">
               ۲
             </div>
             <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-semantic-red size-[70px] text-white mb-4">
@@ -55,7 +55,7 @@ function Process() {
           </div>
 
           <div className="bg-white/10   rounded-2xl  text-white ">
-            <div className=" flex lg:hidden  items-center justify-center rounded-full text-4xl font-bold bg-primary size-[70px] text-white mb-4">
+            <div className=" flex lg:hidden  items-center justify-center rounded-full text-4xl font-bold bg-accent size-[70px] text-white mb-4">
               ۲
             </div>
             <h4 className="text-[20px] font-estedad-semibold text-dark mb-3">

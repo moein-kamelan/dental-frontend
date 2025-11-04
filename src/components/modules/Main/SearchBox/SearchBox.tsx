@@ -10,7 +10,7 @@ function SearchBox() {
                     placeholder="جستجو..."
                     className=" focus:outline-none h-10 w-2/3"
                   />
-                  <button className="bg-primary text-white size-9 rounded-full hover:bg-secondary transition shrink-0">
+                  <button className="bg-accent text-white size-9 rounded-full hover:bg-secondary transition shrink-0">
                     <i className="fas fa-search"></i>
                   </button>
                 </form>

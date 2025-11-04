@@ -40,12 +40,12 @@ function FAQSection() {
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3 }}
           >
-                  <div className='absolute -bottom-1 -right-1 bg-gradient-to-b from-primary to-secondary size-40 z-20 rounded-br-lg'></div>
+                  <div className='absolute -bottom-1 -right-1 bg-gradient-to-b from-accent to-secondary size-40 z-20 rounded-br-lg'></div>
 
                    <div className="relative bg-white pr-4 pb-4 z-50 h-full ">
 
 
-                    <div className='absolute -top-4 -left-4 bg-primary rounded-2xl size-40 -z-10'></div>
+                    <div className='absolute -top-4 -left-4 bg-secondary rounded-2xl size-40 -z-10'></div>
 
                   
 
@@ -53,7 +53,7 @@ function FAQSection() {
                        <img src="images/faq-img.jpg" alt="faq" className="rounded-2xl h-full w-full"/>
                     <a href="#" className="absolute inset-0 flex items-center justify-center">
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition">
-                            <i className="fas fa-play text-primary text-2xl mr-1"></i>
+                            <i className="fas fa-play text-accent text-2xl mr-1"></i>
                         </div>
                     </a>
                  </div>
