@@ -3,7 +3,7 @@ import React from "react";
 function MeetingHistory() {
   return (
     <>
-      <h5 className="text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-primary after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40">
+      <h5 className="text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40">
         تاریخچه نوبت‌ها
       </h5>
 
@@ -19,7 +19,7 @@ function MeetingHistory() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#5e5b5b17]">
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">نیما نوبخت</p>
@@ -36,7 +36,7 @@ function MeetingHistory() {
                 <p className="font-estedad-light">زرین پال</p>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">نیما نوبخت</p>
@@ -53,7 +53,7 @@ function MeetingHistory() {
                 <p className="font-estedad-light">زرین پال</p>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">نیما نوبخت</p>
@@ -70,7 +70,7 @@ function MeetingHistory() {
                 <p className="font-estedad-light">زرین پال</p>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">نیما نوبخت</p>
@@ -87,7 +87,7 @@ function MeetingHistory() {
                 <p className="font-estedad-light">زرین پال</p>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">نیما نوبخت</p>
@@ -113,31 +113,31 @@ function MeetingHistory() {
         <nav className="flex gap-2 items-center">
           <a
             href="#"
-            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-primary hover:text-white hover:border-primary transition"
+            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-accent hover:text-white hover:border-accent transition"
           >
             <i className="far fa-angle-double-right"></i>
           </a>
           <a
             href="#"
-            className="px-4 py-2 rounded-lg bg-primary text-white border-primary"
+            className="px-4 py-2 rounded-lg bg-accent text-white border-accent"
           >
             ۰۱
           </a>
           <a
             href="#"
-            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-primary hover:text-white hover:border-primary transition"
+            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-accent hover:text-white hover:border-accent transition"
           >
             ۰۲
           </a>
           <a
             href="#"
-            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-primary hover:text-white hover:border-primary transition"
+            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-accent hover:text-white hover:border-accent transition"
           >
             ۰۳
           </a>
           <a
             href="#"
-            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-primary hover:text-white hover:border-primary transition"
+            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-accent hover:text-white hover:border-accent transition"
           >
             <i className="far fa-angle-double-left"></i>
           </a>

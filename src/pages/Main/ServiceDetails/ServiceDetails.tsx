@@ -26,7 +26,7 @@ function ServiceDetails() {
                     alt="service"
                     className="w-full  object-cover aspect-2/1 rounded-[10px]"
                   />
-                  <div className="absolute bottom-0 left-8 transform  translate-y-1/3 size-17.5 bg-primary text-white rounded-lg flex items-center justify-center ">
+                  <div className="absolute bottom-0 left-8 transform  translate-y-1/3 size-17.5 bg-accent text-white rounded-lg flex items-center justify-center ">
                     <i className="fas fa-heartbeat text-3xl "></i>
                   </div>
                 </div>
@@ -62,7 +62,7 @@ function ServiceDetails() {
                         className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                       >
-                        <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                         به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با
                         عقب گرد ایجاد کنید
                       </li>
@@ -70,14 +70,14 @@ function ServiceDetails() {
                         className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                       >
-                        <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                         اطلاعات اقتصادی مناسب بدون ترازهای قابل نگهداری
                       </li>
                       <li
                         className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                       >
-                        <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                         به طور مشترک اطلاعات کلاس جهانی را پس از اصول محوری به
                         اشتراک بگذارید
                       </li>
@@ -85,7 +85,7 @@ function ServiceDetails() {
                         className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                       >
-                        <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                         شبکه‌سازی مشترک بهترین شیوه‌های آجر-و-کلیک از طریق
                         اقتصادی مناسب
                       </li>
@@ -93,7 +93,7 @@ function ServiceDetails() {
                         className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                       >
-                        <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                         اجباراً الزامات به حداکثر رساندن منابع را از طریق ایجاد
                         کنید
                       </li>
@@ -178,7 +178,7 @@ function ServiceDetails() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className=" rounded-2xl  text-center ">
                   <div className="w-20 h-20  bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="fas fa-eye text-4xl text-primary "></i>
+                    <i className="fas fa-eye text-4xl text-accent "></i>
                   </div>
                   <h5 className="font-estedad-verybold text-dark text-2xl mb-3">
                     نوبت دهی
@@ -189,7 +189,7 @@ function ServiceDetails() {
                 </div>
                 <div className=" rounded-2xl  text-center ">
                   <div className="w-20 h-20  bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="fas fa-heartbeat text-4xl text-primary "></i>
+                    <i className="fas fa-heartbeat text-4xl text-accent "></i>
                   </div>
                   <h5 className="font-estedad-verybold text-dark text-2xl mb-3">
                     چکاپ فوری
@@ -200,7 +200,7 @@ function ServiceDetails() {
                 </div>
                 <div className=" rounded-2xl  text-center ">
                   <div className="w-20 h-20  bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="fas fa-capsules text-4xl text-primary "></i>
+                    <i className="fas fa-capsules text-4xl text-accent "></i>
                   </div>
                   <h5 className="font-estedad-verybold text-dark text-2xl mb-3">
                     پیگیری آزمایش
@@ -215,7 +215,7 @@ function ServiceDetails() {
               <div className="flex gap-4">
                 <a
                   href="#"
-                  className="flex-1 bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-primary hover:shadow-lg transition flex items-center justify-center gap-3"
+                  className="flex-1 bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-accent hover:shadow-lg transition flex items-center justify-center gap-3"
                 >
                   <i className="fas fa-file-pdf text-3xl text-red-600"></i>
                   <div>
@@ -228,9 +228,9 @@ function ServiceDetails() {
                 </a>
                 <a
                   href="#"
-                  className="flex-1 bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-primary hover:shadow-lg transition flex items-center justify-center gap-3"
+                  className="flex-1 bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-accent hover:shadow-lg transition flex items-center justify-center gap-3"
                 >
-                  <i className="fas fa-file-word text-3xl text-blue-600"></i>
+                  <i className="fas fa-file-word text-3xl text-secondary"></i>
                   <div>
                     <span className="font-estedad-light text-paragray">
                       {" "}

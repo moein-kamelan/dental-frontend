@@ -29,15 +29,15 @@ function BlogDetails() {
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                   <ul className="flex flex-wrap gap-6 text-paragray">
                     <li>
-                      <span className="bg-primary text-white px-4 py-2 rounded-[10px] text-sm font-estedad-light ">
+                      <span className="bg-accent text-white px-4 py-2 rounded-[10px] text-sm font-estedad-light ">
                         پزشکی
                       </span>
                     </li>
                     <li className="flex items-center gap-2 font-estedad-light">
-                      <i className="far fa-user text-primary"></i>ادمین
+                      <i className="far fa-user text-accent"></i>ادمین
                     </li>
                     <li className="flex items-center gap-2 font-estedad-light">
-                      <i className="far fa-calendar-alt text-primary"></i>۲۲ مهر
+                      <i className="far fa-calendar-alt text-accent"></i>۲۲ مهر
                       ۱۴۰۲
                     </li>
                   </ul>
@@ -87,7 +87,7 @@ function BlogDetails() {
                     className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                   >
-                    <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                    <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                     به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با عقب
                     گرد ایجاد کنید
                   </li>
@@ -95,14 +95,14 @@ function BlogDetails() {
                     className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                   >
-                    <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                    <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                     اطلاعات اقتصادی مناسب بدون ترازهای قابل نگهداری
                   </li>
                   <li
                     className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                   >
-                    <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                    <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                     به طور مشترک اطلاعات کلاس جهانی را پس از اصول محوری به
                     اشتراک بگذارید
                   </li>
@@ -110,7 +110,7 @@ function BlogDetails() {
                     className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                   >
-                    <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                    <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                     شبکه‌سازی مشترک بهترین شیوه‌های آجر-و-کلیک از طریق اقتصادی
                     مناسب
                   </li>
@@ -118,7 +118,7 @@ function BlogDetails() {
                     className="flex items-start gap-3 text-paragray 
                                     font-estedad-semibold"
                   >
-                    <i className="fas fa-check-circle text-primary text-2xl mt-1"></i>
+                    <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
                     اجباراً الزامات به حداکثر رساندن منابع را از طریق ایجاد کنید
                   </li>
                 </ul>
@@ -138,7 +138,7 @@ function BlogDetails() {
                 </p>
 
                 {/* <!-- Quote --> */}
-                <div className="bg-[#00a6fb30] rounded-sm text-dark text-lg font-estedad-semibold border-r-4 border-primary p-6 my-8 italic">
+                <div className="bg-[#d4af3730] rounded-sm text-dark text-lg font-estedad-semibold border-r-4 border-accent p-6 my-8 italic">
                   "انواع مختلفی از معابر Lorem Ipsum وجود دارد در دسترس است، اما
                   اکثریت به نوعی با تغییراتی در قسمت ها دچار تغییر شده اند.
                 </div>
@@ -162,25 +162,25 @@ function BlogDetails() {
                 <div className="flex flex-wrap gap-3 items-center">
                   <a
                     href="#"
-                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-primary hover:text-white transition"
+                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-accent hover:text-white transition"
                   >
                     نوبت دهی
                   </a>
                   <a
                     href="#"
-                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-primary hover:text-white transition"
+                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-accent hover:text-white transition"
                   >
                     دکترها
                   </a>
                   <a
                     href="#"
-                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-primary hover:text-white transition"
+                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-accent hover:text-white transition"
                   >
                     سلامتی
                   </a>
                   <a
                     href="#"
-                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-primary hover:text-white transition"
+                    className="bg-[#d6dde2] text-paragray text-sm px-4 py-1.5 rounded-full hover:bg-accent hover:text-white transition"
                   >
                     بیمارستان
                   </a>
@@ -189,13 +189,13 @@ function BlogDetails() {
                   <span className="text-dark ">اشتراک گذاری : </span>
                   <a
                     href="#"
-                    className="text-blue-600 hover:text-blue-700 text-xl"
+                    className="text-secondary hover:text-deepblue text-xl"
                   >
                     <i className="fab fa-facebook-f text-base"></i>
                   </a>
                   <a
                     href="#"
-                    className="text-blue-400 hover:text-blue-500 text-xl"
+                    className="text-secondary hover:text-deepblue text-xl opacity-80"
                   >
                     <i className="fab fa-twitter text-base"></i>
                   </a>

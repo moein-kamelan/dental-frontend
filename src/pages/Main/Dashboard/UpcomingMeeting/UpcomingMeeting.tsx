@@ -17,7 +17,7 @@ function UpcomingMeeting() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#5e5b5b17]">
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">دکتر نوبخت</p>
@@ -27,7 +27,7 @@ function UpcomingMeeting() {
               </td>
               <td className="">
                 <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
-                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+                <span className="text-xs text-accent">۴:۳۰ عصر</span>
               </td>
               <td className=" text-dark">۳۰ دقیقه</td>
               <td className="space-y-2.5">
@@ -39,7 +39,7 @@ function UpcomingMeeting() {
                 </button>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">دکتر نوبخت</p>
@@ -49,7 +49,7 @@ function UpcomingMeeting() {
               </td>
               <td className="">
                 <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
-                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+                <span className="text-xs text-accent">۴:۳۰ عصر</span>
               </td>
               <td className=" text-dark">۳۰ دقیقه</td>
               <td className="space-y-2.5">
@@ -61,7 +61,7 @@ function UpcomingMeeting() {
                 </button>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">دکتر نوبخت</p>
@@ -71,7 +71,7 @@ function UpcomingMeeting() {
               </td>
               <td className="">
                 <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
-                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+                <span className="text-xs text-accent">۴:۳۰ عصر</span>
               </td>
               <td className=" text-dark">۳۰ دقیقه</td>
               <td className="space-y-2.5">
@@ -83,7 +83,7 @@ function UpcomingMeeting() {
                 </button>
               </td>
             </tr>
-            <tr className="hover:bg-[#00a6fb0f] text-dark *:p-4.5 *:whitespace-nowrap">
+            <tr className="hover:bg-[#d4af370f] text-dark *:p-4.5 *:whitespace-nowrap">
               <td className=" font-estedad-light ">۱</td>
               <td className="">
                 <p className="font-estedad-light">دکتر نوبخت</p>
@@ -93,7 +93,7 @@ function UpcomingMeeting() {
               </td>
               <td className="">
                 <p className="font-estedad-light text-dark">۰۵ مهر ۱۴۰۲</p>
-                <span className="text-xs text-primary">۴:۳۰ عصر</span>
+                <span className="text-xs text-accent">۴:۳۰ عصر</span>
               </td>
               <td className=" text-dark">۳۰ دقیقه</td>
               <td className="space-y-2.5">

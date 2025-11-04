@@ -21,7 +21,7 @@ function Dashboard() {
             viewport={{ once: true, amount: 0.3 }}
           >
               <div
-                className="bg-[linear-gradient(45deg,_#CDFFF1_0%,_rgba(203,245,246,0.73)_28.13%,_rgba(240,251,224,0.80)_79.75%,_#F8FFDA_100%)]
+                className="bg-[linear-gradient(45deg,_#E8F4F4_0%,_rgba(212,232,232,0.85)_28.13%,_rgba(245,232,212,0.90)_79.75%,_#FAF0E0_100%)]
  rounded-2xl shadow-sm p-6 mb-6 text-center "
               >
                 <div className="relative w-32 h-32 mx-auto mb-4">
@@ -52,7 +52,7 @@ function Dashboard() {
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/profile"}
-                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>پروفایل من</span>
                       <i className="fas fa-angle-left"></i>
@@ -61,7 +61,7 @@ function Dashboard() {
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/turns"}
-                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>نوبت ها</span>
                       <i className="fas fa-angle-left"></i>
@@ -71,7 +71,7 @@ function Dashboard() {
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/meeting-history"}
-                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>تاریخچه نوبت ها</span>
                       <i className="fas fa-angle-left"></i>
@@ -80,7 +80,7 @@ function Dashboard() {
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/upcoming-meeting"}
-                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>نوبت های آینده</span>
                       <i className="fas fa-angle-left"></i>
@@ -89,7 +89,7 @@ function Dashboard() {
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/messages"}
-                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#00a6fb0d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
+                      className={({isActive}) => ` ${isActive && "text-white bg-primary hover:bg-primary hover:text-white"} flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`}
                     >
                       <span>پیام ها</span>
                       <i className="fas fa-angle-left"></i>

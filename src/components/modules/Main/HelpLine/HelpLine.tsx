@@ -41,7 +41,7 @@ function HelpLine() {
                                 <p className="text-sm text-paragray">شماره تماس</p>
                                 <a href="callto:123456789" className=" text-[18px] text-paragray font-estedad-light text-nowrap">۱۳ ۲۳۲۳ ۰۴۵ ۸۸۰+</a>
                             </div>
-                            <div className="shrink-0 size-12 bg-primary  rounded-full flex items-center justify-center">
+                            <div className="shrink-0 size-12 bg-accent  rounded-full flex items-center justify-center">
                                 <i className="fas fa-phone-alt text-white "></i>
                             </div>
                         </div>
@@ -51,7 +51,7 @@ function HelpLine() {
                                 <p className="text-sm text-paragray">ارسال ایمیل</p>
                                 <a href="mailto:example@gmail.com" className=" text-[18px] text-paragray font-estedad-light text-nowrap">help.info@gmail.com</a>
                             </div>
-                            <div className="shrink-0 size-12 bg-primary  rounded-full flex items-center justify-center">
+                            <div className="shrink-0 size-12 bg-accent  rounded-full flex items-center justify-center">
                                 <i className="fas fa-comment-alt text-white "></i>
                             </div>
                         </div>

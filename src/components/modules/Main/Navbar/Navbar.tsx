@@ -17,22 +17,22 @@ function Navbar() {
           <div className="hidden lg:flex items-center gap-8">
             <ul className="flex items-center gap-8 font-iran-sans-bold">
               <li>
-                <NavLink to={"/home"} className={({isActive}) => isActive ? "text-primary" : "text-dark hover:text-primary"}>
+                <NavLink to={"/home"} className={({isActive}) => isActive ? "text-accent" : "text-dark hover:text-accent"}>
                   خانه
                 </NavLink>
               </li>
               <li>
-                <NavLink to={"/about-us"} className={({isActive}) => isActive ? "text-primary" : "text-dark hover:text-primary"}>
+                <NavLink to={"/about-us"} className={({isActive}) => isActive ? "text-accent" : "text-dark hover:text-accent"}>
                   درباره ما
                 </NavLink>
               </li>
               <li>
-                <NavLink to={"/services"} className={({isActive}) => isActive ? "text-primary" : "text-dark hover:text-primary"}>
+                <NavLink to={"/services"} className={({isActive}) => isActive ? "text-accent" : "text-dark hover:text-accent"}>
                   خدمات
                 </NavLink>
               </li>
               <li className="relative group">
-                <button  className={ "text-primary text-dark hover:text-primary"}>
+                <button  className={ "text-accent text-dark hover:text-accent"}>
                   صفحات <i className="fas fa-plus"></i>
                 </button>
                 <ul className="absolute top-full right-0 bg-white shadow-lg rounded-lg py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
@@ -80,12 +80,12 @@ function Navbar() {
                 </ul>
               </li>
               <li>
-                <NavLink to={"/blog"} className={({isActive}) => isActive ? "text-primary" : "text-dark hover:text-primary"}>
+                <NavLink to={"/blog"} className={({isActive}) => isActive ? "text-accent" : "text-dark hover:text-accent"}>
                   وبلاگ
                 </NavLink>
               </li>
               <li>
-                <NavLink to={"/contact"} className={({isActive}) => isActive ? "text-primary" : "text-dark hover:text-primary"}>
+                <NavLink to={"/contact"} className={({isActive}) => isActive ? "text-accent" : "text-dark hover:text-accent"}>
                   تماس با ما
                 </NavLink>
               </li>
@@ -94,7 +94,7 @@ function Navbar() {
 
           <div className="hidden lg:flex items-center gap-8">
             <div className="flex items-center gap-4">
-              <NavLink to={""} className="text-gray-600 hover:text-primary text-xl">
+              <NavLink to={""} className="text-gray-600 hover:text-accent text-xl">
                 <i className="fa fa-search"></i>
               </NavLink>
                 <NavLink to={""} className="main-btn  " >

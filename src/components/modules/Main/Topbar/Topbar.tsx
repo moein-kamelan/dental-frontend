@@ -3,7 +3,7 @@ import React from 'react'
 function Topbar() {
   return (
     
-     <section className="bg-linear-to-l from-primary to-deepblue text-white py-3 block h-11 font-estedad-medium">
+     <section className="bg-linear-to-l from-primary to-secondary text-white py-3 block h-11 font-estedad-medium">
         <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center lg:justify-between items-center">
                 <ul className=" hidden md:flex flex-wrap gap-6 text-sm ">

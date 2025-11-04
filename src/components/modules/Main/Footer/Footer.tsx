@@ -7,7 +7,7 @@ function Footer() {
         <div className="container mx-auto px-4 max-sm:pt-52  pt-46 sm:pt-40 lg:pt-32 relative ">
             
                                 <motion.div
-          className="bg-primary  p-10 absolute rounded-xl lg:rounded-full left-0 right-0 top-0 -translate-y-1/2 mx-8"
+          className="bg-accent  p-10 absolute rounded-xl lg:rounded-full left-0 right-0 top-0 -translate-y-1/2 mx-8"
             initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -39,10 +39,10 @@ function Footer() {
                     <div className="mb-4 flex items-center gap-5 ">
                         <span className="text-dark font-estedad-light">اشتراک گذاری  :  </span>
                         <div className="flex gap-4 text-xl">
-                        <a className=' size-7.5 rounded-full bg-white text-primary hover:text-white hover:bg-primary transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-facebook-f"></i></a>
-                        <a className=' size-7.5 rounded-full bg-white text-primary hover:text-white hover:bg-primary transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-twitter"></i></a>
-                        <a className=' size-7.5 rounded-full bg-white text-primary hover:text-white hover:bg-primary transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-pinterest-p"></i></a>
-                        <a className=' size-7.5 rounded-full bg-white text-primary hover:text-white hover:bg-primary transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-linkedin-in"></i></a>
+                        <a className=' size-7.5 rounded-full bg-white text-accent hover:text-white hover:bg-accent transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-facebook-f"></i></a>
+                        <a className=' size-7.5 rounded-full bg-white text-accent hover:text-white hover:bg-accent transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-twitter"></i></a>
+                        <a className=' size-7.5 rounded-full bg-white text-accent hover:text-white hover:bg-accent transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-pinterest-p"></i></a>
+                        <a className=' size-7.5 rounded-full bg-white text-accent hover:text-white hover:bg-accent transition-colors duration-300 flex items-center justify-center' href="#"><i className="text-sm md:text-base fab fa-linkedin-in"></i></a>
                     </div>
                     </div>
                     
@@ -51,39 +51,39 @@ function Footer() {
                 <div>
                     <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">شرکت</h5>
                     <ul className="space-y-2 text-gray-400">
-                        <li><a href="index.html" className="text-paragray font-estedad-semibold hover:text-primary">خانه</a></li>
-                        <li><a href="about.html" className="text-paragray font-estedad-semibold hover:text-primary">درباره ما</a></li>
-                        <li><a href="service.html" className="text-paragray font-estedad-semibold hover:text-primary">خدمات ما</a></li>
-                        <li><a href="contact.html" className="text-paragray font-estedad-semibold hover:text-primary">تماس با ما</a></li>
+                        <li><a href="index.html" className="text-paragray font-estedad-semibold hover:text-accent">خانه</a></li>
+                        <li><a href="about.html" className="text-paragray font-estedad-semibold hover:text-accent">درباره ما</a></li>
+                        <li><a href="service.html" className="text-paragray font-estedad-semibold hover:text-accent">خدمات ما</a></li>
+                        <li><a href="contact.html" className="text-paragray font-estedad-semibold hover:text-accent">تماس با ما</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">لینک‌های مهم</h5>
                     <ul className="space-y-2 text-gray-400">
-                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-primary">پردازش ما</a></li>
-                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-primary">نوبت دهی</a></li>
-                        <li><a href="faq.html" className="text-paragray font-estedad-semibold hover:text-primary">سوالات متداول</a></li>
-                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-primary">سیاست حفظ حریم خصوصی</a></li>
+                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-accent">پردازش ما</a></li>
+                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-accent">نوبت دهی</a></li>
+                        <li><a href="faq.html" className="text-paragray font-estedad-semibold hover:text-accent">سوالات متداول</a></li>
+                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-accent">سیاست حفظ حریم خصوصی</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">لینک‌های مهم</h5>
                     <ul className="space-y-2 text-gray-400">
-                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-primary">پردازش ما</a></li>
-                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-primary">نوبت دهی</a></li>
-                        <li><a href="faq.html" className="text-paragray font-estedad-semibold hover:text-primary">سوالات متداول</a></li>
-                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-primary">سیاست حفظ حریم خصوصی</a></li>
+                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-accent">پردازش ما</a></li>
+                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-accent">نوبت دهی</a></li>
+                        <li><a href="faq.html" className="text-paragray font-estedad-semibold hover:text-accent">سوالات متداول</a></li>
+                        <li><a href="#" className="text-paragray font-estedad-semibold hover:text-accent">سیاست حفظ حریم خصوصی</a></li>
                     </ul>
                 </div>
                 
                 <div className='md:col-span-2 lg:col-span-1'>
                     <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">اطلاعات شرکت</h5>
                     <div className="space-y-3 text-gray-400">
-                        <p className=' flex items-center gap-4 font-estedad-light'><i className="fas fa-map-marker-alt mr-2 text-primary text-base"></i>شیراز. خیابان نیایش. ساختمان پزشکان</p>
-                        <a href="#" className=" hover:text-primary flex items-center gap-2"><i className="fas fa-envelope mr-2 text-primary text-base"></i>company@gmail.com</a>
-                        <a href="#" className=" hover:text-primary flex items-center gap-2"><i className="fas fa-phone-alt mr-2 text-primary text-base"></i>۹۳۵۷۴۶۱۴۳+</a>
+                        <p className=' flex items-center gap-4 font-estedad-light'><i className="fas fa-map-marker-alt mr-2 text-accent text-base"></i>شیراز. خیابان نیایش. ساختمان پزشکان</p>
+                        <a href="#" className=" hover:text-accent flex items-center gap-2"><i className="fas fa-envelope mr-2 text-accent text-base"></i>company@gmail.com</a>
+                        <a href="#" className=" hover:text-accent flex items-center gap-2"><i className="fas fa-phone-alt mr-2 text-accent text-base"></i>۹۳۵۷۴۶۱۴۳+</a>
                     </div>
                 </div>
             </div>
@@ -91,9 +91,9 @@ function Footer() {
             <div className="border-t border-[#ddd] py-5 flex flex-col md:flex-row justify-between items-center gap-4 text-paragray">
                 <p className='font-estedad-light'>همه حقوق متعلق به محسن دادار می‌باشد - زمستان ۱۴۰۲</p>
                 <ul className="flex gap-6 ">
-                    <li><a href="#" className="text-paragray hover:text-primary">شرایط و ضوابط</a></li>
-                    <li><a href="#" className="text-paragray hover:text-primary">کوکی</a></li>
-                    <li><a href="#" className="text-paragray hover:text-primary">سیاست حفظ حریم خصوصی</a></li>
+                    <li><a href="#" className="text-paragray hover:text-accent">شرایط و ضوابط</a></li>
+                    <li><a href="#" className="text-paragray hover:text-accent">کوکی</a></li>
+                    <li><a href="#" className="text-paragray hover:text-accent">سیاست حفظ حریم خصوصی</a></li>
                 </ul>
             </div>
         </div>
