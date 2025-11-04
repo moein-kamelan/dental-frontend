@@ -4,7 +4,7 @@ type CustomInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   inputType?: "text" | "phone" | "password" | "number";
   labelText?: string;
   placeholder?: string;
-  value?: string | number;
+  manualValue?: string | number;
   className?: string;
   labelClassName?: string;
   isTextArea?: boolean;
@@ -12,7 +12,7 @@ type CustomInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   maxLength?: number;
   errorMessage?: string | null;
   name?: string;
-  onChange?: (value: string, index?: number) => void;
+  manualOnChange?: (value: string, index?: number) => void;
   onKeyDown?: (
     e: React.KeyboardEvent<HTMLInputElement>,
     index?: number
@@ -24,8 +24,8 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       inputType = "text",
       labelText = "",
       placeholder = "",
-      value = "",
-      onChange,
+      manualValue = "",
+      manualOnChange,
       onKeyDown,
       className = "",
       labelClassName = "",
@@ -39,15 +39,17 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
     const restProps = rest as React.InputHTMLAttributes<HTMLInputElement>;
 
     const controlledValue =
-      restProps.value !== undefined ? restProps.value : value ?? "";
+      restProps.value !== undefined ? restProps.value : manualValue ?? "";
 
     const handleChange = (
       e: React.ChangeEvent<HTMLInputElement>
     ) => {
       if (typeof restProps.onChange === "function") {
+        
+        
         restProps.onChange(e as React.ChangeEvent<HTMLInputElement>);
-      } else if (onChange) {
-        onChange(e.target.value, index);
+      } else if (manualOnChange) {
+        manualOnChange(e.target.value, index);
       }
     };
     

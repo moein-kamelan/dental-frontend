@@ -3,13 +3,13 @@ import CustomInput from "../../../components/modules/CustomInput/CustomInput";
 import { usePostOtpRequest, usePostOtpVerify } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Formik, type FormikValues } from "formik";
+import {FormikDevTool} from 'formik-devtools';
 import * as yup from 'yup';
 import { formatPhoneNumber } from "../../../utils/helpers";
 
 function Signin() {
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
+  let phoneNumber : string | null = null
+  
   const navigate = useNavigate();
   const { mutateAsync: requestOtp, isSuccess: susseccRequestOtp } =
     usePostOtpRequest();
@@ -32,9 +32,9 @@ function Signin() {
       inputsRef.current[index! + 1].focus();
     }
 
-    if (newOtp.every((v) => v !== "")) {
-      handleSubmit(newOtp.join(""));
-    }
+    // if (newOtp.every((v) => v !== "")) {
+    //   handleSubmitVerifyForm(newOtp.join(""));
+    // }
   };
 
   const handleKeyDown = (
@@ -46,18 +46,21 @@ function Signin() {
     }
   };
 
-  const handleSubmit = async (code: string) => {
+  const handleSubmitVerifyForm = async (values : FormikValues) => {
     if (isNewUser) {
-      verifyOtp({ firstName, lastName, code, phoneNumber });
+      verifyOtp({ firstName :values.firstName, lastName :values.lastName, code: values.code, phoneNumber :values.phoneNumber });
     } else {
-      verifyOtp({ code, phoneNumber });
+      verifyOtp({ code :values.code, phoneNumber :values.phoneNumber });
     }
 
     navigate("/home");
   };
 
-  const handleSubmitRequestForm = async () => {
-    const response = await requestOtp(phoneNumber);
+  const handleSubmitRequestForm = async (value : FormikValues) => {
+    
+    const response = await requestOtp(value.phoneNumber);
+    console.log('response:', response)
+    phoneNumber = value.phoneNumber
     setIsNewUser(response.data.isNewUser);
   };
   return (
@@ -105,7 +108,7 @@ function Signin() {
                 <button type="submit" className="w-full mt-4   main-btn">
                   ادامه
                 </button>
-
+<FormikDevTool/>
           
               </form>
 
@@ -116,25 +119,32 @@ function Signin() {
             </Formik>
           ) : (
 
-            
-            
-            
-            <form>
+            <Formik onSubmit={handleSubmitVerifyForm} initialValues={{
+              phoneNumber , 
+              code : "" ,
+              firstName : "" ,
+              lastName : ""
+            }
+            }>
+              
+              {(formik) => {
+                return(
+
+                   <form>
               {isNewUser && (
                 <div className="mb-6">
                   <CustomInput
                     inputType="text"
                     labelText="نام"
                     placeholder="لطفا نام خود را وارد کنید"
-                    value={firstName}
-                    onChange={ setFirstName}
+                    {...formik.getFieldProps("firstName")}
                   />
                   <CustomInput
                     inputType="text"
                     labelText="نام خانوادگی"
                     placeholder="لطفا نام خانوادگی خود را وارد کنید"
-                    value={lastName}
-                    onChange={ setLastName}
+                    {...formik.getFieldProps("lastName")}
+
                   />
                 </div>
               )}
@@ -152,7 +162,7 @@ function Signin() {
                     maxLength={1}
                     value={val}
                     index={i}
-                    onChange={handleChange}
+                    manualOnChange={handleChange}
                     onKeyDown={handleKeyDown}
                     className=" size-8! p-1! rounded-lg!  md:size-12! md:p-2! text-center  border-gray-400! md:rounded-2xl!"
                   />
@@ -163,6 +173,15 @@ function Signin() {
                 ورود
               </button>
             </form>
+                  
+                )
+               
+
+              }}
+              
+            </Formik>
+            
+            
           )}
         </div>
       </div>
