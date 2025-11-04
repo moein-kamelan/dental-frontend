@@ -1,52 +1,173 @@
-import React, { use, useState } from 'react'
-import CustomInput from '../../../components/modules/CustomInput/CustomInput'
+import React, { useRef, useState, type FormEvent } from "react";
+import CustomInput from "../../../components/modules/CustomInput/CustomInput";
+import { usePostOtpRequest, usePostOtpVerify } from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { Formik, type FormikValues } from "formik";
+import * as yup from 'yup';
+import { formatPhoneNumber } from "../../../utils/helpers";
 
 function Signin() {
-    const [mobileNumber , setMobileNumber] = useState("")
-  return (
-      <section className="py-20">
-        <div className="container mx-auto px-4 max-w-md">
-            <div className="bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12">
-                <h2 className="text-3xl font-iran-yekan-bold text-center mb-8">خوش آمدید</h2>
-                <p className="text-center text-paragray mb-8">برای ادامه به حساب کاربری خود وارد شوید</p>
-                
-                <form className="space-y-4">
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const navigate = useNavigate();
+  const { mutateAsync: requestOtp, isSuccess: susseccRequestOtp } =
+    usePostOtpRequest();
+  const { mutateAsync: verifyOtp, isSuccess: susseccVerifyOtp } =
+    usePostOtpVerify();
 
-<CustomInput inputType='phone' labelText='شماره تلفن' placeholder='شماره تلفن خود را وارد کنید *' value={mobileNumber} onChange={setMobileNumber}/>
+  const [isNewUser, setIsNewUser] = useState<boolean>(false);
+
+  const length = 5;
+  const [otp, setOtp] = useState(Array(length).fill(""));
+  const inputsRef = useRef<HTMLInputElement[]>([]);
+
+  const handleChange = (value: string, index?: number) => {
+    const newValue = value.slice(-1);
+    const newOtp = [...otp];
+    newOtp[index!] = newValue;
+    setOtp(newOtp);
+
+    if (newValue && index! < length - 1) {
+      inputsRef.current[index! + 1].focus();
+    }
+
+    if (newOtp.every((v) => v !== "")) {
+      handleSubmit(newOtp.join(""));
+    }
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index?: number
+  ) => {
+    if (e.key === "Backspace" && !otp[index!] && index! > 0) {
+      inputsRef.current[index! - 1].focus();
+    }
+  };
+
+  const handleSubmit = async (code: string) => {
+    if (isNewUser) {
+      verifyOtp({ firstName, lastName, code, phoneNumber });
+    } else {
+      verifyOtp({ code, phoneNumber });
+    }
+
+    navigate("/home");
+  };
+
+  const handleSubmitRequestForm = async () => {
+    const response = await requestOtp(phoneNumber);
+    setIsNewUser(response.data.isNewUser);
+  };
+  return (
+    <section className="py-20">
+      <div className="container mx-auto px-4 max-w-md">
+        <div className="bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12">
+          <h2 className="text-3xl font-iran-yekan-bold text-center mb-8">
+            خوش آمدید
+          </h2>
+          <p className="text-center text-paragray mb-8">
+            برای ادامه به حساب کاربری خود وارد شوید
+          </p>
+
+          {!susseccRequestOtp ? (
+            <Formik
+              initialValues={{
+                phoneNumber: "",
+              }}
+              onSubmit={handleSubmitRequestForm}
+              validationSchema={yup.object({
+                phoneNumber : yup.string().required("شماره موبایل الزامی است").test("is-valid-phone" , "شماره موبایل معتبر نمیباشد" , (value) => {
+                  try {
+                    formatPhoneNumber(value)
+                    return true
+                  } catch (error) {
+                    console.log(error);
                     
-                    {/* <div>
-                        <label className="block text-dark font-semibold mb-2">ایمیل یا نام کاربری</label>
-                        <input type="text" placeholder="ایمیل یا نام کاربری خود را وارد کنید" className="w-full px-6 py-4 border border-gray-200 rounded-full focus:outline-none focus:border-primary"/>
-                    </div> */}
-                    
-                 
-                    
-                    <div className="flex items-center justify-between">
-                        <label className="flex items-center gap-2 text-paragray">
-                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"/>
-                            <span className="text-sm">مرا به خاطر بسپار</span>
-                        </label>
-                        <a href="forgot_password.html" className="text-primary hover:text-deepblue text-sm">رمز عبور را فراموش کرده‌اید؟</a>
-                    </div>
-                    
-                    <button type="submit" className="w-full bg-primary text-white px-8 py-4 rounded-full hover:bg-deepblue transition font-semibold">
-                        ورود به حساب کاربری
-                    </button>
-                    
-                    <div className="text-center pt-4">
-                        <p className="text-paragray mb-4">حساب کاربری ندارید؟</p>
-                        <a href="sing_up.html" className="text-primary font-semibold hover:text-deepblue">
-                            ثبت نام کنید
-                        </a>
-                    </div>
-                    
-             
+                    return false
+                  }
+                })
+              })}
+            >
+              {(formik) => {
+                return(
+              <form onSubmit={formik.handleSubmit} className="">
+                <CustomInput
+                  inputType="phone"
+                  labelText="شماره موبایل"
+                  placeholder="شماره موبایل خود را وارد کنید *"         
+                  errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) ? formik.errors.phoneNumber : null}        
+                  {...formik.getFieldProps("phoneNumber")}
+                  className={`${(formik.touched.phoneNumber && formik.errors.phoneNumber) ? "border-red-500" : ""}`}
+                />
+
+                <button type="submit" className="w-full mt-4   main-btn">
+                  ادامه
+                </button>
+
+          
+              </form>
+
+                )
+
+              }}
+              
+            </Formik>
+          ) : (
+
             
-                </form>
-            </div>
+            
+            
+            <form>
+              {isNewUser && (
+                <div className="mb-6">
+                  <CustomInput
+                    inputType="text"
+                    labelText="نام"
+                    placeholder="لطفا نام خود را وارد کنید"
+                    value={firstName}
+                    onChange={ setFirstName}
+                  />
+                  <CustomInput
+                    inputType="text"
+                    labelText="نام خانوادگی"
+                    placeholder="لطفا نام خانوادگی خود را وارد کنید"
+                    value={lastName}
+                    onChange={ setLastName}
+                  />
+                </div>
+              )}
+              <p className="text-center mb-3 font-iran-sans-bold">
+                کد تایید برای {phoneNumber} ارسال شد
+              </p>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 ">
+                {otp.map((val, i) => (
+                  <CustomInput
+                    key={i}
+                    ref={(el) => {
+                      inputsRef.current[i] = el!;
+                    }}
+                    inputType="text"
+                    maxLength={1}
+                    value={val}
+                    index={i}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    className=" size-8! p-1! rounded-lg!  md:size-12! md:p-2! text-center  border-gray-400! md:rounded-2xl!"
+                  />
+                ))}
+              </div>
+
+              <button type="submit" className="w-full mt-4   main-btn">
+                ورود
+              </button>
+            </form>
+          )}
         </div>
+      </div>
     </section>
-  )
+  );
 }
 
-export default Signin
+export default Signin;

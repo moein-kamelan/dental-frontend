@@ -1,54 +1,78 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-type CustomInputProps = {
-    inputType? : "text" | "phone" | "password" | "number" ;
-    labelText? : string ;
-    placeholder? : string ;
-    value? : string | number ;
-    className? : string;
-    labelClassName? : string;
-    isTextArea? : boolean;
-    rows?: number;
-    onChange: (value : string ) => void
+type CustomInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  inputType?: "text" | "phone" | "password" | "number";
+  labelText?: string;
+  placeholder?: string;
+  value?: string | number;
+  className?: string;
+  labelClassName?: string;
+  isTextArea?: boolean;
+  index?: number;
+  maxLength?: number;
+  errorMessage?: string | null;
+  name?: string;
+  onChange?: (value: string, index?: number) => void;
+  onKeyDown?: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index?: number
+  ) => void;
+};
+const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
+  (
+    {
+      inputType = "text",
+      labelText = "",
+      placeholder = "",
+      value = "",
+      onChange,
+      onKeyDown,
+      className = "",
+      labelClassName = "",
+      index,
+      maxLength,
+      errorMessage,
+      ...rest
+    },
+    ref
+  ) => {
+    const restProps = rest as React.InputHTMLAttributes<HTMLInputElement>;
 
-}
+    const controlledValue =
+      restProps.value !== undefined ? restProps.value : value ?? "";
 
-
-function CustomInput({ inputType="text", labelText="", placeholder="", value="", onChange , className="", labelClassName="" , isTextArea=false , rows=4 , ...rest } : CustomInputProps) {
-  return (
-
-<>
-    {isTextArea ? (
-         <label className={` text-dark font-estedad-lightbold  mb-2 ${labelClassName}`}>
-      <span className="block   mr-4 mb-2">{labelText}</span>
-      <textarea
-      rows={rows}
-        placeholder={placeholder}
-        value={value}
-        
-        onChange={(e) => onChange(e.target.value)}
-        className={`w-full px-6 py-3 border-2 border-main-border-color rounded-full focus:outline-none focus:border-primary placeholder:text-paragray placeholder:font-estedad-light   ${className}`}
-        {...rest}
-      />
-    </label>
-    ) : (
- <label className={`block mb-2 text-dark font-estedad-lightbold    ${labelClassName}`}>
-      <span className="block   mr-4 mb-2">{labelText}</span>
-      <input
-        type={inputType}
-        placeholder={placeholder}
-        value={value}
-        
-        onChange={(e) => onChange(e.target.value)}
-        className={`w-full px-6 py-3 border-2 border-main-border-color rounded-full focus:outline-none focus:border-primary placeholder:text-paragray placeholder:font-estedad-light   ${className}`}
-        {...rest}
-      />
-    </label>
-    )}
-</>
-
-   
-  );
-}
+    const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      if (typeof restProps.onChange === "function") {
+        restProps.onChange(e as React.ChangeEvent<HTMLInputElement>);
+      } else if (onChange) {
+        onChange(e.target.value, index);
+      }
+    };
+    
+    return (
+              <>
+            <label
+              className={`block mb-[3px] text-dark font-estedad-lightbold ${labelClassName}`}
+            >
+              <span className="block mr-4 mb-2">{labelText}</span>
+              <input
+                ref={ref}
+                type={inputType}
+                placeholder={placeholder}
+                value={controlledValue}
+                maxLength={maxLength}
+                onChange={handleChange}
+                onKeyDown={(e) => onKeyDown?.(e, index)}
+                className={`w-full px-6 py-3 border-2 border-main-border-color rounded-full focus:outline-none focus:border-primary placeholder:text-paragray placeholder:font-estedad-light ${className}`}
+                {...rest}
+              />
+            </label>
+            <span className="block text-red-500 text-[10px] font-iran-sans-normal mr-4 mb-2 h-4">{errorMessage}</span>
+          </>
+    );
+  }
+);
 
 export default CustomInput;
