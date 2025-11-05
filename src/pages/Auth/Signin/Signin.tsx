@@ -1,15 +1,18 @@
-import React, { useRef, useState, type FormEvent } from "react";
+import React, { useEffect, useRef, useState, type FormEvent } from "react";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
 import { usePostOtpRequest, usePostOtpVerify } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { Formik, type FormikValues } from "formik";
-import {FormikDevTool} from 'formik-devtools';
-import * as yup from 'yup';
+import { Formik, type FormikProps, type FormikValues } from "formik";
+import * as yup from "yup";
 import { formatPhoneNumber } from "../../../utils/helpers";
-
+import { AnimatePresence, motion } from "motion/react";
+import { showErrorToast, showSuccessToast } from "../../../utils/toastify";
+import {FormikDevTool} from 'formik-devtools';
 function Signin() {
-  let phoneNumber : string | null = null
-  
+  const phoneNumber = useRef<string>("");
+  const [codeExpireTime, setCodeExpireTime] = useState<number>(60);
+  const [authStep, setAuthStep] = useState<number>(1);
+
   const navigate = useNavigate();
   const { mutateAsync: requestOtp, isSuccess: susseccRequestOtp } =
     usePostOtpRequest();
@@ -19,16 +22,17 @@ function Signin() {
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
 
   const length = 5;
-  const [otp, setOtp] = useState(Array(length).fill(""));
   const inputsRef = useRef<HTMLInputElement[]>([]);
 
-  const handleChange = (value: string, index?: number) => {
-    const newValue = value.slice(-1);
-    const newOtp = [...otp];
-    newOtp[index!] = newValue;
-    setOtp(newOtp);
+  const handleChange = (value: string, index?: number, formik?: any) => {
+    const codeArray = formik.values.code.split("");
+    codeArray[index!] = value.slice(-1);
+    formik.setFieldValue("code", codeArray.join(""));
+       if (!formik.touched.code) {
+    formik.setFieldTouched("code", true);
+  }
 
-    if (newValue && index! < length - 1) {
+    if (value && index! < length - 1) {
       inputsRef.current[index! + 1].focus();
     }
 
@@ -39,34 +43,78 @@ function Signin() {
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index?: number
+    index?: number,
+    formik?: any
   ) => {
-    if (e.key === "Backspace" && !otp[index!] && index! > 0) {
+    const codeArray = formik.values.code.split("");
+
+    if (e.key === "Backspace" && !codeArray[index!] && index! > 0) {
       inputsRef.current[index! - 1].focus();
     }
   };
 
-  const handleSubmitVerifyForm = async (values : FormikValues) => {
-    if (isNewUser) {
-      verifyOtp({ firstName :values.firstName, lastName :values.lastName, code: values.code, phoneNumber :values.phoneNumber });
-    } else {
-      verifyOtp({ code :values.code, phoneNumber :values.phoneNumber });
+  const handleSubmitRequestForm = async (value: FormikValues) => {
+    if (
+      codeExpireTime &&
+      authStep === 1 &&
+      phoneNumber.current === value.phoneNumber
+    ) {
+      setAuthStep(2);
+      return;
     }
-
-    navigate("/home");
-  };
-
-  const handleSubmitRequestForm = async (value : FormikValues) => {
-    
-    const response = await requestOtp(value.phoneNumber);
-    console.log('response:', response)
-    phoneNumber = value.phoneNumber
+    const response = await requestOtp(phoneNumber.current || value.phoneNumber);
+    console.log("response:", response);
+    phoneNumber.current = value.phoneNumber;
     setIsNewUser(response.data.isNewUser);
+    setAuthStep(2);
+    setCodeExpireTime(60);
+    const timer = setInterval(() => {
+      setCodeExpireTime((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
+
+  const handleSubmitVerifyForm = async (values: FormikValues) => {
+    if (isNewUser) {
+      verifyOtp({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        code: values.code,
+        phoneNumber: phoneNumber.current || "",
+      });
+    } else {
+      verifyOtp({ code: values.code, phoneNumber: phoneNumber.current || "" });
+    }
+if(susseccVerifyOtp) {
+  navigate("/home");
+} 
+  
+  };
+
   return (
     <section className="py-20">
-      <div className="container mx-auto px-4 max-w-md">
-        <div className="bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12">
+      <div className="container mx-auto px-4 max-w-md ">
+        <div className="relative bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12 ">
+          {authStep === 2 && (
+            <button
+              onClick={() => {
+                setAuthStep(1);
+                if (codeExpireTime) {
+                  showSuccessToast(
+                    `از کد قبلی تا ${codeExpireTime} ثانیه دیگر میتوانید استفاده کنید`
+                  );
+                }
+              }}
+              className="absolute top-4 left-6 flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary"
+            >
+              <i className="	fas fa-arrow-left text-2xl text-white absolute"></i>
+            </button>
+          )}
           <h2 className="text-3xl font-iran-yekan-bold text-center mb-8">
             خوش آمدید
           </h2>
@@ -74,115 +122,201 @@ function Signin() {
             برای ادامه به حساب کاربری خود وارد شوید
           </p>
 
-          {!susseccRequestOtp ? (
-            <Formik
-              initialValues={{
-                phoneNumber: "",
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={authStep}
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -100, opacity: 0 }}
+              transition={{
+                duration: 0.15,
+                ease: [0.25, 0.8, 0.25, 1],
               }}
-              onSubmit={handleSubmitRequestForm}
-              validationSchema={yup.object({
-                phoneNumber : yup.string().required("شماره موبایل الزامی است").test("is-valid-phone" , "شماره موبایل معتبر نمیباشد" , (value) => {
-                  try {
-                    formatPhoneNumber(value)
-                    return true
-                  } catch (error) {
-                    console.log(error);
-                    
-                    return false
-                  }
-                })
-              })}
+              className=""
             >
-              {(formik) => {
-                return(
-              <form onSubmit={formik.handleSubmit} className="">
-                <CustomInput
-                  inputType="phone"
-                  labelText="شماره موبایل"
-                  placeholder="شماره موبایل خود را وارد کنید *"         
-                  errorMessage={(formik.touched.phoneNumber && formik.errors.phoneNumber) ? formik.errors.phoneNumber : null}        
-                  {...formik.getFieldProps("phoneNumber")}
-                  className={`${(formik.touched.phoneNumber && formik.errors.phoneNumber) ? "border-red-500" : ""}`}
-                />
+              {!susseccRequestOtp || authStep === 1 ? (
+                <Formik
+                  initialValues={{
+                    phoneNumber: phoneNumber.current || "",
+                  }}
+                  onSubmit={handleSubmitRequestForm}
+                  validationSchema={yup.object({
+                    phoneNumber: yup
+                      .string()
+                      .required("شماره موبایل الزامی است")
+                      .test(
+                        "is-valid-phone",
+                        "شماره موبایل معتبر نمیباشد",
+                        (value) => {
+                          try {
+                            formatPhoneNumber(value);
+                            return true;
+                          } catch (error) {
+                            console.log(error);
 
-                <button type="submit" className="w-full mt-4   main-btn">
-                  ادامه
-                </button>
-<FormikDevTool/>
-          
-              </form>
+                            return false;
+                          }
+                        }
+                      ),
+                  })}
+                >
+                  {(formik) => {
+                    return (
+                      <form onSubmit={formik.handleSubmit} className="">
+                        <CustomInput
+                          inputType="phone"
+                          labelText="شماره موبایل"
+                          placeholder="شماره موبایل خود را وارد کنید *"
+                          errorMessage={
+                            formik.touched.phoneNumber &&
+                            formik.errors.phoneNumber
+                              ? formik.errors.phoneNumber
+                              : null
+                          }
+                          {...formik.getFieldProps("phoneNumber")}
+                          className={`${
+                            formik.touched.phoneNumber &&
+                            formik.errors.phoneNumber
+                              ? "border-red-500"
+                              : ""
+                          }`}
+                          maxLength={12}
+                        />
 
-                )
+                        <button
+                          type="submit"
+                          className="w-full mt-4   main-btn"
+                        >
+                          ادامه
+                        </button>
+                      </form>
+                    );
+                  }}
+                </Formik>
+              ) : (
+                <Formik
+                  onSubmit={handleSubmitVerifyForm}
+                  initialValues={{
+                    phoneNumber: phoneNumber.current,
+                    code: "",
+                    firstName: "",
+                    lastName: "",
+                  }}
+                  validationSchema={yup.object({
+                    firstName: yup.string().required("نام الزامی است"),
+                    lastName: yup.string().required("نام خانوادگی الزامی است"),
+                    code: yup.string().length(5, "کد باید ۵ رقم باشد").required("کد الزامی است"),
+                  })}
+                >
+                  {(formik) => {
+                    return (
+                      <form onSubmit={formik.handleSubmit}>
+                        {isNewUser && (
+                          <div className="mb-6">
+                            <CustomInput
+                              inputType="text"
+                              labelText="نام"
+                              placeholder="لطفا نام خود را وارد کنید"
+                              {...formik.getFieldProps("firstName")}
+                              className={`${
+                                formik.touched.firstName &&
+                                formik.errors.firstName
+                                  ? "border-red-500"
+                                  : ""
+                              }`}
+                              errorMessage={
+                                formik.touched.firstName &&
+                                formik.errors.firstName
+                                  ? formik.errors.firstName
+                                  : null
+                              }
+                              maxLength={20}
+                            />
+                            <CustomInput
+                              inputType="text"
+                              labelText="نام خانوادگی"
+                              placeholder="لطفا نام خانوادگی خود را وارد کنید"
+                              {...formik.getFieldProps("lastName")}
+                              className={`${
+                                formik.touched.lastName &&
+                                formik.errors.lastName
+                                  ? "border-red-500"
+                                  : ""
+                              }`}
+                              errorMessage={
+                                formik.touched.lastName &&
+                                formik.errors.lastName
+                                  ? formik.errors.lastName
+                                  : null
+                              }
+                              maxLength={30}
+                            />
+                          </div>
+                        )}
+                        <p className="text-center mb-2 font-iran-sans-bold">
+                          کد تایید برای {phoneNumber.current} ارسال شد
+                        </p>
+                        <div className="flex flex-row-reverse items-center justify-center gap-2 ">
+                          {Array.from({ length }).map((_, i) => (
+                            <CustomInput
+                              key={i}
+                              ref={(el) => {
+                                inputsRef.current[i] = el!;
+                              }}
+                              inputType="number"
+                              maxLength={1}
+                              manualValue={formik.values.code[i] || ""}
+                              manualOnChange={(e) =>
+                                handleChange(e, i, formik)
+                              }
+                              onKeyDown={(e) => handleKeyDown(e, i , formik)}
+                              className="size-8! p-1! rounded-lg! md:size-12! md:p-2! text-center border-gray-400! md:rounded-2xl!"
+                              
 
-              }}
-              
-            </Formik>
-          ) : (
+                            />
+                          ))}
+                        </div>
+                        {formik.touched.code && formik.errors.code && (
+                          <p className="text-red-500 text-center mt-2 text-sm">
+                            {formik.errors.code}
+                          </p>
+                        )}
 
-            <Formik onSubmit={handleSubmitVerifyForm} initialValues={{
-              phoneNumber , 
-              code : "" ,
-              firstName : "" ,
-              lastName : ""
-            }
-            }>
-              
-              {(formik) => {
-                return(
+                        <button
+                          onClick={handleSubmitRequestForm}
+                          disabled={!!codeExpireTime}
+                          className={`flex items-center justify-end mr-auto ml-8 gap-2 text-paragray font-estedad-light text-sm ${
+                            codeExpireTime === 0
+                              ? " text-accent! hover:text-secondary! font-estedad-lightbold"
+                              : "cursor-not-allowed!"
+                          }`}
+                        >
+                          <span>ارسال دوباره </span>
+                          {codeExpireTime !== 0 && (
+                            <span>
+                              ({" "}
+                              {codeExpireTime > 10
+                                ? codeExpireTime
+                                : 0 + codeExpireTime}{" "}
+                              : 00 )
+                            </span>
+                          )}
+                        </button>
 
-                   <form>
-              {isNewUser && (
-                <div className="mb-6">
-                  <CustomInput
-                    inputType="text"
-                    labelText="نام"
-                    placeholder="لطفا نام خود را وارد کنید"
-                    {...formik.getFieldProps("firstName")}
-                  />
-                  <CustomInput
-                    inputType="text"
-                    labelText="نام خانوادگی"
-                    placeholder="لطفا نام خانوادگی خود را وارد کنید"
-                    {...formik.getFieldProps("lastName")}
-
-                  />
-                </div>
+                        <button
+                          type="submit"
+                          className="w-full mt-4   main-btn"
+                        >
+                          ورود
+                        </button>
+                        <FormikDevTool/>
+                      </form>
+                    );
+                  }}
+                </Formik>
               )}
-              <p className="text-center mb-3 font-iran-sans-bold">
-                کد تایید برای {phoneNumber} ارسال شد
-              </p>
-              <div className="flex flex-row-reverse items-center justify-center gap-2 ">
-                {otp.map((val, i) => (
-                  <CustomInput
-                    key={i}
-                    ref={(el) => {
-                      inputsRef.current[i] = el!;
-                    }}
-                    inputType="text"
-                    maxLength={1}
-                    value={val}
-                    index={i}
-                    manualOnChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className=" size-8! p-1! rounded-lg!  md:size-12! md:p-2! text-center  border-gray-400! md:rounded-2xl!"
-                  />
-                ))}
-              </div>
-
-              <button type="submit" className="w-full mt-4   main-btn">
-                ورود
-              </button>
-            </form>
-                  
-                )
-               
-
-              }}
-              
-            </Formik>
-            
-            
-          )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>

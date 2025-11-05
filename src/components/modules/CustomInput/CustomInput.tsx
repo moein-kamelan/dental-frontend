@@ -56,7 +56,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
     return (
               <>
             <label
-              className={`block mb-[3px] text-dark font-estedad-lightbold ${labelClassName}`}
+              className={`block  text-dark font-estedad-lightbold ${(errorMessage || errorMessage === null) ? "mb-[3px]" : "mb-2"} ${labelClassName}`}
             >
               <span className="block mr-4 mb-2">{labelText}</span>
               <input
@@ -67,11 +67,11 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
                 maxLength={maxLength}
                 onChange={handleChange}
                 onKeyDown={(e) => onKeyDown?.(e, index)}
-                className={`w-full px-6 py-3 border-2 border-main-border-color rounded-full focus:outline-none focus:border-primary placeholder:text-paragray placeholder:font-estedad-light ${className}`}
+                className={`w-full px-6 py-3 border-2 border-main-border-color rounded-full focus:outline-none focus:border-[#00A6FB] placeholder:text-paragray placeholder:font-estedad-light ${className}`}
                 {...rest}
               />
             </label>
-            <span className="block text-red-500 text-[10px] font-iran-sans-normal mr-4 mb-2 h-4">{errorMessage}</span>
+          {(errorMessage || errorMessage === null) &&   <span className="block text-red-500 text-[10px] font-iran-sans-normal mr-4 mb-2 h-4">{errorMessage}</span>}
           </>
     );
   }

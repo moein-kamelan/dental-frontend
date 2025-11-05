@@ -6,11 +6,11 @@
 @theme {
   --color-primary: #153d3d;
   --color-secondary: #2a7a7a;
-  --color-deepblue: #3d8a8a;
+  --color-tertiary: #3d8a8a;
   --color-accent: #d4af37;
   --color-paragray: #6b7a7a;
   --color-dark: #153d3d;
-  --color-semantic-red: #F7588D;
+  --color-semantic-red: #f7588d;
   --color-semantic-yellow: #d4af37;
   --color-main-border-color: #5e5b5b17;
 
@@ -62,13 +62,11 @@ button {
 }
 
 @utility main-header {
-    @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40
+  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
 }
 
-
-
 @utility section-border {
-    @apply border-[2px] border-[#5e5b5b17] rounded-[10px];
+  @apply border-[2px] border-[#5e5b5b17] rounded-[10px];
 }
 
 .swiper {
@@ -81,4 +79,26 @@ button {
 
 .swiper-pagination-bullet-active.custom-bullet {
   @apply bg-accent w-8;
+}
+
+/* toastify styles */
+.Toastify__toast , .Toastify__progress-bar-theme--light {
+  background: transparent ;
+  box-shadow: none ;
+  border-radius: 0 ;
+  padding: 0 ;
+}
+
+.Toastify__toast-body {
+  margin: 0 ;
+  padding: 0 ;
+}
+ .Toastify__progress-bar--wrp {
+  width: 100%;
+ }
+.sussecc-progress-bar , .error-progress-bar {
+   background: #d4af37 !important;
+  height: 5px !important;
+  border-radius: 0 0 10px 10px !important;
+  width: 100%;
 }

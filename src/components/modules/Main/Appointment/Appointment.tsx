@@ -133,7 +133,7 @@ function Appointment() {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#1d78e2] text-white px-8 py-4 rounded-full  transition font-semibold hover:bg-white hover:text-[#1d78e2]"
+                  className="w-full bg-accent text-primary px-8 py-4 rounded-full  transition font-semibold hover:bg-white hover:text-primary"
                 >
                   ثبت درخواست رزور
                 </button>

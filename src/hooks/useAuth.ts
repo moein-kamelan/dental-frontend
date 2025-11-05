@@ -1,5 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
+import { showErrorToast } from "../utils/toastify";
+import type { AxiosError } from "axios";
 
 export const usePostOtpRequest = () => {
   return useMutation({
@@ -9,6 +11,24 @@ export const usePostOtpRequest = () => {
       });
       return response.data;
     },
+
+onError: (error) => {
+  const err = error as AxiosError<{ message?: string }>;
+  console.log(err);
+  const data = err.response?.data;
+
+  if (typeof data === "string") {
+    showErrorToast(data);
+    return;
+  }
+
+  if (typeof data === "object" && data?.message) {
+    showErrorToast(data.message);
+    return;
+  }
+
+  showErrorToast("خطای ناشناخته رخ داده است")
+}
   });
 };
 export const usePostOtpVerify = () => {
