@@ -90,6 +90,7 @@ function Signin() {
     } else {
       verifyOtp({ code: values.code, phoneNumber: phoneNumber.current || "" });
     }
+console.log('susseccVerifyOtp:', susseccVerifyOtp)
 if(susseccVerifyOtp) {
   navigate("/home");
 } 
@@ -193,7 +194,8 @@ if(susseccVerifyOtp) {
                     );
                   }}
                 </Formik>
-              ) : (
+              ) : isNewUser ? (
+                
                 <Formik
                   onSubmit={handleSubmitVerifyForm}
                   initialValues={{
@@ -211,7 +213,6 @@ if(susseccVerifyOtp) {
                   {(formik) => {
                     return (
                       <form onSubmit={formik.handleSubmit}>
-                        {isNewUser && (
                           <div className="mb-6">
                             <CustomInput
                               inputType="text"
@@ -252,7 +253,6 @@ if(susseccVerifyOtp) {
                               maxLength={30}
                             />
                           </div>
-                        )}
                         <p className="text-center mb-2 font-iran-sans-bold">
                           کد تایید برای {phoneNumber.current} ارسال شد
                         </p>
@@ -277,7 +277,7 @@ if(susseccVerifyOtp) {
                           ))}
                         </div>
                         {formik.touched.code && formik.errors.code && (
-                          <p className="text-red-500 text-center mt-2 text-sm">
+                          <p className="text-red-500   text-xs text-right pr-6 text-[10px]">
                             {formik.errors.code}
                           </p>
                         )}
@@ -314,7 +314,87 @@ if(susseccVerifyOtp) {
                     );
                   }}
                 </Formik>
-              )}
+              ) : (
+    <Formik
+                  onSubmit={handleSubmitVerifyForm}
+                  initialValues={{
+                    phoneNumber: phoneNumber.current,
+                    code: "",
+                
+                  }}
+                  validationSchema={yup.object({
+                 
+                    code: yup.string().length(5, "کد باید ۵ رقم باشد").required("کد الزامی است"),
+                  })}
+                >
+                  {(formik) => {
+                    return (
+                      <form onSubmit={formik.handleSubmit}>
+                       
+                        <p className="text-center mb-2 font-iran-sans-bold">
+                          کد تایید برای {phoneNumber.current} ارسال شد
+                        </p>
+                        <div className="flex flex-row-reverse items-center justify-center gap-2 ">
+                          {Array.from({ length }).map((_, i) => (
+                            <CustomInput
+                              key={i}
+                              ref={(el) => {
+                                inputsRef.current[i] = el!;
+                              }}
+                              inputType="number"
+                              maxLength={1}
+                              manualValue={formik.values.code[i] || ""}
+                              manualOnChange={(e) =>
+                                handleChange(e, i, formik)
+                              }
+                              onKeyDown={(e) => handleKeyDown(e, i , formik)}
+                              className="size-8! p-1! rounded-lg! md:size-12! md:p-2! text-center border-gray-400! md:rounded-2xl!"
+                              
+
+                            />
+                          ))}
+                        </div>
+                        {formik.touched.code && formik.errors.code && (
+                          <p className="text-red-500   text-xs text-right pr-6 text-[10px]">
+                            {formik.errors.code}
+                          </p>
+                        )}
+
+                        <button
+                          onClick={handleSubmitRequestForm}
+                          disabled={!!codeExpireTime}
+                          className={`flex items-center justify-end mr-auto ml-8 gap-2 text-paragray font-estedad-light text-sm ${
+                            codeExpireTime === 0
+                              ? " text-accent! hover:text-secondary! font-estedad-lightbold"
+                              : "cursor-not-allowed!"
+                          }`}
+                        >
+                          <span>ارسال دوباره </span>
+                          {codeExpireTime !== 0 && (
+                            <span>
+                              ({" "}
+                              {codeExpireTime > 10
+                                ? codeExpireTime
+                                : 0 + codeExpireTime}{" "}
+                              : 00 )
+                            </span>
+                          )}
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="w-full mt-4   main-btn"
+                        >
+                          ورود
+                        </button>
+                        <FormikDevTool/>
+                      </form>
+                    );
+                  }}
+                </Formik>
+
+              )
+            }
             </motion.div>
           </AnimatePresence>
         </div>

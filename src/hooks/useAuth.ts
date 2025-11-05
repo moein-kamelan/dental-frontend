@@ -69,6 +69,23 @@ export const usePostOtpVerify = () => {
     onSuccess : (res) => {
         console.log(res);
         
-    }
+    },
+    onError: (error) => {
+  const err = error as AxiosError<{ message?: string }>;
+  console.log(err);
+  const data = err.response?.data;
+
+  if (typeof data === "string") {
+    showErrorToast(data);
+    return;
+  }
+
+  if (typeof data === "object" && data?.message) {
+    showErrorToast(data.message);
+    return;
+  }
+
+  showErrorToast("خطای ناشناخته رخ داده است")
+}
   });
 };
