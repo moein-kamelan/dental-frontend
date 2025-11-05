@@ -1,6 +1,6 @@
 function WarnToast({message}:any) {
   return (
-    <div className='bg-[#FFEBBD] text-semantic-warning  rounded-md text-sm  font-iran-sans-normal pt-4 pb-6 pl-6 pr-1.5  flex items-center gap-3 w-full text-justify '>
+    <div className='bg-[#FFEBBD] text-semantic-warning  rounded-md text-sm/6  font-iran-sans-normal pt-4 pb-6 pl-6 pr-1.5  flex items-center gap-3 w-full text-justify '>
 <svg className="shrink-0" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path opacity="0.4" d="M38.08 27.86L26.88 7.7C25.375 4.9875 23.2925 3.5 21 3.5C18.7075 3.5 16.625 4.9875 15.12 7.7L3.92 27.86C2.5025 30.4325 2.345 32.9 3.4825 34.8425C4.62 36.785 6.86 37.8525 9.8 37.8525H32.2C35.14 37.8525 37.38 36.785 38.5175 34.8425C39.655 32.9 39.4975 30.415 38.08 27.86Z" fill="#FFC107"/>
 <path d="M21 25.8125C20.2825 25.8125 19.6875 25.2175 19.6875 24.5V15.75C19.6875 15.0325 20.2825 14.4375 21 14.4375C21.7175 14.4375 22.3125 15.0325 22.3125 15.75V24.5C22.3125 25.2175 21.7175 25.8125 21 25.8125Z" fill="#FFC107"/>
