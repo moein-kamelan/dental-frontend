@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
+import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
 import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
@@ -34,6 +35,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     try {
       await axiosInstance.post("/auth/logout");
       dispatch(clearUser());
+      dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
       navigate("/home");
       setIsUserMenuOpen(false);

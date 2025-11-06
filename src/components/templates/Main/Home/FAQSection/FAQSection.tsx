@@ -42,7 +42,7 @@ function FAQSection() {
           >
                   <div className='absolute -bottom-1 -right-1 bg-gradient-to-b from-accent to-secondary size-40 z-20 rounded-br-lg'></div>
 
-                   <div className="relative bg-white pr-4 pb-4 z-50 h-full ">
+                   <div className="relative bg-white pr-4 pb-4 z-40 h-full ">
 
 
                     <div className='absolute -top-4 -left-4 bg-secondary rounded-2xl size-40 -z-10'></div>

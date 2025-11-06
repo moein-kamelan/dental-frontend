@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
+import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
 import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
@@ -35,14 +36,13 @@ function Navbar() {
     try {
       await axiosInstance.post("/auth/logout");
       dispatch(clearUser());
+      dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
       navigate("/home");
       setIsDropdownOpen(false);
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
 
-      // فقط پیام خطا نشان می‌دهیم و کاربر را نگه می‌داریم
-      // اگر session واقعاً منقضی شده باشد، fetchUser در App.tsx آن را handle می‌کند
       const errorMessage =
         typeof err.response?.data === "object" && err.response?.data?.message
           ? err.response.data.message
@@ -53,7 +53,7 @@ function Navbar() {
     }
   };
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md h-[76px] ">
+    <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full">
           <NavLink to={"/home"} className="w-40">
@@ -96,7 +96,7 @@ function Navbar() {
                   خدمات
                 </NavLink>
               </li>
-         
+
               <li>
                 <NavLink
                   to={"/blog"}
@@ -159,7 +159,7 @@ function Navbar() {
 
                   {/* Dropdown Menu */}
                   {isDropdownOpen && (
-                    <div className="absolute left-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-[60] transform transition-all duration-200 ease-out opacity-100 translate-y-0">
+                    <div className="absolute left-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-60 transform transition-all duration-200 ease-out opacity-100 translate-y-0">
                       <div className="px-4 py-3 border-b border-gray-100">
                         <p className="text-sm font-iran-sans-bold text-dark">
                           {user.firstName} {user.lastName}
