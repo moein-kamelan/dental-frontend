@@ -47,6 +47,12 @@ body {
   position: relative;
 }
 
+/* Prevent overflow during animations */
+section {
+  overflow-x: hidden;
+  position: relative;
+}
+
 button {
   cursor: pointer;
 }

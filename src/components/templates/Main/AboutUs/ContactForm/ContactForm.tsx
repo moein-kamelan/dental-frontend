@@ -3,19 +3,19 @@ import React, { useState } from "react";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 
 function ContactForm() {
-  const [fullName , setFullName] = useState<string>("")
-  const [email , setEmail] = useState<string>("")
-  const [phone , setPhone] = useState<string>("")
-  const [subject , setSubjec] = useState<string>("")
-  const [services , setServices] = useState<string>("")
-  const [messages , setMessages] = useState<string>("")
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [subject, setSubjec] = useState<string>("");
+  const [services, setServices] = useState<string>("");
+  const [messages, setMessages] = useState<string>("");
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
+    <section className="py-20 overflow-x-hidden">
+      <div className="container mx-auto px-4 overflow-x-hidden">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <motion.div
             className=""
-            initial={{ opacity: 0, x: 100 }}
+            initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3, margin: "-100px" }}
@@ -31,7 +31,7 @@ function ContactForm() {
 
           <motion.div
             className=""
-            initial={{ opacity: 0, x: -100 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3, margin: "-100px" }}
@@ -42,15 +42,41 @@ function ContactForm() {
               </h2>
               <form className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <CustomInput placeholder="نام*" value={fullName}  onChange={setFullName}/>
-                  <CustomInput placeholder="ایمیل آدرس*" value={email}  onChange={setEmail}/>
-                  <CustomInput placeholder="شماره موبایل*" value={phone}  onChange={setPhone}/>
-                  <CustomInput placeholder="موضوع*" value={subject}  onChange={setSubjec}/>
+                  <CustomInput
+                    placeholder="نام*"
+                    value={fullName}
+                    onChange={setFullName}
+                  />
+                  <CustomInput
+                    placeholder="ایمیل آدرس*"
+                    value={email}
+                    onChange={setEmail}
+                  />
+                  <CustomInput
+                    placeholder="شماره موبایل*"
+                    value={phone}
+                    onChange={setPhone}
+                  />
+                  <CustomInput
+                    placeholder="موضوع*"
+                    value={subject}
+                    onChange={setSubjec}
+                  />
                 </div>
-                <CustomInput placeholder="خدمات" value={services}  onChange={setServices}/>
-                <CustomInput isTextArea rows={5} placeholder="پیام*" className="rounded-xl" value={messages}  onChange={setMessages}/>
+                <CustomInput
+                  placeholder="خدمات"
+                  value={services}
+                  onChange={setServices}
+                />
+                <CustomInput
+                  isTextArea
+                  rows={5}
+                  placeholder="پیام*"
+                  className="rounded-xl"
+                  value={messages}
+                  onChange={setMessages}
+                />
 
-               
                 <button type="submit" className="max-md:w-full main-btn">
                   ارسال کنید
                 </button>

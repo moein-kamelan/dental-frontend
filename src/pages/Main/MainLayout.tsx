@@ -6,12 +6,12 @@ import Footer from "../../components/modules/Main/Footer/Footer";
 
 function MainLayout() {
   return (
-    <div>
+    <div className="">
       <Topbar />
       <Navbar />
 
       <Outlet />
-<Footer/>
+      <Footer />
 
       <div
         id="scrollBtn"
