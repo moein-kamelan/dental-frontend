@@ -16,10 +16,21 @@ const initialState: UserState = {
 };
 
 // گرفتن اطلاعات کاربر فعلی
-export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-  const response = await axiosInstance.get("/auth/me");
-  return response.data;
-});
+export const fetchUser = createAsyncThunk(
+  "user/fetchUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/auth/me");
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        return rejectWithValue(null);
+      }
+      
+      throw error;
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -46,7 +57,13 @@ const userSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message ?? "خطا در دریافت اطلاعات کاربر";
+
+        if (action.payload !== null) {
+          state.error = action.error.message ?? "خطا در دریافت اطلاعات کاربر";
+        } else {
+          state.data = null;
+          state.error = null;
+        }
       });
   },
 });

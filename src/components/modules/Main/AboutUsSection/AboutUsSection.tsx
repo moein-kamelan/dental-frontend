@@ -10,8 +10,8 @@ function AboutUsSection() {
         className="hidden md:block absolute size-20 opacity-30 left-20 xl:right-20 bottom-20"
       />
 
-      <div className="container mx-auto px-4 overflow-x-hidden">
-        <div className="grid xl:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-4">
+        <div className="grid xl:grid-cols-2 gap-12 items-start">
           <motion.div
             className="grid grid-cols-1  md:grid-cols-[3fr_2fr] gap-4 "
             initial={{ opacity: 0, x: -50 }}

@@ -22,6 +22,10 @@ import BlogDetails from "./pages/Main/BlogDetails/BlogDetails";
 import FAQ from "./pages/Main/FAQ/FAQ";
 import MeetingHistory from "./pages/Main/Dashboard/MeetingHistory/MeetingHistory";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import {
+  ProtectedUserDashboardRoute,
+  ProtectedAuthRoute,
+} from "./components/ProtectedRoute";
 
 const routes = createBrowserRouter([
   {
@@ -42,7 +46,11 @@ const routes = createBrowserRouter([
       { path: "/faq", element: <FAQ /> },
       {
         path: "/dashboard/*",
-        element: <Dashboard />,
+        element: (
+          <ProtectedUserDashboardRoute>
+            <Dashboard />
+          </ProtectedUserDashboardRoute>
+        ),
         children: [
           { index: true, element: <Navigate to="profile" replace /> },
           { path: "profile", element: <Profile /> },
@@ -50,10 +58,7 @@ const routes = createBrowserRouter([
           { path: "upcoming-meeting", element: <UpcomingMeeting /> },
           { path: "messages", element: <Messages /> },
           { path: "meeting-history", element: <MeetingHistory /> },
-            { path: "*", element: <Navigate to="/404" replace /> },
-
-      
-
+          { path: "*", element: <Navigate to="/404" replace /> },
         ],
       },
 
@@ -61,32 +66,27 @@ const routes = createBrowserRouter([
       //   {index : true , element : <Navigate to={"home"} replace/>},
       //   {path : "home" , element : <AdminDashboardHome/>}
       // ]},
-      
+
       {
         path: "/auth/*",
-        element: <Auth />,
+        element: (
+          <ProtectedAuthRoute>
+            <Auth />
+          </ProtectedAuthRoute>
+        ),
         children: [
           { index: true, element: <Navigate to="sign-in" replace /> },
           { path: "sign-in", element: <Signin /> },
           { path: "sign-up", element: <Signup /> },
-      { path: "*", element: <Navigate to="/404" replace /> },
-      
-
+          { path: "*", element: <Navigate to="/404" replace /> },
         ],
       },
 
-      { path: "404", element : <NotFound/> },
-      { path: "*", element : <Navigate to="/404" replace/> },
+      { path: "404", element: <NotFound /> },
+      { path: "*", element: <Navigate to="/404" replace /> },
     ],
-
-
-    
   },
-      {path : "/admin-dashboard" , element : <AdminDashboard/>},
-
-
-
-  
+  { path: "/admin-dashboard", element: <AdminDashboard /> },
 ]);
 
 export default routes;

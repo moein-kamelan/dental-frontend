@@ -4,8 +4,8 @@ import { motion } from "motion/react";
 
 function FAQSection() {
   return (
-    <section className="py-20 md:py-24 bg-gray-50 overflow-x-hidden">
-      <div className="container mx-auto px-4 overflow-x-hidden">
+    <section className="py-20 md:py-24 bg-gray-50 ">
+      <div className="container mx-auto px-4 ">
         <div className="text-center mb-12">
           <h5 className="custom-sub-title mx-auto ">سوالات متداول</h5>
           <h2 className="custom-title text-center">
