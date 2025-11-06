@@ -8,6 +8,8 @@ import { formatPhoneNumber } from "../../../utils/helpers";
 import { AnimatePresence, motion } from "motion/react";
 import { showSuccessToast } from "../../../utils/toastify";
 import { FormikDevTool } from "formik-devtools";
+import { useAppDispatch } from "../../../redux/typedHooks";
+import { setUser } from "../../../redux/slices/userSlice";
 function Signin() {
   const phoneNumber = useRef<string>("");
   const [codeExpireTime, setCodeExpireTime] = useState<number>(20);
@@ -15,6 +17,7 @@ function Signin() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { mutateAsync: requestOtp } = usePostOtpRequest();
   const { mutateAsync: verifyOtp } = usePostOtpVerify();
 
@@ -157,8 +160,9 @@ function Signin() {
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     try {
+      let response;
       if (isNewUser) {
-        await verifyOtp({
+        response = await verifyOtp({
           firstName: values.firstName,
           lastName: values.lastName,
           code: values.code,
@@ -169,11 +173,17 @@ function Signin() {
 
         console.log(phoneNumber.current);
 
-        await verifyOtp({
+        response = await verifyOtp({
           code: values.code,
           phoneNumber: phoneNumber.current || "",
         });
       }
+
+      // به‌روزرسانی وضعیت کاربر در Redux
+      if (response?.data?.user) {
+        dispatch(setUser(response.data.user));
+      }
+
       setArtificialLoading(false);
       navigate("/home");
     } catch (error) {
