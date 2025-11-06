@@ -18,7 +18,7 @@ function ContactForm() {
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
             <div className="">
               <img
@@ -34,7 +34,7 @@ function ContactForm() {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
             <div className=" ">
               <h2 className="text-3xl font-bold text-dark mb-8">

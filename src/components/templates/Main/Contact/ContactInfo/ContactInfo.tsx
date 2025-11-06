@@ -11,7 +11,7 @@ function ContactInfo() {
             initial={{ opacity: 0, x: -300 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
           >
                 
                 <div className="bg-white rounded-2xl p-6 text-center   border-2 border-[rgba(94,91,91,0.09)]">

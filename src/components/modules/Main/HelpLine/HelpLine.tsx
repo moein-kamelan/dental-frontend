@@ -12,7 +12,7 @@ function HelpLine() {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
                     <div className="space-y-4">
                         <h5 className="custom-sub-title">کمک اضطراری</h5>
@@ -64,7 +64,7 @@ function HelpLine() {
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
                     <img src="images/helpline_img.png" alt="helpline" className="w-full"/>
                     <img src="images/helpline_img2.png" alt="helpline2" className='max-sm:hidden absolute w-32 h-24 md:h-32  md:w-40 -top-6 left-20 lg:-top-20 lg:left-4  xl:-top-6 xl:left-20 scale-animation' />

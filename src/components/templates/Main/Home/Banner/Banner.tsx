@@ -59,9 +59,8 @@ function Banner() {
           <motion.div
           className="space-y-6"
             initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
           >
 
                     <div className="custom-sub-title">
@@ -105,9 +104,8 @@ function Banner() {
           </motion.div>
 
                           <motion.div className="relative h-full" initial={{ opacity: 0, x: 100 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 1, ease: "easeOut" }}
-      viewport={{ once: true, amount: 0.3 }} >
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1, ease: "easeOut" }} >
         
             <img
               src="images/banner_img.png"

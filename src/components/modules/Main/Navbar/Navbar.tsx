@@ -5,12 +5,14 @@ import { clearUser } from "../../../../redux/slices/userSlice";
 import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
+import MobileMenu from "./MobileMenu";
 
 function Navbar() {
   const user = useAppSelector((state) => state.user.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -94,53 +96,7 @@ function Navbar() {
                   خدمات
                 </NavLink>
               </li>
-              <li className="relative group">
-                <button className={"text-accent text-dark hover:text-accent"}>
-                  صفحات <i className="fas fa-plus"></i>
-                </button>
-                <ul className="absolute top-full right-0 bg-white shadow-lg rounded-lg py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                  <li>
-                    <NavLink
-                      to={"/doctors"}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      پزشکان
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to={"/dashboard"}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      پروفایل کاربری
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to={"/faq"}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      سوالات متداول
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to={"/auth/sign-in"}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      ورود
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to={"/auth/sign-up"}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      ثبت نام
-                    </NavLink>
-                  </li>
-                </ul>
-              </li>
+         
               <li>
                 <NavLink
                   to={"/blog"}
@@ -203,7 +159,7 @@ function Navbar() {
 
                   {/* Dropdown Menu */}
                   {isDropdownOpen && (
-                    <div className="absolute left-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 transform transition-all duration-200 ease-out opacity-100 translate-y-0">
+                    <div className="absolute left-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-[60] transform transition-all duration-200 ease-out opacity-100 translate-y-0">
                       <div className="px-4 py-3 border-b border-gray-100">
                         <p className="text-sm font-iran-sans-bold text-dark">
                           {user.firstName} {user.lastName}
@@ -226,7 +182,13 @@ function Navbar() {
                         <NavLink
                           to="/dashboard/profile"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark hover:bg-accent/10 hover:text-accent transition-colors"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                              isActive
+                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
+                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                            }`
+                          }
                         >
                           <i className="fas fa-user-circle w-5 text-center"></i>
                           <span>پروفایل من</span>
@@ -234,7 +196,13 @@ function Navbar() {
                         <NavLink
                           to="/dashboard/turns"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark hover:bg-accent/10 hover:text-accent transition-colors"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                              isActive
+                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
+                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                            }`
+                          }
                         >
                           <i className="fas fa-calendar-alt w-5 text-center"></i>
                           <span>نوبت‌ها</span>
@@ -242,7 +210,13 @@ function Navbar() {
                         <NavLink
                           to="/dashboard/upcoming-meeting"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark hover:bg-accent/10 hover:text-accent transition-colors"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                              isActive
+                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
+                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                            }`
+                          }
                         >
                           <i className="fas fa-clock w-5 text-center"></i>
                           <span>نوبت‌های آینده</span>
@@ -250,7 +224,13 @@ function Navbar() {
                         <NavLink
                           to="/dashboard/messages"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark hover:bg-accent/10 hover:text-accent transition-colors"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                              isActive
+                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
+                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                            }`
+                          }
                         >
                           <i className="fas fa-envelope w-5 text-center"></i>
                           <span>پیام‌ها</span>
@@ -258,7 +238,13 @@ function Navbar() {
                         <NavLink
                           to="/dashboard/meeting-history"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark hover:bg-accent/10 hover:text-accent transition-colors"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                              isActive
+                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
+                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                            }`
+                          }
                         >
                           <i className="fas fa-history w-5 text-center"></i>
                           <span>تاریخچه نوبت‌ها</span>
@@ -289,11 +275,20 @@ function Navbar() {
             </div>
           </div>
 
-          <button className="lg:hidden text-dark text-2xl">
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="lg:hidden text-dark text-2xl hover:text-accent transition-colors"
+          >
             <i className="fas fa-bars"></i>
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
     </nav>
   );
 }

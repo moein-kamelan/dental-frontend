@@ -24,7 +24,7 @@ function Review() {
             initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
 <div className="text-center mb-12">
           <h5 className="custom-sub-title mx-auto">دیدگاه کاربران</h5>

@@ -19,7 +19,7 @@ function Appointment() {
             initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
 
         <div className="relative grid  xl:grid-cols-[3fr_2fr] gap-8 items-center bg-[url('images/appointment_bg.jpg')] z-10 p-6 sm:p-7.5 md:p-15 rounded-[10px] ">

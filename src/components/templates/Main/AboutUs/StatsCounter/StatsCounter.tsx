@@ -9,7 +9,7 @@ function StatsCounter() {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
                 <div className="text-center text-white    ">
                     <div className="w-20 h-20 bg-secondary  rounded-full flex items-center justify-center mx-auto mb-4">

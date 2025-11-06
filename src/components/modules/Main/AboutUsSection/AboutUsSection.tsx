@@ -15,7 +15,7 @@ function AboutUsSection() {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
 
                     <div className="row-span-2 hidden md:block">
@@ -36,7 +36,7 @@ function AboutUsSection() {
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
           >
                 
                     <div className="space-y-4 ">

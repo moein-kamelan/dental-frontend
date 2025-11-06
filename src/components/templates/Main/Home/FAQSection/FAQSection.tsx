@@ -21,7 +21,7 @@ function FAQSection() {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
 
       <FAQItem/>
@@ -38,7 +38,7 @@ function FAQSection() {
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
                   <div className='absolute -bottom-1 -right-1 bg-gradient-to-b from-accent to-secondary size-40 z-20 rounded-br-lg'></div>
 
