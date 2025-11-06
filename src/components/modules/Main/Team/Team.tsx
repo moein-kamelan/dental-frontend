@@ -1,6 +1,7 @@
 import React from 'react'
 import DoctorCard from '../DoctorCard/DoctorCard'
 import {motion} from 'motion/react';
+import { Link } from 'react-router-dom';
 function Team() {
   return (
         <section className="py-20 md:py-24">
@@ -29,9 +30,9 @@ function Team() {
           </motion.div>
             
             <div className="text-center mt-12">
-                <a href="doctor.html" className="main-btn">
+                <Link to={"/doctors"} className="main-btn">
                     مشاهده همه
-                </a>
+                </Link>
             </div>
         </div>
     </section>
