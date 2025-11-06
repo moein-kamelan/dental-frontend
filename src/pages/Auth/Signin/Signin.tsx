@@ -71,6 +71,33 @@ function Signin() {
     }
   };
 
+  const handlePaste = (
+    e: React.ClipboardEvent<HTMLInputElement>,
+    _index: number,
+    formik: {
+      values: { code: string };
+      setFieldValue: (field: string, value: string) => void;
+      setFieldTouched: (field: string, touched: boolean) => void;
+    }
+  ) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim();
+
+    // Check if pasted content is exactly 5 characters
+    if (pastedData.length === 5) {
+      // Only accept numeric characters
+      if (/^\d+$/.test(pastedData)) {
+        formik.setFieldValue("code", pastedData);
+        formik.setFieldTouched("code", true);
+
+        // Focus on the last input after pasting
+        if (inputsRef.current[length - 1]) {
+          inputsRef.current[length - 1].focus();
+        }
+      }
+    }
+  };
+
   const handleSubmitRequestForm = async (value?: FormikValues | string) => {
     // Clear previous timer if exists
     if (timerRef.current) {
@@ -335,6 +362,7 @@ function Signin() {
                               manualValue={formik.values.code[i] || ""}
                               manualOnChange={(e) => handleChange(e, i, formik)}
                               onKeyDown={(e) => handleKeyDown(e, i, formik)}
+                              onPaste={(e) => handlePaste(e, i, formik)}
                               className="size-8! p-1! rounded-lg! md:size-12! md:p-2! text-center border-gray-400! md:rounded-2xl!"
                             />
                           ))}
@@ -422,6 +450,7 @@ function Signin() {
                               manualValue={formik.values.code[i] || ""}
                               manualOnChange={(e) => handleChange(e, i, formik)}
                               onKeyDown={(e) => handleKeyDown(e, i, formik)}
+                              onPaste={(e) => handlePaste(e, i, formik)}
                               className="size-8! p-1! rounded-lg! md:size-12! md:p-2! text-center border-gray-400! md:rounded-2xl!"
                             />
                           ))}
