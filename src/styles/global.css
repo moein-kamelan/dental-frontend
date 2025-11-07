@@ -148,7 +148,7 @@ input[type="number"] {
   }
 }
 
-/* Loader برای دکمه‌ها - کوچکتر و مناسب دکمه */
+
 .btn-loader {
   width: 20px;
   height: 20px;
@@ -166,7 +166,7 @@ input[type="number"] {
   }
 }
 
-/* جلوگیری از تغییر اندازه دکمه هنگام loading */
+
 .main-btn:disabled {
   pointer-events: none;
 }

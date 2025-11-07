@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
 import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
@@ -12,6 +12,7 @@ function Navbar() {
   const user = useAppSelector((state) => state.user.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -56,7 +57,7 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full">
-          <NavLink to={"/home"} className="w-40">
+          <NavLink to={"/home"} className="w-40 lg:w-32 xl:w-40">
             <img
               src="../../../../../public/images/Logo_1.png"
               alt="logo"
@@ -65,7 +66,7 @@ function Navbar() {
           </NavLink>
 
           <div className="hidden lg:flex items-center gap-8">
-            <ul className="flex items-center gap-8 font-iran-sans-bold">
+            <ul className="flex items-center lg:gap-6 xl:gap-8 gap-8 lg:text-sm xl:text-base font-iran-sans-bold">
               <li>
                 <NavLink
                   to={"/home"}
@@ -109,6 +110,16 @@ function Navbar() {
               </li>
               <li>
                 <NavLink
+                  to={"/become-doctor"}
+                  className={({ isActive }) =>
+                    isActive ? "text-accent" : "text-dark hover:text-accent"
+                  }
+                >
+                   همکاری با ما
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   to={"/contact"}
                   className={({ isActive }) =>
                     isActive ? "text-accent" : "text-dark hover:text-accent"
@@ -128,7 +139,7 @@ function Navbar() {
               >
                 <i className="fa fa-search"></i>
               </NavLink>
-              <NavLink to={""} className="main-btn  ">
+              <NavLink to={""} className="main-btn lg:text-sm xl:text-base ">
                 نوبت دکتر
               </NavLink>
 
@@ -182,13 +193,18 @@ function Navbar() {
                         <NavLink
                           to="/dashboard/profile"
                           onClick={() => setIsDropdownOpen(false)}
-                          className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
-                              isActive
+                          className={({ isActive }) => {
+                            const isProfileActive =
+                              isActive ||
+                              location.pathname.startsWith(
+                                "/dashboard/profile"
+                              );
+                            return `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                              isProfileActive
                                 ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
                                 : "text-dark hover:bg-accent/10 hover:text-accent"
-                            }`
-                          }
+                            }`;
+                          }}
                         >
                           <i className="fas fa-user-circle w-5 text-center"></i>
                           <span>پروفایل من</span>

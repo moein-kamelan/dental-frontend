@@ -17,7 +17,6 @@ function Banner() {
   const color1 = useMotionValue("#E8F4F4");
   const color2 = useMotionValue("#F5E8D4");
 
-  // از رنگ‌ها برای ساخت گرادیانت استفاده می‌کنیم
   const background = useMotionTemplate`linear-gradient(135deg, ${color1}, ${color2})`;
 
   const patientsRecoverdCount = useMotionValue(0);
@@ -27,10 +26,10 @@ function Banner() {
   useEffect(() => {
     const sequence = async () => {
       while (true) {
-        await animate(color1, "#C4E8E8", { duration: 3 });
-        await animate(color2, "#F5E8D4", { duration: 3 });
-        await animate(color1, "#E8F4F4", { duration: 3 });
-        await animate(color2, "#F0E0C4", { duration: 3 });
+        await animate(color1, "#C4E8E8", { duration: 2 });
+        await animate(color2, "#F0E0C4", { duration: 2 });
+        await animate(color1, "#E8F4F4", { duration: 2 });
+        await animate(color2, "#F0E0C4", { duration: 2 });
       }
     };
     sequence();
@@ -73,7 +72,7 @@ function Banner() {
             <div className="custom-sub-title">
               <span>به مدیفکس خوش آمدید</span>
             </div>
-            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
+            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] font-estedad-verybold mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
               ما به سلامتی شما متعهد هستیم
             </h1>
             <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">

@@ -1,9 +1,12 @@
 import { motion } from "motion/react";
-import React from "react";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useAppSelector } from "../../../redux/typedHooks";
 
 function Dashboard() {
+  const user = useAppSelector((state) => state.user.data);
+  const location = useLocation();
+
   return (
     <>
       <Breadcrumb />
@@ -18,7 +21,7 @@ function Dashboard() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: true,  margin: "-100px" }}
+              viewport={{ once: true, margin: "-100px" }}
             >
               <div
                 className="bg-[linear-gradient(45deg,_#E8F4F4_0%,_rgba(212,232,232,0.85)_28.13%,_rgba(245,232,212,0.90)_79.75%,_#FAF0E0_100%)]
@@ -39,10 +42,10 @@ function Dashboard() {
                   <input id="profile_photo" type="file" className="hidden" />
                 </div>
                 <h4 className="text-dark  font-estedad-verybold text-2xl mb-2">
-                  محسن دادار
+                  {user?.firstName} {user?.lastName}
                 </h4>
                 <p className="text-paragray font-estedad-light ">
-                  آیدی بیمار: ۲۳۶۰۲۰۳۳۹۸۱۲
+                  آیدی بیمار: {user?.phoneNumber}+
                 </p>
               </div>
 
@@ -52,12 +55,15 @@ function Dashboard() {
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/profile"}
-                      className={({ isActive }) =>
-                        ` ${
-                          isActive &&
+                      className={({ isActive }) => {
+                        const isProfileActive =
+                          isActive ||
+                          location.pathname.startsWith("/dashboard/profile");
+                        return ` ${
+                          isProfileActive &&
                           "text-white bg-primary hover:bg-primary hover:text-white"
-                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`
-                      }
+                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`;
+                      }}
                     >
                       <span>پروفایل من</span>
                       <i className="fas fa-angle-left"></i>
@@ -134,7 +140,7 @@ function Dashboard() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: true,  margin: "-100px" }}
+              viewport={{ once: true, margin: "-100px" }}
             >
               <Outlet />
             </motion.div>

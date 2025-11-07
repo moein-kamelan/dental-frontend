@@ -1,7 +1,11 @@
 import React from "react";
 import StatItem from "../../../../components/templates/Main/Dashboard/Profile/StatItem/StatItem";
+import { useAppSelector } from "../../../../redux/typedHooks";
+import { Link } from "react-router-dom";
 
 function Profile() {
+
+  const user = useAppSelector((state) => state.user.data);
   return (
     < >
       <div className="mb-8">
@@ -24,12 +28,12 @@ function Profile() {
             <h5 className="text-2xl relative   font-estedad-verybold text-dark ">
               پروفایل من
             </h5>
-            <a
-              href="dashboard_profile_edit.html"
+            <Link
+              to="/dashboard/profile-edit"
               className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition"
             >
               ویرایش
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -39,18 +43,18 @@ function Profile() {
               نام:
             </span>
             <span className=" text-paragray mr-3 max-sm:text-sm">
-              محسن دادار
+              {user?.firstName } {user?.lastName}
             </span>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
+          {/* <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
             <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
               موبایل:
             </span>
             <span className=" text-paragray mr-3 max-sm:text-sm">
-              ۱۶۱۲۳۱ ۱۷۸۵۵۵ ۸۸۰+
+              {user?.phoneNumber}
             </span>
-          </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
+          </div> */}
+          {/* <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
             <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
               ایمیل:
             </span>
@@ -85,7 +89,7 @@ function Profile() {
             <span className=" text-paragray mr-3 max-sm:text-sm">
               شیراز. بلوار ارم. کوچه ۱۲
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

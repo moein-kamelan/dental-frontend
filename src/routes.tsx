@@ -25,7 +25,9 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import {
   ProtectedUserDashboardRoute,
   ProtectedAuthRoute,
-} from "./components/ProtectedRoute";
+} from "./utils/ProtectedRoute";
+import ProfileEdit from "./pages/Main/Dashboard/ProfileEdit/ProfileEdit";
+import BecomeDoctor from "./pages/Main/BecomeDotor/BecomeDoctor";
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +37,7 @@ const routes = createBrowserRouter([
       { index: true, element: <Navigate to={"home"} replace /> },
       { path: "/home", element: <Home /> },
       { path: "/doctors", element: <Doctors /> },
+      { path: "/become-doctor", element: <BecomeDoctor /> },
       { path: "/doctors/:name", element: <DoctorDetails /> },
       { path: "/services", element: <Services /> },
       { path: "/services/:name", element: <ServiceDetails /> },
@@ -54,6 +57,7 @@ const routes = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="profile" replace /> },
           { path: "profile", element: <Profile /> },
+          { path: "profile-edit", element: <ProfileEdit /> },
           { path: "turns", element: <Turns /> },
           { path: "upcoming-meeting", element: <UpcomingMeeting /> },
           { path: "messages", element: <Messages /> },

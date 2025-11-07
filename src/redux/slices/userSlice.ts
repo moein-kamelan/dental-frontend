@@ -11,7 +11,7 @@ interface UserState {
 
 const initialState: UserState = {
   data: null,
-  loading: false,
+  loading: true, // Start with true to prevent redirect before fetchUser completes
   error: null,
 };
 
@@ -26,7 +26,7 @@ export const fetchUser = createAsyncThunk(
       if (error.response?.status === 401) {
         return rejectWithValue(null);
       }
-      
+
       throw error;
     }
   }
@@ -39,6 +39,7 @@ const userSlice = createSlice({
     clearUser: (state) => {
       state.data = null;
       state.error = null;
+      state.loading = false;
     },
     setUser: (state, action) => {
       state.data = action.payload;
