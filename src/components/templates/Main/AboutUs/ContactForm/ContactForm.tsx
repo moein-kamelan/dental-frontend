@@ -5,7 +5,10 @@ import { FormikDevTool } from "formik-devtools";
 import * as Yup from "yup";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
+import { useCreateContactMessage } from "../../../../../hooks/useContact";
+import { showErrorToast, showSuccessToast } from "../../../../../utils/toastify";
 function ContactForm() {
+  const { mutateAsync: createContactMessage , isPending } = useCreateContactMessage();
 
   const handleSubmit = async (values: {
     name: string;
@@ -13,8 +16,16 @@ function ContactForm() {
     phone: string;
     subject: string;
       message: string;
-  }) => {
-    console.log(values);
+  }, resetForm: () => void) => {
+    try {
+      console.log(values);
+      await createContactMessage(values);
+      showSuccessToast("پیام شما با موفقیت ارسال شد");
+      resetForm();
+    } catch (error) {
+      console.log(error);
+      showErrorToast("خطایی رخ داده است");
+    }
   }
 
   return (
@@ -55,7 +66,7 @@ function ContactForm() {
                 phone: "",
                 subject: "",
                 message: "",
-              }} onSubmit={handleSubmit} validationSchema={Yup.object({
+              }} onSubmit={(values , {resetForm}) => handleSubmit(values , resetForm)} validationSchema={Yup.object({
                 name: Yup.string().required("نام الزامی است"),
                 email: Yup.string().email("ایمیل معتبر نیست"),
                 phone: Yup.string().required("شماره الزامی است").test("is-valid-phone", "شماره موبایل معتبر نمیباشد", (value) => {
@@ -133,8 +144,8 @@ function ContactForm() {
 
                 </div>
           
-                <button type="submit" className="max-md:w-full main-btn">
-                  ارسال کنید
+                <button type="submit" className="max-md:w-full main-btn" disabled={isPending}>
+                  {isPending ? <div className="btn-loader"></div> : "ارسال کنید"}
                 </button>
               </form>
 

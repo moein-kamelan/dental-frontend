@@ -56,7 +56,7 @@ function Navbar() {
   return (
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
-        <div className="flex items-center justify-between py-4 h-full">
+        <div className="flex items-center justify-between py-4 h-full ">
           <NavLink to={"/home"} className="w-40 lg:w-24 xl:w-40">
             <img
               src="../../../../../public/images/Logo_1.png"
@@ -66,7 +66,7 @@ function Navbar() {
           </NavLink>
 
           <div className="hidden lg:flex items-center gap-8">
-            <ul className="flex items-center lg:gap-6 xl:gap-8 gap-8 lg:text-xs xl:text-base font-iran-sans-bold">
+            <ul className="flex items-center lg:gap-6 xl:gap-8 gap-8 lg:text-xs xl:text-base font-iran-sans-bold ">
               <li className="text-nowrap">
                 <NavLink
                   to={"/home"}
