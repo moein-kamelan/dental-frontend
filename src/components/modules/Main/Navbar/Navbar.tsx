@@ -57,7 +57,7 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full">
-          <NavLink to={"/home"} className="w-40 lg:w-32 xl:w-40">
+          <NavLink to={"/home"} className="w-40 lg:w-24 xl:w-40">
             <img
               src="../../../../../public/images/Logo_1.png"
               alt="logo"
@@ -66,8 +66,8 @@ function Navbar() {
           </NavLink>
 
           <div className="hidden lg:flex items-center gap-8">
-            <ul className="flex items-center lg:gap-6 xl:gap-8 gap-8 lg:text-sm xl:text-base font-iran-sans-bold">
-              <li>
+            <ul className="flex items-center lg:gap-6 xl:gap-8 gap-8 lg:text-xs xl:text-base font-iran-sans-bold">
+              <li className="text-nowrap">
                 <NavLink
                   to={"/home"}
                   className={({ isActive }) =>
@@ -77,7 +77,7 @@ function Navbar() {
                   خانه
                 </NavLink>
               </li>
-              <li>
+              <li className="text-nowrap">
                 <NavLink
                   to={"/about-us"}
                   className={({ isActive }) =>
@@ -87,7 +87,7 @@ function Navbar() {
                   درباره ما
                 </NavLink>
               </li>
-              <li>
+              <li className="text-nowrap">
                 <NavLink
                   to={"/services"}
                   className={({ isActive }) =>
@@ -98,7 +98,7 @@ function Navbar() {
                 </NavLink>
               </li>
 
-              <li>
+              <li className="text-nowrap">
                 <NavLink
                   to={"/blog"}
                   className={({ isActive }) =>
@@ -108,7 +108,17 @@ function Navbar() {
                   وبلاگ
                 </NavLink>
               </li>
-              <li>
+              <li className="text-nowrap">
+                <NavLink
+                  to={"/doctors"}
+                  className={({ isActive }) =>
+                    isActive ? "text-accent" : "text-dark hover:text-accent"
+                  }
+                >
+                  معرفی پزشکان
+                </NavLink>
+              </li>
+              <li className="text-nowrap">
                 <NavLink
                   to={"/become-doctor"}
                   className={({ isActive }) =>
@@ -118,7 +128,7 @@ function Navbar() {
                    همکاری با ما
                 </NavLink>
               </li>
-              <li>
+              <li className="text-nowrap">
                 <NavLink
                   to={"/contact"}
                   className={({ isActive }) =>
@@ -139,11 +149,11 @@ function Navbar() {
               >
                 <i className="fa fa-search"></i>
               </NavLink>
-              <NavLink to={""} className="main-btn lg:text-sm xl:text-base ">
+              <NavLink to={""} className="main-btn lg:text-xs xl:text-sm text-nowrap">
                 نوبت دکتر
               </NavLink>
 
-              {/* User Menu */}
+              {/* User Menu */} 
               {user ? (
                 <div className="relative" ref={dropdownRef}>
                   <button
@@ -282,7 +292,7 @@ function Navbar() {
               ) : (
                 <NavLink
                   to="/auth/sign-in"
-                  className="main-btn flex items-center gap-2"
+                className="main-btn flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
                 >
                   <i className="fas fa-user"></i>
                   <span>ورود / ثبت نام</span>
@@ -293,7 +303,7 @@ function Navbar() {
 
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden text-dark text-2xl hover:text-accent transition-colors"
+            className="lg:hidden text-dark text-2xl hover:text-accent transition-colors "
           >
             <i className="fas fa-bars"></i>
           </button>

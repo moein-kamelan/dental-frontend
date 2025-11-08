@@ -4,7 +4,7 @@ import { usePostOtpRequest, usePostOtpVerify } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Formik, type FormikValues } from "formik";
 import * as yup from "yup";
-import { formatPhoneNumber } from "../../../utils/helpers";
+import { formatPhoneNumber } from "../../../validators/phoneNumberValidator";
 import { AnimatePresence, motion } from "motion/react";
 import { showSuccessToast } from "../../../utils/toastify";
 import { FormikDevTool } from "formik-devtools";

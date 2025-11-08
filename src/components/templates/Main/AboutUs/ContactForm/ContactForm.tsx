@@ -1,14 +1,22 @@
 import { motion } from "motion/react";
-import React, { useState } from "react";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
-
+import { Formik } from "formik";
+import { FormikDevTool } from "formik-devtools";
+import * as Yup from "yup";
+import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
+import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 function ContactForm() {
-  const [fullName, setFullName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [subject, setSubjec] = useState<string>("");
-  const [services, setServices] = useState<string>("");
-  const [messages, setMessages] = useState<string>("");
+
+  const handleSubmit = async (values: {
+    name: string;
+    email: string;
+    phone: string;
+    subject: string;
+      message: string;
+  }) => {
+    console.log(values);
+  }
+
   return (
     <section className="py-20 overflow-x-hidden">
       <div className="container mx-auto px-4 overflow-x-hidden">
@@ -40,47 +48,100 @@ function ContactForm() {
               <h2 className="text-3xl font-bold text-dark mb-8">
                 پیام خود را ارسال کنید
               </h2>
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <CustomInput
-                    placeholder="نام*"
-                    value={fullName}
-                    onChange={setFullName}
-                  />
-                  <CustomInput
-                    placeholder="ایمیل آدرس*"
-                    value={email}
-                    onChange={setEmail}
-                  />
-                  <CustomInput
-                    placeholder="شماره موبایل*"
-                    value={phone}
-                    onChange={setPhone}
-                  />
-                  <CustomInput
-                    placeholder="موضوع*"
-                    value={subject}
-                    onChange={setSubjec}
-                  />
-                </div>
-                <CustomInput
-                  placeholder="خدمات"
-                  value={services}
-                  onChange={setServices}
-                />
-                <CustomInput
-                  isTextArea
-                  rows={5}
-                  placeholder="پیام*"
-                  className="rounded-xl"
-                  value={messages}
-                  onChange={setMessages}
-                />
 
+              <Formik initialValues={{
+                name: "",
+                email: "",
+                phone: "",
+                subject: "",
+                message: "",
+              }} onSubmit={handleSubmit} validationSchema={Yup.object({
+                name: Yup.string().required("نام الزامی است"),
+                email: Yup.string().email("ایمیل معتبر نیست"),
+                phone: Yup.string().required("شماره الزامی است").test("is-valid-phone", "شماره موبایل معتبر نمیباشد", (value) => {
+                  try {
+                    formatPhoneNumber(value);
+                    return true;
+                  } catch (error) {
+                    console.log(error);
+                    return false;
+                  }
+                }),
+                subject: Yup.string().required("موضوع الزامی است"),
+                message: Yup.string().required("پیام الزامی است").min(10, "پیام باید حداقل 10 کاراکتر باشد"),
+              })}>
+                {(formik) => {
+                  return(
+              <form onSubmit={formik.handleSubmit} className="space-y-6">
+                <FormikDevTool />
+                <div className="grid md:grid-cols-2 gap-2">
+                  <CustomInput
+                    placeholder="نام"
+                    requiredText
+                    
+                    {...formik.getFieldProps("name")}
+                    errorMessage={
+                      formik.touched.name && formik.errors.name
+                        ? formik.errors.name
+                        : null
+                    }
+                  />
+                  <CustomInput
+                    placeholder="ایمیل آدرس"
+                    optional
+                    inputType="email"
+                    {...formik.getFieldProps("email")}
+                    errorMessage={
+                      formik.touched.email && formik.errors.email
+                        ? formik.errors.email
+                        : null
+                    }
+                  />
+                  <CustomInput
+                    placeholder="شماره موبایل"
+                       requiredText          
+                    inputType="phone"
+                    {...formik.getFieldProps("phone")}
+                    errorMessage={
+                      formik.touched.phone && formik.errors.phone
+                        ? formik.errors.phone
+                        : null
+                    }
+                  />
+                  <CustomInput
+                    placeholder="موضوع"
+                    requiredText
+                    {...formik.getFieldProps("subject")}
+                    errorMessage={
+                      formik.touched.subject && formik.errors.subject
+                        ? formik.errors.subject
+                        : null
+                    }
+                  />
+                    <CustomTextArea
+                      placeholder="پیام"
+                      rows={5}                      
+                      requiredText
+                      className="col-span-2 min-h-[100px] w-full"
+                      {...formik.getFieldProps("message")}
+                      errorMessage={
+                        formik.touched.message && formik.errors.message
+                          ? formik.errors.message
+                          : null
+                        } 
+                      />
+
+                </div>
+          
                 <button type="submit" className="max-md:w-full main-btn">
                   ارسال کنید
                 </button>
               </form>
+
+                  )
+                }}
+              </Formik>
+              
             </div>
           </motion.div>
         </div>

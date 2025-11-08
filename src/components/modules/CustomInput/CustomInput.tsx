@@ -1,16 +1,17 @@
 import React, { forwardRef } from "react";
 
 type CustomInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  inputType?: "text" | "phone" | "password" | "number" | "file";
+  inputType?: "text" | "phone" | "password" | "number" | "file" | "email";
   labelText?: string;
+  requiredText?: boolean;
   placeholder?: string;
   manualValue?: string | number;
   className?: string;
   labelClassName?: string;
-  isTextArea?: boolean;
   index?: number;
   maxLength?: number;
   errorMessage?: string | null | string[] | undefined;
+  optional?: boolean;
   name?: string;
   manualOnChange?: (value: string, index?: number) => void;
   onKeyDown?: (
@@ -23,6 +24,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
     {
       inputType = "text",
       labelText = "",
+      requiredText ,
       placeholder = "",
       manualValue = "",
       manualOnChange,
@@ -32,6 +34,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       index,
       maxLength,
       errorMessage,
+      optional,
       ...rest
     },
     ref
@@ -62,11 +65,12 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
             errorMessage || errorMessage === null ? "mb-[3px]" : "mb-2"
           } ${labelClassName}`}
         >
-          <span className="block mr-4 mb-2">{labelText}</span>
+  <span className="block mr-4 mb-2">{labelText}</span>
           <input
             ref={ref}
             type={inputType}
-            placeholder={placeholder}
+            
+            placeholder={placeholder + (requiredText ? "*" : "" + (optional ? " (اختیاری)" : ""))}
             maxLength={maxLength}
             onChange={handleChange}
             onKeyDown={(e) => onKeyDown?.(e, index)}

@@ -90,3 +90,12 @@ export const usePostOtpVerify = () => {
   });
 };
 
+export const useUpdateProfile = () => {
+  return useMutation({
+    mutationFn: async (values: any) => {
+      const response = await axiosInstance.patch("/auth/me", values);
+      return response.data;
+    },
+  });
+};
+

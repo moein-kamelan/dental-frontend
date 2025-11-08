@@ -255,7 +255,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   to="/about-us"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
-                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors ${
+                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors text-nowrap ${
                       isActive
                         ? "text-accent bg-accent/10 border-r-4 border-r-accent"
                         : ""
@@ -270,7 +270,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   to="/services"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
-                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors ${
+                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors text-nowrap ${
                       isActive
                         ? "text-accent bg-accent/10 border-r-4 border-r-accent"
                         : ""
@@ -286,7 +286,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   to="/blog"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
-                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors ${
+                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors text-nowrap ${
                       isActive
                         ? "text-accent bg-accent/10 border-r-4 border-r-accent"
                         : ""
@@ -294,6 +294,36 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   }
                 >
                   وبلاگ
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/become-doctor"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors text-nowrap ${
+                      isActive
+                        ? "text-accent bg-accent/10 border-r-4 border-r-accent"
+                        : ""
+                    }`
+                  }
+                >
+                  همکاری با ما
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/doctors"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    `block px-6 py-3 text-dark font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors text-nowrap ${
+                      isActive
+                        ? "text-accent bg-accent/10 border-r-4 border-r-accent"
+                        : ""
+                    }`
+                  }
+                >
+                  معرفی پزشکان
                 </NavLink>
               </li>
               <li>
