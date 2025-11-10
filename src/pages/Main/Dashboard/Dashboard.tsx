@@ -18,10 +18,9 @@ function Dashboard() {
 
             <motion.div
               className="lg:col-span-1"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-100px" }}
             >
               <div
                 className="bg-[linear-gradient(45deg,_#E8F4F4_0%,_rgba(212,232,232,0.85)_28.13%,_rgba(245,232,212,0.90)_79.75%,_#FAF0E0_100%)]
@@ -137,10 +136,9 @@ function Dashboard() {
             </motion.div>
             <motion.div
               className="lg:col-span-3"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-100px" }}
             >
               <Outlet />
             </motion.div>

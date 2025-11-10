@@ -75,9 +75,7 @@ function BecomeDoctorForm() {
         validationSchema={Yup.object({
           firstName: Yup.string().required("نام الزامی است"),
           lastName: Yup.string().required("نام خانوادگی الزامی است"),
-          email: Yup.string()
-            .email("ایمیل معتبر نیست")
-            .required("ایمیل الزامی است"),
+          email: Yup.string().email("ایمیل معتبر نیست"),
           phone: Yup.string()
             .required("شماره الزامی است")
             .test("is-valid-phone", "شماره موبایل معتبر نمیباشد", (value) => {
@@ -90,9 +88,7 @@ function BecomeDoctorForm() {
               }
             }),
           documents: Yup.array()
-            .min(1, "حداقل یک مدرک الزامی است")
             .max(10, "حداکثر 10 فایل مجاز است")
-            .required("مدارک الزامی است")
             .test(
               "file-type",
               "نوع فایل نامعتبر است. فقط PDF، تصاویر و فایل‌های Word مجاز هستند",
@@ -142,6 +138,7 @@ function BecomeDoctorForm() {
               <CustomInput
                 labelText="ایمیل"
                 placeholder="example@gmail.com"
+                optional
                 {...formik.getFieldProps("email")}
                 errorMessage={
                   formik.touched.email && formik.errors.email
@@ -164,13 +161,13 @@ function BecomeDoctorForm() {
               <CustomInput
                 ref={fileInputRef}
                 inputType="file"
-                labelText="آپلود مدارک (حداکثر 10 فایل - PDF، تصاویر JPG/PNG، Word)"
+                labelText="آپلود مدارک (اختیاری - حداکثر 10 فایل - PDF، تصاویر JPG/PNG، Word)"
                 placeholder="آپلود مدارک"
                 multiple
                 name="documents"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const files = e.target.files;
-                  if (files) {
+                  if (files && files.length > 0) {
                     const newFilesArray = Array.from(files);
                     const currentFiles = formik.values.documents || [];
 
@@ -185,13 +182,6 @@ function BecomeDoctorForm() {
                         invalidFiles.push(file);
                       }
                     });
-
-                    // نمایش خطا برای فایل‌های نامعتبر
-                    if (invalidFiles.length > 0) {
-                      showErrorToast(
-                        `${invalidFiles.length} فایل نامعتبر است. فقط PDF، تصاویر (JPG, PNG) و فایل‌های Word مجاز هستند.`
-                      );
-                    }
 
                     // ترکیب فایل‌های معتبر قبلی با فایل‌های معتبر جدید
                     const allFiles = [...currentFiles, ...validFiles];
@@ -208,11 +198,28 @@ function BecomeDoctorForm() {
                       );
                     }
 
-                    formik.setFieldValue("documents", limitedFiles);
-                    formik.setFieldTouched("documents", true);
+                    // تنظیم مقدار فایل‌ها (بدون اعتبارسنجی خودکار)
+                    formik.setFieldValue("documents", limitedFiles, false);
 
-                    // اعتبارسنجی مجدد فیلد برای پاک کردن خطاها
-                    formik.validateField("documents");
+                    // نمایش خطا برای فایل‌های نامعتبر (بعد از setFieldValue)
+                    if (invalidFiles.length > 0) {
+                      const errorMessage = `${invalidFiles.length} فایل نامعتبر است. فقط PDF، تصاویر (JPG, PNG) و فایل‌های Word مجاز هستند.`;
+                      showErrorToast(errorMessage);
+
+                      // نمایش خطا در errorMessage فیلد
+                      formik.setFieldTouched("documents", true, false);
+                      formik.setFieldError(
+                        "documents",
+                        "نوع فایل نامعتبر است. فقط PDF، تصاویر و فایل‌های Word مجاز هستند"
+                      );
+                    } else if (validFiles.length > 0) {
+                      // اگر فقط فایل‌های معتبر وجود داشت، خطا را پاک کن
+                      formik.setFieldError("documents", undefined);
+                    }
+                  } else {
+                    if (formik.values.documents.length === 0) {
+                      formik.setFieldTouched("documents", true);
+                    }
                   }
                 }}
                 errorMessage={

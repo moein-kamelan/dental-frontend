@@ -9,7 +9,7 @@ type CustomTextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   labelText?: string;
   requiredText?: boolean;
   optional?: boolean;
-  index?: number;
+  index?: number; 
   manualOnChange?: (value: string, index?: number) => void;
   onKeyDown?: (
     e: React.KeyboardEvent<HTMLTextAreaElement>,

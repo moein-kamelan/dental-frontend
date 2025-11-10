@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 
 function ContactInfo() {
@@ -8,9 +7,8 @@ function ContactInfo() {
         <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-100px" }}
         >
           <div className="bg-white rounded-2xl p-6 text-center   border-2 border-[rgba(94,91,91,0.09)]">
             <div className="w-20 h-20 bg-semantic-red  rounded-full flex items-center justify-center mx-auto mb-4">

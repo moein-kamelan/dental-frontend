@@ -35,6 +35,7 @@
 
 :root {
   direction: rtl;
+  scroll-behavior: smooth;
 }
 
 html {

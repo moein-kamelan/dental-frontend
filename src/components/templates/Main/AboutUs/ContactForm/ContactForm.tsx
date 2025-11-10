@@ -1,15 +1,16 @@
 import { motion } from "motion/react";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import { Formik } from "formik";
-import { FormikDevTool } from "formik-devtools";
 import * as Yup from "yup";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import { useCreateContactMessage } from "../../../../../hooks/useContact";
 import { showErrorToast, showSuccessToast } from "../../../../../utils/toastify";
-function ContactForm() {
-  const { mutateAsync: createContactMessage , isPending } = useCreateContactMessage();
 
+function ContactForm({ clinics }): any {
+  const { mutateAsync: createContactMessage , isPending } = useCreateContactMessage();
+  
+  
   const handleSubmit = async (values: {
     name: string;
     email: string;
@@ -84,7 +85,6 @@ function ContactForm() {
                 {(formik) => {
                   return(
               <form onSubmit={formik.handleSubmit} className="space-y-6">
-                <FormikDevTool />
                 <div className="grid md:grid-cols-2 gap-2">
                   <CustomInput
                     placeholder="نام"
