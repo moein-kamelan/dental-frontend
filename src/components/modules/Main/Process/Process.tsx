@@ -27,7 +27,7 @@ function Process() {
               className="absolute -z-10 col-span-3 lg:max-w-[820px] xl:max-w-[1020px] 2xl:max-w-[1200px]"
             />
 
-            <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-secondary size-[70px] text-white mb-4">
+            <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-accent size-[70px] text-white mb-4">
               ۱
             </div>
 
@@ -37,13 +37,13 @@ function Process() {
             <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-semantic-red size-[70px] text-white mb-4">
               ۳
             </div>
-            <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-semantic-yellow size-[70px] text-white mb-4">
+            <div className=" hidden lg:flex  items-center justify-center rounded-full text-4xl font-bold bg-accent size-[70px] text-white mb-4">
               ۴
             </div>
           </div>
 
           <div className="bg-white/10  rounded-2xl  text-white ">
-            <div className=" flex lg:hidden  items-center justify-center rounded-full text-4xl font-bold bg-secondary size-[70px] text-white mb-4">
+            <div className=" flex lg:hidden  items-center justify-center rounded-full text-4xl font-bold bg-accent size-[70px] text-white mb-4">
               ۱
             </div>
             <h4 className="text-[20px] font-estedad-semibold text-dark mb-3">
@@ -79,7 +79,7 @@ function Process() {
           </div>
 
           <div className="bg-white/10  rounded-2xl  text-white ">
-            <div className=" flex lg:hidden  items-center justify-center rounded-full text-4xl font-bold bg-semantic-yellow size-[70px] text-white mb-4">
+            <div className=" flex lg:hidden  items-center justify-center rounded-full text-4xl font-bold bg-accent size-[70px] text-white mb-4">
               ۴
             </div>
             <h4 className="text-[20px] font-estedad-semibold text-dark mb-3">

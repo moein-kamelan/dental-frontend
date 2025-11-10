@@ -3,7 +3,7 @@ import React from "react";
 function CommentCard() {
   return (
     <div className="bg-white rounded-lg  p-8 shadow-lg">
-      <div className="flex gap-1 text-yellow-400 mb-4">
+      <div className="flex gap-1 text-secondary mb-4">
         <i className="fas fa-star"></i>
         <i className="fas fa-star"></i>
         <i className="fas fa-star"></i>

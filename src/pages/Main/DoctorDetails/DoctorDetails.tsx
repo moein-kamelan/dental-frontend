@@ -114,7 +114,7 @@ function DoctorDetails() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -156,7 +156,7 @@ function DoctorDetails() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -197,7 +197,7 @@ function DoctorDetails() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -239,7 +239,7 @@ function DoctorDetails() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -280,7 +280,7 @@ function DoctorDetails() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -322,7 +322,7 @@ function DoctorDetails() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -357,11 +357,11 @@ function DoctorDetails() {
                   ارسال دیدگاه
                 </h2>
                 <div className="flex gap-1 mb-6">
-                  <i className="fas fa-star text-yellow-400 text-xl cursor-pointer"></i>
-                  <i className="fas fa-star text-yellow-400 text-xl cursor-pointer"></i>
-                  <i className="fas fa-star text-yellow-400 text-xl cursor-pointer"></i>
-                  <i className="fas fa-star text-yellow-400 text-xl cursor-pointer"></i>
-                  <i className="fas fa-star text-yellow-400 text-xl cursor-pointer"></i>
+                  <i className="fas fa-star text-secondary text-xl cursor-pointer"></i>
+                  <i className="fas fa-star text-secondary text-xl cursor-pointer"></i>
+                  <i className="fas fa-star text-secondary text-xl cursor-pointer"></i>
+                  <i className="fas fa-star text-secondary text-xl cursor-pointer"></i>
+                  <i className="fas fa-star text-secondary text-xl cursor-pointer"></i>
                 </div>
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">

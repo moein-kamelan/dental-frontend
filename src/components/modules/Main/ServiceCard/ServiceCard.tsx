@@ -15,7 +15,7 @@ function ServiceCard() {
   return (
     <div
       onClick={handleCardClick}
-      className="bg-white rounded-[10px] group overflow-hidden shadow-lg transition p-5 cursor-pointer"
+      className="bg-white rounded-[10px] group overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition p-5 cursor-pointer border border-transparent hover:border-secondary/20"
     >
       <div className="relative h-64">
         <img

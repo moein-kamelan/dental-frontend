@@ -39,7 +39,7 @@ function HelpLine() {
             </ul>
 
             <div className="grid sm:grid-cols-2 gap-6">
-              <div className="flex items-center justify-between gap-2 bg-gray-50 p-6 rounded-2xl max-sm:w-[280px] shadow-sm">
+              <div className="flex items-center justify-between gap-2 bg-gray-50 p-6 rounded-2xl max-sm:w-[280px] shadow-sm hover:shadow-md transition border border-transparent hover:border-secondary/20">
                 <div className="space-y-2">
                   <p className="text-sm text-paragray">شماره تماس</p>
                   <a
@@ -49,12 +49,12 @@ function HelpLine() {
                     ۱۳ ۲۳۲۳ ۰۴۵ ۸۸۰+
                   </a>
                 </div>
-                <div className="shrink-0 size-12 bg-accent  rounded-full flex items-center justify-center">
+                <div className="shrink-0 size-12 bg-accent  rounded-full flex items-center justify-center shadow-lg hover:shadow-[0_0_12px_rgba(212,175,55,0.4)] transition">
                   <i className="fas fa-phone-alt text-white "></i>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-2 bg-gray-50 p-6 rounded-2xl max-sm:w-[280px] shadow-sm">
+              <div className="flex items-center justify-between gap-2 bg-gray-50 p-6 rounded-2xl max-sm:w-[280px] shadow-sm hover:shadow-md transition border border-transparent hover:border-secondary/20">
                 <div className="space-y-2">
                   <p className="text-sm text-paragray">ارسال ایمیل</p>
                   <a
@@ -64,7 +64,7 @@ function HelpLine() {
                     help.info@gmail.com
                   </a>
                 </div>
-                <div className="shrink-0 size-12 bg-accent  rounded-full flex items-center justify-center">
+                <div className="shrink-0 size-12 bg-accent  rounded-full flex items-center justify-center shadow-lg hover:shadow-[0_0_12px_rgba(212,175,55,0.4)] transition">
                   <i className="fas fa-comment-alt text-white "></i>
                 </div>
               </div>

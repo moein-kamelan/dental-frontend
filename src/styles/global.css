@@ -5,9 +5,9 @@
 
 @theme {
   --color-primary: #153d3d;
-  --color-secondary: #2a7a7a;
+  --color-secondary: #d4af37;
   --color-tertiary: #3d8a8a;
-  --color-accent: #d4af37;
+  --color-accent: #2a7a7a;
   --color-paragray: #6b7a7a;
   --color-dark: #153d3d;
   --color-semantic-red: #f7588d;
@@ -46,6 +46,7 @@ html {
 body {
   width: 100%;
   position: relative;
+  font-family: var(--font-estedad-medium), sans-serif;
 }
 
 /* Prevent overflow during animations */
@@ -71,7 +72,7 @@ button {
 }
 
 @utility custom-sub-title {
-  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit;
+  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit relative after:absolute after:content-[''] after:w-1 after:h-1 after:bg-secondary after:rounded-full after:-right-1 after:top-1/2 after:-translate-y-1/2;
 }
 
 @utility main-btn {
@@ -79,7 +80,7 @@ button {
 }
 
 @utility main-header {
-  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
+  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40 before:absolute before:content-[''] before:bg-secondary before:top-full before:-translate-y-px before:h-1 before:left-0 before:w-12 before:opacity-60;
 }
 
 @utility section-border {
@@ -95,7 +96,7 @@ button {
 }
 
 .swiper-pagination-bullet-active.custom-bullet {
-  @apply bg-accent w-8;
+  @apply bg-accent w-8 shadow-[0_0_8px_rgba(212,175,55,0.4)];
 }
 
 /* toastify styles */
@@ -116,7 +117,7 @@ button {
 }
 .sussecc-progress-bar,
 .error-progress-bar {
-  background: #d4af37 !important;
+  background: #2a7a7a !important;
   height: 5px !important;
   border-radius: 0 0 10px 10px !important;
   width: 100%;

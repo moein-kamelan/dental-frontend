@@ -45,7 +45,7 @@ function StatsCounter() {
           </div>
 
           <div className="text-center text-white    ">
-            <div className="w-20 h-20 bg-yellow-500  rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-20 h-20 bg-accent  rounded-full flex items-center justify-center mx-auto mb-4">
               <i className="fas fa-star text-3xl text-white"></i>
             </div>
             <h4 className="text-[40px] font-estedad-semibold text-dark mb-2">

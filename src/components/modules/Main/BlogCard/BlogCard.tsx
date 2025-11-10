@@ -10,7 +10,7 @@ function BlogCard() {
   return (
     <div
       onClick={handleCardClick}
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition group/card cursor-pointer"
+      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20"
     >
       <div className="relative h-64">
         <img

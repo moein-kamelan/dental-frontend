@@ -1,32 +1,14 @@
 import  { useEffect, useState } from "react";
 import "./Banner.css";
-import {animate, motion, useMotionTemplate, useMotionValue, useMotionValueEvent,} from 'motion/react';
+import {useMotionValueEvent, useMotionValue, animate, motion} from 'motion/react';
 function Banner() {
    const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] = useState(0);
    const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] = useState(0);
    const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] = useState(0);
-    const color1 = useMotionValue("#E8F4F4");
-  const color2 = useMotionValue("#F5E8D4");
-
-  // از رنگ‌ها برای ساخت گرادیانت استفاده می‌کنیم
-  const background = useMotionTemplate`linear-gradient(135deg, ${color1}, ${color2})`;
 
    const patientsRecoverdCount = useMotionValue(0)
    const susseccfulVisitsCount = useMotionValue(0)
    const popularDoctorsCount = useMotionValue(0)
-
-
-  useEffect(() => {
-    const sequence = async () => {
-      while (true) {
-        await animate(color1, "#C4E8E8", { duration: 3 });
-        await animate(color2, "#F5E8D4", { duration: 3 });
-        await animate(color1, "#E8F4F4", { duration: 3 });
-        await animate(color2, "#F0E0C4", { duration: 3 });
-      }
-    };
-    sequence();
-  }, []);
 
       useMotionValueEvent(patientsRecoverdCount, "change", (latest) => {
     setDisplayPatientsRecoverdCount(Math.round(latest));
@@ -51,8 +33,7 @@ function Banner() {
   
   return (
      <motion.section
-          className=" lg:min-h-[800px]  lg:h-[calc(100vh-120px)] pt-5 overflow-hidden"
-          style={{background}}
+          className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 lg:min-h-[800px] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden"
           >
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">

@@ -114,7 +114,7 @@ function Breadcrumb({ title, items }: BreadcrumbProps) {
               >
                 {pageTitle}
               </motion.h1>
-              <div className="h-1 w-20 bg-linear-to-r from-accent to-primary rounded-full mt-2"></div>
+              <div className="h-1 w-20 bg-linear-to-r from-accent via-secondary/50 to-primary rounded-full mt-2"></div>
             </div>
           </div>
 

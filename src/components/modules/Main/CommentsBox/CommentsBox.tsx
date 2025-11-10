@@ -23,7 +23,7 @@ function CommentsBox() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -65,7 +65,7 @@ function CommentsBox() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -106,7 +106,7 @@ function CommentsBox() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -148,7 +148,7 @@ function CommentsBox() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -189,7 +189,7 @@ function CommentsBox() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
@@ -231,7 +231,7 @@ function CommentsBox() {
                               محسن دادار
                             </h4>
 
-                            <div className="flex gap-1 text-yellow-400">
+                            <div className="flex gap-1 text-secondary">
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
                               <i className="fas fa-star"></i>
