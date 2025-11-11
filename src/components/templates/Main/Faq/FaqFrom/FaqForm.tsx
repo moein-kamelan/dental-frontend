@@ -115,8 +115,8 @@ function FaqForm() {
 
                 </div>
           
-                <button type="submit" className="max-md:w-full main-btn" disabled={isPending}>
-                  {isPending ? <div className="btn-loader"></div> : "ارسال کنید"}
+                <button type="submit" className="max-md:w-full bg-primary main-btn" disabled={isPending}>
+                  {isPending ? <div className="btn-loader"></div> : "ارسال درخواست"}
                 </button>
               </form>
 

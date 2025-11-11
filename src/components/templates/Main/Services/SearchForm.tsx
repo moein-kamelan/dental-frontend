@@ -1,38 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function SearchForm() {
-  return (
-      <section className="mb-12">
-        <div className="container mx-auto px-4">
-            <form className="bg-white rounded-2xl shadow-lg p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <select className="w-full px-6 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-primary">
-                        <option>شهر</option>
-                        <option>شیراز</option>
-                        <option>تهران</option>
-                        <option>اصفهان</option>
-                    </select>
-                    <select className="w-full px-6 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-primary">
-                        <option>نوع پزشک</option>
-                        <option>قلب و عروق</option>
-                        <option>چشم پزشکی</option>
-                        <option>اطفال</option>
-                    </select>
-                    <select className="w-full px-6 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-primary">
-                        <option>ساعت</option>
-                        <option>از ۸ تا ۱۰ صبح</option>
-                        <option>از ۱۰ تا ۱۲ صبح</option>
-                        <option>از ۲ تا ۴ عصر</option>
-                    </select>
+function SearchForm({services, doctors, articles}: {services?: any, doctors?: any, articles?: any}) {
+    const [search, setSearch] = useState<string>('');
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (services) {
+          const filteredServices = services.filter((service: any) => service.title.toLowerCase().includes(search.toLowerCase()));
+          console.log(filteredServices);
+        }
+        if (doctors) {
+          const filteredDoctors = doctors.filter((doctor: any) => doctor.name.toLowerCase().includes(search.toLowerCase()));
+          console.log(filteredDoctors);
+        }
+        if (articles) {
+          const filteredArticles = articles.filter((article: any) => article.title.toLowerCase().includes(search.toLowerCase()));
+          console.log(filteredArticles);
+        }
+    }
+    return (
+        <section className="mb-1">
+            <div className="container mx-auto px-4">
+                <form onSubmit={handleSearch} className=" p-6 md:max-w-2xl ">
                     <div className="relative">
-                        <input type="text" placeholder="جستجو.." className="w-full px-6 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-primary pr-12"/>
-                        <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-primary"><i className="far fa-search"></i></button>
+                        <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="جستجو.." className="w-full pl-16 pr-6 py-3  border-main-border-color border-2 rounded-full focus:outline-none focus:border-primary "/>
+                        <button  type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-primary bg-primary  rounded-full p-2 size-9 hover:bg-deepblue transition-all duration-300 shrink-0 *:cursor-pointer"><i className="fa fa-search text-white"></i></button>
                     </div>
-                </div>
-            </form>
-        </div>
-    </section>
-  )
+                </form>
+            </div>
+        </section>
+    )
 }
 
 export default SearchForm

@@ -1,46 +1,59 @@
-import React from 'react'
-import Breadcrumb from '../../../components/modules/Main/Breadcrumb/Breadcrumb'
-import DoctorCard from '../../../components/modules/Main/DoctorCard/DoctorCard'
+import { useState } from "react";
+import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
+import DoctorCard from "../../../components/modules/Main/DoctorCard/DoctorCard";
+import SearchForm from "../../../components/templates/Main/Services/SearchForm";
+import { useGetAllDoctors } from "../../../hooks/useDoctors";
+import MainPagination from "../../../components/modules/Main/MainPagination/MainPagination";
+import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
+import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import type { Doctor } from "../../../types/types";
 
 function Doctors() {
+  const [page, setPage] = useState(1);
+  const [limit] = useState(12);
+
+  const { data: doctors, isLoading } = useGetAllDoctors(page, limit);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const hasDoctors = doctors?.data?.doctors && doctors.data.doctors.length > 0;
+
   return (
     <>
-    <Breadcrumb/>
+      <Breadcrumb />
+      <SearchForm doctors={doctors} />
 
       <section className="py-20">
         <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {isLoading ? (
+            <LoadingState text="در حال بارگذاری پزشکان..." />
+          ) : hasDoctors ? (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {doctors?.data?.doctors?.map((doctor: Doctor) => (
+                  <DoctorCard key={doctor.id} doctor={doctor} />
+                ))}
+              </div>
 
-                
-    <DoctorCard/>
-    <DoctorCard/>
-    <DoctorCard/>
-    <DoctorCard/>
-    <DoctorCard/>
-    <DoctorCard/>
-    <DoctorCard/>
-
-
-
-
-              
-
-         
-                
-            </div>
-
-
-            <div className="flex justify-center mt-12 gap-2">
-                <a href="#" className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-deepblue">1</a>
-                <a href="#" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">2</a>
-                <a href="#" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">3</a>
-                <a href="#" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">»</a>
-            </div>
+              <MainPagination
+                meta={doctors?.meta}
+                onPageChange={handlePageChange}
+              />
+            </>
+          ) : (
+            <EmptyState
+              icon="fas fa-user-md"
+              title="هیچ پزشکی یافت نشد"
+              description="در حال حاضر هیچ پزشکی در سیستم ثبت نشده است. لطفاً بعداً مراجعه کنید."
+            />
+          )}
         </div>
-    </section>
-    
+      </section>
     </>
-  )
+  );
 }
 
-export default Doctors
+export default Doctors;

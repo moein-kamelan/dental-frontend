@@ -1,35 +1,60 @@
-import React from 'react'
-import Breadcrumb from '../../../components/modules/Main/Breadcrumb/Breadcrumb'
-import SearchForm from '../../../components/templates/Main/Services/SearchForm'
-import ServiceCard from '../../../components/modules/Main/ServiceCard/ServiceCard'
+import { useState } from "react";
+import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
+import SearchForm from "../../../components/templates/Main/Services/SearchForm";
+import ServiceCard from "../../../components/modules/Main/ServiceCard/ServiceCard";
+import { useGetAllServices } from "../../../hooks/useServices";
+import MainPagination from "../../../components/modules/Main/MainPagination/MainPagination";
+import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
+import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import type { Service } from "../../../types/types";
 
 function Services() {
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+
+  const { data: services, isLoading } = useGetAllServices(page, limit);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const hasServices =
+    services?.data?.services && services.data.services.length > 0;
+
   return (
     <>
+      <Breadcrumb />
+      <SearchForm services={services} />
 
-    <Breadcrumb/>
-    <SearchForm/>
-       <section className="py-20">
+      <section className="py-20">
         <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {isLoading ? (
+            <LoadingState text="در حال بارگذاری خدمات..." />
+          ) : hasServices ? (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {services?.data?.services?.map((service: Service) => (
+                  <ServiceCard key={service.id} service={service} />
+                ))}
+              </div>
 
-       <ServiceCard/>
-       <ServiceCard/>
-       <ServiceCard/>
-       <ServiceCard/>
-            </div>
-
-            <div className="flex justify-center mt-12 gap-2">
-                <a href="#" className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-deepblue">1</a>
-                <a href="#" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">2</a>
-                <a href="#" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">3</a>
-                <a href="#" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">»</a>
-            </div>
+              <MainPagination
+                meta={services?.meta}
+                onPageChange={handlePageChange}
+              />
+            </>
+          ) : (
+            <EmptyState
+              icon="fas fa-tooth"
+              title="هیچ سرویسی یافت نشد"
+              description="در حال حاضر هیچ خدمت دندانپزشکی ثبت نشده است. لطفاً بعداً مراجعه کنید."
+            />
+          )}
         </div>
-    </section>
-    
+      </section>
     </>
-  )
+  );
 }
 
-export default Services
+export default Services;

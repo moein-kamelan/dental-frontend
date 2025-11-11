@@ -1,10 +1,31 @@
 import { useNavigate } from "react-router-dom";
+import type { Article } from "../../../../types/types";
 
-function BlogCard() {
+interface BlogCardProps {
+  article?: Article;
+}
+
+function BlogCard({ article }: BlogCardProps) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate("/blog-details");
+    if (article) {
+      navigate(`/blog-details/${article.slug}`);
+    }
+  };
+
+  // اگر article وجود نداشته باشد، یک کارت نمونه نمایش می‌دهیم
+  if (!article) {
+    return null;
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("fa-IR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
   };
 
   return (
@@ -14,17 +35,18 @@ function BlogCard() {
     >
       <div className="relative h-64">
         <img
-          src="images/blog-1.jpg"
-          alt="blog"
+          src={article.coverImage || "images/blog-1.jpg"}
+          alt={article.title}
           className="w-full h-full object-cover group-hover/card:scale-105 transition-all duration-800"
         />
-        <a
-          href="#"
-          onClick={(e) => e.stopPropagation()}
-          className="absolute top-4 right-4 bg-secondary text-white px-4 py-2 rounded-full text-sm font-semibold"
-        >
-          دارو
-        </a>
+        {article.categories && article.categories.length > 0 && (
+          <span
+            onClick={(e) => e.stopPropagation()}
+            className="absolute top-4 right-4 bg-secondary text-white px-4 py-2 rounded-full text-sm font-semibold"
+          >
+            {article.categories[0].name}
+          </span>
+        )}
       </div>
       <div className="p-6 space-y-4">
         <div className="flex flex-wrap gap-6 text-sm text-paragray">
@@ -32,40 +54,22 @@ function BlogCard() {
             <i className="fas fa-user mr-1 text-primary"></i>ادمین
           </span>
           <span className="flex items-center gap-2">
-            <i className="fas fa-calendar-alt mr-1 text-primary"></i>۲ مهر ۱۴۰۲
+            <i className="fas fa-calendar-alt mr-1 text-primary"></i>
+            {formatDate(article.createdAt)}
           </span>
         </div>
-        <h3 className="text-xl  text-dark hover:text-primary transition-colors duration-500">
-          <a
-            href="blog_details.html"
-            onClick={(e) => e.stopPropagation()}
-            className="font-estedad-lightbold text-[22px] lg:text-2xl line-clamp-2 group-hover/card:text-accent transition-all duration-500"
-          >
-            خدمات بهداشتی از راه دور آماده کمک هستند
-          </a>
+        <h3 className="text-xl text-dark hover:text-primary transition-colors duration-500">
+          <span className="font-estedad-lightbold text-[22px] lg:text-2xl line-clamp-2 group-hover/card:text-accent transition-all duration-500">
+            {article.title}
+          </span>
         </h3>
         <p className="text-paragray font-estedad-light line-clamp-2">
-          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
+          {article.excerpt || article.content.substring(0, 100)}
         </p>
-        <div className="flex justify-between items-center pt-4 ">
-          <a
-            href="blog_details.html"
-            onClick={(e) => e.stopPropagation()}
-            className="text-dark hover:text-primary  flex items-center gap-2 transition-colors duration-500 text-sm md:text-base group-hover/card:text-accent "
-          >
-            بیشتر بخوانید <i className="fas fa-long-arrow-alt-left "></i>
-          </a>
-          <div className="flex gap-4 md:gap-6 text-paragray text-sm">
-            <span className="flex items-center gap-1 ">
-              <i className=" text-sm lg:text-base fas fa-comment"></i> ۵
-            </span>
-            <span className="flex items-center gap-1 ">
-              <i className=" text-sm lg:text-base fas fa-heart"></i> ۲۰
-            </span>
-            <span className="flex items-center gap-1 ">
-              <i className=" text-sm lg:text-base fas fa-share-alt"></i> ۱۵
-            </span>
-          </div>
+        <div className="flex justify-between items-center pt-4">
+          <span className="text-dark hover:text-primary flex items-center gap-2 transition-colors duration-500 text-sm md:text-base group-hover/card:text-accent">
+            بیشتر بخوانید <i className="fas fa-long-arrow-alt-left"></i>
+          </span>
         </div>
       </div>
     </div>

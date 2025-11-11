@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import FAQItem from "../../../../modules/Main/FAQItem/FAQItem";
 import { motion } from "motion/react";
+import { useGetAllFaqs } from "../../../../../hooks/useFaqs";
 
 function FAQSection() {
+  const { data: faqs } = useGetAllFaqs(1, 4, true);
   return (
     <section className="py-20 md:py-24 bg-gray-50 ">
       <div className="container mx-auto px-4 ">
@@ -21,12 +23,10 @@ function FAQSection() {
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
-            <FAQItem />
-            <FAQItem />
-            <FAQItem />
-            <FAQItem />
+            {faqs?.data?.faqs?.map((faq: any) => (
+              <FAQItem key={faq.id} question={faq.question} answer={faq.answer} />
+            ))}
           </motion.div>
-
           <motion.div
             className="relative lg:max-h-[364px]"
             initial={{ opacity: 0, x: 50 }}
