@@ -1,16 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import type { Doctor } from "../../../../types/types";
 
-function DoctorCard({ doctor }: { doctor: any }) {
+interface DoctorCardProps {
+  doctor?: Doctor;
+}
+
+function DoctorCard({ doctor }: DoctorCardProps) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/doctors/${doctor.slug}`);
+    if (doctor) {
+      navigate(`/doctors/${doctor.slug}`);
+    }
   };
 
   const handleSocialClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
+
+  // اگر doctor وجود نداشته باشد، چیزی نمایش نده
+  if (!doctor) {
+    return null;
+  }
 
   return (
     <div
@@ -19,8 +31,8 @@ function DoctorCard({ doctor }: { doctor: any }) {
     >
       <div className="relative overflow-hidden">
         <img
-          src="images/team-1.jpg"
-          alt="team"
+          src={doctor.profileImage || "images/team-1.jpg"}
+          alt={`${doctor.firstName} ${doctor.lastName}`}
           className="w-full h-80 object-cover"
         />
 
@@ -51,9 +63,14 @@ function DoctorCard({ doctor }: { doctor: any }) {
       </div>
 
       <div className="px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex items-center justify-between gap-x-4">
-        <div className="flex flex-col gap-y-2 ">
-          <h6 className="text-xl font-estedad-semibold">{doctor.firstName} {doctor.lastName} </h6>
-          <p className="text-sm"> {doctor.biography} ({doctor.skills.join(', ')})</p>
+        <div className="flex flex-col gap-y-2">
+          <h6 className="text-xl font-estedad-semibold">
+            {doctor.firstName} {doctor.lastName}
+          </h6>
+          <p className="text-sm">
+            {" "}
+            {doctor.biography} ({doctor.skills.join(", ")})
+          </p>
           <div className="flex items-center  gap-3">
             <i className="	fas fa-graduation-cap"></i>
             <span className="text-sm block  font-estedad-light">

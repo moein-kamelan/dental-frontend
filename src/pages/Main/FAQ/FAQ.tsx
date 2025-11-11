@@ -12,8 +12,6 @@ interface FaqType {
 
 function FAQ() {
   const { data: faqs } = useGetAllFaqs(1, 10, true);
-  const { data: faqs2 } = useGetAllFaqs(2, 10, true);
-  console.log(faqs);
   return (
     <>
       <Breadcrumb />

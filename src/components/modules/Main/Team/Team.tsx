@@ -2,7 +2,10 @@ import React from "react";
 import DoctorCard from "../DoctorCard/DoctorCard";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
+import { useGetAllDoctors } from "../../../../hooks/useDoctors";
+import type { Doctor } from "../../../../types/types";
 function Team() {
+  const { data: doctors } = useGetAllDoctors(1, 4);
   return (
     <section className="py-20 md:py-24">
       <div className="container mx-auto px-4">
@@ -21,10 +24,9 @@ function Team() {
           </div>
 
           <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-8">
-            <DoctorCard />
-            <DoctorCard />
-            <DoctorCard />
-            <DoctorCard />
+            {doctors?.data?.doctors.map((doctor: Doctor) => (
+              <DoctorCard key={doctor.id} doctor={doctor} />
+            ))}
           </div>
         </motion.div>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import SearchForm from "../../../components/templates/Main/Services/SearchForm";
 import ServiceCard from "../../../components/modules/Main/ServiceCard/ServiceCard";
@@ -9,13 +9,16 @@ import LoadingState from "../../../components/modules/Main/LoadingState/LoadingS
 import type { Service } from "../../../types/types";
 
 function Services() {
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { data: services, isLoading } = useGetAllServices(page, limit);
+  // خواندن مقادیر از URL
+  const page = parseInt(searchParams.get("page") || "1");
+  const limit = parseInt(searchParams.get("limit") || "9");
+  const search = searchParams.get("search") || "";
+  const { data: services, isLoading } = useGetAllServices(page, limit, search);
 
   const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+    setSearchParams({ page: newPage.toString(), limit: limit.toString(), search: search });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 

@@ -3,7 +3,10 @@ import ServiceCard from "../../../../modules/Main/ServiceCard/ServiceCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination ,Autoplay  } from "swiper/modules";
 import {motion} from 'motion/react';
+import { useGetAllServices } from "../../../../../hooks/useServices";
+import type { Service } from "../../../../../types/types";
 function Services() {
+  const { data: services } = useGetAllServices(1, 4);
   return (
     <section className="py-20 md:py-24 bg-[url('/public/images/service_bg.jpg')] relative">
       <div className="absolute inset-0 bg-[#ffffff9c]"></div>
@@ -46,22 +49,11 @@ function Services() {
           },
         }}
         >
-          <SwiperSlide>
-            <ServiceCard />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <ServiceCard />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <ServiceCard />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <ServiceCard />
-          </SwiperSlide>
-
+          {services?.data?.services.map((service: Service) => (
+            <SwiperSlide key={service.id}>
+              <ServiceCard service={service} />
+            </SwiperSlide>
+          ))}
        
         </Swiper>
 

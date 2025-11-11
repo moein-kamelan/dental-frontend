@@ -1,14 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 
-export const useGetAllArticles = (page?: number, limit?: number , published?: boolean, search?: string, categoryId?: string, categorySlug?: string) => {
-    return useQuery({
-        queryKey: ['articles', page, limit, published, search, categoryId, categorySlug],
-        queryFn: async () => {
-            const response = await axiosInstance.get(`/articles?page=${page || 1}&limit=${limit || 10}&published=${published || true}&search=${search || ''}&categoryId=${categoryId || ''}&categorySlug=${categorySlug || ''}`);
-            return response.data;
-        },
+export const useGetAllArticles = (
+  page: number = 1,
+  limit: number = 10,
+  search: string = "",
+  published: boolean = true,
+  categoryId: string = "",
+  categorySlug: string = ""
+) => {
+  return useQuery({ 
+    queryKey: ["articles", page, limit, search, published, categoryId, categorySlug],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        search: search,
+        published: published.toString(),
+      });
 
-        staleTime: 1000 * 60 * 5,
-    });
+      if (categoryId) params.append("categoryId", categoryId);
+      if (categorySlug) params.append("categorySlug", categorySlug);
+
+      const response = await axiosInstance.get(`/articles?${params.toString()}`);
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
 };

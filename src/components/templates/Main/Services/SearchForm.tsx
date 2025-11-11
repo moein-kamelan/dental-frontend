@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
+import type { Article, Doctor, Service } from '../../../../types/types';
+import { useNavigate } from 'react-router-dom';
 
-function SearchForm({services, doctors, articles}: {services?: any, doctors?: any, articles?: any}) {
+function SearchForm({services, doctors, articles}: {services?: {data: {services: Service[]}}, doctors?: {data: {doctors: Doctor[]}}, articles?: {data: {articles: Article[]}}}) {
     const [search, setSearch] = useState<string>('');
+    const navigate = useNavigate();
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (services) {
-          const filteredServices = services.filter((service: any) => service.title.toLowerCase().includes(search.toLowerCase()));
-          console.log(filteredServices);
+          navigate(`/services?page=1&limit=9&search=${search}`);
         }
         if (doctors) {
-          const filteredDoctors = doctors.filter((doctor: any) => doctor.name.toLowerCase().includes(search.toLowerCase()));
-          console.log(filteredDoctors);
+          navigate(`/doctors?page=1&limit=8&search=${search}`);
         }
         if (articles) {
-          const filteredArticles = articles.filter((article: any) => article.title.toLowerCase().includes(search.toLowerCase()));
-          console.log(filteredArticles);
+          navigate(`/blog?page=1&limit=9&search=${search}`);
         }
     }
     return (

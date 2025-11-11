@@ -2,11 +2,14 @@ import { motion } from "motion/react";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../../redux/typedHooks";
-
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../../redux/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const user = useAppSelector((state) => state.user.data);
   const location = useLocation();
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <>
       <Breadcrumb />
@@ -126,7 +129,10 @@ function Dashboard() {
                     </NavLink>
                   </li>
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <button className="flex items-center justify-between py-3.5 px-5  bg-secondary/80 hover:bg-secondary text-white transition w-full">
+                    <button onClick={() => {
+                      dispatch(clearUser());
+                      navigate("/home");
+                    }} className="flex items-center justify-between py-3.5 px-5  bg-secondary/80 hover:bg-secondary text-white transition w-full">
                       <span>خروج</span>
                       <i className="fas fa-angle-left"></i>
                     </button>

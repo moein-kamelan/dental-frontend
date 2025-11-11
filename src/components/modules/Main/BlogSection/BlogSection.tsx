@@ -1,8 +1,10 @@
 import React from 'react'
 import BlogCard from '../BlogCard/BlogCard'
 import {motion} from 'motion/react';
-
+import { useGetAllArticles } from '../../../../hooks/useArticles';
+import type { Article } from '../../../../types/types';
 function BlogSection() {
+  const { data: articles } = useGetAllArticles(1, 3);
   return (
     <section className="py-20 md:py-24">
         <div className="container mx-auto px-4">
@@ -20,9 +22,9 @@ function BlogSection() {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-         <BlogCard/>
-         <BlogCard/>
-         <BlogCard/>
+         {articles?.data?.articles.map((article: Article) => (
+          <BlogCard key={article.id} article={article} />
+         ))}
          
 
 

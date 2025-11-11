@@ -1,11 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { Service } from "../../../../types/types";
 
-interface ServiceCardProps {
-  service?: Service;
-}
-
-function ServiceCard({ service }: ServiceCardProps) {
+function ServiceCard({ service }: {service: Service}) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -17,11 +13,6 @@ function ServiceCard({ service }: ServiceCardProps) {
   const handleLinkClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
-
-  // اگر service وجود نداشته باشد، چیزی نمایش نده
-  if (!service) {
-    return null;
-  }
 
   const formatPrice = (price?: number) => {
     if (!price) return "تماس بگیرید";
