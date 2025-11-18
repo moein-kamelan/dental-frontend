@@ -15,10 +15,11 @@ function Services() {
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "9");
   const search = searchParams.get("search") || "";
-  const { data: services, isLoading } = useGetAllServices(page, limit, search);
+  const categorySlug = searchParams.get("categorySlug") || "";
+  const { data: services, isLoading } = useGetAllServices(page, limit, search , undefined , categorySlug);
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString(), limit: limit.toString(), search: search });
+    setSearchParams({ page: newPage.toString(), limit: limit.toString(), search: search, categorySlug: categorySlug });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
