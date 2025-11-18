@@ -1,94 +1,122 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import AdminDashboardSidebarLink from "../AdminDashboardSidebarLink/AdminDashboardSidebarLink";
 
 function AdminDashboardSidebar() {
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const toggleCategories = () => {
+    setIsCategoriesOpen(!isCategoriesOpen);
+  };
   return (
     <div
       id="sidebar"
-      className="max-md:fixed max-md:-right-full max-md:top-0 h-screen z-50 transition-all duration-300  w-64 bg-linear-to-b from-purple-500 to-deepblue text-white p-4"
+      className="max-md:fixed max-md:-right-full max-md:top-0 h-screen z-50 transition-all duration-300 w-64 bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden"
     >
-      <div className="flex items-center   space-x-3 mb-8">
+      <div className="flex items-center space-x-3 p-4 shrink-0">
         <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
           <i className="fas fa-cube text-purple-500 text-xl"></i>
         </div>
         <h1 className="text-xl font-estedad-semibold">پنل مدیریت</h1>
       </div>
-      <nav className="space-y-2">
-        <NavLink
+      <nav className="flex-1 overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar">
+        <AdminDashboardSidebarLink
           to={"/admin-dashboard"}
-          className={({ isActive }) =>
-            `flex items-center  space-x-3 p-3 rounded-lg ${
-              isActive ? "bg-white/10 hover:bg-white/20" : "hover:bg-white/10"
-            }  transition`
-          }
-        >
-          <i className="fas fa-home"></i>
-          <span>داشبورد</span>
-        </NavLink>
+          icon="fas fa-home"
+          title="داشبورد"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/doctors-management"}
+          icon="fas fa-user-md"
+          title="پزشکان"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/clinics-management"}
+          icon="fas fa-hospital"
+          title="کلینیک ها"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/articles-management"}
+          icon="fas fa-newspaper"
+          title="مقالات"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/services-management"}
+          icon="fas fa-handshake"
+          title="خدمات"
+        />
 
-        {/* <!-- Dropdown Menu --> */}
-        <div className="relative">
-          <button
-            onClick={() => false}
-            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white/10 transition"
-          >
-            <div className="flex items-center  space-x-3">
-              <i className="fas fa-users"></i>
-              <span>مدیریت کاربران</span>
+<button
+          onClick={toggleCategories}
+          className="flex items-center justify-between  gap-x-2 p-3 rounded-lg hover:bg-white/10 transition cursor-pointer w-full"
+        >
+          <div className="flex items-center gap-x-3">
+            <i className="fas fa-tags"></i>
+            <span>دسته بندی ها</span>
+          </div>
+          <i
+            className={`fas ${
+              isCategoriesOpen ? "fa-chevron-up" : "fa-chevron-down"
+            } transition-transform duration-300`}
+          ></i>
+        </button>
+        <div
+          className="grid transition-all duration-300 ease-in-out overflow-hidden"
+          style={{
+            gridTemplateRows: isCategoriesOpen ? "1fr" : "0fr",
+          }}
+        >
+          <div className="min-h-0 pr-2 ">
+            <div className="   w-full bg-white/10 space-y-2 rounded-lg  ">
+              <AdminDashboardSidebarLink
+                to={"/admin-dashboard/article-categories-management"}
+                icon="fas fa-newspaper"
+                title="دسته بندی مقالات"
+              />
+              <AdminDashboardSidebarLink
+                to={"/admin-dashboard/service-categories-management"}
+                icon="fas fa-handshake"
+                title="دسته بندی خدمات"
+              />
             </div>
-            <i
-              className="fas fa-chevron-down transition-transform duration-300"
-              id="usersArrow"
-            ></i>
-          </button>
-          <div id="usersSubmenu" className="submenu pr-8">
-            <NavLink
-              to={""}
-              className="block p-3 hover:bg-white/10 rounded-lg transition"
-            >
-              لیست کاربران
-            </NavLink>
-            <NavLink
-              to={""}
-              className="block p-3 hover:bg-white/10 rounded-lg transition"
-            >
-              افزودن کاربر
-            </NavLink>
-            <NavLink
-              to={""}
-              className="block p-3 hover:bg-white/10 rounded-lg transition"
-            >
-              گزارش‌ها
-            </NavLink>
           </div>
         </div>
+        
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/comments-management"}
+          icon="fas fa-comments"
+          title="مدیریت نظرات"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/faqs-management"}
+          icon="fas fa-question-circle"
+          title="مدیریت سوالات متداول"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/gallery-management"}
+          icon="fas fa-images"
+          title="مدیریت گالری"
+        />
 
-        {/* <NavLink  to={""} className="flex items-center  space-x-3 p-3 rounded-lg hover:bg-white/10 transition">
-              <i className="fas fa-chart-bar"></i>
-              <span>آمار و تحلیل</span>
-          </NavLink> */}
-        <NavLink
-          to={"/turns"}
-          className={({ isActive }) =>
-            `flex items-center  space-x-3 p-3 rounded-lg ${
-              isActive ? "bg-white/10 hover:bg-white/20" : "hover:bg-white/10"
-            }  transition`
-          }
-        >
-          <i className="fas fa-chart-bar"></i>
-          <span>سیستم نوبت دهی</span>
-        </NavLink>
-        <NavLink
-          to={"/setting"}
-          className={({ isActive }) =>
-            `flex items-center  space-x-3 p-3 rounded-lg ${
-              isActive ? "bg-white/10 hover:bg-white/20" : "hover:bg-white/10"
-            }  transition`
-          }
-        >
-          <i className="fas fa-cog"></i>
-          <span>تنظیمات</span>
-        </NavLink>
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/insurance-management"}
+          icon="fas fa-shield-alt"
+          title="سازمان های بیمه"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/contact-messages-management"}
+          icon="fas fa-envelope"
+          title="پیام های تماس با ما"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/doctor-applications-management"}
+          icon="fas fa-user-plus"
+          title="درخواست های دکتر ها"
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin-dashboard/settings-management"}
+          icon="fas fa-tools"
+          title="تنظیمات"
+        />
+    
       </nav>
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react'
 
 function WelcomeSection() {
   return (
-    <div className="bg-linear-to-r from-deepblue to-purple-500  rounded-xl p-4 md:p-6 mb-8 text-white">
+    <div className="bg-linear-to-r from-purple-400 to-purple-600  rounded-xl p-4 md:p-6 mb-8 text-white">
     <div className="flex items-center justify-between">
       <div>
         <h2 className="text-xl md:text-2xl font-iran-yekan-bold mb-2">
@@ -13,7 +13,7 @@ function WelcomeSection() {
         </p>
       </div>
       <div className="hidden md:block">
-        <i className="fas fa-rocket text-6xl text-white/20"></i>
+        <i className="fas fa-rocket text-6xl text-white/40"></i>
       </div>
     </div>
   </div>

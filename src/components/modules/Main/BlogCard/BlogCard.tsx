@@ -51,7 +51,8 @@ function BlogCard({ article }: BlogCardProps) {
       <div className="p-6 space-y-4">
         <div className="flex flex-wrap gap-6 text-sm text-paragray">
           <span className="flex items-center gap-2">
-            <i className="fas fa-user mr-1 text-primary"></i>ادمین
+            <i className="fas fa-user mr-1 text-primary"></i>
+            {article.author || "ادمین"}
           </span>
           <span className="flex items-center gap-2">
             <i className="fas fa-calendar-alt mr-1 text-primary"></i>

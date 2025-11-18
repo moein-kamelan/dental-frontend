@@ -21,6 +21,8 @@ function BlogDetailsHeader({
   sharesCount: number;
   author: any;
 }) {
+  console.log(author);
+  
   return (
     <div className="px-8 pt-8 ">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -31,7 +33,7 @@ function BlogDetailsHeader({
             </span>
           </li>
           <li className="flex items-center gap-2 font-estedad-light">
-            <i className="far fa-user text-accent"></i>{author?.name}
+            <i className="far fa-user text-accent"></i>{author}
           </li>
           <li className="flex items-center gap-2 font-estedad-light">
             <i className="far fa-calendar-alt text-accent"></i>

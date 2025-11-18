@@ -18,7 +18,7 @@ function AdminDashboardLayout() {
     {/* <!-- Overlay --> */}
     <div id="overlay" className="overlay" onClick={() => false}></div>
 
-    <div className="flex h-screen">
+    <div className="flex min-h-screen">
 
     <AdminDashboardSidebar />
 
