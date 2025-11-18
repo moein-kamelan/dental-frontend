@@ -95,7 +95,7 @@ function Banner() {
             />
             <div className=" z-10 h-full overflow-hidden">
               <img
-                src="images/banner_img_bg.png"
+                src="images/banner-new-bg.png"
                 alt="banner-bg "
                 className="translate-y-10 circular-animation "
               />

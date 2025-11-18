@@ -10,7 +10,7 @@ function BlogCard({ article }: BlogCardProps) {
 
   const handleCardClick = () => {
     if (article) {
-      navigate(`/blog-details/${article.slug}`);
+      navigate(`/blog/${article.slug}`);
     }
   };
 

@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./pages/Main/Home/Home";
-import MainLayout from "./pages/Main/MainLayout";
+import MainLayout from "./components/layouts/MainLayout/MainLayout";
 import Signin from "./pages/Auth/Signin/Signin";
 import Signup from "./pages/Auth/Signup/Signup";
 import Auth from "./pages/Auth/Auth";
@@ -28,6 +28,8 @@ import {
 } from "./utils/ProtectedRoute";
 import ProfileEdit from "./pages/Main/Dashboard/ProfileEdit/ProfileEdit";
 import BecomeDoctor from "./pages/Main/BecomeDotor/BecomeDoctor";
+import AdminDashboardLayout from "./components/layouts/AdminDashboardLayout/AdminDashboardLayout";
+import AdminDashboardHome from "./pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome";
 
 const routes = createBrowserRouter([
   {
@@ -36,16 +38,16 @@ const routes = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to={"home"} replace /> },
       { path: "/home", element: <Home /> },
-      { path: "/doctors", element: <Doctors /> },
       { path: "/become-doctor", element: <BecomeDoctor /> },
-      { path: "/doctors/:name", element: <DoctorDetails /> },
+      { path: "/doctors", element: <Doctors /> },
+      { path: "/doctors/:slug", element: <DoctorDetails /> },
       { path: "/services", element: <Services /> },
-      { path: "/services/:name", element: <ServiceDetails /> },
+      { path: "/services/:slug", element: <ServiceDetails /> },
       { path: "/about-us", element: <AboutUs /> },
       { path: "/contact", element: <Contact /> },
       { path: "/gallery", element: <Gallery /> },
       { path: "/blog", element: <Blog /> },
-      { path: "/blog/:name", element: <BlogDetails /> },
+      { path: "/blog/:slug", element: <BlogDetails /> },
       { path: "/faq", element: <FAQ /> },
       {
         path: "/dashboard/*",
@@ -90,7 +92,11 @@ const routes = createBrowserRouter([
       { path: "*", element: <Navigate to="/404" replace /> },
     ],
   },
-  { path: "/admin-dashboard", element: <AdminDashboard /> },
+  {
+    path: "/admin-dashboard",
+    element: <AdminDashboardLayout />,
+    children: [{ index: true, element: <AdminDashboardHome /> }],
+  },
 ]);
 
 export default routes;

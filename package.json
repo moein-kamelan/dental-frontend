@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5173",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -15,14 +15,11 @@
     "@tanstack/react-query": "^5.90.6",
     "@tanstack/react-query-devtools": "^5.90.2",
     "axios": "^1.12.2",
-    "bootstrap": "^5.3.8",
     "formik": "^2.4.6",
     "formik-devtools": "^0.1.0",
     "leaflet": "^1.9.4",
     "motion": "^12.23.24",
     "react": "^19.1.1",
-    "react-awesome-reveal": "^4.3.1",
-    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
     "react-leaflet": "^5.0.0",
     "react-redux": "^9.2.0",

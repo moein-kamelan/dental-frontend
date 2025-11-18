@@ -7,8 +7,18 @@ import RecentPosts from "../../../components/modules/Main/RecentPosts/RecentPost
 import TagsBox from "../../../components/modules/Main/TagsBox/TagsBox";
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
-
+import { useParams } from "react-router-dom";
+import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import { useGetServiceByIdentifier } from "../../../hooks/useServices";
 function ServiceDetails() {
+  const { slug } = useParams();
+  const { data: service, isLoading } = useGetServiceByIdentifier(
+    slug as string
+  );
+  console.log(service);
+
+  if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات خدمات..." />;
+
   return (
     <>
       <Breadcrumb />
@@ -33,7 +43,7 @@ function ServiceDetails() {
 
                 <div className="p-8">
                   <h3 className="text-[28px] font-estedad-semibold text-dark mb-6">
-                    جراحی تست قلب هولتر
+                    {service?.data?.service?.title}
                   </h3>
 
                   <div className="space-y-6 font-estedad-light text-paragray leading-relaxed">
@@ -241,10 +251,8 @@ function ServiceDetails() {
                 </a>
               </div>
 
-              
-              <CommentsBox/>
-              <CommentForm/>
-            
+              <CommentsBox />
+              <CommentForm />
             </div>
 
             {/* <!-- Sidebar --> */}
@@ -255,10 +263,12 @@ function ServiceDetails() {
               className="max-lg:!static"
             >
               <div className="lg:col-span-1 space-y-6">
-                <SearchBox />
-                <CategoryBox />
+                <SearchBox isServiceCategory />
+                <CategoryBox
+                  categories={service?.data?.service?.categories || []}
+                  isServiceCategory
+                />
                 <RecentPosts />
-                <TagsBox />
               </div>
             </StickyBox>
           </div>

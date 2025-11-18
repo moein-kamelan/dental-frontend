@@ -3,6 +3,10 @@ import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import type { OptionType } from "../../../types/types";
 import Select, { components } from "react-select";
 import StickyBox from "react-sticky-box";
+import { useParams } from "react-router-dom";
+import { useGetDoctorByIdentifier } from "../../../hooks/useDoctors";
+import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import { translateDayName } from "../../../utils/helpers";
 const options: OptionType[] = [
   { value: "20s", label: "کند: 20 ثانیه" },
   { value: "10s", label: "متعادل: 10 ثانیه" },
@@ -10,7 +14,12 @@ const options: OptionType[] = [
 ];
 
 function DoctorDetails() {
+  const { slug } = useParams();
   const [doctorValue, setDoctorValue] = useState<OptionType | null>(null);
+  const { data: doctor, isLoading } = useGetDoctorByIdentifier(slug as string);
+  console.log(doctor);
+
+  if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات دکتر..." />;
 
   return (
     <>
@@ -31,21 +40,18 @@ function DoctorDetails() {
                   </div>
                   <div className="space-y-5">
                     <h3 className="text-2xl text-primary font-estedad-verybold ">
-                      دکتر رزیتا غفاری
+                      {doctor?.data?.doctor?.firstName}{" "}
+                      {doctor?.data?.doctor?.lastName}
                     </h3>
                     <div className="space-y-2.5 text-dark font-estedad-light">
-                      <p className="">MBBS (University of Wyoming)</p>
+                      <p className="">{doctor?.data?.doctor?.university}</p>
                       <p className="">
-                        M.D. of Medicine (Netherland Medical College)
+                        {doctor?.data?.doctor?.skills.join(", ")}
                       </p>
                       <p className="">
-                        <span className="font-estedad-semibold">
-                          {" "}
-                          Senior Prof. (MBBS, M.D){" "}
-                        </span>
-                        کالج پزشکی هلند
+                        شماره نظام پزشکی:{" "}
+                        {doctor?.data?.doctor?.medicalLicenseNo}
                       </p>
-                      <p className="">شماره نظام پزشکی: الف-۲۳۱۴۴۱</p>
                       <a
                         href="callto:0123456789"
                         className="block font-estedad-semibold"
@@ -65,7 +71,8 @@ function DoctorDetails() {
                 <div className="section-border ">
                   <div className="py-5 px-6 border-b-[1.5px] border-[rgba(94,91,91,0.09)]">
                     <h3 className="text-2xl font-estedad-semibold text-dark ">
-                      بیوگرافی دکتر رزیتا عفاری
+                      بیوگرافی دکتر {doctor?.data?.doctor?.firstName}{" "}
+                      {doctor?.data?.doctor?.lastName}
                     </h3>
                   </div>
                   <div className="space-y-6 p-6">
@@ -502,26 +509,24 @@ function DoctorDetails() {
                     روز های کاری
                   </h5>
                   <ul className=" text-paragray *:font-estedad-light  divide-y-2 divide-[rgba(94,91,91,0.09)]">
-                    <li className="flex items-center justify-between py-3 ">
-                      <span className="text-dark">جمعه - شنبه</span>
-                      <span className="text-paragray">۷:۳۰ صبح - ۴:۰۰ عصر</span>
-                    </li>
-                    <li className="flex items-center justify-between py-3 ">
-                      <span className="text-dark">جمعه - شنبه</span>
-                      <span className="text-paragray">۷:۳۰ صبح - ۴:۰۰ عصر</span>
-                    </li>
-                    <li className="flex items-center justify-between py-3 ">
-                      <span className="text-dark">جمعه - شنبه</span>
-                      <span className="text-paragray">۷:۳۰ صبح - ۴:۰۰ عصر</span>
-                    </li>
-                    <li className="flex items-center justify-between py-3 ">
-                      <span className="text-dark">جمعه - شنبه</span>
-                      <span className="text-paragray">۷:۳۰ صبح - ۴:۰۰ عصر</span>
-                    </li>
-                    <li className="flex items-center justify-between py-3 ">
-                      <span className="text-dark">جمعه - شنبه</span>
-                      <span className="text-paragray">۷:۳۰ صبح - ۴:۰۰ عصر</span>
-                    </li>
+                    {Object.keys(doctor?.data?.doctor?.workingDays || {})
+                      .filter(
+                        (day: string) =>
+                          doctor?.data?.doctor?.workingDays?.[day] !== null
+                      )
+                      .map((day: string) => (
+                        <li
+                          key={day}
+                          className="flex items-center justify-between py-3"
+                        >
+                          <span className="text-dark">
+                            {translateDayName(day)}
+                          </span>
+                          <span className="text-paragray">
+                            {doctor?.data?.doctor?.workingDays[day]}
+                          </span>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>

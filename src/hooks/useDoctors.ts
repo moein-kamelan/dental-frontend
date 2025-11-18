@@ -22,3 +22,14 @@ export const useGetAllDoctors = (
     staleTime: 1000 * 60 * 5,
   });
 };
+
+export const useGetDoctorByIdentifier = (identifier: string) => {
+  return useQuery({
+    queryKey: ["doctor", identifier],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/doctors/${identifier}`);
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};

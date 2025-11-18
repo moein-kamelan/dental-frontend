@@ -28,3 +28,14 @@ export const useGetAllServices = (
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
+
+export const useGetServiceByIdentifier = (identifier: string) => {
+  return useQuery({
+    queryKey: ["service", identifier],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/services/${identifier}`);
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};

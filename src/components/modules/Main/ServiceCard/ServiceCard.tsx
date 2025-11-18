@@ -6,7 +6,7 @@ function ServiceCard({ service }: {service: Service}) {
 
   const handleCardClick = () => {
     if (service) {
-      navigate(`/service_details/${service.slug}`);
+      navigate(`/services/${service.slug}`);
     }
   };
 

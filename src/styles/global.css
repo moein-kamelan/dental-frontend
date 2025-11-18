@@ -47,6 +47,7 @@ body {
   width: 100%;
   position: relative;
   font-family: var(--font-estedad-medium), sans-serif;
+  @apply text-dark;
 }
 
 /* Prevent overflow during animations */
@@ -80,7 +81,7 @@ button {
 }
 
 @utility main-header {
-  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40 before:absolute before:content-[''] before:bg-secondary before:top-full before:-translate-y-px before:h-1 before:left-0 before:w-12 before:opacity-60;
+  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40 ;
 }
 
 @utility section-border {

@@ -28,3 +28,14 @@ export const useGetAllArticles = (
     staleTime: 1000 * 60 * 5,
   });
 };
+
+export const useGetArticleBySlug = (slug: string) => {
+  return useQuery({
+    queryKey: ["article", slug],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/articles/${slug}`);
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+};

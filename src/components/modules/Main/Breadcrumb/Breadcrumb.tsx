@@ -30,6 +30,9 @@ const routeLabels: Record<string, string> = {
   auth: "احراز هویت",
   "sign-in": "ورود",
   "sign-up": "ثبت نام",
+  "doctors/:slug": "جزئیات دکتر",
+  "services/:slug": "جزئیات خدمات",
+  "blog/:slug": "جزئیات وبلاگ",
 };
 
 function Breadcrumb({ title, items }: BreadcrumbProps) {
@@ -43,6 +46,32 @@ function Breadcrumb({ title, items }: BreadcrumbProps) {
     const breadcrumbItems: BreadcrumbItem[] = [
       { label: "خانه", path: "/home" },
     ];
+
+    // Handle dynamic routes (doctors/:slug, services/:slug, blog/:slug)
+    if (pathSegments.length === 2) {
+      const [parentSegment] = pathSegments;
+
+      // Check if this is a detail page (doctors, services, or blog)
+      if (
+        parentSegment === "doctors" ||
+        parentSegment === "services" ||
+        parentSegment === "blog"
+      ) {
+        const parentLabel = routeLabels[parentSegment] || parentSegment;
+        const detailLabel = routeLabels[`${parentSegment}/:slug`] || "جزئیات";
+
+        breadcrumbItems.push({
+          label: parentLabel,
+          path: `/${parentSegment}`,
+        });
+        breadcrumbItems.push({
+          label: detailLabel,
+          path: undefined,
+        });
+
+        return breadcrumbItems;
+      }
+    }
 
     let currentPath = "";
     pathSegments.forEach((segment, index) => {
