@@ -3,7 +3,7 @@ import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import DoctorCard from "../../../components/modules/Main/DoctorCard/DoctorCard";
 import SearchForm from "../../../components/templates/Main/Services/SearchForm";
 import { useGetAllDoctors } from "../../../hooks/useDoctors";
-import MainPagination from "../../../components/modules/Main/MainPagination/MainPagination";
+import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import type { Doctor } from "../../../types/types";
@@ -19,7 +19,11 @@ function Doctors() {
   const { data: doctors, isLoading } = useGetAllDoctors(page, limit, search);
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString(), limit: limit.toString(), search: search });
+    setSearchParams({
+      page: newPage.toString(),
+      limit: limit.toString(),
+      search: search,
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -42,10 +46,12 @@ function Doctors() {
                 ))}
               </div>
 
-              <MainPagination
-                meta={doctors?.meta}
-                onPageChange={handlePageChange}
-              />
+              <div className="mt-10">
+                <MainPagination
+                  meta={doctors?.meta}
+                  onPageChange={handlePageChange}
+                />
+              </div>
             </>
           ) : (
             <EmptyState

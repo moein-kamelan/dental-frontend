@@ -25,7 +25,7 @@ function MainPagination({ meta, onPageChange }: MainPaginationProps) {
   };
 
   return (
-    <div className="flex justify-center mt-12 gap-2 items-center">
+    <div className="flex justify-center  gap-2 items-center">
       {/* دکمه صفحه قبل */}
       {hasPrevPage && (
         <button

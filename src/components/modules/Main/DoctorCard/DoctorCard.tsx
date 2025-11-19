@@ -27,16 +27,16 @@ function DoctorCard({ doctor }: DoctorCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20"
+      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20 flex flex-col h-full"
     >
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden shrink-0">
         <img
           src={doctor.profileImage || "images/team-1.jpg"}
           alt={`${doctor.firstName} ${doctor.lastName}`}
           className="w-full h-80 object-cover"
         />
 
-        <div className="absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center">
+        <div className=" absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center">
           <ul className="absolute invisible opacity-0 group-hover/card:visible group-hover/card:opacity-100 bottom-8 left-8 flex flex-col items-center bg-primary gap-2 px-1 py-2 rounded-4xl transition-all duration-500">
             <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
               <a href="#" onClick={handleSocialClick}>
@@ -62,7 +62,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
         </div>
       </div>
 
-      <div className="px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex items-center justify-between gap-x-4">
+      <div className="grow shrink-0 px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex items-center justify-between gap-x-4">
         <div className="flex flex-col gap-y-2">
           <h6 className="text-xl font-estedad-semibold">
             {doctor.firstName} {doctor.lastName}

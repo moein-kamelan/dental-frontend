@@ -3,7 +3,7 @@ import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import BlogCard from "../../../components/modules/Main/BlogCard/BlogCard";
 import SearchForm from "../../../components/templates/Main/Services/SearchForm";
 import { useGetAllArticles } from "../../../hooks/useArticles";
-import MainPagination from "../../../components/modules/Main/MainPagination/MainPagination";
+import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import type { Article } from "../../../types/types";
@@ -17,10 +17,22 @@ function Blog() {
   const search = searchParams.get("search") || "";
   const categorySlug = searchParams.get("categorySlug") || "";
 
-  const { data: articles, isLoading } = useGetAllArticles(page, limit,search , true , undefined , categorySlug);
+  const { data: articles, isLoading } = useGetAllArticles(
+    page,
+    limit,
+    search,
+    true,
+    undefined,
+    categorySlug
+  );
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString(), limit: limit.toString(), search: search, categorySlug: categorySlug });
+    setSearchParams({
+      page: newPage.toString(),
+      limit: limit.toString(),
+      search: search,
+      categorySlug: categorySlug,
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -44,10 +56,12 @@ function Blog() {
                 ))}
               </div>
 
-              <MainPagination
-                meta={articles?.meta}
-                onPageChange={handlePageChange}
-              />
+              <div className="mt-10">
+                <MainPagination
+                  meta={articles?.meta}
+                  onPageChange={handlePageChange}
+                />
+              </div>
             </>
           ) : (
             <EmptyState

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 
 export const useGetAllDoctors = (
@@ -31,5 +31,40 @@ export const useGetDoctorByIdentifier = (identifier: string) => {
       return response.data;
     },
     staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useCreateDoctor = () => {
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await axiosInstance.post("/doctors", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useUpdateDoctor = () => {
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: FormData }) => {
+      const response = await axiosInstance.patch(`/doctors/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useDeleteDoctor = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await axiosInstance.delete(`/doctors/${id}`);
+      return response.data;
+    },
   });
 };

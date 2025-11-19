@@ -1,11 +1,12 @@
 import React from "react";
+import TableContainer from "../../../../components/modules/TableContainer/TableContainer";
 
 function Turns() {
   return (
     <>
       <h5 className="main-header">تاریخچه نوبت‌ها</h5>
 
-      <div className="max-md:max-w-[630px] max-sm:max-w-[470px] max-xs:!max-w-[290px] mx-auto overflow-x-auto border border-[#5e5b5b17] rounded-[10px] shadow-sm ">
+      <TableContainer>
         <table className="w-full ">
           <thead className="border-b border-[#5e5b5b17] ">
             <tr className="*:text-right *:p-4.5 ">
@@ -194,7 +195,7 @@ function Turns() {
             </tr>
           </tbody>
         </table>
-      </div>
+      </TableContainer>
     </>
   );
 }

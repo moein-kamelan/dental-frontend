@@ -2,7 +2,7 @@ import React from "react";
 
 function ErrorToast({ message }: { message: string }) {
   return (
-    <div className="bg-red-500 text-sm/6 rounded-md text-accent font-iran-sans-normal pt-4 pb-6 pl-6 pr-1.5  flex items-center gap-3 w-full text-justify ">
+    <div className="bg-red-500 text-sm/6 rounded-md text-yellow-300 font-iran-sans-normal pt-4 pb-6 pl-6 pr-1.5  flex items-center gap-3 w-full text-justify ">
       <svg
         className="shrink-0"
         width="44"

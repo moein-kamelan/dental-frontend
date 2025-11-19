@@ -24,9 +24,12 @@ export interface Doctor {
   clinics?: {
     clinic: Clinic;
   }[];
+  workingDays?: Record<string, string | null>;
   _count?: {
     comments: number;
   };
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Category {

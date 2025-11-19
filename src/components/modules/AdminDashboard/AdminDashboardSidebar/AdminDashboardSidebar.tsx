@@ -7,9 +7,9 @@ function AdminDashboardSidebar() {
     setIsCategoriesOpen(!isCategoriesOpen);
   };
   return (
-    <div
+    <aside
       id="sidebar"
-      className="max-md:fixed max-md:-right-full max-md:top-0 h-screen z-50 transition-all duration-300 w-64 bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden"
+      className="max-md:fixed max-md:-right-full max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 w-64 bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden"
     >
       <div className="flex items-center space-x-3 p-4 shrink-0">
         <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
@@ -17,11 +17,12 @@ function AdminDashboardSidebar() {
         </div>
         <h1 className="text-xl font-estedad-semibold">پنل مدیریت</h1>
       </div>
-      <nav className="flex-1 overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar">
+      <nav className="grow  overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar">
         <AdminDashboardSidebarLink
           to={"/admin-dashboard"}
           icon="fas fa-home"
           title="داشبورد"
+          end={true}
         />
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/doctors-management"}
@@ -44,9 +45,9 @@ function AdminDashboardSidebar() {
           title="خدمات"
         />
 
-<button
+        <button
           onClick={toggleCategories}
-          className="flex items-center justify-between  gap-x-2 p-3 rounded-lg hover:bg-white/10 transition cursor-pointer w-full"
+          className="flex items-center justify-between text-sm  gap-x-2 p-3 rounded-lg hover:bg-white/10 transition cursor-pointer w-full"
         >
           <div className="flex items-center gap-x-3">
             <i className="fas fa-tags"></i>
@@ -79,7 +80,7 @@ function AdminDashboardSidebar() {
             </div>
           </div>
         </div>
-        
+
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/comments-management"}
           icon="fas fa-comments"
@@ -109,16 +110,15 @@ function AdminDashboardSidebar() {
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/doctor-applications-management"}
           icon="fas fa-user-plus"
-          title="درخواست های دکتر ها"
+          title="درخواست عضویت پزشکان"
         />
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/settings-management"}
           icon="fas fa-tools"
           title="تنظیمات"
         />
-    
       </nav>
-    </div>
+    </aside>
   );
 }
 

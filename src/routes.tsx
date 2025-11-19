@@ -30,6 +30,8 @@ import ProfileEdit from "./pages/Main/Dashboard/ProfileEdit/ProfileEdit";
 import BecomeDoctor from "./pages/Main/BecomeDotor/BecomeDoctor";
 import AdminDashboardLayout from "./components/layouts/AdminDashboardLayout/AdminDashboardLayout";
 import AdminDashboardHome from "./pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome";
+import DoctorsManagement from "./pages/AdminDashboard/DoctorsManagement/DoctorsManagement";
+import DoctorsManagementEdit from "./pages/AdminDashboard/DoctorsManagementEdit/DoctorsManagementEdit";
 
 const routes = createBrowserRouter([
   {
@@ -95,7 +97,10 @@ const routes = createBrowserRouter([
   {
     path: "/admin-dashboard",
     element: <AdminDashboardLayout />,
-    children: [{ index: true, element: <AdminDashboardHome /> }],
+    children: [{ index: true, element: <AdminDashboardHome /> },
+      {path : "doctors-management" , element : <DoctorsManagement/>},
+      {path : "doctors-management/edit/:id" , element : <DoctorsManagementEdit/>}
+    ],
   },
 ]);
 

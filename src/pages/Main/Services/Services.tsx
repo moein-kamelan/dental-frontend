@@ -3,7 +3,7 @@ import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import SearchForm from "../../../components/templates/Main/Services/SearchForm";
 import ServiceCard from "../../../components/modules/Main/ServiceCard/ServiceCard";
 import { useGetAllServices } from "../../../hooks/useServices";
-import MainPagination from "../../../components/modules/Main/MainPagination/MainPagination";
+import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import type { Service } from "../../../types/types";
@@ -16,10 +16,21 @@ function Services() {
   const limit = parseInt(searchParams.get("limit") || "9");
   const search = searchParams.get("search") || "";
   const categorySlug = searchParams.get("categorySlug") || "";
-  const { data: services, isLoading } = useGetAllServices(page, limit, search , undefined , categorySlug);
+  const { data: services, isLoading } = useGetAllServices(
+    page,
+    limit,
+    search,
+    undefined,
+    categorySlug
+  );
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString(), limit: limit.toString(), search: search, categorySlug: categorySlug });
+    setSearchParams({
+      page: newPage.toString(),
+      limit: limit.toString(),
+      search: search,
+      categorySlug: categorySlug,
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -43,10 +54,12 @@ function Services() {
                 ))}
               </div>
 
+              <div className="mt-10">
               <MainPagination
-                meta={services?.meta}
-                onPageChange={handlePageChange}
-              />
+                  meta={services?.meta}
+                  onPageChange={handlePageChange}
+                />
+              </div>
             </>
           ) : (
             <EmptyState
