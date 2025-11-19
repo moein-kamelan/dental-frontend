@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import { useAppDispatch } from "./redux/typedHooks";
 import { fetchUser } from "./redux/slices/userSlice";
-import { useCsrfToken } from "./hooks/useCsrfToken";
+import { useCsrfToken } from "./services/useCsrfToken";
 
 function App() {
   const dispatch = useAppDispatch();

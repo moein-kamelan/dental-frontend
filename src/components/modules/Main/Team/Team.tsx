@@ -2,7 +2,7 @@ import React from "react";
 import DoctorCard from "../DoctorCard/DoctorCard";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { useGetAllDoctors } from "../../../../hooks/useDoctors";
+import { useGetAllDoctors } from "../../../../services/useDoctors";
 import type { Doctor } from "../../../../types/types";
 function Team() {
   const { data: doctors } = useGetAllDoctors(1, 4);

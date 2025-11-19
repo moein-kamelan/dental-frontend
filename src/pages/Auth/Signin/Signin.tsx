@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
-import { usePostOtpRequest, usePostOtpVerify } from "../../../hooks/useAuth";
+import { usePostOtpRequest, usePostOtpVerify } from "../../../services/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Formik, type FormikValues } from "formik";
 import * as yup from "yup";

@@ -5,7 +5,7 @@ import RecentPosts from "../../../components/modules/Main/RecentPosts/RecentPost
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 import { useParams } from "react-router-dom";
-import { useGetArticleBySlug } from "../../../hooks/useArticles";
+import { useGetArticleBySlug } from "../../../services/useArticles";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import BlogDetailsHeader from "../../../components/templates/BlogDetails/BlogDetailsHeader/BlogDetailsHeader";
 import BlogDetailsTagsAndShare from "../../../components/templates/BlogDetails/BlogDetailsTagsAndShare/BlogDetailsTagsAndShare";
@@ -166,7 +166,10 @@ function BlogDetails() {
             <StickyBox className="max-lg:static!">
               <div className="lg:col-span-1 space-y-6">
                 <SearchBox isArticleCategory />
-                <CategoryBox categories={article?.data?.article?.categories} isArticleCategory />
+                <CategoryBox
+                  categories={article?.data?.article?.categories}
+                  isArticleCategory
+                />
                 <RecentPosts />
               </div>
             </StickyBox>

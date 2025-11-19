@@ -4,7 +4,7 @@ import type { OptionType } from "../../../types/types";
 import Select, { components } from "react-select";
 import StickyBox from "react-sticky-box";
 import { useParams } from "react-router-dom";
-import { useGetDoctorByIdentifier } from "../../../hooks/useDoctors";
+import { useGetDoctorByIdentifier } from "../../../services/useDoctors";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import { translateDayName } from "../../../utils/helpers";
 const options: OptionType[] = [

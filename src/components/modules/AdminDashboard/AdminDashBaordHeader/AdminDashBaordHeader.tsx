@@ -46,7 +46,7 @@ function AdminDashBaordHeader({ title, backButton }: { title?: string, backButto
               </div>
               <i className="fas fa-chevron-down text-gray-600 "></i>
             </button>
-            <div
+            {/* <div
               id="profileDropdown"
               className="dropdown-content absolute right-0 mt-2 w-48 bg-white  rounded-lg shadow-lg py-2 z-50"
             >
@@ -63,7 +63,7 @@ function AdminDashBaordHeader({ title, backButton }: { title?: string, backButto
               >
                 خروج
               </NavLink>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FAQItem from "../../../../modules/Main/FAQItem/FAQItem";
 import { motion } from "motion/react";
-import { useGetAllFaqs } from "../../../../../hooks/useFaqs";
+import { useGetAllFaqs } from "../../../../../services/useFaqs";
 
 function FAQSection() {
   const { data: faqs } = useGetAllFaqs(1, 4, true);
@@ -24,7 +24,11 @@ function FAQSection() {
             viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           >
             {faqs?.data?.faqs?.map((faq: any) => (
-              <FAQItem key={faq.id} question={faq.question} answer={faq.answer} />
+              <FAQItem
+                key={faq.id}
+                question={faq.question}
+                answer={faq.answer}
+              />
             ))}
           </motion.div>
           <motion.div

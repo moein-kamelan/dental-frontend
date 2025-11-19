@@ -9,6 +9,13 @@ export interface Clinic {
   address: string;
   phoneNumber: string;
   description?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  _count?: {
+    doctors: number;
+  };
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Doctor {

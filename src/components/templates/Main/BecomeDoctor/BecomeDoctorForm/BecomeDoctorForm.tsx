@@ -4,7 +4,7 @@ import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import * as Yup from "yup";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
 // import { FormikDevTool } from "formik-devtools"; // Disabled due to File objects causing render errors
-import { useCreateDoctorApplication } from "../../../../../hooks/useDoctorApplications";
+import { useCreateDoctorApplication } from "../../../../../services/useDoctorApplications";
 import {
   showSuccessToast,
   showWarnToast,

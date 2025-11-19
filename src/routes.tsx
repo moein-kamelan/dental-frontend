@@ -21,7 +21,6 @@ import NotFound from "./pages/NotFound/NotFound";
 import BlogDetails from "./pages/Main/BlogDetails/BlogDetails";
 import FAQ from "./pages/Main/FAQ/FAQ";
 import MeetingHistory from "./pages/Main/Dashboard/MeetingHistory/MeetingHistory";
-import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import {
   ProtectedUserDashboardRoute,
   ProtectedAuthRoute,
@@ -32,6 +31,8 @@ import AdminDashboardLayout from "./components/layouts/AdminDashboardLayout/Admi
 import AdminDashboardHome from "./pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome";
 import DoctorsManagement from "./pages/AdminDashboard/DoctorsManagement/DoctorsManagement";
 import DoctorsManagementEdit from "./pages/AdminDashboard/DoctorsManagementEdit/DoctorsManagementEdit";
+import ClinicsManagement from "./pages/AdminDashboard/ClinicsManagement/ClinicsManagement";
+import ClinicsManagementEdit from "./pages/AdminDashboard/ClinicsManagementEdit/ClinicsManagementEdit";
 
 const routes = createBrowserRouter([
   {
@@ -97,9 +98,18 @@ const routes = createBrowserRouter([
   {
     path: "/admin-dashboard",
     element: <AdminDashboardLayout />,
-    children: [{ index: true, element: <AdminDashboardHome /> },
-      {path : "doctors-management" , element : <DoctorsManagement/>},
-      {path : "doctors-management/edit/:id" , element : <DoctorsManagementEdit/>}
+    children: [
+      { index: true, element: <AdminDashboardHome /> },
+      { path: "doctors-management", element: <DoctorsManagement /> },
+      {
+        path: "doctors-management/edit/:id",
+        element: <DoctorsManagementEdit />,
+      },
+      { path: "clinics-management", element: <ClinicsManagement /> },
+      {
+        path: "clinics-management/edit/:id",
+        element: <ClinicsManagementEdit />,
+      },
     ],
   },
 ]);

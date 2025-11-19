@@ -6,7 +6,7 @@ import CustomInput from "../../../../components/modules/CustomInput/CustomInput"
 import { useAppDispatch, useAppSelector } from "../../../../redux/typedHooks";
 import { formatPhoneNumber } from "../../../../validators/phoneNumberValidator";
 import { FormikDevTool } from "formik-devtools";
-import { useUpdateProfile } from "../../../../hooks/useAuth";
+import { useUpdateProfile } from "../../../../services/useAuth";
 import { showSuccessToast } from "../../../../utils/toastify";
 import { setUser } from "../../../../redux/slices/userSlice";
 

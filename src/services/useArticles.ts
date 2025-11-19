@@ -9,8 +9,16 @@ export const useGetAllArticles = (
   categoryId: string = "",
   categorySlug: string = ""
 ) => {
-  return useQuery({ 
-    queryKey: ["articles", page, limit, search, published, categoryId, categorySlug],
+  return useQuery({
+    queryKey: [
+      "articles",
+      page,
+      limit,
+      search,
+      published,
+      categoryId,
+      categorySlug,
+    ],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: page.toString(),
@@ -22,7 +30,9 @@ export const useGetAllArticles = (
       if (categoryId) params.append("categoryId", categoryId);
       if (categorySlug) params.append("categorySlug", categorySlug);
 
-      const response = await axiosInstance.get(`/articles?${params.toString()}`);
+      const response = await axiosInstance.get(
+        `/articles?${params.toString()}`
+      );
       return response.data;
     },
     staleTime: 1000 * 60 * 5,

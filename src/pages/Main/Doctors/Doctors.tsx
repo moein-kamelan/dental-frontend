@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import DoctorCard from "../../../components/modules/Main/DoctorCard/DoctorCard";
 import SearchForm from "../../../components/templates/Main/Services/SearchForm";
-import { useGetAllDoctors } from "../../../hooks/useDoctors";
+import { useGetAllDoctors } from "../../../services/useDoctors";
 import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";

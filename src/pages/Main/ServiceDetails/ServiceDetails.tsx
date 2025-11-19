@@ -9,7 +9,7 @@ import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBo
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
 import { useParams } from "react-router-dom";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
-import { useGetServiceByIdentifier } from "../../../hooks/useServices";
+import { useGetServiceByIdentifier } from "../../../services/useServices";
 function ServiceDetails() {
   const { slug } = useParams();
   const { data: service, isLoading } = useGetServiceByIdentifier(

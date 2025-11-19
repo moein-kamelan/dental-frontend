@@ -8,8 +8,8 @@ import type { DropdownIndicatorProps } from "react-select";
 import {
   useCreateDoctor,
   useUpdateDoctor,
-} from "../../../../../hooks/useDoctors";
-import { useGetAllClinics } from "../../../../../hooks/useClinics";
+} from "../../../../../services/useDoctors";
+import { useGetAllClinics } from "../../../../../services/useClinics";
 import {
   showSuccessToast,
   showErrorToast,

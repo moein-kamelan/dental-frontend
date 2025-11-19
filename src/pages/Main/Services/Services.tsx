@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import SearchForm from "../../../components/templates/Main/Services/SearchForm";
 import ServiceCard from "../../../components/modules/Main/ServiceCard/ServiceCard";
-import { useGetAllServices } from "../../../hooks/useServices";
+import { useGetAllServices } from "../../../services/useServices";
 import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
@@ -55,7 +55,7 @@ function Services() {
               </div>
 
               <div className="mt-10">
-              <MainPagination
+                <MainPagination
                   meta={services?.meta}
                   onPageChange={handlePageChange}
                 />

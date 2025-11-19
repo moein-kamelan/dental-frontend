@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
-import { useGetAllDoctors, useDeleteDoctor } from "../../../hooks/useDoctors";
+import {
+  useGetAllDoctors,
+  useDeleteDoctor,
+} from "../../../services/useDoctors";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import AdminPagination from "../../../components/modules/AdminDashboard/AdminPagination/AdminPagination";
@@ -24,11 +27,11 @@ function DoctorsManagement() {
   const [isDeleting, setIsDeleting] = useState(false);
   const queryClient = useQueryClient();
   const { mutateAsync: deleteDoctor } = useDeleteDoctor();
-  const { data: doctorsData, isLoading: isLoadingDoctors , isPending: isPendingDoctors } = useGetAllDoctors(
-    page,
-    5,
-    debouncedSearch
-  );
+  const {
+    data: doctorsData,
+    isLoading: isLoadingDoctors,
+    isPending: isPendingDoctors,
+  } = useGetAllDoctors(page, 5, debouncedSearch);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
