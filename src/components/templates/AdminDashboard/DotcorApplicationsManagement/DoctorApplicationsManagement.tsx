@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
 import {
   useGetAllDoctorApplications,
   useDeleteDoctorApplication,
@@ -150,8 +149,6 @@ function DoctorApplicationsManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت درخواست‌های همکاری پزشکان" />
-
       <SectionContainer>
         <DoctorApplicationsStats />
 

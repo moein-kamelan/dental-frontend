@@ -1,5 +1,5 @@
-import { useState } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useState, useEffect } from "react";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllGallery,
   useDeleteGallery,
@@ -13,6 +13,7 @@ import GalleryManagementForm from "../../../components/templates/AdminDashboard/
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 
 function GalleryManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [imageToDelete, setImageToDelete] = useState<{
@@ -27,6 +28,13 @@ function GalleryManagement() {
     isLoading: isLoadingImages,
     isPending: isPendingImages,
   } = useGetAllGallery(page, 5);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت گالری" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   const handleDeleteClick = (id: string, title: string) => {
     setImageToDelete({ id, title });
@@ -65,8 +73,6 @@ function GalleryManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت گالری" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست تصاویر</h5>
 

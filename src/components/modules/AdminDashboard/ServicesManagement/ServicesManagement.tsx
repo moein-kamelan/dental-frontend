@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../../contexts";
 import {
   useGetAllServices,
   useDeleteService,
@@ -15,6 +15,7 @@ import ServiceManagementForm from "../../../templates/AdminDashboard/ServicesMan
 import SectionContainer from "../SectionContainer/SectionContainer";
 
 function ServicesManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
@@ -32,6 +33,13 @@ function ServicesManagement() {
     isLoading: isLoadingServices,
     isPending: isPendingServices,
   } = useGetAllServices(page, 5, debouncedSearch);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت خدمات" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
@@ -89,8 +97,6 @@ function ServicesManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت خدمات" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست خدمات</h5>
 

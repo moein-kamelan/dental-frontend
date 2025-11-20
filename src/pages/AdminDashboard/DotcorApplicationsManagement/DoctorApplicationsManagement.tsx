@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllDoctorApplications,
   useDeleteDoctorApplication,
@@ -20,6 +20,7 @@ import { useCsrfToken } from "../../../services/useCsrfToken";
 import type { DoctorApplication } from "../../../types/types";
 
 function DoctorApplicationsManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
@@ -45,6 +46,13 @@ function DoctorApplicationsManagement() {
     isLoading: isLoadingApplications,
     isPending: isPendingApplications,
   } = useGetAllDoctorApplications(page, 5, debouncedSearch, readFilter);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت درخواست‌های همکاری پزشکان" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
@@ -150,8 +158,6 @@ function DoctorApplicationsManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت درخواست‌های همکاری پزشکان" />
-
       <SectionContainer>
         <DoctorApplicationsStats />
 

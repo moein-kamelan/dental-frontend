@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetArticleCategories,
   useDeleteArticleCategory,
@@ -14,6 +14,7 @@ import ArticlesCategoryManagementForm from "../../../components/templates/AdminD
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 
 function ArticlesCategoryManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
   const [isSearching, setIsSearching] = useState(false);
@@ -30,6 +31,13 @@ function ArticlesCategoryManagement() {
     isLoading: isLoadingCategories,
     isPending: isPendingCategories,
   } = useGetArticleCategories();
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت دسته‌بندی مقالات" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
@@ -98,8 +106,6 @@ function ArticlesCategoryManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت دسته‌بندی مقالات" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست دسته‌بندی‌ها</h5>
 

@@ -1,32 +1,43 @@
+import AdminDashBaordHeader from "../../modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
 import AdminDashboardSidebar from "../../modules/AdminDashboard/AdminDashboardSidebar/AdminDashboardSidebar";
 import { Outlet } from "react-router-dom";
+import {
+  AdminDashboardHeaderProvider,
+  useAdminDashboardHeader,
+} from "../../../contexts";
+
+function AdminDashboardHeaderWrapper() {
+  const { title, backButton } = useAdminDashboardHeader();
+  return <AdminDashBaordHeader title={title} backButton={backButton} />;
+}
 
 function AdminDashboardLayout() {
   return (
-    <div className="transition-colors duration-200 font-estedad-medium">
-      {/* <!-- Mobile Menu Button --> */}
-      <button
-        onClick={() => false}
-        className="fixed top-4 right-4 z-50 md:hidden bg-white  p-2 rounded-lg shadow-lg"
-      >
-        <i className="fas fa-bars text-gray-600 "></i>
-      </button>
+    <AdminDashboardHeaderProvider>
+      <div className="transition-colors duration-200 font-estedad-medium">
+        {/* <!-- Mobile Menu Button --> */}
+        <button
+          onClick={() => false}
+          className="fixed top-4 right-4 z-50 md:hidden bg-white  p-2 rounded-lg shadow-lg"
+        >
+          <i className="fas fa-bars text-gray-600 "></i>
+        </button>
 
-      {/* <!-- Overlay --> */}
-      <div id="overlay" className="overlay" onClick={() => false}></div>
+        {/* <!-- Overlay --> */}
+        <div id="overlay" className="overlay" onClick={() => false}></div>
 
-      <div className="flex h-screen">
-        <AdminDashboardSidebar />
+        <div className="flex h-screen">
+          <AdminDashboardSidebar />
 
-        {/* <!-- Main Content --> */}
-        <div className="flex-1 bg-[url('/images/dashboard-bg-pattern.png')] bg-no-repeat bg-cover p-4 md:p-8 overflow-auto">
-          {/* <!-- Quick Stats --> */}
+          {/* <!-- Main Content --> */}
+          <div className="flex-1 bg-[url('/images/dashboard-bg-pattern.png')] bg-no-repeat bg-cover p-4 md:p-8 overflow-auto">
+            {/* <!-- Quick Stats --> */}
+            <AdminDashboardHeaderWrapper />
+            <Outlet />
+            {/* <!-- Additional Stats --> */}
 
-          <Outlet />
-          {/* <!-- Additional Stats --> */}
-
-          {/* <!-- Charts Section --> */}
-          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+            {/* <!-- Charts Section --> */}
+            {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
               <div className="bg-white  p-6 rounded-xl shadow-sm">
                   <h3 className="text-lg font-estedad-semibold mb-4 ">نمودار درآمد</h3>
                   <div className="h-64 bg-gray-50  rounded-lg flex items-center justify-center">
@@ -42,8 +53,8 @@ function AdminDashboardLayout() {
               </div>
           </div> */}
 
-          {/* <!-- Recent Activity --> */}
-          {/* <div className="mt-8 bg-white  p-4 md:p-6 rounded-xl shadow-sm">
+            {/* <!-- Recent Activity --> */}
+            {/* <div className="mt-8 bg-white  p-4 md:p-6 rounded-xl shadow-sm">
               <h3 className="text-lg font-estedad-semibold mb-4 ">فعالیت‌های اخیر</h3>
               <div className="space-y-4">
                   <div className="flex items-center  space-x-4 p-3 hover:bg-gray-50  rounded-lg transition">
@@ -75,9 +86,10 @@ function AdminDashboardLayout() {
                   </div>
               </div>
           </div> */}
+          </div>
         </div>
       </div>
-    </div>
+    </AdminDashboardHeaderProvider>
   );
 }
 

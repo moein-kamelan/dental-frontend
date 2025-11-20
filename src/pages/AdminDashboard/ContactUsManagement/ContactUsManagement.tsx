@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllContactMessages,
   useDeleteContactMessage,
@@ -20,6 +20,7 @@ import { useCsrfToken } from "../../../services/useCsrfToken";
 import type { ContactMessage } from "../../../types/types";
 
 function ContactUsManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
@@ -46,6 +47,13 @@ function ContactUsManagement() {
     isLoading: isLoadingMessages,
     isPending: isPendingMessages,
   } = useGetAllContactMessages(page, 5, debouncedSearch, readFilter);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت تماس با ما" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
@@ -145,8 +153,6 @@ function ContactUsManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت تماس با ما" />
-
       <SectionContainer>
         <ContactUsStats />
 

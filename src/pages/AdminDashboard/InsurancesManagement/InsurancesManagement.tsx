@@ -1,5 +1,5 @@
-import { useState } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useState, useEffect } from "react";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllInsurances,
   useDeleteInsurance,
@@ -13,6 +13,7 @@ import InsuranceManagementForm from "../../../components/templates/AdminDashboar
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 
 function InsurancesManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [insuranceToDelete, setInsuranceToDelete] = useState<{
@@ -27,6 +28,13 @@ function InsurancesManagement() {
     isLoading: isLoadingInsurances,
     isPending: isPendingInsurances,
   } = useGetAllInsurances(page, 5, undefined);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت سازمان‌های بیمه" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   const handleDeleteClick = (id: string, name: string) => {
     setInsuranceToDelete({ id, name });
@@ -65,8 +73,6 @@ function InsurancesManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت سازمان‌های بیمه" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست سازمان‌های بیمه</h5>
 

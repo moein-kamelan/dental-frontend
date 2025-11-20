@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllArticles,
   useDeleteArticle,
@@ -15,6 +15,7 @@ import ArticleManagementForm from "../../../components/templates/AdminDashboard/
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 
 function ArticlesManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
@@ -32,6 +33,13 @@ function ArticlesManagement() {
     isLoading: isLoadingArticles,
     isPending: isPendingArticles,
   } = useGetAllArticles(page, 5, debouncedSearch, "");
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت مقالات" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
@@ -89,8 +97,6 @@ function ArticlesManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت مقالات" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست مقالات</h5>
 

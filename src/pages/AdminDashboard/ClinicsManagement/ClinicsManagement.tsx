@@ -1,5 +1,5 @@
-import { useState } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useState, useEffect } from "react";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllClinics,
   useDeleteClinic,
@@ -13,6 +13,7 @@ import ClinicManagementForm from "../../../components/templates/AdminDashboard/C
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 
 function ClinicsManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [clinicToDelete, setClinicToDelete] = useState<{
@@ -27,6 +28,13 @@ function ClinicsManagement() {
     isLoading: isLoadingClinics,
     isPending: isPendingClinics,
   } = useGetAllClinics(page, 5);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت کلینیک‌ها" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   const handleDeleteClick = (id: string, name: string) => {
     setClinicToDelete({ id, name });
@@ -65,8 +73,6 @@ function ClinicsManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت کلینیک‌ها" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست کلینیک‌ها</h5>
 

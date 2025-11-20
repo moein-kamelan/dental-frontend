@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllDoctors,
   useDeleteDoctor,
@@ -15,6 +15,7 @@ import DoctorManagementForm from "../../../components/templates/AdminDashboard/D
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 
 function DoctorsManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
@@ -32,6 +33,13 @@ function DoctorsManagement() {
     isLoading: isLoadingDoctors,
     isPending: isPendingDoctors,
   } = useGetAllDoctors(page, 5, debouncedSearch);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت پزشکان" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // مدیریت loading state برای جستجو
   useEffect(() => {
@@ -93,8 +101,6 @@ function DoctorsManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت پزشکان" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست پزشکان</h5>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useAdminDashboardHeader } from "../../../contexts";
 import {
   useGetAllComments,
   useDeleteComment,
@@ -18,6 +18,7 @@ import SectionContainer from "../../../components/modules/AdminDashboard/Section
 type CommentType = "doctor" | "article" | "service";
 
 function CommentsManagements() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [activeTab, setActiveTab] = useState<CommentType>("doctor");
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
@@ -31,6 +32,13 @@ function CommentsManagements() {
   const [isDeleting, setIsDeleting] = useState(false);
   const queryClient = useQueryClient();
   const { mutateAsync: deleteComment } = useDeleteComment();
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت نظرات" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   // کامنت‌های پزشکان
   const {
@@ -150,8 +158,6 @@ function CommentsManagements() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت نظرات" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست نظرات</h5>
 

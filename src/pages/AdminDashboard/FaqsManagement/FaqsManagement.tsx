@@ -1,5 +1,5 @@
-import { useState } from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import { useState, useEffect } from "react";
+import { useAdminDashboardHeader } from "../../../contexts";
 import { useGetAllFaqs, useDeleteFaq } from "../../../services/useFaqs";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
 import { useQueryClient } from "@tanstack/react-query";
@@ -41,6 +41,7 @@ const publishedOptions: OptionType[] = [
 ];
 
 function FaqsManagement() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const [page, setPage] = useState(1);
   const [publishedFilter, setPublishedFilter] = useState<string>("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -56,6 +57,13 @@ function FaqsManagement() {
     isLoading: isLoadingFaqs,
     isPending: isPendingFaqs,
   } = useGetAllFaqs(page, 5, publishedFilter || undefined);
+
+  useEffect(() => {
+    setHeaderConfig({ title: "مدیریت سوالات متداول" });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
 
   const handleDeleteClick = (id: string, question: string) => {
     setFaqToDelete({ id, question });
@@ -94,8 +102,6 @@ function FaqsManagement() {
 
   return (
     <main>
-      <AdminDashBaordHeader title="مدیریت سوالات متداول" />
-
       <SectionContainer>
         <h5 className="main-header ">لیست سوالات متداول</h5>
 

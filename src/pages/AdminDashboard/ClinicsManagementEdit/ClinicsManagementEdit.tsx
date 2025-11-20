@@ -1,5 +1,5 @@
-import React from "react";
-import AdminDashBaordHeader from "../../../components/modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
+import React, { useEffect } from "react";
+import { useAdminDashboardHeader } from "../../../contexts";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
 import ClinicManagementForm from "../../../components/templates/AdminDashboard/ClinicsManagement/ClinicManagementForm/ClinicManagementForm";
 import { useParams } from "react-router-dom";
@@ -8,14 +8,22 @@ import LoadingState from "../../../components/modules/Main/LoadingState/LoadingS
 import NotFound from "../../../pages/NotFound/NotFound";
 
 function ClinicsManagementEdit() {
+  const { setHeaderConfig } = useAdminDashboardHeader();
   const { id } = useParams();
   const { data: clinic, isLoading } = useGetClinicById(id ?? "");
+
+  useEffect(() => {
+    setHeaderConfig({ title: "ویرایش کلینیک", backButton: true });
+    return () => {
+      setHeaderConfig({ title: undefined, backButton: false });
+    };
+  }, [setHeaderConfig]);
+
   if (isLoading)
     return <LoadingState text="در حال بارگذاری جزئیات کلینیک..." />;
   if (!clinic) return <NotFound text="کلینیک یافت نشد" />;
   return (
     <main>
-      <AdminDashBaordHeader title="ویرایش کلینیک" backButton />
       <SectionContainer>
         <h5 className="main-header ">ویرایش کلینیک</h5>
         <ClinicManagementForm clinic={clinic?.data?.clinic} />
