@@ -1,6 +1,6 @@
-import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import {
@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
 
 function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutateAsync: createClinic } = useCreateClinic();
   const { mutateAsync: updateClinic } = useUpdateClinic();
@@ -25,15 +26,17 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const validationSchema = Yup.object({
     name: Yup.string().required("نام کلینیک الزامی است"),
     address: Yup.string().required("آدرس الزامی است"),
-    phoneNumber: Yup.string().required("شماره تلفن الزامی است").test("is-valid-phone", "شماره تلفن معتبر نیست", (value) => {
-      try {
-        formatPhoneNumber(value);
-        return true;
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
-    }),
+    phoneNumber: Yup.string()
+      .required("شماره تلفن الزامی است")
+      .test("is-valid-phone", "شماره تلفن معتبر نیست", (value) => {
+        try {
+          formatPhoneNumber(value);
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      }),
     description: Yup.string(),
     latitude: Yup.number()
       .nullable()
@@ -85,14 +88,23 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       if (isEditMode && clinic?.id) {
         await updateClinic({ id: clinic.id, data });
         showSuccessToast("کلینیک با موفقیت ویرایش شد");
+        queryClient.invalidateQueries({ queryKey: ["clinics"] });
+        queryClient.invalidateQueries({ queryKey: ["clinic"] });
+        navigate("/admin-dashboard/clinics-management");
       } else {
         await createClinic(data);
         showSuccessToast("کلینیک با موفقیت ایجاد شد");
         resetForm();
+        queryClient.invalidateQueries({ queryKey: ["clinics"] });
+        queryClient.invalidateQueries({ queryKey: ["clinic"] });
+        // اسکرول به بالای container اصلی
+        const scrollContainer = document.querySelector(".overflow-auto");
+        if (scrollContainer) {
+          scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
-
-      queryClient.invalidateQueries({ queryKey: ["clinics"] });
-      queryClient.invalidateQueries({ queryKey: ["clinic"] });
     } catch (error: unknown) {
       const errorMessage =
         (error as { response?: { data?: { message?: string } } })?.response
@@ -144,10 +156,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                 placeholder="نام کلینیک را وارد کنید"
                 className="bg-white"
                 requiredText
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                {...formik.getFieldProps("name")}
                 errorMessage={
                   formik.touched.name && formik.errors.name
                     ? formik.errors.name
@@ -160,10 +169,8 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                 placeholder="شماره تماس را وارد کنید"
                 requiredText
                 className="bg-white"
-                name="phoneNumber"
-                value={formik.values.phoneNumber}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                {...formik.getFieldProps("phoneNumber")}
+                inputType="phone"
                 errorMessage={
                   formik.touched.phoneNumber && formik.errors.phoneNumber
                     ? formik.errors.phoneNumber
@@ -177,10 +184,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
               placeholder="آدرس کلینیک را وارد کنید"
               requiredText
               className="bg-white"
-              name="address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              {...formik.getFieldProps("address")}
               errorMessage={
                 formik.touched.address && formik.errors.address
                   ? formik.errors.address
@@ -194,10 +198,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
               optional
               rows={4}
               className="bg-white"
-              name="description"
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              {...formik.getFieldProps("description")}
               errorMessage={
                 formik.touched.description && formik.errors.description
                   ? formik.errors.description
@@ -283,4 +284,3 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
 }
 
 export default ClinicManagementForm;
-

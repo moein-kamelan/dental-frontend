@@ -7,8 +7,8 @@ import AdditionalStats from '../../../components/templates/AdminDashboard/AdminD
 function AdminDashboardHome() {
   return (
     <main>
-    <WelcomeSection />
     <AdminDashBaordHeader title="نمای کلی داشبورد" />
+    <WelcomeSection />
     <QuickStats />
     <AdditionalStats />
     </main>

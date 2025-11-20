@@ -33,6 +33,23 @@ import DoctorsManagement from "./pages/AdminDashboard/DoctorsManagement/DoctorsM
 import DoctorsManagementEdit from "./pages/AdminDashboard/DoctorsManagementEdit/DoctorsManagementEdit";
 import ClinicsManagement from "./pages/AdminDashboard/ClinicsManagement/ClinicsManagement";
 import ClinicsManagementEdit from "./pages/AdminDashboard/ClinicsManagementEdit/ClinicsManagementEdit";
+import ArticlesManagement from "./pages/AdminDashboard/ArticlesManagement/ArticlesManagement";
+import ArticlesManagementEdit from "./pages/AdminDashboard/ArticlesManagementEdit/ArticlesManagementEdit";
+import ArticlesCategoryManagement from "./pages/AdminDashboard/ArticlesCategoryManagement/ArticlesCategoryManagement";
+import ArticlesCategoryManagementEdit from "./pages/AdminDashboard/ArticlesCategoryManagementEdit/ArticlesCategoryManagementEdit";
+import ServicesCategoryManagement from "./pages/AdminDashboard/ServicesCategoryManagement/ServicesCategoryManagement";
+import ServicesCategoryManagementEdit from "./pages/AdminDashboard/ServicesCategoryManagementEdit/ServicesCategoryManagementEdit";
+import ServicesManagement from "./components/modules/AdminDashboard/ServicesManagement/ServicesManagement";
+import ServicesManagementEdit from "./pages/AdminDashboard/ServicesManagementEdit/ServicesManagementEdit";
+import CommentsManagements from "./pages/AdminDashboard/CommentsManagement/CommentsManagements";
+import FaqsManagement from "./pages/AdminDashboard/FaqsManagement/FaqsManagement";
+import FaqsManagementEdit from "./pages/AdminDashboard/FaqsManagementEdit/FaqsManagementEdit";
+import GalleryManagement from "./pages/AdminDashboard/GalleryManagement/GalleryManagement";
+import GalleryManagementEdit from "./pages/AdminDashboard/GalleryManagementEdit/GalleryManagementEdit";
+import InsurancesManagement from "./pages/AdminDashboard/InsurancesManagement/InsurancesManagement";
+import ContactUsManagement from "./pages/AdminDashboard/ContactUsManagement/ContactUsManagement";
+import DoctorApplicationsManagement from "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement";
+import Settings from "./pages/AdminDashboard/Settings/Settings";
 
 const routes = createBrowserRouter([
   {
@@ -109,6 +126,53 @@ const routes = createBrowserRouter([
       {
         path: "clinics-management/edit/:id",
         element: <ClinicsManagementEdit />,
+      },
+      { path: "articles-management", element: <ArticlesManagement /> },
+      {
+        path: "articles-management/edit/:id",
+        element: <ArticlesManagementEdit />,
+      },
+      {
+        path: "articles-category-management",
+        element: <ArticlesCategoryManagement />,
+      },
+      {
+        path: "articles-category-management/edit/:id",
+        element: <ArticlesCategoryManagementEdit />,
+      },
+      {
+        path: "services-category-management",
+        element: <ServicesCategoryManagement />,
+      },
+      {
+        path: "services-category-management/edit/:id",
+        element: <ServicesCategoryManagementEdit />,
+      },
+      { path: "services-management", element: <ServicesManagement /> },
+      {
+        path: "services-management/edit/:id",
+        element: <ServicesManagementEdit />,
+      },
+      { path: "comments-management", element: <CommentsManagements /> },
+      { path: "faqs-management", element: <FaqsManagement /> },
+      {
+        path: "faqs-management/edit/:id",
+        element: <FaqsManagementEdit />,
+      },
+      { path: "gallery-management", element: <GalleryManagement /> },
+      {
+        path: "gallery-management/edit/:id",
+        element: <GalleryManagementEdit />,
+      },
+      { path: "insurance-management", element: <InsurancesManagement /> },
+      { path: "contact-us-management", element: <ContactUsManagement /> },
+      {
+        path: "doctor-applications-management",
+        element: <DoctorApplicationsManagement />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },

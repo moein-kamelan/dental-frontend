@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 
 export const useGetAllServices = (
@@ -37,5 +37,40 @@ export const useGetServiceByIdentifier = (identifier: string) => {
       return response.data;
     },
     staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useCreateService = () => {
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await axiosInstance.post("/services", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useUpdateService = () => {
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: FormData }) => {
+      const response = await axiosInstance.patch(`/services/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useDeleteService = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await axiosInstance.delete(`/services/${id}`);
+      return response.data;
+    },
   });
 };

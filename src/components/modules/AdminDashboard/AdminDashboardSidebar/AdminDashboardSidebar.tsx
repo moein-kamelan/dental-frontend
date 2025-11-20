@@ -9,7 +9,7 @@ function AdminDashboardSidebar() {
   return (
     <aside
       id="sidebar"
-      className="max-md:fixed max-md:-right-full max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 w-64 bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden"
+      className="max-md:fixed max-md:-right-full max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 w-64 bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden "
     >
       <div className="flex items-center space-x-3 p-4 shrink-0">
         <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
@@ -68,12 +68,12 @@ function AdminDashboardSidebar() {
           <div className="min-h-0 pr-2 ">
             <div className="   w-full bg-white/10 space-y-2 rounded-lg  ">
               <AdminDashboardSidebarLink
-                to={"/admin-dashboard/article-categories-management"}
+                to={"/admin-dashboard/articles-category-management"}
                 icon="fas fa-newspaper"
                 title="دسته بندی مقالات"
               />
               <AdminDashboardSidebarLink
-                to={"/admin-dashboard/service-categories-management"}
+                to={"/admin-dashboard/services-category-management"}
                 icon="fas fa-handshake"
                 title="دسته بندی خدمات"
               />
@@ -84,17 +84,17 @@ function AdminDashboardSidebar() {
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/comments-management"}
           icon="fas fa-comments"
-          title="مدیریت نظرات"
+          title="نظرات"
         />
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/faqs-management"}
           icon="fas fa-question-circle"
-          title="مدیریت سوالات متداول"
+          title="سوالات متداول"
         />
         <AdminDashboardSidebarLink
           to={"/admin-dashboard/gallery-management"}
           icon="fas fa-images"
-          title="مدیریت گالری"
+          title="گالری"
         />
 
         <AdminDashboardSidebarLink
@@ -103,7 +103,7 @@ function AdminDashboardSidebar() {
           title="سازمان های بیمه"
         />
         <AdminDashboardSidebarLink
-          to={"/admin-dashboard/contact-messages-management"}
+          to={"/admin-dashboard/contact-us-management"}
           icon="fas fa-envelope"
           title="پیام های تماس با ما"
         />
@@ -112,11 +112,7 @@ function AdminDashboardSidebar() {
           icon="fas fa-user-plus"
           title="درخواست عضویت پزشکان"
         />
-        <AdminDashboardSidebarLink
-          to={"/admin-dashboard/settings-management"}
-          icon="fas fa-tools"
-          title="تنظیمات"
-        />
+     
       </nav>
     </aside>
   );

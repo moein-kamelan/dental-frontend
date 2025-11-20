@@ -1,7 +1,35 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-function AdminDashBaordHeader({ title, backButton }: { title?: string, backButton?: boolean }) {
+function AdminDashBaordHeader({
+  title,
+  backButton,
+}: {
+  title?: string;
+  backButton?: boolean;
+}) {
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
   if (!title && !backButton) {
     return null;
   }
@@ -9,16 +37,18 @@ function AdminDashBaordHeader({ title, backButton }: { title?: string, backButto
     <div className="relative pb-6 mb-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
         {backButton ? (
-          <button className="purple-btn" onClick={() => navigate(-1)}>
+          <button
+            className="purple-btn flex items-center gap-2"
+            onClick={() => navigate(-1)}
+          >
             <i className="fas fa-arrow-right"></i> <span>بازگشت</span>
           </button>
         ) : (
-
-        <h2 className="text-xl md:text-2xl font-estedad-semibold relative inline-block group">
-          <span className="relative z-10 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
-            {title}
-          </span>
-        </h2>
+          <h2 className="text-xl md:text-2xl font-estedad-semibold relative inline-block group">
+            <span className="relative z-10 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
+              {title}
+            </span>
+          </h2>
         )}
         <div className="flex items-center  space-x-4 ">
           <button className="size-10 flex items-center justify-center shadow-sm bg-gray-50 hover:bg-gray-300 rounded-full">
@@ -26,9 +56,9 @@ function AdminDashBaordHeader({ title, backButton }: { title?: string, backButto
           </button>
 
           {/* <!-- Profile Dropdown --> */}
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button
-              onClick={() => false}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center  gap-4 bg-gray-50 hover:bg-gray-300  py-2 px-5 rounded-lg transition  shadow-sm"
             >
               <img
@@ -44,29 +74,47 @@ function AdminDashBaordHeader({ title, backButton }: { title?: string, backButto
                   مدیر
                 </span>
               </div>
-              <i className="fas fa-chevron-down text-gray-600 "></i>
+              <i
+                className={`fas fa-chevron-down text-gray-600 transition-transform duration-200 ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+              ></i>
             </button>
-            {/* <div
-              id="profileDropdown"
-              className="dropdown-content absolute right-0 mt-2 w-48 bg-white  rounded-lg shadow-lg py-2 z-50"
-            >
-              <NavLink to={""} className="block px-4 py-2 hover:bg-gray-100  ">
-                پروفایل
-              </NavLink>
-              <NavLink to={""} className="block px-4 py-2 hover:bg-gray-100  ">
-                تنظیمات
-              </NavLink>
-              <hr className="my-2 border-gray-200 " />
-              <NavLink
-                to={""}
-                className="block px-4 py-2 text-red-500 hover:bg-gray-100 "
-              >
-                خروج
-              </NavLink>
-            </div> */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100 overflow-hidden">
+                <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                  <i className="fas fa-user text-gray-500"></i>
+                  <span className="text-dark font-iran-yekan-medium">
+                    پروفایل
+                  </span>
+                </button>
+                <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                  <i className="fas fa-cog text-gray-500"></i>
+                  <Link to={"/admin-dashboard/settings"} className="text-dark font-iran-yekan-medium">
+                    تنظیمات
+                  </Link>
+                </button>
+                <hr className="my-2 border-gray-200" />
+                <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition-colors text-red-500 hover:text-red-600">
+                  <i className="fas fa-sign-out-alt"></i>
+                  <span className="font-iran-yekan-medium">خروج</span>
+                </button>
+              </div>
+            )}
           </div>
+
+          {/* دکمه بازگشت به صفحه اصلی */}
+          <button
+            onClick={() => navigate("/home")}
+            className="flex items-center gap-2 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 group hover:from-purple-500 hover:via-purple-600 hover:to-purple-700"
+          >
+            <i className="fas fa-home group-hover:scale-110 transition-transform duration-200"></i>
+            <span className="font-iran-yekan-medium">صفحه اصلی</span>
+            <i className="fas fa-arrow-left mr-auto group-hover:translate-x-[-4px] transition-all duration-200"></i>
+          </button>
         </div>
       </div>
+
       {/* Border با gradient زیبا */}
       <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 rounded-full shadow-lg shadow-purple-500/50"></div>
       <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent"></div>

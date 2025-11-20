@@ -1,6 +1,7 @@
 import React, { useRef, useMemo } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import Select, { components } from "react-select";
@@ -61,6 +62,7 @@ const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
 
 function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutateAsync: createDoctor } = useCreateDoctor();
   const { mutateAsync: updateDoctor } = useUpdateDoctor();
@@ -136,14 +138,23 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       if (isEditMode && doctor?.id) {
         await updateDoctor({ id: doctor.id, data: formData });
         showSuccessToast("پزشک با موفقیت ویرایش شد");
+        queryClient.invalidateQueries({ queryKey: ["doctors"] });
+        queryClient.invalidateQueries({ queryKey: ["doctor"] });
+        navigate("/admin-dashboard/doctors-management");
       } else {
         await createDoctor(formData);
         showSuccessToast("پزشک با موفقیت ایجاد شد");
         resetForm();
+        queryClient.invalidateQueries({ queryKey: ["doctors"] });
+        queryClient.invalidateQueries({ queryKey: ["doctor"] });
+        // اسکرول به بالای container اصلی
+        const scrollContainer = document.querySelector(".overflow-auto");
+        if (scrollContainer) {
+          scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
-
-      queryClient.invalidateQueries({ queryKey: ["doctors"] });
-      queryClient.invalidateQueries({ queryKey: ["doctor"] });
 
       setTimeout(() => {
         if (fileInputRef.current) {
@@ -223,10 +234,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                 placeholder="نام را وارد کنید"
                 className="bg-white"
                 requiredText
-                name="firstName"
-                value={formik.values.firstName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                {...formik.getFieldProps("firstName")}
                 errorMessage={
                   formik.touched.firstName && formik.errors.firstName
                     ? formik.errors.firstName
@@ -239,10 +247,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                 placeholder="نام خانوادگی را وارد کنید"
                 requiredText
                 className="bg-white"
-                name="lastName"
-                value={formik.values.lastName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                {...formik.getFieldProps("lastName")}
                 errorMessage={
                   formik.touched.lastName && formik.errors.lastName
                     ? formik.errors.lastName
@@ -255,10 +260,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                 placeholder="دانشگاه را وارد کنید"
                 requiredText
                 className="bg-white"
-                name="university"
-                value={formik.values.university}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                {...formik.getFieldProps("university")}
                 errorMessage={
                   formik.touched.university && formik.errors.university
                     ? formik.errors.university
@@ -271,10 +273,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                 placeholder="شماره نظام پزشکی را وارد کنید"
                 requiredText
                 className="bg-white"
-                name="medicalLicenseNo"
-                value={formik.values.medicalLicenseNo}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                {...formik.getFieldProps("medicalLicenseNo")}
                 errorMessage={
                   formik.touched.medicalLicenseNo &&
                   formik.errors.medicalLicenseNo
@@ -290,10 +289,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               optional
               rows={4}
               className="bg-white"
-              name="biography"
-              value={formik.values.biography}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              {...formik.getFieldProps("biography")}
               errorMessage={
                 formik.touched.biography && formik.errors.biography
                   ? formik.errors.biography
@@ -310,10 +306,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                   className="flex-1 bg-white"
                   labelText=""
                   placeholder="تخصص را وارد کنید و Enter بزنید"
-                  value={formik.values.skillInput}
-                  onChange={(e) =>
-                    formik.setFieldValue("skillInput", e.target.value)
-                  }
+                  {...formik.getFieldProps("skillInput")}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();

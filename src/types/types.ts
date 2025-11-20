@@ -46,6 +46,34 @@ export interface Category {
   description?: string;
 }
 
+export interface ArticleCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  order?: number;
+  published: boolean;
+  _count?: {
+    articles: number;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ServiceCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  order?: number;
+  published: boolean;
+  _count?: {
+    services: number;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface Service {
   id: string;
   title: string;
@@ -68,10 +96,51 @@ export interface Article {
   content: string;
   excerpt?: string;
   coverImage?: string;
+  author?: string;
   published: boolean;
   categories?: Category[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Comment {
+  id: string;
+  content: string;
+  rating?: number | null;
+  userId: string;
+  doctorId?: string | null;
+  articleId?: string | null;
+  serviceId?: string | null;
+  user: {
+    firstName: string;
+    lastName: string;
+  };
+  doctor?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  } | null;
+  article?: {
+    id: string;
+    title: string;
+  } | null;
+  service?: {
+    id: string;
+    title: string;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Gallery {
+  id: string;
+  title?: string | null;
+  description?: string | null;
+  image: string;
+  order: number;
+  published: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface PaginationMeta {
@@ -81,4 +150,37 @@ export interface PaginationMeta {
   totalPages: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
+}
+
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email?: string | null;
+  phoneNumber?: string | null;
+  subject?: string | null;
+  message: string;
+  read: boolean;
+  clinicId?: string | null;
+  clinic?: {
+    id: string;
+    name: string;
+  } | null;
+  createdAt: string;
+}
+
+export interface DoctorApplication {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email?: string | null;
+  phoneNumber: string;
+  doctorInfo: string;
+  documents?: string | null; // JSON array of document paths
+  read: boolean;
+  clinicId?: string | null;
+  clinic?: {
+    id: string;
+    name: string;
+  } | null;
+  createdAt: string;
 }
