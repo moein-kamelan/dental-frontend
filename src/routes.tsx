@@ -24,7 +24,8 @@ import MeetingHistory from "./pages/Main/Dashboard/MeetingHistory/MeetingHistory
 import {
   ProtectedUserDashboardRoute,
   ProtectedAuthRoute,
-} from "./utils/ProtectedRoute";
+  ProtectedAdminRoute,
+} from "./guards";
 import ProfileEdit from "./pages/Main/Dashboard/ProfileEdit/ProfileEdit";
 import BecomeDoctor from "./pages/Main/BecomeDotor/BecomeDoctor";
 import AdminDashboardLayout from "./components/layouts/AdminDashboardLayout/AdminDashboardLayout";
@@ -114,7 +115,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/admin-dashboard",
-    element: <AdminDashboardLayout />,
+    element: (
+      <ProtectedAdminRoute>
+        <AdminDashboardLayout />
+      </ProtectedAdminRoute>
+    ),
     children: [
       { index: true, element: <AdminDashboardHome /> },
       { path: "doctors-management", element: <DoctorsManagement /> },

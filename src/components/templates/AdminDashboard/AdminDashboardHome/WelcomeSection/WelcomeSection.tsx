@@ -1,12 +1,12 @@
 import React from 'react'
-
+import { useAppSelector } from '../../../../../redux/typedHooks' 
 function WelcomeSection() {
+  const { data: user } = useAppSelector((state) => state.user);
   return (
     <div className="bg-linear-to-r from-purple-400 to-purple-600  rounded-xl p-4 md:p-6 mb-8 text-white">
     <div className="flex items-center justify-between">
       <div>
-        <h2 className="text-xl md:text-2xl font-iran-yekan-bold mb-2">
-          خوش آمدید، مدیر عزیز!
+        <h2 className="text-xl md:text-2xl font-iran-yekan-bold mb-2">خوش آمدید، {user?.firstName} {user?.lastName} عزیز ! 
         </h2>
         <p className="text-white/80 font-iran-yekan-medium text-sm md:text-base">
           امروز یک روز عالی برای مدیریت کسب و کار شماست.
