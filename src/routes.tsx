@@ -25,7 +25,8 @@ import {
   ProtectedUserDashboardRoute,
   ProtectedAuthRoute,
   ProtectedAdminRoute,
-} from "./guards";
+  ProtectedAdminAuthRoute,
+} from "./components/guards";
 import ProfileEdit from "./pages/Main/Dashboard/ProfileEdit/ProfileEdit";
 import BecomeDoctor from "./pages/Main/BecomeDotor/BecomeDoctor";
 import AdminDashboardLayout from "./components/layouts/AdminDashboardLayout/AdminDashboardLayout";
@@ -51,6 +52,7 @@ import InsurancesManagement from "./pages/AdminDashboard/InsurancesManagement/In
 import ContactUsManagement from "./pages/AdminDashboard/ContactUsManagement/ContactUsManagement";
 import DoctorApplicationsManagement from "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement";
 import Settings from "./pages/AdminDashboard/Settings/Settings";
+import AdminDashboardLogin from "./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin";
 
 const routes = createBrowserRouter([
   {
@@ -108,9 +110,6 @@ const routes = createBrowserRouter([
           { path: "*", element: <Navigate to="/404" replace /> },
         ],
       },
-
-      { path: "404", element: <NotFound /> },
-      { path: "*", element: <Navigate to="/404" replace /> },
     ],
   },
   {
@@ -181,6 +180,16 @@ const routes = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/admin-dashboard-login",
+    element: (
+      <ProtectedAdminAuthRoute>
+        <AdminDashboardLogin />
+      </ProtectedAdminAuthRoute>
+    ),
+  },
+  { path: "404", element: <NotFound /> },
+  { path: "*", element: <Navigate to="/404" replace /> },
 ]);
 
 export default routes;

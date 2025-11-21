@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-  import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
+import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
+import { axiosInstance } from "../../../../utils/axios";
+import { showErrorToast, showSuccessToast } from "../../../../utils/toastify";
+import type { AxiosError } from "axios";
 
 function AdminDashBaordHeader({
   title,
@@ -10,12 +14,12 @@ function AdminDashBaordHeader({
   title?: string;
   backButton?: boolean;
 }) {
- const {data: user} = useAppSelector((state) => state.user);
+  const { data: user } = useAppSelector((state) => state.user);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -75,7 +79,11 @@ function AdminDashBaordHeader({
                   {user?.firstName} {user?.lastName}
                 </span>
                 <span className=" font-iran-yekan-medium text-paragray">
-                  {user?.role === "ADMIN" ? "مدیر" : user?.role === "SECRETARY" ? "منشی" : "بیمار"}
+                  {user?.role === "ADMIN"
+                    ? "مدیر"
+                    : user?.role === "SECRETARY"
+                    ? "منشی"
+                    : "بیمار"}
                 </span>
               </div>
               <i
@@ -94,16 +102,39 @@ function AdminDashBaordHeader({
                 </button>
                 <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
                   <i className="fas fa-cog text-gray-500"></i>
-                  <Link onClick={() => setIsDropdownOpen(false)} to={"/admin-dashboard/settings"} className="text-dark font-iran-yekan-medium">
+                  <Link
+                    onClick={() => setIsDropdownOpen(false)}
+                    to={"/admin-dashboard/settings"}
+                    className="text-dark font-iran-yekan-medium"
+                  >
                     تنظیمات
                   </Link>
-                </button >
+                </button>
                 <hr className="my-2 border-gray-200" />
-                <button onClick={() => {
-                  dispatch(clearUser());
-                  setIsDropdownOpen(false);
-                  navigate("/home");
-                }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition-colors text-red-500 hover:text-red-600">
+                <button
+                  onClick={async () => {
+                    await axiosInstance.post("/auth/logout");
+                    try {
+                      dispatch(clearUser());
+                      dispatch(clearCsrfToken());
+                      setIsDropdownOpen(false);
+                      showSuccessToast("خروج موفقیت‌آمیز بود");
+                      navigate("/home");
+                    } catch (error) {
+                      const err = error as AxiosError<{ message?: string }>;
+
+                      const errorMessage =
+                        typeof err.response?.data === "object" &&
+                        err.response?.data?.message
+                          ? err.response.data.message
+                          : "خطا در خروج از حساب. لطفاً دوباره تلاش کنید.";
+
+                      showErrorToast(errorMessage);
+                      console.error("خطا در خروج:", error);
+                    }
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition-colors text-red-500 hover:text-red-600"
+                >
                   <i className="fas fa-sign-out-alt"></i>
                   <span className="font-iran-yekan-medium">خروج</span>
                 </button>

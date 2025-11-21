@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "../redux/typedHooks";
+import { useAppSelector } from "../../redux/typedHooks";
 import React from "react";
 
-export function ProtectedUserDashboardRoute({
+export function ProtectedAdminRoute({
   children,
 }: {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export function ProtectedUserDashboardRoute({
     );
   }
 
-  if (!user) {
+  if (!user || (user.role !== "ADMIN" && user.role !== "SECRETARY")) {
     return <Navigate to="/home" replace />;
   }
 

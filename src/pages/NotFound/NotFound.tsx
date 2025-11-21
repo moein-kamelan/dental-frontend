@@ -1,10 +1,14 @@
 import React from 'react'
 import Breadcrumb from '../../components/modules/Main/Breadcrumb/Breadcrumb'
 import { Link } from 'react-router-dom'
+import Topbar from '../../components/modules/Main/Topbar/Topbar'
+import Navbar from '../../components/modules/Main/Navbar/Navbar'
 
 function NotFound({ text }: { text?: string }) {
   return (
     <>
+    <Topbar/>
+    <Navbar/>
     <Breadcrumb/>
 
       <section className="py-20">
