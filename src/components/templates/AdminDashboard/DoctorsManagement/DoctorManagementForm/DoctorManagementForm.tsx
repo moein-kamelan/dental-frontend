@@ -3,7 +3,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
-import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import Select, { components } from "react-select";
 import type { DropdownIndicatorProps } from "react-select";
 import {
@@ -17,6 +16,7 @@ import {
 } from "../../../../../utils/toastify";
 import type { OptionType, Clinic, Doctor } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
+import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
 
 const daysOfWeek = [
   { value: "saturday", label: "شنبه" },
@@ -283,13 +283,15 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               />
             </div>
 
-            <CustomTextArea
+            <TextEditor
               labelText="بیوگرافی"
               placeholder="بیوگرافی پزشک را وارد کنید"
               optional
-              rows={4}
-              className="bg-white"
-              {...formik.getFieldProps("biography")}
+              value={formik.values.biography}
+              onChange={(data) => {
+                formik.setFieldValue("biography", data);
+                formik.setFieldTouched("biography", true);
+              }}
               errorMessage={
                 formik.touched.biography && formik.errors.biography
                   ? formik.errors.biography
