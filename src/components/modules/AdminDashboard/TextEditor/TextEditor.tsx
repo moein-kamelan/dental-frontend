@@ -68,6 +68,7 @@ interface TextEditorProps {
   labelText?: string;
   errorMessage?: string | null;
   optional?: boolean;
+  
 }
 
 export default function TextEditor({

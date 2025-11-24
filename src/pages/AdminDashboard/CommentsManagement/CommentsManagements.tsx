@@ -170,6 +170,11 @@ function CommentsManagements() {
     setPage(1);
   }, [activeTab]);
 
+  // وقتی جستجو تغییر می‌کند (بعد از debounce)، صفحه را به 1 برگردان
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
+
   return (
     <main>
       <SectionContainer>
@@ -219,7 +224,7 @@ function CommentsManagements() {
           <div className="relative max-w-md">
             <CustomInput
               labelText="جستجو"
-              placeholder="جستجو بر اساس متن نظر..."
+              placeholder="جستجو بر اساس متن نظر، نام کاربر، نام پزشک/مقاله/خدمت..."
               className="bg-white pr-12"
               value={searchInput}
               onChange={(e) => {

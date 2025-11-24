@@ -31,34 +31,13 @@ function DoctorCard({ doctor }: DoctorCardProps) {
     >
       <div className="relative overflow-hidden shrink-0">
         <img
-          src={doctor.profileImage || "images/team-1.jpg"}
+          src={doctor?.profileImage ? `http://localhost:4000${doctor.profileImage}` : "/images/team-1.jpg"}
           alt={`${doctor.firstName} ${doctor.lastName}`}
           className="w-full h-80 object-cover"
         />
 
         <div className=" absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center">
-          <ul className="absolute invisible opacity-0 group-hover/card:visible group-hover/card:opacity-100 bottom-8 left-8 flex flex-col items-center bg-primary gap-2 px-1 py-2 rounded-4xl transition-all duration-500">
-            <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
-              <a href="#" onClick={handleSocialClick}>
-                <i className="fab fa-facebook-f text-white text-base group-hover:text-primary"></i>
-              </a>
-            </li>
-            <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
-              <a href="#" onClick={handleSocialClick}>
-                <i className="fab fa-twitter text-white text-base group-hover:text-primary"></i>
-              </a>
-            </li>
-            <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
-              <a href="#" onClick={handleSocialClick}>
-                <i className="fab fa-whatsapp text-white text-base group-hover:text-primary"></i>
-              </a>
-            </li>
-            <li className="group size-8 flex items-center justify-center rounded-full hover:bg-white transition">
-              <a href="#" onClick={handleSocialClick}>
-                <i className="fab fa-linkedin-in text-white text-base group-hover:text-primary"></i>
-              </a>
-            </li>
-          </ul>
+     
         </div>
       </div>
 

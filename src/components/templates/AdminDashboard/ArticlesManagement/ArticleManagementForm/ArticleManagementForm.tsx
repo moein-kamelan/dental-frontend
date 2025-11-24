@@ -17,6 +17,7 @@ import {
 } from "../../../../../utils/toastify";
 import type { OptionType, Category, Article } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
+import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
 
 const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
   return (
@@ -63,7 +64,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
     () =>
       Yup.object({
         title: Yup.string().required("عنوان الزامی است"),
-        content: Yup.string().required("محتوا الزامی است"),
+        content: Yup.string().required("محتوای مقاله الزامی است"),
         excerpt: Yup.string(),
         author: Yup.string(),
         published: Yup.boolean(),
@@ -220,13 +221,16 @@ function ArticleManagementForm({ article }: { article?: Article }) {
               }
             />
 
-            <CustomTextArea
+    
+                   <TextEditor
               labelText="محتوا"
               placeholder="محتوا مقاله را وارد کنید"
               requiredText
-              rows={10}
-              className="bg-white"
-              {...formik.getFieldProps("content")}
+              value={formik.values.content}
+              onChange={(data) => {
+                formik.setFieldValue("content", data);
+                formik.setFieldTouched("content", true);
+              }}
               errorMessage={
                 formik.touched.content && formik.errors.content
                   ? formik.errors.content

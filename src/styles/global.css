@@ -27,6 +27,9 @@
 figure {
   @apply text-center flex items-center justify-center py-4; 
 }
+figure img {
+  @apply w-full h-full object-cover rounded-xl;
+}
  /* end ckeditor styles */
 
  

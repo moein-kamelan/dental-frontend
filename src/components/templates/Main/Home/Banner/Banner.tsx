@@ -1,10 +1,12 @@
 import  { useEffect, useState } from "react";
 import "./Banner.css";
 import {useMotionValueEvent, useMotionValue, animate, motion} from 'motion/react';
+import { useGetSettings } from "../../../../../services/useSettings";
 function Banner() {
    const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] = useState(0);
    const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] = useState(0);
    const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] = useState(0);
+   const { data: settings } = useGetSettings();
 
    const patientsRecoverdCount = useMotionValue(0)
    const susseccfulVisitsCount = useMotionValue(0)
@@ -49,10 +51,10 @@ function Banner() {
                         <span>به مدیفکس خوش آمدید</span>
                     </div>
                     <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
-                        ما به سلامتی شما متعهد هستیم
+                        {settings?.data.settings.siteTitle}
                     </h1>
                     <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
-                        این یک واقعیت ثابت است که وقتی خواننده حواسش به محتوای یک صفحه می‌شود نگاه کردن به این طرح
+                        {settings?.data.settings.description}
                     </p>
                     <a href="doctor.html" className="inline-block main-btn">
                         درخواست وقت دکتر

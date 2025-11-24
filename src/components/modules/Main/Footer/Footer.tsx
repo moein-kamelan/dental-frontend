@@ -1,7 +1,9 @@
 import React from 'react'
 import {motion} from 'motion/react';
+import { useGetSettings } from '../../../../services/useSettings';
 
 function Footer() {
+      const {data : settings } = useGetSettings()
   return (
        <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42">
         <div className="container mx-auto px-4 max-sm:pt-52  pt-46 sm:pt-40 lg:pt-32 relative ">
@@ -30,7 +32,7 @@ function Footer() {
             <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_2fr_3fr] gap-8 mb-12">
 
                 <div className='xs:col-span-2 md:col-span-3 lg:col-span-1'>
-                    <img src="../../../../../../public/images/footer_logo.png" alt="logo" className="mb-6 w-32"/>
+                    <img src={ settings?.data.settings.logo } alt="logo" className="mb-6 w-40 h-20"/>
                     <p className="text-paragray font-estedad-light mb-4 ">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</p>
                     <div className="mb-4">
                         <span className="text-dark font-estedad-light">سلام به : </span>

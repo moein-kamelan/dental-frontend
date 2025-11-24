@@ -6,6 +6,7 @@ export type OptionType = {
 export interface Clinic {
   id: string;
   name: string;
+  slug: string;
   address: string;
   phoneNumber: string;
   description?: string;

@@ -7,6 +7,7 @@ import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
 import MobileMenu from "./MobileMenu";
+import { useGetSettings } from "../../../../services/useSettings";
 
 function Navbar() {
   const user = useAppSelector((state) => state.user.data);
@@ -16,7 +17,7 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+  const { data: settings } = useGetSettings();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -57,11 +58,11 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full ">
-          <NavLink to={"/home"} className="w-20 h-20 ">
+          <NavLink to={"/home"} className="w-40 h-19  flex items-center justify-center">
             <img
-              src="../../../../../public/images/madifax-logo.png"
+              src={settings?.data.settings.logo }
               alt="logo"
-              className="object-cover"
+              className="h-full w-full   "
             />
           </NavLink>
 

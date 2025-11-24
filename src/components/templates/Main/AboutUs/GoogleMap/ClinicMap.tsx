@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import L from "leaflet";
+import type { Clinic } from "../../../../../types/types";
 
 const customIcon = new L.Icon({
   iconUrl: "/images/leaflet/marker-icon.png",
@@ -11,38 +12,17 @@ const customIcon = new L.Icon({
   popupAnchor: [1, -34],
 });
 
-interface Clinic {
-  id: string;
-  name: string;
-  slug: string;
-  address: string;
-  phoneNumber: string;
-  description: string;
-  latitude: number;
-  longitude: number;
-  createdAt: string;
-  updatedAt: string;
-  _count: {
-    doctors: number;
-  };
-}
-
 interface ClinicProps {
-  clinics?: Clinic[];
+  clinic?: Clinic;
 }
 
-function ClinicMap({ clinics }: ClinicProps) {
-  console.log(clinics);
-
-  // اگر داده‌ای نباشد یا آرایه خالی باشد، یک موقعیت پیش‌فرض استفاده می‌کنیم
-  const defaultPosition: [number, number] = [35.6892, 51.389]; // تهران
-
-  // اولین کلینیک را برای نمایش انتخاب می‌کنیم
-  const clinic = clinics && clinics.length > 0 ? clinics[0] : null;
-  const position: [number, number] = clinic
-    ? [clinic.latitude, clinic.longitude]
-    : defaultPosition;
-
+function ClinicMap({ clinic }: ClinicProps) {
+  console.log(clinic);
+  // Check if clinic has valid coordinates, otherwise use default
+  const hasValidCoordinates = clinic?.latitude != null && clinic?.longitude != null;
+  const position: [number, number] = hasValidCoordinates
+    ? [clinic.latitude!, clinic.longitude!]
+    : [35.6892, 51.389];
   return (
     <section className="pt-8 pb-40">
       <div className="px-4">
