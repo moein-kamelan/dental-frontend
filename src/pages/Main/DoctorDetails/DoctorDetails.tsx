@@ -75,28 +75,8 @@ function DoctorDetails() {
                       {doctor?.data?.doctor?.lastName}
                     </h3>
                   </div>
-                  <div className="space-y-6 p-6">
-                    <div>
-                      <h4 className="mb-4 font-estedad-semibold text-lg ">
-                        پیشینه آموزشی
-                      </h4>
-                      <p className="text-paragray">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                        چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون
-                        بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="mb-4 font-estedad-semibold text-lg ">
-                        مهارت های تجربه پزشکی
-                      </h4>
-                      <p className="text-paragray">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                        چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون
-                        بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
-                      </p>
-                    </div>
-                  </div>
+                  <div className="py-8 px-10" dangerouslySetInnerHTML={ {__html: doctor?.data?.doctor?.biography || ""} }></div>
+                 
                 </div>
               </div>
 

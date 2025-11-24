@@ -8,6 +8,7 @@ interface ServiceCommentsTableProps {
   isLoadingComments: boolean;
   page: number;
   onDeleteClick: (id: string, content: string) => void;
+  onCommentClick?: (comment: Comment) => void;
 }
 
 function ServiceCommentsTable({
@@ -15,6 +16,7 @@ function ServiceCommentsTable({
   isLoadingComments,
   page,
   onDeleteClick,
+  onCommentClick,
 }: ServiceCommentsTableProps) {
   const renderStars = (rating: number | null | undefined) => {
     if (!rating) return <span className="text-paragray">-</span>;
@@ -87,7 +89,15 @@ function ServiceCommentsTable({
                   )}
                 </td>
                 <td className="text-dark font-estedad-light">
-                  <span className="line-clamp-2 max-w-[300px]">
+                  <span
+                    className={`line-clamp-2 max-w-[300px] ${
+                      onCommentClick
+                        ? "cursor-pointer hover:text-primary transition-colors"
+                        : ""
+                    }`}
+                    onClick={() => onCommentClick?.(comment)}
+                    title={onCommentClick ? "کلیک برای مشاهده جزئیات" : ""}
+                  >
                     {comment.content}
                   </span>
                 </td>

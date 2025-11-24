@@ -57,11 +57,11 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full ">
-          <NavLink to={"/home"} className="w-40 lg:w-24 xl:w-40">
+          <NavLink to={"/home"} className="w-20 h-20 ">
             <img
-              src="../../../../../public/images/Logo_1.png"
+              src="../../../../../public/images/madifax-logo.png"
               alt="logo"
-              className="w-full"
+              className="object-cover"
             />
           </NavLink>
 

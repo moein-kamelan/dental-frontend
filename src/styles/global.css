@@ -22,13 +22,10 @@
 	margin-right: auto;
 }
 
-.editor-container_classic-editor .editor-container__editor {
-	min-width: 795px;
-	max-width: 795px;
-}
 
-.editor-container_include-block-toolbar {
-	margin-left: 42px;
+
+figure {
+  @apply text-center flex items-center justify-center py-4; 
 }
  /* end ckeditor styles */
 

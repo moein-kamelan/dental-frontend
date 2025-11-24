@@ -8,6 +8,7 @@ interface DoctorCommentsTableProps {
   isLoadingComments: boolean;
   page: number;
   onDeleteClick: (id: string, content: string) => void;
+  onCommentClick?: (comment: Comment) => void;
 }
 
 function DoctorCommentsTable({
@@ -15,6 +16,7 @@ function DoctorCommentsTable({
   isLoadingComments,
   page,
   onDeleteClick,
+  onCommentClick,
 }: DoctorCommentsTableProps) {
   const renderStars = (rating: number | null | undefined) => {
     if (!rating) return <span className="text-paragray">-</span>;
@@ -24,7 +26,9 @@ function DoctorCommentsTable({
           <i
             key={index}
             className={`far ${
-              index < rating ? "fa-star text-yellow-400" : "fa-star text-gray-300"
+              index < rating
+                ? "fa-star text-yellow-400"
+                : "fa-star text-gray-300"
             }`}
           ></i>
         ))}
@@ -87,7 +91,15 @@ function DoctorCommentsTable({
                   )}
                 </td>
                 <td className="text-dark font-estedad-light">
-                  <span className="line-clamp-2 max-w-[300px]">
+                  <span
+                    className={`line-clamp-2 max-w-[300px] ${
+                      onCommentClick
+                        ? "cursor-pointer hover:text-primary transition-colors"
+                        : ""
+                    }`}
+                    onClick={() => onCommentClick?.(comment)}
+                    title={onCommentClick ? "کلیک برای مشاهده جزئیات" : ""}
+                  >
                     {comment.content}
                   </span>
                 </td>
@@ -123,4 +135,3 @@ function DoctorCommentsTable({
 }
 
 export default DoctorCommentsTable;
-

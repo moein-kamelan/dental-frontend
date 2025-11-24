@@ -14,6 +14,8 @@ import { useDebounce } from "use-debounce";
 import DeleteModal from "../../../components/modules/AdminDashboard/DeleteModal/DeleteModal";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
+import ViewCommentModal from "../../../components/modules/AdminDashboard/ViewCommentModal/ViewCommentModal";
+import type { Comment } from "../../../types/types";
 
 type CommentType = "doctor" | "article" | "service";
 
@@ -30,6 +32,8 @@ function CommentsManagements() {
     content: string;
   } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
   const queryClient = useQueryClient();
   const { mutateAsync: deleteComment } = useDeleteComment();
 
@@ -52,7 +56,7 @@ function CommentsManagements() {
     data: articleCommentsData,
     isLoading: isLoadingArticleComments,
     isPending: isPendingArticleComments,
-  } = useGetAllComments(page, 5, debouncedSearch);
+  } = useGetAllComments(page, 5, debouncedSearch, "article");
 
   // کامنت‌های خدمات
   const {
@@ -124,6 +128,16 @@ function CommentsManagements() {
       setDeleteModalOpen(false);
       setCommentToDelete(null);
     }
+  };
+
+  const handleCommentClick = (comment: Comment) => {
+    setSelectedComment(comment);
+    setViewModalOpen(true);
+  };
+
+  const handleCloseViewModal = () => {
+    setViewModalOpen(false);
+    setSelectedComment(null);
   };
 
   // داده‌های مربوط به تب فعال
@@ -228,6 +242,7 @@ function CommentsManagements() {
             isLoadingComments={activeTabData.isLoading}
             page={page}
             onDeleteClick={handleDeleteClick}
+            onCommentClick={handleCommentClick}
           />
         )}
 
@@ -237,6 +252,7 @@ function CommentsManagements() {
             isLoadingComments={activeTabData.isLoading}
             page={page}
             onDeleteClick={handleDeleteClick}
+            onCommentClick={handleCommentClick}
           />
         )}
 
@@ -246,6 +262,7 @@ function CommentsManagements() {
             isLoadingComments={activeTabData.isLoading}
             page={page}
             onDeleteClick={handleDeleteClick}
+            onCommentClick={handleCommentClick}
           />
         )}
 
@@ -265,6 +282,12 @@ function CommentsManagements() {
         confirmText="حذف"
         cancelText="انصراف"
         isLoading={isDeleting}
+      />
+      <ViewCommentModal
+        isOpen={viewModalOpen}
+        onClose={handleCloseViewModal}
+        comment={selectedComment}
+        commentType={activeTab}
       />
     </main>
   );

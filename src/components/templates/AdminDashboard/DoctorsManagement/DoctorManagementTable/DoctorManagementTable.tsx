@@ -69,8 +69,8 @@ function DoctorsManagementTable({
                         دکتر {doctor.firstName} {doctor.lastName}
                       </p>
                       {doctor.biography && (
-                        <span className="text-xs font-estedad-light text-paragray line-clamp-1">
-                          {doctor.biography.substring(0, 30)}...
+                        <span  className="text-xs font-estedad-light text-paragray line-clamp-1">
+                          {doctor.biography.substring(0, 30)}... 
                         </span>
                       )}
                     </div>

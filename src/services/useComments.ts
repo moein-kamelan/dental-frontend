@@ -16,9 +16,20 @@ export const useGetAllComments = (
       });
 
       if (search) params.append("search", search);
-      if (type) params.append("type", type);
 
-      const response = await axiosInstance.get(`/comments?${params.toString()}`);
+      // Use the correct endpoint based on type
+      let endpoint = "/comments";
+      if (type === "doctor") {
+        endpoint = "/comments/all/doctors";
+      } else if (type === "article") {
+        endpoint = "/comments/all/articles";
+      } else if (type === "service") {
+        endpoint = "/comments/all/services";
+      }
+
+      const response = await axiosInstance.get(
+        `${endpoint}?${params.toString()}`
+      );
       return response.data;
     },
     staleTime: 1000 * 60 * 5,
@@ -33,4 +44,3 @@ export const useDeleteComment = () => {
     },
   });
 };
-
