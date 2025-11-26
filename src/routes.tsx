@@ -53,6 +53,8 @@ import ContactUsManagement from "./pages/AdminDashboard/ContactUsManagement/Cont
 import DoctorApplicationsManagement from "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement";
 import Settings from "./pages/AdminDashboard/Settings/Settings";
 import AdminDashboardLogin from "./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin";
+import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
+import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
 
 const routes = createBrowserRouter([
   {
@@ -173,6 +175,11 @@ const routes = createBrowserRouter([
       {
         path: "doctor-applications-management",
         element: <DoctorApplicationsManagement />,
+      },
+      { path: "users-management", element: <UsersManagement /> },
+      {
+        path: "users-management/edit/:id",
+        element: <UsersManagementEdit />,
       },
       {
         path: "settings",

@@ -24,6 +24,11 @@ function AdminDashboardSidebar() {
           title="داشبورد"
           end={true}
         />
+           <AdminDashboardSidebarLink
+          to={"/admin/users-management"}
+          icon="fas fa-users"
+          title="کاربران"
+        />
         <AdminDashboardSidebarLink
           to={"/admin/doctors-management"}
           icon="fas fa-user-md"
@@ -112,6 +117,7 @@ function AdminDashboardSidebar() {
           icon="fas fa-user-plus"
           title="درخواست عضویت پزشکان"
         />
+     
       </nav>
     </aside>
   );
