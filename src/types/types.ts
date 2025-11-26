@@ -185,3 +185,22 @@ export interface DoctorApplication {
   } | null;
   createdAt: string;
 }
+
+export interface User {
+  id: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+  role: "ADMIN" | "SECRETARY" | "PATIENT";
+  nationalCode?: string | null;
+  address?: string | null;
+  gender?: "MALE" | "FEMALE" | "OTHER" | null;
+  profileImage?: string | null;
+  clinicId?: string | null;
+  clinic?: {
+    id: string;
+    name: string;
+  } | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
