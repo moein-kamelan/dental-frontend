@@ -1,0 +1,14 @@
+.scale-animation {
+    animation: scale-bounce 1500ms linear  infinite alternate-reverse;
+    -webkit-animation: scale-bounce 1500ms linear  infinite alternate-reverse;
+}
+
+
+@keyframes scale-bounce {
+    0%{
+        scale: 1;
+    }
+    100%{
+        scale: 1.2;
+    }
+}

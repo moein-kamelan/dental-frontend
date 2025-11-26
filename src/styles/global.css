@@ -1,0 +1,242 @@
+@import "tailwindcss";
+@import "./fonts.css";
+@import "swiper/css";
+@import "swiper/css/navigation";
+/* ckeditor styles */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media print {
+	body {
+		margin: 0 !important;
+	}
+}
+
+:root {
+	--ck-content-font-family: 'Lato';
+}
+
+.main-container {
+	font-family: var(--ck-content-font-family);
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
+figure {
+  @apply text-center flex items-center justify-center py-4; 
+}
+figure img {
+  @apply w-full h-full object-cover rounded-xl max-h-150!;
+}
+ /* end ckeditor styles */
+
+ 
+@theme {
+  --color-primary: #153d3d;
+  --color-secondary: #d4af37;
+  --color-tertiary: #3d8a8a;
+  --color-accent: #2a7a7a;
+  --color-paragray: #6b7a7a;
+  --color-dark: #153d3d;
+  --color-semantic-red: #f7588d;
+  --color-semantic-yellow: #d4af37;
+  --color-main-border-color: #5e5b5b17;
+
+  --breakpoint-xs: 480px;
+
+  --font-iran-yekan-bold: "iran-yekan-bold";
+  --font-iran-yekan-thin: "iran-yekan-thin";
+  --font-iran-yekan-medium: "iran-yekan-medium";
+
+  --font-iran-sans-normal: "iran-normal";
+  --font-iran-sans-light: "iran-light";
+  --font-iran-sans-bold: "iran-bold";
+  --font-iran-sans-ultralight: "iran-ultralight";
+
+  --font-estedad-verybold: "estedad-verybold";
+  --font-estedad-lightbold: "estedad-lightbold";
+  --font-estedad-light: "estedad-light";
+  --font-estedad-extralight: "estedad-extralight";
+  --font-estedad-medium: "estedad-medium";
+  --font-estedad-semibold: "estedad-semibold";
+}
+
+:root {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  width: 100%;
+  position: relative;
+  font-family: var(--font-estedad-medium), sans-serif;
+  @apply text-dark;
+}
+
+/* Prevent overflow during animations */
+section {
+  overflow-x: hidden;
+  position: relative;
+}
+
+button {
+  cursor: pointer;
+}
+
+* {
+  outline: none;
+}
+
+.css-1u9des2-indicatorSeparator {
+  display: none;
+}
+
+@utility custom-title {
+  @apply text-dark font-estedad-verybold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-10 md:mt-[70px] text-justify leading-12;
+}
+
+@utility custom-sub-title {
+  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit ;
+}
+
+@utility main-btn {
+  @apply bg-accent text-white py-3 px-10 rounded-[30px] font-estedad-semibold hover:bg-secondary transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0 after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4;
+}
+
+@utility main-header {
+  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#18181817] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
+}
+
+@utility section-border {
+  @apply border-[2px] border-[#5e5b5b17] rounded-[10px];
+}
+
+@utility purple-btn {
+  @apply px-8 py-3 bg-purple-500 hover:bg-purple-600 border-2 border-purple-700 text-white rounded-md transition font-estedad-semibold ;
+}
+
+.swiper {
+  @apply pb-4;
+}
+
+.custom-bullet {
+  @apply inline-block w-4 h-2 bg-accent/30 rounded-full transition-all duration-300 cursor-pointer;
+}
+
+.swiper-pagination-bullet-active.custom-bullet {
+  @apply bg-accent w-8 shadow-[0_0_8px_rgba(212,175,55,0.4)];
+}
+
+/* toastify styles */
+.Toastify__toast,
+.Toastify__progress-bar-theme--light {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.Toastify__toast-body {
+  margin: 0;
+  padding: 0;
+}
+.Toastify__progress-bar--wrp {
+  width: 100%;
+}
+.sussecc-progress-bar,
+.error-progress-bar {
+  @apply bg-yellow-300;
+  height: 5px !important;
+  border-radius: 0 0 10px 10px !important;
+  width: 100%;
+}
+
+/* input type number styles  */
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid lightblue;
+  border-right-color: orange;
+  animation: l2 1s infinite linear;
+}
+@keyframes l2 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.btn-loader {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  animation: btn-loader-spin 0.8s infinite linear;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+@keyframes btn-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.main-btn:disabled {
+  pointer-events: none;
+}
+
+.main-btn:disabled:hover {
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+}
+
+.main-btn:disabled:hover::after {
+  opacity: 0;
+}
+
+/* Sidebar scrollbar styles */
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Firefox scrollbar styles */
+.sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+}
