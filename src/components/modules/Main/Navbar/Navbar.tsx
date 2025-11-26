@@ -58,7 +58,7 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full ">
-          <NavLink to={"/home"} className="w-40 h-19  flex items-center justify-center">
+          <NavLink to={"/home"} className="w-40 h-15  flex items-center justify-center">
             <img
               src={settings?.data.settings.logo }
               alt="logo"

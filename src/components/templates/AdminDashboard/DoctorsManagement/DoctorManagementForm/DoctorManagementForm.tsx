@@ -88,7 +88,10 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         medicalLicenseNo: Yup.string().required("شماره نظام پزشکی الزامی است"),
         biography: Yup.string(),
         skills: Yup.array().of(Yup.string()),
-        clinicIds: Yup.array().of(Yup.string().uuid()),
+        clinicIds: Yup.array()
+          .of(Yup.string().uuid())
+          .min(1, "انتخاب حداقل یک کلینیک الزامی است")
+          .required("انتخاب کلینیک الزامی است"),
         workingDays: Yup.object(),
       }),
     []
@@ -131,7 +134,12 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         formData.append("workingDays", JSON.stringify(values.workingDays));
       }
 
-      if (values.profileImage) {
+      // Only append file if it's a valid File object (not a fake one from URL)
+      if (
+        values.profileImage &&
+        values.profileImage instanceof File &&
+        values.profileImage.size > 0
+      ) {
         formData.append("profileImage", values.profileImage);
       }
 
@@ -140,7 +148,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         showSuccessToast("پزشک با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["doctors"] });
         queryClient.invalidateQueries({ queryKey: ["doctor"] });
-        navigate("/admin-dashboard/doctors-management");
+        navigate("/admin/doctors-management");
       } else {
         await createDoctor(formData);
         showSuccessToast("پزشک با موفقیت ایجاد شد");
@@ -186,9 +194,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
           ([] as string[]),
         workingDays:
           doctor?.workingDays || ({} as Record<string, string | null>),
-        profileImage: doctor?.profileImage
-          ? new File([], doctor.profileImage)
-          : (null as File | null),
+        profileImage: null as File | null,
         skillInput: "",
       }}
       validationSchema={validationSchema}
@@ -210,6 +216,24 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       }}
     >
       {(formik) => {
+        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
+        const getCurrentFileName = () => {
+          if (
+            formik.values.profileImage &&
+            formik.values.profileImage instanceof File
+          ) {
+            return formik.values.profileImage.name;
+          }
+          if (doctor?.profileImage) {
+            // استخراج نام فایل از URL
+            const urlParts = doctor.profileImage.split("/");
+            return urlParts[urlParts.length - 1] || "فایل موجود";
+          }
+          return null;
+        };
+
+        const currentFileName = getCurrentFileName();
+
         const addSkill = () => {
           if (formik.values.skillInput.trim()) {
             const newSkills = [
@@ -344,8 +368,9 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 کلینیک‌ ها
+                <span className="text-red-500 mr-1">*</span>
               </label>
-              <div className="mr-4">
+              <div className="">
                 <Select<OptionType, true>
                   isMulti
                   options={clinicOptions}
@@ -357,7 +382,9 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                       ? selected.map((opt) => opt.value)
                       : [];
                     formik.setFieldValue("clinicIds", ids);
+                    formik.setFieldTouched("clinicIds", true);
                   }}
+                  onBlur={() => formik.setFieldTouched("clinicIds", true)}
                   placeholder="کلینیک‌ها را انتخاب کنید"
                   components={{ DropdownIndicator }}
                   classNames={{
@@ -376,6 +403,11 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                     placeholder: () => `!text-dark`,
                   }}
                 />
+                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
+                  {formik.touched.clinicIds && formik.errors.clinicIds && (
+                    <span>{formik.errors.clinicIds}</span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -431,24 +463,32 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               </div>
             </div>
 
-            <CustomInput
-              ref={fileInputRef}
-              inputType="file"
-              labelText="تصویر پروفایل"
-              placeholder="تصویر پروفایل را انتخاب کنید"
-              className="bg-white"
-              optional
-              name="profileImage"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const file = e.target.files?.[0] || null;
-                formik.setFieldValue("profileImage", file);
-              }}
-              errorMessage={
-                formik.touched.profileImage && formik.errors.profileImage
-                  ? formik.errors.profileImage
-                  : null
-              }
-            />
+            <div>
+              <CustomInput
+                ref={fileInputRef}
+                inputType="file"
+                labelText="تصویر پروفایل"
+                placeholder="تصویر پروفایل را انتخاب کنید"
+                className="bg-white"
+                optional
+                name="profileImage"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const file = e.target.files?.[0] || null;
+                  formik.setFieldValue("profileImage", file);
+                }}
+                errorMessage={
+                  formik.touched.profileImage && formik.errors.profileImage
+                    ? formik.errors.profileImage
+                    : null
+                }
+              />
+              {currentFileName && (
+                <div className="mr-4 mt-2 text-sm text-paragray">
+                  <span className="font-estedad-lightbold">فایل فعلی: </span>
+                  <span className="font-estedad-light">{currentFileName}</span>
+                </div>
+              )}
+            </div>
 
             <div className="flex justify-end mt-6">
               <button

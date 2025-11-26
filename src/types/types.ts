@@ -80,8 +80,6 @@ export interface Service {
   title: string;
   slug: string;
   description: string;
-  beforeTreatmentTips?: string;
-  afterTreatmentTips?: string;
   price?: number;
   durationMinutes?: number;
   coverImage?: string;
@@ -109,6 +107,7 @@ export interface Comment {
   content: string;
   rating?: number | null;
   userId: string;
+  parentId?: string | null;
   doctorId?: string | null;
   articleId?: string | null;
   serviceId?: string | null;
@@ -129,6 +128,7 @@ export interface Comment {
     id: string;
     title: string;
   } | null;
+  replies?: Comment[];
   createdAt: string;
   updatedAt: string;
 }

@@ -49,6 +49,8 @@ function CommentsManagements() {
     data: doctorCommentsData,
     isLoading: isLoadingDoctorComments,
     isPending: isPendingDoctorComments,
+    refetch: refetchDoctorComments,
+    isFetching: isFetchingDoctorComments,
   } = useGetAllComments(page, 5, debouncedSearch, "doctor");
 
   // کامنت‌های مقالات
@@ -56,6 +58,8 @@ function CommentsManagements() {
     data: articleCommentsData,
     isLoading: isLoadingArticleComments,
     isPending: isPendingArticleComments,
+    refetch: refetchArticleComments,
+    isFetching: isFetchingArticleComments,
   } = useGetAllComments(page, 5, debouncedSearch, "article");
 
   // کامنت‌های خدمات
@@ -63,6 +67,8 @@ function CommentsManagements() {
     data: serviceCommentsData,
     isLoading: isLoadingServiceComments,
     isPending: isPendingServiceComments,
+    refetch: refetchServiceComments,
+    isFetching: isFetchingServiceComments,
   } = useGetAllComments(page, 5, debouncedSearch, "service");
 
   // مدیریت loading state برای جستجو
@@ -147,18 +153,24 @@ function CommentsManagements() {
         comments: doctorCommentsData?.data?.comments || [],
         meta: doctorCommentsData?.meta,
         isLoading: isLoadingDoctorComments || isPendingDoctorComments,
+        refetch: refetchDoctorComments,
+        isRefetching: isFetchingDoctorComments,
       };
     } else if (activeTab === "article") {
       return {
         comments: articleCommentsData?.data?.comments || [],
         meta: articleCommentsData?.meta,
         isLoading: isLoadingArticleComments || isPendingArticleComments,
+        refetch: refetchArticleComments,
+        isRefetching: isFetchingArticleComments,
       };
     } else {
       return {
         comments: serviceCommentsData?.data?.comments || [],
         meta: serviceCommentsData?.meta,
         isLoading: isLoadingServiceComments || isPendingServiceComments,
+        refetch: refetchServiceComments,
+        isRefetching: isFetchingServiceComments,
       };
     }
   };
@@ -248,6 +260,8 @@ function CommentsManagements() {
             page={page}
             onDeleteClick={handleDeleteClick}
             onCommentClick={handleCommentClick}
+            onRefetch={activeTabData.refetch}
+            isRefetching={activeTabData.isRefetching}
           />
         )}
 
@@ -258,6 +272,8 @@ function CommentsManagements() {
             page={page}
             onDeleteClick={handleDeleteClick}
             onCommentClick={handleCommentClick}
+            onRefetch={activeTabData.refetch}
+            isRefetching={activeTabData.isRefetching}
           />
         )}
 
@@ -268,6 +284,8 @@ function CommentsManagements() {
             page={page}
             onDeleteClick={handleDeleteClick}
             onCommentClick={handleCommentClick}
+            onRefetch={activeTabData.refetch}
+            isRefetching={activeTabData.isRefetching}
           />
         )}
 
@@ -293,6 +311,7 @@ function CommentsManagements() {
         onClose={handleCloseViewModal}
         comment={selectedComment}
         commentType={activeTab}
+        onRefetch={activeTabData.refetch}
       />
     </main>
   );

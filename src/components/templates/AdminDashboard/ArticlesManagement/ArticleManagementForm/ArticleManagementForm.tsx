@@ -68,7 +68,10 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         excerpt: Yup.string(),
         author: Yup.string(),
         published: Yup.boolean(),
-        categoryIds: Yup.array().of(Yup.string().uuid()),
+        categoryIds: Yup.array()
+          .of(Yup.string().uuid())
+          .min(1, "انتخاب حداقل یک دسته‌بندی الزامی است")
+          .required("انتخاب دسته‌بندی الزامی است"),
       }),
     []
   );
@@ -104,7 +107,12 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         formData.append("categoryIds", JSON.stringify(values.categoryIds));
       }
 
-      if (values.coverImage) {
+      // Only append file if it's a valid File object (not a fake one from URL)
+      if (
+        values.coverImage &&
+        values.coverImage instanceof File &&
+        values.coverImage.size > 0
+      ) {
         formData.append("coverImage", values.coverImage);
       }
 
@@ -113,7 +121,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         showSuccessToast("مقاله با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["articles"] });
         queryClient.invalidateQueries({ queryKey: ["article"] });
-        navigate("/admin-dashboard/articles-management");
+        navigate("/admin/articles-management");
       } else {
         await createArticle(formData);
         showSuccessToast("مقاله با موفقیت ایجاد شد");
@@ -156,9 +164,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         categoryIds:
           article?.categories?.map((category) => category.id) ||
           ([] as string[]),
-        coverImage: article?.coverImage
-          ? new File([], article.coverImage)
-          : (null as File | null),
+        coverImage: null as File | null,
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { resetForm }) => {
@@ -177,6 +183,24 @@ function ArticleManagementForm({ article }: { article?: Article }) {
       }}
     >
       {(formik) => {
+        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
+        const getCurrentFileName = () => {
+          if (
+            formik.values.coverImage &&
+            formik.values.coverImage instanceof File
+          ) {
+            return formik.values.coverImage.name;
+          }
+          if (article?.coverImage) {
+            // استخراج نام فایل از URL
+            const urlParts = article.coverImage.split("/");
+            return urlParts[urlParts.length - 1] || "فایل موجود";
+          }
+          return null;
+        };
+
+        const currentFileName = getCurrentFileName();
+
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -221,11 +245,9 @@ function ArticleManagementForm({ article }: { article?: Article }) {
               }
             />
 
-    
-                   <TextEditor
+            <TextEditor
               labelText="محتوا"
               placeholder="محتوا مقاله را وارد کنید"
-              requiredText
               value={formik.values.content}
               onChange={(data) => {
                 formik.setFieldValue("content", data);
@@ -241,8 +263,9 @@ function ArticleManagementForm({ article }: { article?: Article }) {
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 دسته‌بندی‌ها
+                <span className="text-red-500 mr-1">*</span>
               </label>
-              <div className="mr-4">
+              <div className="">
                 <Select<OptionType, true>
                   isMulti
                   options={categoryOptions}
@@ -254,12 +277,18 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                       ? selected.map((opt) => opt.value)
                       : [];
                     formik.setFieldValue("categoryIds", ids);
+                    formik.setFieldTouched("categoryIds", true);
                   }}
+                  onBlur={() => formik.setFieldTouched("categoryIds", true)}
                   placeholder="دسته‌بندی‌ها را انتخاب کنید"
                   components={{ DropdownIndicator }}
                   classNames={{
                     control: () =>
-                      `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2 !border-main-border-color !focus:outline-none h-full !cursor-pointer`,
+                      `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2 ${
+                        formik.touched.categoryIds && formik.errors.categoryIds
+                          ? "!border-red-500"
+                          : "!border-main-border-color"
+                      } !focus:outline-none h-full !cursor-pointer`,
                     option: ({ isFocused, isSelected }) =>
                       `px-3 py-2 cursor-pointer !text-lg border-r-6 ${
                         isSelected
@@ -273,6 +302,15 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                     placeholder: () => `!text-dark`,
                   }}
                 />
+                <div
+                  className={`text-red-500 text-[10px] mt-1 mr-4 min-h-[20px] ${
+                    formik.touched.categoryIds && formik.errors.categoryIds
+                      ? "visible"
+                      : "invisible"
+                  }`}
+                >
+                  {formik.errors.categoryIds || "\u00A0"}
+                </div>
               </div>
             </div>
 
@@ -292,24 +330,32 @@ function ArticleManagementForm({ article }: { article?: Article }) {
               </label>
             </div>
 
-            <CustomInput
-              ref={fileInputRef}
-              inputType="file"
-              labelText="تصویر کاور"
-              placeholder="تصویر کاور را انتخاب کنید"
-              className="bg-white"
-              optional
-              name="coverImage"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const file = e.target.files?.[0] || null;
-                formik.setFieldValue("coverImage", file);
-              }}
-              errorMessage={
-                formik.touched.coverImage && formik.errors.coverImage
-                  ? formik.errors.coverImage
-                  : null
-              }
-            />
+            <div>
+              <CustomInput
+                ref={fileInputRef}
+                inputType="file"
+                labelText="تصویر کاور"
+                placeholder="تصویر کاور را انتخاب کنید"
+                className="bg-white"
+                optional
+                name="coverImage"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const file = e.target.files?.[0] || null;
+                  formik.setFieldValue("coverImage", file);
+                }}
+                errorMessage={
+                  formik.touched.coverImage && formik.errors.coverImage
+                    ? formik.errors.coverImage
+                    : null
+                }
+              />
+              {currentFileName && (
+                <div className="mr-4 mt-2 text-sm text-paragray">
+                  <span className="font-estedad-lightbold">فایل فعلی: </span>
+                  <span className="font-estedad-light">{currentFileName}</span>
+                </div>
+              )}
+            </div>
 
             <div className="flex justify-end mt-6">
               <button

@@ -47,7 +47,7 @@ const AdminDashboardLogin = () => {
         // دریافت اطلاعات کاربر برای update کردن state
         await dispatch(fetchUser());
         // هدایت به داشبورد ادمین
-        navigate("/admin-dashboard");
+        navigate("/admin");
       }
     } catch (error) {
       // خطا در mutation handle می‌شود
@@ -109,54 +109,52 @@ const AdminDashboardLogin = () => {
               {(formik) => (
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
                   {/* شماره تلفن */}
-                      <CustomInput
-                        inputType="phone"
-                        beforeIcon="fa-phone"
-                        labelText="شماره تلفن"
-                        placeholder="09123456789"
-                        requiredText={true}
-                        name="phoneNumber"
-                        value={formik.values.phoneNumber}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        errorMessage={
-                            formik.touched.phoneNumber && formik.errors.phoneNumber
-                              ? formik.errors.phoneNumber
-                              : null
-                          }
-                        
-                      />
+                  <CustomInput
+                    inputType="phone"
+                    beforeIcon="fa-phone"
+                    labelText="شماره تلفن"
+                    placeholder="09123456789"
+                    requiredText={true}
+                    name="phoneNumber"
+                    value={formik.values.phoneNumber}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    errorMessage={
+                      formik.touched.phoneNumber && formik.errors.phoneNumber
+                        ? formik.errors.phoneNumber
+                        : null
+                    }
+                  />
 
                   {/* رمز عبور */}
-                      <CustomInput
-                        inputType="password"
-                        beforeIcon="fa-lock"
-                        labelText="رمز عبور"
-                        
-                        placeholder="رمز عبور خود را وارد کنید"
-                        requiredText={true}
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        errorMessage={
-                            formik.touched.password && formik.errors.password
-                            ? formik.errors.password
-                            : null
-                        }
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-paragray hover:text-purple-600 transition-colors z-10"
-                        style={{ top: "calc(50% + 12px)" }}
-                      >
-                        <i
-                          className={`fas ${
-                            showPassword ? "fa-eye-slash" : "fa-eye"
-                          }`}
-                        ></i>
-                      </button>
+                  <CustomInput
+                    inputType="password"
+                    beforeIcon="fa-lock"
+                    labelText="رمز عبور"
+                    placeholder="رمز عبور خود را وارد کنید"
+                    requiredText={true}
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    errorMessage={
+                      formik.touched.password && formik.errors.password
+                        ? formik.errors.password
+                        : null
+                    }
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-paragray hover:text-purple-600 transition-colors z-10"
+                    style={{ top: "calc(50% + 12px)" }}
+                  >
+                    <i
+                      className={`fas ${
+                        showPassword ? "fa-eye-slash" : "fa-eye"
+                      }`}
+                    ></i>
+                  </button>
 
                   {/* دکمه ورود */}
                   <button

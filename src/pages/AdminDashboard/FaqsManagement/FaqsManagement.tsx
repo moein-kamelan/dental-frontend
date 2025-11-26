@@ -56,6 +56,8 @@ function FaqsManagement() {
     data: faqsData,
     isLoading: isLoadingFaqs,
     isPending: isPendingFaqs,
+    refetch: refetchFaqs,
+    isFetching: isFetchingFaqs,
   } = useGetAllFaqs(page, 5, publishedFilter || undefined);
 
   useEffect(() => {
@@ -148,6 +150,8 @@ function FaqsManagement() {
           isLoadingFaqs={isLoadingFaqs || isPendingFaqs}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchFaqs}
+          isRefetching={isFetchingFaqs}
         />
 
         <div className="mb-12 mt-6">

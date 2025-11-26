@@ -36,10 +36,87 @@ export const useGetAllComments = (
   });
 };
 
+export const useCreateComment = () => {
+  return useMutation({
+    mutationFn: async ({
+      comment,
+      type,
+      id,
+    }: {
+      comment: { content: string; rating: number };
+      type: "doctor" | "article" | "service";
+      id: string;
+    }) => {
+      const response = await axiosInstance.post(`/comments/${type}/${id}`, {
+        content: comment.content,
+        rating: comment.rating,
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useUpdateComment = () => {
+  return useMutation({
+    mutationFn: async ({
+      id,
+      content,
+      rating,
+      published,
+    }: {
+      id: string;
+      content?: string;
+      rating?: number | null;
+      published?: boolean;
+    }) => {
+      const response = await axiosInstance.patch(`/comments/${id}`, {
+        ...(content !== undefined && { content }),
+        ...(rating !== undefined && { rating }),
+        ...(published !== undefined && { published }),
+      });
+      return response.data;
+    },
+  });
+};
+
 export const useDeleteComment = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await axiosInstance.delete(`/comments/${id}`);
+      return response.data;
+    },
+  });
+};
+
+export const useGetCommentsById = (
+  id: string,
+  type: "doctor" | "article" | "service"
+) => {
+  return useQuery({
+    queryKey: ["comments", id, type],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/comments/${type}/${id}`);
+      return response.data;
+    },
+    enabled: !!id && !!type,
+  });
+};
+
+export const useReplyToComment = () => {
+  return useMutation({
+    mutationFn: async ({
+      commentId,
+      content,
+    }: {
+      commentId: string;
+      content: string;
+    }) => {
+      const response = await axiosInstance.post(
+        `/comments/${commentId}/reply`,
+        {
+          content,
+        }
+      );
       return response.data;
     },
   });

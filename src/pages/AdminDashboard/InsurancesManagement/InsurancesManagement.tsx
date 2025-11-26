@@ -27,6 +27,8 @@ function InsurancesManagement() {
     data: insurancesData,
     isLoading: isLoadingInsurances,
     isPending: isPendingInsurances,
+    refetch: refetchInsurances,
+    isFetching: isFetchingInsurances,
   } = useGetAllInsurances(page, 5, undefined);
 
   useEffect(() => {
@@ -81,6 +83,8 @@ function InsurancesManagement() {
           isLoadingInsurances={isLoadingInsurances || isPendingInsurances}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchInsurances}
+          isRefetching={isFetchingInsurances}
         />
 
         <div className="mb-12 mt-6">

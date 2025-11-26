@@ -46,6 +46,8 @@ function ContactUsManagement() {
     data: messagesData,
     isLoading: isLoadingMessages,
     isPending: isPendingMessages,
+    refetch: refetchMessages,
+    isFetching: isFetchingMessages,
   } = useGetAllContactMessages(page, 5, debouncedSearch, readFilter);
 
   useEffect(() => {
@@ -213,6 +215,8 @@ function ContactUsManagement() {
           onMarkAsRead={handleMarkAsRead}
           onMarkAsUnread={handleMarkAsUnread}
           onMessageClick={handleViewMessage}
+          onRefetch={refetchMessages}
+          isRefetching={isFetchingMessages}
         />
 
         <div className="mb-12 mt-6">

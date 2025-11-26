@@ -113,7 +113,7 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/admin-dashboard",
+    path: "/admin",
     element: (
       <ProtectedAdminRoute>
         <AdminDashboardLayout />
@@ -181,7 +181,7 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/admin-dashboard-login",
+    path: "/admin-login",
     element: (
       <ProtectedAdminAuthRoute>
         <AdminDashboardLogin />

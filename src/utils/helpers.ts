@@ -32,3 +32,16 @@ export function translateDayName(dayName: string): string {
 
   return dayMap[dayName.toLowerCase()] || dayName;
 }
+
+/**
+ * حذف تگ‌های HTML از متن و تبدیل به متن خالص
+ * @param html - متن HTML
+ * @returns متن خالص بدون تگ‌های HTML
+ */
+export function stripHtmlTags(html: string): string {
+  if (!html) return "";
+
+  // استفاده از DOMParser برای امن‌تر بودن
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || doc.body.innerText || "";
+}

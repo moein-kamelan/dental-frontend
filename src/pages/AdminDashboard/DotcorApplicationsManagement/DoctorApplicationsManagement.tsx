@@ -45,6 +45,8 @@ function DoctorApplicationsManagement() {
     data: applicationsData,
     isLoading: isLoadingApplications,
     isPending: isPendingApplications,
+    refetch: refetchApplications,
+    isFetching: isFetchingApplications,
   } = useGetAllDoctorApplications(page, 5, debouncedSearch, readFilter);
 
   useEffect(() => {
@@ -218,6 +220,8 @@ function DoctorApplicationsManagement() {
           onMarkAsRead={handleMarkAsRead}
           onMarkAsUnread={handleMarkAsUnread}
           onApplicationClick={handleViewApplication}
+          onRefetch={refetchApplications}
+          isRefetching={isFetchingApplications}
         />
 
         <div className="mb-12 mt-6">

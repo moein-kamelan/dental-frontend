@@ -32,6 +32,8 @@ function ServicesManagement() {
     data: servicesData,
     isLoading: isLoadingServices,
     isPending: isPendingServices,
+    refetch: refetchServices,
+    isFetching: isFetchingServices,
   } = useGetAllServices(page, 5, debouncedSearch);
 
   useEffect(() => {
@@ -126,6 +128,8 @@ function ServicesManagement() {
           isLoadingServices={isLoadingServices || isPendingServices}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchServices}
+          isRefetching={isFetchingServices}
         />
 
         <div className="mb-12 mt-6">

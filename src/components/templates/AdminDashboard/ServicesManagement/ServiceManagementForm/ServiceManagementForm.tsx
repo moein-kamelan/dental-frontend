@@ -3,8 +3,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
-import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import Select, { components } from "react-select";
+import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
 import type { DropdownIndicatorProps } from "react-select";
 import {
   useCreateService,
@@ -68,13 +68,14 @@ function ServiceManagementForm({ service }: { service?: Service }) {
       Yup.object({
         title: Yup.string().required("عنوان الزامی است"),
         description: Yup.string().required("توضیحات الزامی است"),
-        beforeTreatmentTips: Yup.string(),
-        afterTreatmentTips: Yup.string(),
         price: Yup.number().nullable().min(0, "قیمت باید مثبت باشد"),
         durationMinutes: Yup.number()
           .nullable()
           .min(1, "مدت زمان باید حداقل 1 دقیقه باشد"),
-        categoryIds: Yup.array().of(Yup.string().uuid()),
+        categoryIds: Yup.array()
+          .of(Yup.string().uuid())
+          .min(1, "انتخاب حداقل یک دسته‌بندی الزامی است")
+          .required("انتخاب دسته‌بندی الزامی است"),
       }),
     []
   );
@@ -83,8 +84,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
     values: {
       title: string;
       description: string;
-      beforeTreatmentTips: string;
-      afterTreatmentTips: string;
       price: number | null;
       durationMinutes: number | null;
       categoryIds: string[];
@@ -96,14 +95,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("description", values.description);
-
-      if (values.beforeTreatmentTips) {
-        formData.append("beforeTreatmentTips", values.beforeTreatmentTips);
-      }
-
-      if (values.afterTreatmentTips) {
-        formData.append("afterTreatmentTips", values.afterTreatmentTips);
-      }
 
       if (values.price !== null && values.price !== undefined) {
         formData.append("price", values.price.toString());
@@ -120,7 +111,12 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         formData.append("categoryIds", JSON.stringify(values.categoryIds));
       }
 
-      if (values.coverImage) {
+      // Only append file if it's a valid File object (not a fake one from URL)
+      if (
+        values.coverImage &&
+        values.coverImage instanceof File &&
+        values.coverImage.size > 0
+      ) {
         formData.append("coverImage", values.coverImage);
       }
 
@@ -129,7 +125,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         showSuccessToast("خدمت با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["services"] });
         queryClient.invalidateQueries({ queryKey: ["service"] });
-        navigate("/admin-dashboard/services-management");
+        navigate("/admin/services-management");
       } else {
         await createService(formData);
         showSuccessToast("خدمت با موفقیت ایجاد شد");
@@ -166,16 +162,12 @@ function ServiceManagementForm({ service }: { service?: Service }) {
       initialValues={{
         title: service?.title || "",
         description: service?.description || "",
-        beforeTreatmentTips: service?.beforeTreatmentTips || "",
-        afterTreatmentTips: service?.afterTreatmentTips || "",
         price: service?.price || null,
         durationMinutes: service?.durationMinutes || null,
         categoryIds:
           service?.categories?.map((category) => category.id) ||
           ([] as string[]),
-        coverImage: service?.coverImage
-          ? new File([], service.coverImage)
-          : (null as File | null),
+        coverImage: null as File | null,
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { resetForm }) => {
@@ -183,8 +175,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
           {
             title: values.title,
             description: values.description,
-            beforeTreatmentTips: values.beforeTreatmentTips,
-            afterTreatmentTips: values.afterTreatmentTips,
             price: values.price,
             durationMinutes: values.durationMinutes,
             categoryIds: values.categoryIds,
@@ -195,6 +185,24 @@ function ServiceManagementForm({ service }: { service?: Service }) {
       }}
     >
       {(formik) => {
+        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
+        const getCurrentFileName = () => {
+          if (
+            formik.values.coverImage &&
+            formik.values.coverImage instanceof File
+          ) {
+            return formik.values.coverImage.name;
+          }
+          if (service?.coverImage) {
+            // استخراج نام فایل از URL
+            const urlParts = service.coverImage.split("/");
+            return urlParts[urlParts.length - 1] || "فایل موجود";
+          }
+          return null;
+        };
+
+        const currentFileName = getCurrentFileName();
+
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -243,13 +251,14 @@ function ServiceManagementForm({ service }: { service?: Service }) {
               />
             </div>
 
-            <CustomTextArea
+            <TextEditor
               labelText="توضیحات"
               placeholder="توضیحات خدمت را وارد کنید"
-              requiredText
-              rows={4}
-              className="bg-white"
-              {...formik.getFieldProps("description")}
+              value={formik.values.description}
+              onChange={(data) => {
+                formik.setFieldValue("description", data);
+                formik.setFieldTouched("description", true);
+              }}
               errorMessage={
                 formik.touched.description && formik.errors.description
                   ? formik.errors.description
@@ -257,41 +266,12 @@ function ServiceManagementForm({ service }: { service?: Service }) {
               }
             />
 
-            <CustomTextArea
-              labelText="نکات قبل از درمان"
-              placeholder="نکات قبل از درمان را وارد کنید"
-              optional
-              rows={3}
-              className="bg-white"
-              {...formik.getFieldProps("beforeTreatmentTips")}
-              errorMessage={
-                formik.touched.beforeTreatmentTips &&
-                formik.errors.beforeTreatmentTips
-                  ? formik.errors.beforeTreatmentTips
-                  : null
-              }
-            />
-
-            <CustomTextArea
-              labelText="نکات بعد از درمان"
-              placeholder="نکات بعد از درمان را وارد کنید"
-              optional
-              rows={3}
-              className="bg-white"
-              {...formik.getFieldProps("afterTreatmentTips")}
-              errorMessage={
-                formik.touched.afterTreatmentTips &&
-                formik.errors.afterTreatmentTips
-                  ? formik.errors.afterTreatmentTips
-                  : null
-              }
-            />
-
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 دسته‌بندی‌ها
+                <span className="text-red-500 mr-1">*</span>
               </label>
-              <div className="mr-4">
+              <div className="">
                 <Select<OptionType, true>
                   isMulti
                   options={categoryOptions}
@@ -303,12 +283,18 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                       ? selected.map((opt) => opt.value)
                       : [];
                     formik.setFieldValue("categoryIds", ids);
+                    formik.setFieldTouched("categoryIds", true);
                   }}
+                  onBlur={() => formik.setFieldTouched("categoryIds", true)}
                   placeholder="دسته‌بندی‌ها را انتخاب کنید"
                   components={{ DropdownIndicator }}
                   classNames={{
                     control: () =>
-                      `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2 !border-main-border-color !focus:outline-none h-full !cursor-pointer`,
+                      `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2  ${
+                        formik.touched.categoryIds && formik.errors.categoryIds
+                          ? "!border-red-500"
+                          : "!border-main-border-color"
+                      } !focus:outline-none h-full !cursor-pointer `,
                     option: ({ isFocused, isSelected }) =>
                       `px-3 py-2 cursor-pointer !text-lg border-r-6 ${
                         isSelected
@@ -322,27 +308,44 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                     placeholder: () => `!text-dark`,
                   }}
                 />
+                <div
+                  className={`text-red-500 text-[10px] mt-1 mr-4 min-h-[20px] ${
+                    formik.touched.categoryIds && formik.errors.categoryIds
+                      ? "visible"
+                      : "invisible"
+                  }`}
+                >
+                  {formik.errors.categoryIds || "\u00A0"}
+                </div>
               </div>
             </div>
 
-            <CustomInput
-              ref={fileInputRef}
-              inputType="file"
-              labelText="تصویر کاور"
-              placeholder="تصویر کاور را انتخاب کنید"
-              className="bg-white"
-              optional
-              name="coverImage"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const file = e.target.files?.[0] || null;
-                formik.setFieldValue("coverImage", file);
-              }}
-              errorMessage={
-                formik.touched.coverImage && formik.errors.coverImage
-                  ? formik.errors.coverImage
-                  : null
-              }
-            />
+            <div>
+              <CustomInput
+                ref={fileInputRef}
+                inputType="file"
+                labelText="تصویر کاور"
+                placeholder="تصویر کاور را انتخاب کنید"
+                className="bg-white"
+                optional
+                name="coverImage"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const file = e.target.files?.[0] || null;
+                  formik.setFieldValue("coverImage", file);
+                }}
+                errorMessage={
+                  formik.touched.coverImage && formik.errors.coverImage
+                    ? formik.errors.coverImage
+                    : null
+                }
+              />
+              {currentFileName && (
+                <div className="mr-4 mt-2 text-sm text-paragray">
+                  <span className="font-estedad-lightbold">فایل فعلی: </span>
+                  <span className="font-estedad-light">{currentFileName}</span>
+                </div>
+              )}
+            </div>
 
             <div className="flex justify-end mt-6">
               <button

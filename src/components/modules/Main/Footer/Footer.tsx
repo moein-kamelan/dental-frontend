@@ -32,7 +32,7 @@ function Footer() {
             <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_2fr_3fr] gap-8 mb-12">
 
                 <div className='xs:col-span-2 md:col-span-3 lg:col-span-1'>
-                    <img src={ settings?.data.settings.logo } alt="logo" className="mb-6 w-40 h-20"/>
+                    <img src={ settings?.data.settings.logo } alt="logo" className="mb-6 w-40 h-15"/>
                     <p className="text-paragray font-estedad-light mb-4 ">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</p>
                     <div className="mb-4">
                         <span className="text-dark font-estedad-light">سلام به : </span>

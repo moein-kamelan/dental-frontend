@@ -32,7 +32,7 @@ function ServiceCard({ service }: {service: Service}) {
               : "/images/service-1.jpg"
           }
           alt={service.title}
-          className="w-full h-full object-cover rounded-[5px] group-hover:scale-105 transition-all duration-500"
+          className="w-full h-full  rounded-[5px] group-hover:scale-105 transition-all duration-500"
         />
         <div className="absolute translate-y-1/2 bottom-0 left-4 w-16 h-16 bg-secondary flex items-center justify-center shadow-lg rounded-[10px]">
           <i className="fas fa-tooth text-white text-2xl"></i>

@@ -27,6 +27,8 @@ function GalleryManagement() {
     data: galleryData,
     isLoading: isLoadingImages,
     isPending: isPendingImages,
+    refetch: refetchGallery,
+    isFetching: isFetchingGallery,
   } = useGetAllGallery(page, 5);
 
   useEffect(() => {
@@ -81,6 +83,8 @@ function GalleryManagement() {
           isLoadingImages={isLoadingImages || isPendingImages}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchGallery}
+          isRefetching={isFetchingGallery}
         />
 
         <div className="mb-12 mt-6">

@@ -4,7 +4,6 @@ import StickyBox from "react-sticky-box";
 import SearchBox from "../../../components/modules/Main/SearchBox/SearchBox";
 import CategoryBox from "../../../components/modules/Main/CategoryBox/CategoryBox";
 import RecentPosts from "../../../components/modules/Main/RecentPosts/RecentPosts";
-import TagsBox from "../../../components/modules/Main/TagsBox/TagsBox";
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
 import { useParams } from "react-router-dom";
@@ -32,9 +31,9 @@ function ServiceDetails() {
                 {/* <!-- Main Image with Icon --> */}
                 <div className="relative ">
                   <img
-                    src="/images/service_dtls-1.jpg"
-                    alt="service"
-                    className="w-full  object-cover aspect-2/1 rounded-[10px]"
+                    src={`http://localhost:4000${service?.data?.service?.coverImage}`}
+                    alt={service?.data?.service?.title}
+                    className="w-8/10 mx-auto   h-150 rounded-xl" 
                   />
                   <div className="absolute bottom-0 left-8 transform  translate-y-1/3 size-17.5 bg-accent text-white rounded-lg flex items-center justify-center ">
                     <i className="fas fa-heartbeat text-3xl "></i>
@@ -46,106 +45,14 @@ function ServiceDetails() {
                     {service?.data?.service?.title}
                   </h3>
 
-                  <div className="space-y-6 font-estedad-light text-paragray leading-relaxed">
-                    <p>
-                      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-                      و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه
-                      روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای
-                      شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف
-                      بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه
-                      درصد گذشته حال و آینده
-                    </p>
-
-                    <p>
-                      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-                      و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه
-                      روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای
-                      شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف
-                      بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه
-                      درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می
-                      طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه
-                      ای علی الخصوص طراحان خلاقی
-                    </p>
-
-                    <ul className="space-y-3 font-estedad-semibold text-paragray list-disc list-inside">
-                      <li
-                        className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                      >
-                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                        به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با
-                        عقب گرد ایجاد کنید
-                      </li>
-                      <li
-                        className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                      >
-                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                        اطلاعات اقتصادی مناسب بدون ترازهای قابل نگهداری
-                      </li>
-                      <li
-                        className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                      >
-                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                        به طور مشترک اطلاعات کلاس جهانی را پس از اصول محوری به
-                        اشتراک بگذارید
-                      </li>
-                      <li
-                        className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                      >
-                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                        شبکه‌سازی مشترک بهترین شیوه‌های آجر-و-کلیک از طریق
-                        اقتصادی مناسب
-                      </li>
-                      <li
-                        className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                      >
-                        <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                        اجباراً الزامات به حداکثر رساندن منابع را از طریق ایجاد
-                        کنید
-                      </li>
-                    </ul>
-
-                    <p>
-                      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-                      و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه
-                      روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای
-                      شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف
-                      بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه
-                      درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می
-                      طلبد
-                    </p>
-
-                    <h3 className="text-[28px] font-estedad-semibold text-dark mt-8 mb-4">
-                      توانایی‌ها
-                    </h3>
-
-                    <p>
-                      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-                      و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه
-                      روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای
-                      شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف
-                      بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه
-                      درصد گذشته حال و آینده
-                    </p>
-
-                    <p>
-                      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-                      و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه
-                      روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای
-                      شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف
-                      بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه
-                      درصد گذشته حال و آینده
-                    </p>
-                  </div>
+              <div className="text-dark font-estedad-light text-lg leading-relaxed">
+                {service?.data?.service?.description}
+              </div>
                 </div>
               </div>
 
               {/* <!-- Gallery --> */}
-              <div className="grid md:grid-cols-3 gap-6">
+              {/* <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative group cursor-pointer ">
                   <img
                     src="/images/service_dtls-3.jpg"
@@ -182,10 +89,10 @@ function ServiceDetails() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* <!-- Process Cards --> */}
-              <div className="grid md:grid-cols-3 gap-6">
+              {/* <div className="grid md:grid-cols-3 gap-6">
                 <div className=" rounded-2xl  text-center ">
                   <div className="w-20 h-20  bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i className="fas fa-eye text-4xl text-accent "></i>
@@ -219,10 +126,10 @@ function ServiceDetails() {
                     لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               {/* <!-- Download Links --> */}
-              <div className="flex gap-4">
+              {/* <div className="flex gap-4">
                 <a
                   href="#"
                   className="flex-1 bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-accent hover:shadow-lg transition flex items-center justify-center gap-3"
@@ -249,10 +156,10 @@ function ServiceDetails() {
                     <span className="font-estedad-light text-dark">Doc</span>
                   </div>
                 </a>
-              </div>
+              </div> */}
 
-              <CommentsBox />
-              <CommentForm />
+              <CommentsBox serviceId={service?.data?.service?.id} />
+              <CommentForm serviceId={service?.data?.service?.id} />
             </div>
 
             {/* <!-- Sidebar --> */}
@@ -268,7 +175,7 @@ function ServiceDetails() {
                   categories={service?.data?.service?.categories || []}
                   isServiceCategory
                 />
-                <RecentPosts />
+                <RecentPosts services={service?.data?.service?.services || []} />
               </div>
             </StickyBox>
           </div>

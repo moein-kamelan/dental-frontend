@@ -71,7 +71,7 @@ function ServicesCategoryManagementForm({
         showSuccessToast("دسته‌بندی با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["serviceCategories"] });
         queryClient.invalidateQueries({ queryKey: ["serviceCategory"] });
-        navigate("/admin-dashboard/services-category-management");
+        navigate("/admin/services-category-management");
       } else {
         await createCategory(data);
         showSuccessToast("دسته‌بندی با موفقیت ایجاد شد");
@@ -209,4 +209,3 @@ function ServicesCategoryManagementForm({
 }
 
 export default ServicesCategoryManagementForm;
-

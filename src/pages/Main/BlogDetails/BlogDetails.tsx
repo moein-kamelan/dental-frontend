@@ -32,11 +32,10 @@ function BlogDetails() {
                 <div className="relative">
                   <img
                     src={
-                      article?.data?.article?.coverImage ||
-                      "/images/blog_dtls-1.jpg"
+                      `http://localhost:4000${article?.data?.article?.coverImage}`
                     }
-                    alt="blog"
-                    className="w-full  object-cover"
+                    alt={article?.data?.article?.title}
+                      className="w-8/10 mx-auto   h-150 rounded-xl" 
                   />
                 </div>
 
@@ -53,112 +52,14 @@ function BlogDetails() {
                 />
 
                 {/* <!-- Content --> */}
-                <div className="p-8 space-y-6 text-paragray leading-relaxed font-estedad-light">
-                  <p>
-                    به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با عقب
-                    گرد ایجاد کنید آمادگی وب به طور کامل بدون استفاده از اطلاعات
-                    اقتصادی مناسب ترازهای قابل نگهداری اجباراً الزامات به حداکثر
-                    رساندن منابع را از طریق ایجاد کنید بهترین شیوه های تعاونی به
-                    صورت مشترک سندیکا
-                  </p>
-
-                  <p>
-                    از طریق بهترین شیوه های تعاونی به طور مشترک اطلاعات کلاس
-                    جهانی را به اشتراک بگذارید پس از آمادگی وب مبتنی بر اصول.
-                    بهترین شبکه‌سازی آجرها و کلیک‌ها اقدامات از طریق اقتصادی
-                    سالم.
-                  </p>
-
-                  <p>
-                    به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با عقب
-                    گرد ایجاد کنید آمادگی وب به طور کامل بدون استفاده از اطلاعات
-                    اقتصادی مناسب ترازهای قابل نگهداری اجباراً الزامات به حداکثر
-                    رساندن منابع را از طریق ایجاد کنید بهترین شیوه های تعاونی به
-                    صورت مشترک سندیکا
-                  </p>
-
-                  <ul className="space-y-3 font-estedad-semibold text-paragray list-disc list-inside">
-                    <li
-                      className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                    >
-                      <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                      به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با
-                      عقب گرد ایجاد کنید
-                    </li>
-                    <li
-                      className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                    >
-                      <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                      اطلاعات اقتصادی مناسب بدون ترازهای قابل نگهداری
-                    </li>
-                    <li
-                      className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                    >
-                      <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                      به طور مشترک اطلاعات کلاس جهانی را پس از اصول محوری به
-                      اشتراک بگذارید
-                    </li>
-                    <li
-                      className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                    >
-                      <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                      شبکه‌سازی مشترک بهترین شیوه‌های آجر-و-کلیک از طریق اقتصادی
-                      مناسب
-                    </li>
-                    <li
-                      className="flex items-start gap-3 text-paragray 
-                                    font-estedad-semibold"
-                    >
-                      <i className="fas fa-check-circle text-accent text-2xl mt-1"></i>
-                      اجباراً الزامات به حداکثر رساندن منابع را از طریق ایجاد
-                      کنید
-                    </li>
-                  </ul>
-
-                  <p>
-                    از طریق بهترین شیوه های تعاونی به طور مشترک اطلاعات کلاس
-                    جهانی را به اشتراک بگذارید پس از آمادگی وب مبتنی بر اصول.
-                    بهترین شبکه‌سازی آجرها و کلیک‌ها اقدامات از طریق اقتصادی
-                    سالم.
-                  </p>
-
-                  <p>
-                    به طور چشمگیری زیرساخت های جایگزین را از طریق سازگار با عقب
-                    گرد ایجاد کنید آمادگی وب به طور کامل بدون استفاده از اطلاعات
-                    اقتصادی مناسب ترازهای قابل نگهداری اجباراً الزامات به حداکثر
-                    رساندن منابع را از طریق ایجاد کنید بهترین شیوه های تعاونی به
-                    صورت مشترک سندیکا
-                  </p>
-
-                  {/* <!-- Quote --> */}
-                  <div className="bg-[#d4af3730] rounded-sm text-dark text-lg font-estedad-semibold border-r-4 border-accent p-6 my-8 italic">
-                    "انواع مختلفی از معابر Lorem Ipsum وجود دارد در دسترس است،
-                    اما اکثریت به نوعی با تغییراتی در قسمت ها دچار تغییر شده
-                    اند.
-                  </div>
-
-                  <p>
-                    به سادگی متن ساختگی صنعت چاپ و حروفچینی است. شده است صنعت
-                    است متن ساختگی استاندارد از دهه 1500، زمانی که یک چاپگر
-                    ناشناس یک گالری از نوع را گرفت و آن را به هم زد تا درست کند
-                    یک نوع کتاب نمونه
-                  </p>
-
-                  <p>
-                    به سادگی متن ساختگی صنعت چاپ و حروفچینی. لورم ایپسوم دارد
-                    این صنعت در حال حاضر یک مانع است متن ساختگی استاندارد از سال
-                    1500 تاکنون.
-                  </p>
-                </div>
+             <div className="text-dark font-estedad-light text-lg leading-relaxed">
+              <div dangerouslySetInnerHTML={{ __html: article?.data?.article?.content }} />
+             </div>
 
                 <BlogDetailsTagsAndShare />
                 <div className="flex flex-col gap-8">
-                  <CommentsBox />
-                  <CommentForm />
+                  <CommentsBox articleId={article?.data?.article?.id} />
+                  <CommentForm articleId={article?.data?.article?.id} />
                 </div>
               </div>
             </div>
@@ -170,7 +71,7 @@ function BlogDetails() {
                   categories={article?.data?.article?.categories}
                   isArticleCategory
                 />
-                <RecentPosts />
+                <RecentPosts articles={article?.data?.article?.articles || []} />
               </div>
             </StickyBox>
           </div>

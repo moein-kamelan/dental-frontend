@@ -27,6 +27,8 @@ function ClinicsManagement() {
     data: clinicsData,
     isLoading: isLoadingClinics,
     isPending: isPendingClinics,
+    refetch: refetchClinics,
+    isFetching: isFetchingClinics,
   } = useGetAllClinics(page, 5);
 
   useEffect(() => {
@@ -81,6 +83,8 @@ function ClinicsManagement() {
           isLoadingClinics={isLoadingClinics || isPendingClinics}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchClinics}
+          isRefetching={isFetchingClinics}
         />
 
         <div className="mb-12 mt-6">

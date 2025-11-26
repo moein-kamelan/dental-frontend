@@ -28,7 +28,7 @@ figure {
   @apply text-center flex items-center justify-center py-4; 
 }
 figure img {
-  @apply w-full h-full object-cover rounded-xl;
+  @apply w-full h-full object-cover rounded-xl max-h-150!;
 }
  /* end ckeditor styles */
 
@@ -103,7 +103,7 @@ button {
 }
 
 @utility custom-sub-title {
-  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit relative after:absolute after:content-[''] after:w-1 after:h-1 after:bg-secondary after:rounded-full after:-right-1 after:top-1/2 after:-translate-y-1/2;
+  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit ;
 }
 
 @utility main-btn {

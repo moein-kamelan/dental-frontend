@@ -32,6 +32,8 @@ function ArticlesManagement() {
     data: articlesData,
     isLoading: isLoadingArticles,
     isPending: isPendingArticles,
+    refetch: refetchArticles,
+    isFetching: isFetchingArticles,
   } = useGetAllArticles(page, 5, debouncedSearch, "");
 
   useEffect(() => {
@@ -126,6 +128,8 @@ function ArticlesManagement() {
           isLoadingArticles={isLoadingArticles || isPendingArticles}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchArticles}
+          isRefetching={isFetchingArticles}
         />
 
         <div className="mb-12 mt-6">

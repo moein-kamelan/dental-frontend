@@ -32,6 +32,8 @@ function DoctorsManagement() {
     data: doctorsData,
     isLoading: isLoadingDoctors,
     isPending: isPendingDoctors,
+    refetch: refetchDoctors,
+    isFetching: isFetchingDoctors,
   } = useGetAllDoctors(page, 5, debouncedSearch);
 
   useEffect(() => {
@@ -130,6 +132,8 @@ function DoctorsManagement() {
           isLoadingDoctors={isLoadingDoctors || isPendingDoctors}
           page={page}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchDoctors}
+          isRefetching={isFetchingDoctors}
         />
 
         <div className="mb-12 mt-6">

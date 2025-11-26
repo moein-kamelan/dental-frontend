@@ -30,6 +30,8 @@ function ServicesCategoryManagement() {
     data: categoriesData,
     isLoading: isLoadingCategories,
     isPending: isPendingCategories,
+    refetch: refetchCategories,
+    isFetching: isFetchingCategories,
   } = useGetServiceCategories();
 
   useEffect(() => {
@@ -133,6 +135,8 @@ function ServicesCategoryManagement() {
           categories={filteredCategories}
           isLoadingCategories={isLoadingCategories || isPendingCategories}
           onDeleteClick={handleDeleteClick}
+          onRefetch={refetchCategories}
+          isRefetching={isFetchingCategories}
         />
 
         <hr className="my-6 border-2 rounded-4xl border-gray-500" />

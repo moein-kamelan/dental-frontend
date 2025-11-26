@@ -81,7 +81,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
         await updateGallery({ id: image.id, data: formData });
         showSuccessToast("تصویر با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["gallery"] });
-        navigate("/admin-dashboard/gallery-management");
+        navigate("/admin/gallery-management");
       } else {
         await createGallery(formData);
         showSuccessToast("تصویر با موفقیت آپلود شد");

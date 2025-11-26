@@ -68,7 +68,6 @@ interface TextEditorProps {
   labelText?: string;
   errorMessage?: string | null;
   optional?: boolean;
-  
 }
 
 export default function TextEditor({
@@ -337,11 +336,13 @@ export default function TextEditor({
           </div>
         </div>
       </div>
-      {errorMessage && (
-        <span className="block text-red-500 text-[10px] font-iran-sans-normal mr-4 mb-2 h-4">
-          {errorMessage}
-        </span>
-      )}
+      <span
+        className={`block text-red-500 text-[10px] font-iran-sans-normal mt-1 mr-4 mb-2 h-4 ${
+          errorMessage ? "visible" : "invisible"
+        }`}
+      >
+        {errorMessage || "\u00A0"}
+      </span>
     </div>
   );
 }
