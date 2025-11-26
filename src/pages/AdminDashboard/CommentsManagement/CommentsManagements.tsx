@@ -311,6 +311,7 @@ function CommentsManagements() {
         onClose={handleCloseViewModal}
         comment={selectedComment}
         commentType={activeTab}
+        onRefetch={activeTabData.refetch}
       />
     </main>
   );

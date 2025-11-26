@@ -1,6 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
-import type { Comment } from "../types/types";
 
 export const useGetAllComments = (
   page: number = 1,
@@ -59,11 +58,22 @@ export const useCreateComment = () => {
 
 export const useUpdateComment = () => {
   return useMutation({
-    mutationFn: async (comment: Comment) => {
-      const response = await axiosInstance.put(
-        `/comments/${comment.id}`,
-        comment
-      );
+    mutationFn: async ({
+      id,
+      content,
+      rating,
+      published,
+    }: {
+      id: string;
+      content?: string;
+      rating?: number | null;
+      published?: boolean;
+    }) => {
+      const response = await axiosInstance.patch(`/comments/${id}`, {
+        ...(content !== undefined && { content }),
+        ...(rating !== undefined && { rating }),
+        ...(published !== undefined && { published }),
+      });
       return response.data;
     },
   });
@@ -89,5 +99,25 @@ export const useGetCommentsById = (
       return response.data;
     },
     enabled: !!id && !!type,
+  });
+};
+
+export const useReplyToComment = () => {
+  return useMutation({
+    mutationFn: async ({
+      commentId,
+      content,
+    }: {
+      commentId: string;
+      content: string;
+    }) => {
+      const response = await axiosInstance.post(
+        `/comments/${commentId}/reply`,
+        {
+          content,
+        }
+      );
+      return response.data;
+    },
   });
 };

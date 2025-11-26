@@ -272,7 +272,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                 دسته‌بندی‌ها
                 <span className="text-red-500 mr-1">*</span>
               </label>
-              <div className="mr-4">
+              <div className="">
                 <Select<OptionType, true>
                   isMulti
                   options={categoryOptions}
