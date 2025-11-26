@@ -151,7 +151,7 @@ function ServiceManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/services-management/edit/${service.id}`
+                            `/admin/services-management/edit/${service.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

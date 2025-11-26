@@ -21,7 +21,7 @@ export function ProtectedAdminRoute({
   }
 
   if (!user || (user.role !== "ADMIN" && user.role !== "SECRETARY")) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/admin-login" replace />;
   }
 
   return <>{children}</>;

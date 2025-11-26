@@ -24,13 +24,11 @@ export function ProtectedAdminAuthRoute({
   if (user) {
     // اگر مدیر یا منشی است، به داشبورد ادمین هدایت شود
     if (user.role === "ADMIN" || user.role === "SECRETARY") {
-      return <Navigate to="/admin-dashboard" replace />;
+      return <Navigate to="/admin" replace />;
     }
     // اگر بیمار است، به صفحه اصلی هدایت شود
     return <Navigate to="/home" replace />;
   }
-
-
 
   // اگر کاربر لاگین نیست، اجازه دسترسی به صفحه لاگین را بده
   return <>{children}</>;

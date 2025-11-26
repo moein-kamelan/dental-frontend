@@ -101,7 +101,7 @@ function ClinicManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/clinics-management/edit/${clinic.id}`
+                            `/admin/clinics-management/edit/${clinic.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

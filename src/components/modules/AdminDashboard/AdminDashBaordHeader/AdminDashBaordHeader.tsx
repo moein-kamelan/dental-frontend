@@ -104,7 +104,7 @@ function AdminDashBaordHeader({
                   <i className="fas fa-cog text-gray-500"></i>
                   <Link
                     onClick={() => setIsDropdownOpen(false)}
-                    to={"/admin-dashboard/settings"}
+                    to={"/admin/settings"}
                     className="text-dark font-iran-yekan-medium"
                   >
                     تنظیمات

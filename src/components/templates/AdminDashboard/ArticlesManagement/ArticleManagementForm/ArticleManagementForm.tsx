@@ -121,7 +121,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         showSuccessToast("مقاله با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["articles"] });
         queryClient.invalidateQueries({ queryKey: ["article"] });
-        navigate("/admin-dashboard/articles-management");
+        navigate("/admin/articles-management");
       } else {
         await createArticle(formData);
         showSuccessToast("مقاله با موفقیت ایجاد شد");

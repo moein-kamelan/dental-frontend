@@ -154,7 +154,7 @@ function DoctorsManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/doctors-management/edit/${doctor.id}`
+                            `/admin/doctors-management/edit/${doctor.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

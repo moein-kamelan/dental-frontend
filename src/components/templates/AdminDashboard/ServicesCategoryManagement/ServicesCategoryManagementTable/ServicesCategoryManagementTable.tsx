@@ -116,7 +116,7 @@ function ServicesCategoryManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/services-category-management/edit/${category.id}`
+                            `/admin/services-category-management/edit/${category.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

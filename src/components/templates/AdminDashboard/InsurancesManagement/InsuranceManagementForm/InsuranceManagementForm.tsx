@@ -4,7 +4,10 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
-import { useCreateInsurance, useUpdateInsurance } from "../../../../../services/useInsurances";
+import {
+  useCreateInsurance,
+  useUpdateInsurance,
+} from "../../../../../services/useInsurances";
 import {
   showSuccessToast,
   showErrorToast,
@@ -40,7 +43,10 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
           .required("نام سازمان بیمه الزامی است")
           .min(2, "نام باید حداقل ۲ کاراکتر باشد")
           .max(100, "نام نباید بیشتر از ۱۰۰ کاراکتر باشد"),
-        description: Yup.string().max(1000, "توضیحات نباید بیشتر از ۱۰۰۰ کاراکتر باشد"),
+        description: Yup.string().max(
+          1000,
+          "توضیحات نباید بیشتر از ۱۰۰۰ کاراکتر باشد"
+        ),
         website: Yup.string().url("آدرس وب‌سایت معتبر نیست").nullable(),
         phoneNumber: Yup.string().nullable(),
         email: Yup.string().email("ایمیل معتبر نیست").nullable(),
@@ -103,7 +109,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
         showSuccessToast("سازمان بیمه با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["insurances"] });
         queryClient.invalidateQueries({ queryKey: ["insurance"] });
-        navigate("/admin-dashboard/insurances-management");
+        navigate("/admin/insurances-management");
       } else {
         await createInsurance(data);
         showSuccessToast("سازمان بیمه با موفقیت ایجاد شد");
@@ -298,4 +304,3 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
 }
 
 export default InsuranceManagementForm;
-

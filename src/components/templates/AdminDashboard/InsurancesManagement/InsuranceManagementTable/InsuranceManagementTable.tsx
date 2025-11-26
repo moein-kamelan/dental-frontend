@@ -171,7 +171,7 @@ function InsuranceManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/insurances-management/edit/${insurance.id}`
+                            `/admin/insurances-management/edit/${insurance.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

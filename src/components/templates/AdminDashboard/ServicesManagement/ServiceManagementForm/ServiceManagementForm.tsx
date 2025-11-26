@@ -126,7 +126,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         showSuccessToast("خدمت با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["services"] });
         queryClient.invalidateQueries({ queryKey: ["service"] });
-        navigate("/admin-dashboard/services-management");
+        navigate("/admin/services-management");
       } else {
         await createService(formData);
         showSuccessToast("خدمت با موفقیت ایجاد شد");

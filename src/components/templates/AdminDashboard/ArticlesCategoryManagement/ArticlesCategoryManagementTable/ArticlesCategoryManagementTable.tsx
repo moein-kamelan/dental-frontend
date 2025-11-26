@@ -116,7 +116,7 @@ function ArticlesCategoryManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/articles-category-management/edit/${category.id}`
+                            `/admin/articles-category-management/edit/${category.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

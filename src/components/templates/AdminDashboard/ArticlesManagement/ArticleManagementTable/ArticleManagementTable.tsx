@@ -140,7 +140,7 @@ function ArticleManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/articles-management/edit/${article.id}`
+                            `/admin/articles-management/edit/${article.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

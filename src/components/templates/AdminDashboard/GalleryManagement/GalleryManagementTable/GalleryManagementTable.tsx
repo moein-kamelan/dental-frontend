@@ -123,7 +123,7 @@ function GalleryManagementTable({
                       <button
                         onClick={() => {
                           navigate(
-                            `/admin-dashboard/gallery-management/edit/${image.id}`
+                            `/admin/gallery-management/edit/${image.id}`
                           );
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"

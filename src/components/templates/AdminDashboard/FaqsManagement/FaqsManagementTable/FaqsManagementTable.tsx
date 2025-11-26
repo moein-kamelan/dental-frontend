@@ -112,9 +112,7 @@ function FaqsManagementTable({
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => {
-                          navigate(
-                            `/admin-dashboard/faqs-management/edit/${faq.id}`
-                          );
+                          navigate(`/admin/faqs-management/edit/${faq.id}`);
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"
                         title="ویرایش"

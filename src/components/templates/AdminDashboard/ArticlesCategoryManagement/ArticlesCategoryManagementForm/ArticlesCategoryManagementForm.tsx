@@ -71,7 +71,7 @@ function ArticlesCategoryManagementForm({
         showSuccessToast("دسته‌بندی با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["articleCategories"] });
         queryClient.invalidateQueries({ queryKey: ["articleCategory"] });
-        navigate("/admin-dashboard/articles-category-management");
+        navigate("/admin/articles-category-management");
       } else {
         await createCategory(data);
         showSuccessToast("دسته‌بندی با موفقیت ایجاد شد");

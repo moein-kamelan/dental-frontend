@@ -148,7 +148,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         showSuccessToast("پزشک با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["doctors"] });
         queryClient.invalidateQueries({ queryKey: ["doctor"] });
-        navigate("/admin-dashboard/doctors-management");
+        navigate("/admin/doctors-management");
       } else {
         await createDoctor(formData);
         showSuccessToast("پزشک با موفقیت ایجاد شد");

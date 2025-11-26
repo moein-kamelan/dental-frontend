@@ -69,7 +69,7 @@ function FaqManagementForm({ faq }: { faq?: Faq }) {
         showSuccessToast("سوال با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["faqs"] });
         queryClient.invalidateQueries({ queryKey: ["faq"] });
-        navigate("/admin-dashboard/faqs-management");
+        navigate("/admin/faqs-management");
       } else {
         await createFaq({
           question: values.question,
