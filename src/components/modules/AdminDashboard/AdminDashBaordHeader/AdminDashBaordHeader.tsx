@@ -59,9 +59,9 @@ function AdminDashBaordHeader({
           </h2>
         )}
         <div className="flex items-center  space-x-4 ">
-          <button className="size-10 flex items-center justify-center shadow-sm bg-gray-50 hover:bg-gray-300 rounded-full">
+          {/* <button className="size-10 flex items-center justify-center shadow-sm bg-gray-50 hover:bg-gray-300 rounded-full">
             <i className="fas fa-bell text-gray-600 "></i>
-          </button>
+          </button> */}
 
           {/* <!-- Profile Dropdown --> */}
           <div className="relative" ref={dropdownRef}>

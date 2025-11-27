@@ -55,6 +55,7 @@ import Settings from "./pages/AdminDashboard/Settings/Settings";
 import AdminDashboardLogin from "./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin";
 import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
 import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
+import ProfileManagement from "./pages/AdminDashboard/ProfileManagement/ProfileManagement";
 
 const routes = createBrowserRouter([
   {
@@ -181,6 +182,7 @@ const routes = createBrowserRouter([
         path: "users-management/edit/:id",
         element: <UsersManagementEdit />,
       },
+      { path: "profile-management", element: <ProfileManagement /> },
       {
         path: "settings",
         element: <Settings />,

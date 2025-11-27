@@ -28,15 +28,10 @@ const daysOfWeek = [
   { value: "friday", label: "جمعه" },
 ];
 
-const timeSlots = [
-  { value: "08:00-10:00", label: "08:00-10:00" },
-  { value: "10:00-12:00", label: "10:00-12:00" },
-  { value: "12:00-14:00", label: "12:00-14:00" },
-  { value: "14:00-16:00", label: "14:00-16:00" },
-  { value: "16:00-18:00", label: "16:00-18:00" },
-  { value: "18:00-20:00", label: "18:00-20:00" },
-  { value: "20:00-22:00", label: "20:00-22:00" },
-];
+type TimeRange = {
+  start: string;
+  end: string;
+};
 
 const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
   return (
@@ -106,7 +101,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       skills: string[];
       medicalLicenseNo: string;
       clinicIds: string[];
-      workingDays: Record<string, string | null>;
+      workingDays: Record<string, TimeRange[]>;
       profileImage: File | null;
     },
     resetForm: () => void
@@ -131,7 +126,24 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       }
 
       if (values.workingDays) {
-        formData.append("workingDays", JSON.stringify(values.workingDays));
+        // تبدیل به فرمت موردنظر: {"saturday": "14:00-15:00 & 15:00-16:00", "sunday": null, ...}
+        const formattedWorkingDays: Record<string, string | null> = {};
+
+        daysOfWeek.forEach((day) => {
+          const timeRanges = values.workingDays[day.value] || [];
+          if (timeRanges.length > 0) {
+            // تبدیل هر بازه به "start-end" و اتصال با " & "
+            const timeStrings = timeRanges
+              .filter((range) => range.start && range.end)
+              .map((range) => `${range.start}-${range.end}`);
+            formattedWorkingDays[day.value] =
+              timeStrings.length > 0 ? timeStrings.join(" & ") : null;
+          } else {
+            formattedWorkingDays[day.value] = null;
+          }
+        });
+
+        formData.append("workingDays", JSON.stringify(formattedWorkingDays));
       }
 
       // Only append file if it's a valid File object (not a fake one from URL)
@@ -192,8 +204,55 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         clinicIds:
           doctor?.clinics?.map((clinic) => clinic.clinic.id) ||
           ([] as string[]),
-        workingDays:
-          doctor?.workingDays || ({} as Record<string, string | null>),
+        workingDays: (() => {
+          // تبدیل داده‌های ورودی به ساختار جدید
+          const workingDaysData = doctor?.workingDays;
+          if (workingDaysData) {
+            const converted: Record<string, TimeRange[]> = {};
+
+            // برای هر روز از هفته
+            daysOfWeek.forEach((day) => {
+              const value = workingDaysData[day.value];
+
+              if (value === null || value === undefined) {
+                converted[day.value] = [];
+              } else if (typeof value === "string" && value.trim()) {
+                // اگر string است و شامل " & " باشد، چندین بازه زمانی دارد
+                if (value.includes(" & ")) {
+                  // تقسیم به بازه‌های جداگانه: "14:00-15:00 & 15:00-16:00"
+                  const timeRanges = value.split(" & ").map((range) => {
+                    const [start, end] = range.trim().split("-");
+                    return { start: start || "", end: end || "" };
+                  });
+                  converted[day.value] = timeRanges.filter(
+                    (range) => range.start && range.end
+                  );
+                } else {
+                  // یک بازه زمانی ساده: "14:00-15:00"
+                  const [start, end] = value.split("-");
+                  converted[day.value] =
+                    start && end
+                      ? [{ start: start.trim(), end: end.trim() }]
+                      : [];
+                }
+              } else if (Array.isArray(value)) {
+                // اگر array است (فرمت قدیمی)
+                converted[day.value] = value.map((item) => {
+                  if (typeof item === "string") {
+                    const [start, end] = item.split("-");
+                    return { start: start || "", end: end || "" };
+                  }
+                  return item as TimeRange;
+                });
+              } else {
+                converted[day.value] = [];
+              }
+            });
+
+            return converted;
+          }
+          return {} as Record<string, TimeRange[]>;
+        })(),
         profileImage: null as File | null,
         skillInput: "",
       }}
@@ -415,51 +474,156 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               <label className="block text-dark font-estedad-lightbold mb-4 mr-4">
                 روزهای کاری
               </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mr-4">
-                {daysOfWeek.map((day) => (
-                  <div key={day.value} className="space-y-2">
-                    <label className="block text-sm font-medium text-dark">
-                      {day.label}
-                    </label>
-                    <Select<OptionType, false>
-                      options={timeSlots}
-                      value={
-                        formik.values.workingDays[day.value]
-                          ? timeSlots.find(
-                              (slot) =>
-                                slot.value ===
-                                formik.values.workingDays[day.value]
-                            ) || null
-                          : null
-                      }
-                      onChange={(selected) => {
-                        const newWorkingDays = {
-                          ...formik.values.workingDays,
-                          [day.value]: selected ? selected.value : null,
-                        };
-                        formik.setFieldValue("workingDays", newWorkingDays);
-                      }}
-                      placeholder="انتخاب زمان"
-                      isClearable
-                      components={{ DropdownIndicator }}
-                      classNames={{
-                        control: () =>
-                          `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2 !border-main-border-color !focus:outline-none h-full !cursor-pointer`,
-                        option: ({ isFocused, isSelected }) =>
-                          `px-3 py-2 cursor-pointer !text-lg border-r-6 ${
-                            isSelected
-                              ? "!bg-primary text-white !cursor-pointer"
-                              : isFocused
-                              ? "!text-secondary !cursor-pointer"
-                              : "bg-white !cursor-pointer"
-                          }`,
-                        menu: () =>
-                          "!mt-0 !rounded-t-none shadow-lg bg-white overflow-hidden",
-                        placeholder: () => `!text-dark`,
-                      }}
-                    />
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 xl:grid-cols-2  gap-4 mr-4">
+                {daysOfWeek.map((day) => {
+                  const timeRanges = formik.values.workingDays[day.value] || [];
+
+                  const addTimeRange = () => {
+                    const newRanges = [
+                      ...timeRanges,
+                      { start: "08:00", end: "12:00" },
+                    ];
+                    const newWorkingDays = {
+                      ...formik.values.workingDays,
+                      [day.value]: newRanges,
+                    };
+                    formik.setFieldValue("workingDays", newWorkingDays);
+                  };
+
+                  const updateTimeRange = (
+                    index: number,
+                    field: "start" | "end",
+                    value: string
+                  ) => {
+                    const newRanges = [...timeRanges];
+                    newRanges[index] = {
+                      ...newRanges[index],
+                      [field]: value,
+                    };
+                    const newWorkingDays = {
+                      ...formik.values.workingDays,
+                      [day.value]: newRanges,
+                    };
+                    formik.setFieldValue("workingDays", newWorkingDays);
+                  };
+
+                  const removeTimeRange = (index: number) => {
+                    const newRanges = timeRanges.filter((_, i) => i !== index);
+                    const newWorkingDays = {
+                      ...formik.values.workingDays,
+                      [day.value]: newRanges,
+                    };
+                    formik.setFieldValue("workingDays", newWorkingDays);
+                  };
+
+                  return (
+                    <div
+                      key={day.value}
+                      className="space-y-3 p-4 border-2 border-main-border-color rounded-lg bg-white"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <label className="block text-sm font-medium text-dark">
+                          {day.label}
+                        </label>
+                        <button
+                          type="button"
+                          onClick={addTimeRange}
+                          className="text-primary hover:text-primary/80 text-xs font-estedad-lightbold flex items-center gap-1"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8 3V13M3 8H13"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                          افزودن بازه
+                        </button>
+                      </div>
+
+                      {timeRanges.length === 0 ? (
+                        <div className="text-center py-4 text-paragray text-sm">
+                          بازه زمانی انتخاب نشده است
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {timeRanges.map((range, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-main-border-color"
+                            >
+                              <div className="flex-1 flex items-center gap-2">
+                                <div className="flex-1">
+                                  <label className="block text-xs text-paragray mb-1">
+                                    از
+                                  </label>
+                                  <input
+                                    type="time"
+                                    value={range.start}
+                                    onChange={(e) =>
+                                      updateTimeRange(
+                                        index,
+                                        "start",
+                                        e.target.value
+                                      )
+                                    }
+                                    className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="block text-xs text-paragray mb-1">
+                                    تا
+                                  </label>
+                                  <input
+                                    type="time"
+                                    value={range.end}
+                                    onChange={(e) =>
+                                      updateTimeRange(
+                                        index,
+                                        "end",
+                                        e.target.value
+                                      )
+                                    }
+                                    min={range.start}
+                                    className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                  />
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeTimeRange(index)}
+                                className="text-red-500 hover:text-red-700 p-2 transition-colors"
+                                title="حذف"
+                              >
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 20 20"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5 5L15 15M15 5L5 15"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 

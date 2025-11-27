@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Article } from "../../../../types/types";
+import { stripHtmlTags } from "../../../../utils/helpers";
 
 interface BlogCardProps {
   article?: Article;
@@ -36,8 +37,10 @@ function BlogCard({ article }: BlogCardProps) {
       <div className="relative h-64">
         <img
           src={
-            article?.coverImage ? `http://localhost:4000${article.coverImage}` :
-            "/images/blog-1.jpg" }
+            article?.coverImage
+              ? `http://localhost:4000${article.coverImage}`
+              : "/images/blog-1.jpg"
+          }
           alt={article.title}
           className="w-full h-full  group-hover/card:scale-105 transition-all duration-800"
         />
@@ -67,7 +70,7 @@ function BlogCard({ article }: BlogCardProps) {
           </span>
         </h3>
         <p className="text-paragray font-estedad-light line-clamp-2">
-          {article.excerpt || article.content.substring(0, 100)}
+          {article.excerpt}
         </p>
         <div className="flex justify-between items-center pt-4">
           <span className="text-dark hover:text-primary flex items-center gap-2 transition-colors duration-500 text-sm md:text-base group-hover/card:text-accent">
