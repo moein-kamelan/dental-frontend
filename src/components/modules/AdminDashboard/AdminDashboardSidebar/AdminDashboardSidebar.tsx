@@ -22,9 +22,14 @@ function AdminDashboardSidebar() {
       }`}
     >
       <div
-        className={`flex items-center justify-between space-x-3 p-4 shrink-0 transition-opacity duration-300 ${
-          !isSidebarOpen ? "opacity-0" : "opacity-100"
+        className={`flex items-center justify-between space-x-3 p-4 shrink-0 transition-opacity duration-200 ${
+          !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
         }`}
+        style={
+          !isSidebarOpen
+            ? { transitionDelay: "-100ms" }
+            : { transitionDelay: "200ms" }
+        }
       >
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
@@ -42,9 +47,14 @@ function AdminDashboardSidebar() {
         </button>
       </div>
       <nav
-        className={`grow overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar transition-opacity duration-300 ${
-          !isSidebarOpen ? "opacity-0" : "opacity-100"
+        className={`grow overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar transition-opacity duration-200 ${
+          !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
         }`}
+        style={
+          !isSidebarOpen
+            ? { transitionDelay: "-100ms" }
+            : { transitionDelay: "200ms" }
+        }
       >
         <AdminDashboardSidebarLink
           to={"/admin"}
@@ -80,7 +90,14 @@ function AdminDashboardSidebar() {
 
         <button
           onClick={toggleCategories}
-          className="flex items-center justify-between text-sm  gap-x-2 p-3 rounded-lg hover:bg-white/10 transition cursor-pointer w-full"
+          className={`flex items-center justify-between text-sm gap-x-2 p-3 rounded-lg hover:bg-white/10 transition-opacity duration-200 cursor-pointer w-full whitespace-nowrap ${
+            !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
+          }`}
+          style={
+            !isSidebarOpen
+              ? { transitionDelay: "-100ms" }
+              : { transitionDelay: "200ms" }
+          }
         >
           <div className="flex items-center gap-x-3">
             <i className="fas fa-tags"></i>
@@ -93,13 +110,16 @@ function AdminDashboardSidebar() {
           ></i>
         </button>
         <div
-          className="grid transition-all duration-300 ease-in-out overflow-hidden"
+          className={`grid transition-all duration-300 ease-in-out overflow-hidden ${
+            !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
+          }`}
           style={{
             gridTemplateRows: isCategoriesOpen ? "1fr" : "0fr",
+            transitionDelay: !isSidebarOpen ? "-100ms" : "200ms",
           }}
         >
           <div className="min-h-0 pr-2 ">
-            <div className="   w-full bg-white/10 space-y-2 rounded-lg  ">
+            <div className="w-full bg-white/10 space-y-2 rounded-lg">
               <AdminDashboardSidebarLink
                 to={"/admin/articles-category-management"}
                 icon="fas fa-newspaper"

@@ -16,9 +16,9 @@ function AdminDashboardSidebarLink({
       to={to}
       end={end}
       className={({ isActive }) =>
-        `flex items-center  space-x-3 p-3 rounded-lg text-sm ${
+        `flex items-center space-x-3 p-3 rounded-lg text-sm whitespace-nowrap ${
           isActive ? "bg-white/10 hover:bg-white/30" : "hover:bg-white/20"
-        }  transition`
+        } transition`
       }
     >
       <i className={icon}></i>
