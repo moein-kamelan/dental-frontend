@@ -180,20 +180,17 @@ const routes = createBrowserRouter([
         path: "doctor-applications-management",
         element: <DoctorApplicationsManagement />,
       },
-<<<<<<< HEAD
-      { path: "reviews-management", element: <ReviewsManagement /> },
-      {
-        path: "reviews-management/edit/:id",
-        element: <ReviewsManagementEdit />,
-      },
-=======
       { path: "users-management", element: <UsersManagement /> },
       {
         path: "users-management/edit/:id",
         element: <UsersManagementEdit />,
       },
+      { path: "reviews-management", element: <ReviewsManagement /> },
+      {
+        path: "reviews-management/edit/:id",
+        element: <ReviewsManagementEdit />,
+      },
       { path: "profile-management", element: <ProfileManagement /> },
->>>>>>> a5462c66775f77b65f5d9136497418f1c518de74
       {
         path: "settings",
         element: <Settings />,
