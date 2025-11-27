@@ -30,6 +30,311 @@ figure {
 figure img {
   @apply w-full h-full object-cover rounded-xl max-h-150!;
 }
+
+/* CKEditor content display styles */
+.ck-content,
+.article-content {
+  direction: rtl;
+  text-align: right;
+  font-family: var(--font-estedad-light), sans-serif;
+  line-height: 1.8;
+}
+
+.ck-content h1,
+.article-content h1 {
+  @apply text-3xl font-estedad-verybold text-dark mb-4 mt-6;
+}
+
+.ck-content h2,
+.article-content h2 {
+  @apply text-2xl font-estedad-verybold text-dark mb-3 mt-5;
+}
+
+.ck-content h3,
+.article-content h3 {
+  @apply text-xl font-estedad-semibold text-dark mb-3 mt-4;
+}
+
+.ck-content h4,
+.article-content h4 {
+  @apply text-lg font-estedad-semibold text-dark mb-2 mt-3;
+}
+
+.ck-content h5,
+.article-content h5 {
+  @apply text-base font-estedad-semibold text-dark mb-2 mt-3;
+}
+
+.ck-content h6,
+.article-content h6 {
+  @apply text-sm font-estedad-semibold text-dark mb-2 mt-3;
+}
+
+.ck-content p,
+.article-content p {
+  @apply mb-4 text-dark;
+  line-height: 1.8;
+}
+
+.ck-content ul,
+.ck-content ol,
+.article-content ul,
+.article-content ol {
+  @apply mb-4 mr-6;
+  direction: rtl;
+}
+
+.ck-content ul li,
+.ck-content ol li,
+.article-content ul li,
+.article-content ol li {
+  @apply mb-2;
+  list-style-position: inside;
+}
+
+.ck-content ul li,
+.article-content ul li {
+  list-style-type: disc;
+}
+
+/* Ensure todo lists don't get regular list styles - override must come after regular list styles */
+.ck-content ul[data-todo-list] li,
+.article-content ul[data-todo-list] li,
+.ck-content .todo-list li,
+.article-content .todo-list li {
+  list-style-type: none !important;
+}
+
+.ck-content ol li,
+.article-content ol li {
+  list-style-type: decimal;
+}
+
+.ck-content strong,
+.ck-content b,
+.article-content strong,
+.article-content b {
+  @apply font-estedad-semibold;
+}
+
+.ck-content em,
+.ck-content i,
+.article-content em,
+.article-content i {
+  font-style: italic;
+}
+
+.ck-content u,
+.article-content u {
+  text-decoration: underline;
+}
+
+.ck-content a,
+.article-content a {
+  @apply text-accent hover:text-secondary transition-colors duration-300;
+  text-decoration: underline;
+}
+
+.ck-content blockquote,
+.article-content blockquote {
+  @apply border-r-4 border-r-accent pr-4 my-4 italic text-paragray;
+  direction: rtl;
+}
+
+.ck-content code,
+.article-content code {
+  @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono;
+}
+
+.ck-content pre,
+.article-content pre {
+  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+  direction: ltr;
+  text-align: left;
+}
+
+.ck-content pre code,
+.article-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.ck-content table,
+.article-content table {
+  @apply w-full border-collapse my-4;
+  direction: rtl;
+}
+
+.ck-content table th,
+.ck-content table td,
+.article-content table th,
+.article-content table td {
+  @apply border border-main-border-color px-4 py-2 text-right;
+}
+
+.ck-content table th,
+.article-content table th {
+  @apply bg-accent/10 font-estedad-semibold;
+}
+
+.ck-content img,
+.article-content img {
+  @apply max-w-full h-auto rounded-xl my-4;
+}
+
+.ck-content hr,
+.article-content hr {
+  @apply border-t border-main-border-color my-6;
+}
+
+/* TodoList styles - CKEditor 5 TodoList support */
+.ck-content ul[data-todo-list],
+.article-content ul[data-todo-list],
+.ck-content .todo-list,
+.article-content .todo-list {
+  @apply mb-4 mr-6 list-none;
+  direction: rtl;
+  padding-right: 0;
+}
+
+.ck-content ul[data-todo-list] li,
+.article-content ul[data-todo-list] li,
+.ck-content .todo-list li,
+.article-content .todo-list li {
+  @apply mb-2 flex items-start;
+  direction: rtl;
+  list-style: none;
+  position: relative;
+  padding-right: 32px;
+  padding-left: 0;
+}
+
+.ck-content ul[data-todo-list] li label,
+.article-content ul[data-todo-list] li label,
+.ck-content .todo-list li label,
+.article-content .todo-list li label {
+  @apply flex-1;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ck-content ul[data-todo-list] li input[type="checkbox"],
+.article-content ul[data-todo-list] li input[type="checkbox"],
+.ck-content .todo-list li input[type="checkbox"],
+.article-content .todo-list li input[type="checkbox"] {
+  @apply flex-shrink-0;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Font Awesome check-circle icon for unchecked state */
+.ck-content ul[data-todo-list] li::before,
+.article-content ul[data-todo-list] li::before,
+.ck-content .todo-list li::before,
+.article-content .todo-list li::before {
+  content: '\f058'; /* Font Awesome check-circle icon Unicode */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; /* Solid style */
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-secondary);
+  position: absolute;
+  right: 0;
+  top: 2px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+}
+
+/* Font Awesome check-circle icon for checked state */
+.ck-content ul[data-todo-list] li[data-todo-checked]::before,
+.article-content ul[data-todo-list] li[data-todo-checked]::before,
+.ck-content .todo-list li[data-todo-checked]::before,
+.article-content .todo-list li[data-todo-checked]::before {
+  content: '\f058'; /* Font Awesome check-circle icon Unicode */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; /* Solid style */
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-secondary);
+  opacity: 1;
+}
+
+.ck-content ul[data-todo-list] li[data-todo-checked],
+.article-content ul[data-todo-list] li[data-todo-checked],
+.ck-content .todo-list li[data-todo-checked],
+.article-content .todo-list li[data-todo-checked] {
+  /* Remove line-through and opacity for checked items to match BecomeDoctorContent style */
+}
+
+/* Focus state */
+.ck-content ul[data-todo-list] li input[type="checkbox"]:focus,
+.article-content ul[data-todo-list] li input[type="checkbox"]:focus,
+.ck-content .todo-list li input[type="checkbox"]:focus,
+.article-content .todo-list li input[type="checkbox"]:focus {
+  outline: none;
+}
+
+/* Alternative structure for todo items - direct li with data-todo */
+.ck-content li[data-todo],
+.article-content li[data-todo] {
+  @apply mb-2 flex items-start;
+  direction: rtl;
+  list-style: none;
+  padding-right: 32px;
+  padding-left: 0;
+  position: relative;
+}
+
+.ck-content li[data-todo]::before,
+.article-content li[data-todo]::before {
+  content: '\f058'; /* Font Awesome check-circle icon Unicode */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; /* Solid style */
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-secondary);
+  position: absolute;
+  right: 0;
+  top: 2px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* opacity: 0.9; */
+}
+
+.ck-content li[data-todo][data-todo-checked]::before,
+.article-content li[data-todo][data-todo-checked]::before {
+  content: '\f058'; /* Font Awesome check-circle icon Unicode */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; /* Solid style */
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-secondary);
+  opacity: 1;
+}
+
+.ck-content li[data-todo][data-todo-checked],
+.article-content li[data-todo][data-todo-checked] {
+  /* Remove line-through and opacity for checked items to match BecomeDoctorContent style */
+}
  /* end ckeditor styles */
 
  

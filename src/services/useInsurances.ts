@@ -39,7 +39,7 @@ export const useGetInsuranceById = (id: string) => {
 
 export const useCreateInsurance = () => {
   return useMutation({
-    mutationFn: async (data: {
+    mutationFn: async (data: FormData | {
       name: string;
       description?: string;
       website?: string;
@@ -49,7 +49,11 @@ export const useCreateInsurance = () => {
       published?: boolean;
       order?: number;
     }) => {
-      const response = await axiosInstance.post("/insurance", data);
+      const response = await axiosInstance.post("/insurance", data, {
+        headers: data instanceof FormData ? {
+          'Content-Type': 'multipart/form-data',
+        } : undefined,
+      });
       return response.data;
     },
   });
@@ -62,7 +66,7 @@ export const useUpdateInsurance = () => {
       data,
     }: {
       id: string;
-      data: {
+      data: FormData | {
         name?: string;
         description?: string;
         website?: string;
@@ -73,7 +77,11 @@ export const useUpdateInsurance = () => {
         order?: number;
       };
     }) => {
-      const response = await axiosInstance.patch(`/insurance/${id}`, data);
+      const response = await axiosInstance.patch(`/insurance/${id}`, data, {
+        headers: data instanceof FormData ? {
+          'Content-Type': 'multipart/form-data',
+        } : undefined,
+      });
       return response.data;
     },
   });

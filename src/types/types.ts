@@ -185,3 +185,15 @@ export interface DoctorApplication {
   } | null;
   createdAt: string;
 }
+
+export interface Review {
+  id: string;
+  name: string;
+  content: string;
+  rating: number;
+  profileImage?: string | null;
+  published: boolean;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}

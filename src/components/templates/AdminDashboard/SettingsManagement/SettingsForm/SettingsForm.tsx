@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import CustomInput from "../../../../../components/modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../../components/modules/CustomTextArea/CustomTextArea";
+import TextEditor from "../../../../../components/modules/AdminDashboard/TextEditor/TextEditor";
 import {
   useGetSettings,
   useUpdateSettings,
@@ -18,7 +19,7 @@ const validationSchema = Yup.object({
   siteName: Yup.string(),
   siteTitle: Yup.string(),
   description: Yup.string(),
-  logo: Yup.string(),
+  logo: Yup.mixed().nullable(),
   email: Yup.string().email("ایمیل معتبر نیست"),
   phoneNumber: Yup.string(),
   address: Yup.string(),
@@ -30,24 +31,190 @@ const validationSchema = Yup.object({
   facebook: Yup.string().url("لینک معتبر نیست"),
   youtube: Yup.string().url("لینک معتبر نیست"),
   workingHours: Yup.string(),
-  aboutUsImage: Yup.string().nullable(),
-  aboutUsVideo: Yup.string().nullable(),
-  contactUsImage: Yup.string().nullable(),
-  contactUsVideo: Yup.string().nullable(),
+  aboutUsImage: Yup.mixed().nullable(),
+  aboutUsVideo: Yup.mixed().nullable(),
+  aboutUsContent: Yup.string(),
+  contactUsImage: Yup.mixed().nullable(),
+  contactUsVideo: Yup.mixed().nullable(),
+  becomeDoctorContent: Yup.string(),
 });
 
 function SettingsForm() {
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const aboutUsImageInputRef = useRef<HTMLInputElement>(null);
+  const aboutUsVideoInputRef = useRef<HTMLInputElement>(null);
+  const contactUsImageInputRef = useRef<HTMLInputElement>(null);
+  const contactUsVideoInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { data: settingsData, isLoading } = useGetSettings();
   const { mutateAsync: updateSettings } = useUpdateSettings();
 
   const settings = settingsData?.data?.settings;
 
-  const handleSubmit = async (values: Partial<Settings>) => {
+  const isFile = (value: unknown): value is File => {
+    return value instanceof File;
+  };
+
+  type FormValues = Omit<Partial<Settings>, 'logo' | 'aboutUsImage' | 'aboutUsVideo' | 'contactUsImage' | 'contactUsVideo'> & { 
+    logo?: File | null;
+    aboutUsImage?: File | null;
+    aboutUsVideo?: File | null;
+    contactUsImage?: File | null;
+    contactUsVideo?: File | null;
+    deleteLogo?: boolean;
+    deleteAboutUsImage?: boolean;
+    deleteAboutUsVideo?: boolean;
+    deleteContactUsImage?: boolean;
+    deleteContactUsVideo?: boolean;
+  };
+
+  const handleSubmit = async (values: FormValues) => {
     try {
-      await updateSettings(values);
+      // Check if any file is uploaded
+      const logoFile = values.logo;
+      const aboutUsImageFile = values.aboutUsImage;
+      const aboutUsVideoFile = values.aboutUsVideo;
+      const contactUsImageFile = values.contactUsImage;
+      const contactUsVideoFile = values.contactUsVideo;
+      
+      const hasLogoFile = logoFile && isFile(logoFile) && logoFile.size > 0;
+      const hasAboutUsImageFile = aboutUsImageFile && isFile(aboutUsImageFile) && aboutUsImageFile.size > 0;
+      const hasAboutUsVideoFile = aboutUsVideoFile && isFile(aboutUsVideoFile) && aboutUsVideoFile.size > 0;
+      const hasContactUsImageFile = contactUsImageFile && isFile(contactUsImageFile) && contactUsImageFile.size > 0;
+      const hasContactUsVideoFile = contactUsVideoFile && isFile(contactUsVideoFile) && contactUsVideoFile.size > 0;
+      const hasDeleteFlag = values.deleteLogo || values.deleteAboutUsImage || values.deleteAboutUsVideo || values.deleteContactUsImage || values.deleteContactUsVideo;
+      const hasAnyFile = hasLogoFile || hasAboutUsImageFile || hasAboutUsVideoFile || hasContactUsImageFile || hasContactUsVideoFile || hasDeleteFlag;
+      
+      if (hasAnyFile) {
+        // Use FormData if there's any file
+        const formData = new FormData();
+        
+        if (values.siteName !== undefined) formData.append("siteName", values.siteName);
+        if (values.siteTitle !== undefined) formData.append("siteTitle", values.siteTitle);
+        if (values.description !== undefined) formData.append("description", values.description);
+        
+        if (values.deleteLogo) {
+          formData.append("logo", "");
+        } else if (hasLogoFile && isFile(logoFile)) {
+          formData.append("logo", logoFile);
+        } else if (values.logo === null || values.logo === undefined) {
+          // Keep existing logo if not changed
+          if (settings?.logo) {
+            formData.append("logo", settings.logo);
+          }
+        }
+        
+        if (values.email !== undefined) formData.append("email", values.email);
+        if (values.phoneNumber !== undefined) formData.append("phoneNumber", values.phoneNumber);
+        if (values.address !== undefined) formData.append("address", values.address);
+        if (values.instagram !== undefined) formData.append("instagram", values.instagram);
+        if (values.telegram !== undefined) formData.append("telegram", values.telegram);
+        if (values.whatsapp !== undefined) formData.append("whatsapp", values.whatsapp);
+        if (values.twitter !== undefined) formData.append("twitter", values.twitter);
+        if (values.linkedin !== undefined) formData.append("linkedin", values.linkedin);
+        if (values.facebook !== undefined) formData.append("facebook", values.facebook);
+        if (values.youtube !== undefined) formData.append("youtube", values.youtube);
+        if (values.workingHours !== undefined) formData.append("workingHours", values.workingHours);
+        if (values.aboutUsContent !== undefined) formData.append("aboutUsContent", values.aboutUsContent);
+        if (values.becomeDoctorContent !== undefined) formData.append("becomeDoctorContent", values.becomeDoctorContent);
+        
+        if (values.deleteAboutUsImage) {
+          formData.append("aboutUsImage", "");
+        } else if (hasAboutUsImageFile && isFile(aboutUsImageFile)) {
+          formData.append("aboutUsImage", aboutUsImageFile);
+        } else if (values.aboutUsImage === null || values.aboutUsImage === undefined) {
+          // Keep existing image if not changed
+          if (settings?.aboutUsImage) {
+            formData.append("aboutUsImage", settings.aboutUsImage);
+          }
+        }
+        
+        if (values.deleteAboutUsVideo) {
+          formData.append("aboutUsVideo", "");
+        } else if (hasAboutUsVideoFile && isFile(aboutUsVideoFile)) {
+          formData.append("aboutUsVideo", aboutUsVideoFile);
+        } else if (values.aboutUsVideo === null || values.aboutUsVideo === undefined) {
+          // Keep existing video if not changed
+          if (settings?.aboutUsVideo) {
+            formData.append("aboutUsVideo", settings.aboutUsVideo);
+          }
+        }
+        
+        if (values.deleteContactUsImage) {
+          formData.append("contactUsImage", "");
+        } else if (hasContactUsImageFile && isFile(contactUsImageFile)) {
+          formData.append("contactUsImage", contactUsImageFile);
+        } else if (values.contactUsImage === null || values.contactUsImage === undefined) {
+          // Keep existing image if not changed
+          if (settings?.contactUsImage) {
+            formData.append("contactUsImage", settings.contactUsImage);
+          }
+        }
+        
+        if (values.deleteContactUsVideo) {
+          formData.append("contactUsVideo", "");
+        } else if (hasContactUsVideoFile && isFile(contactUsVideoFile)) {
+          formData.append("contactUsVideo", contactUsVideoFile);
+        } else if (values.contactUsVideo === null || values.contactUsVideo === undefined) {
+          // Keep existing video if not changed
+          if (settings?.contactUsVideo) {
+            formData.append("contactUsVideo", settings.contactUsVideo);
+          }
+        }
+        
+        await updateSettings(formData);
+      } else {
+        // Use regular JSON if no file - handle delete flags
+        const updateData: Partial<Settings> = {};
+        
+        // Handle delete flags
+        if (values.deleteLogo) {
+          updateData.logo = "";
+        }
+        if (values.deleteAboutUsImage) {
+          updateData.aboutUsImage = "";
+        }
+        if (values.deleteAboutUsVideo) {
+          updateData.aboutUsVideo = "";
+        }
+        if (values.deleteContactUsImage) {
+          updateData.contactUsImage = "";
+        }
+        if (values.deleteContactUsVideo) {
+          updateData.contactUsVideo = "";
+        }
+        
+        // Add other values
+        if (values.siteName !== undefined) updateData.siteName = values.siteName;
+        if (values.siteTitle !== undefined) updateData.siteTitle = values.siteTitle;
+        if (values.description !== undefined) updateData.description = values.description;
+        if (values.email !== undefined) updateData.email = values.email;
+        if (values.phoneNumber !== undefined) updateData.phoneNumber = values.phoneNumber;
+        if (values.address !== undefined) updateData.address = values.address;
+        if (values.instagram !== undefined) updateData.instagram = values.instagram;
+        if (values.telegram !== undefined) updateData.telegram = values.telegram;
+        if (values.whatsapp !== undefined) updateData.whatsapp = values.whatsapp;
+        if (values.twitter !== undefined) updateData.twitter = values.twitter;
+        if (values.linkedin !== undefined) updateData.linkedin = values.linkedin;
+        if (values.facebook !== undefined) updateData.facebook = values.facebook;
+        if (values.youtube !== undefined) updateData.youtube = values.youtube;
+        if (values.workingHours !== undefined) updateData.workingHours = values.workingHours;
+        if (values.aboutUsContent !== undefined) updateData.aboutUsContent = values.aboutUsContent;
+        if (values.becomeDoctorContent !== undefined) updateData.becomeDoctorContent = values.becomeDoctorContent;
+        
+        await updateSettings(updateData);
+      }
+      
       showSuccessToast("تنظیمات با موفقیت به‌روزرسانی شد");
       queryClient.invalidateQueries({ queryKey: ["settings"] });
+      
+      setTimeout(() => {
+        if (logoInputRef.current) logoInputRef.current.value = "";
+        if (aboutUsImageInputRef.current) aboutUsImageInputRef.current.value = "";
+        if (aboutUsVideoInputRef.current) aboutUsVideoInputRef.current.value = "";
+        if (contactUsImageInputRef.current) contactUsImageInputRef.current.value = "";
+        if (contactUsVideoInputRef.current) contactUsVideoInputRef.current.value = "";
+      }, 0);
     } catch (error: unknown) {
       const errorMessage =
         (error as { response?: { data?: { message?: string } } })?.response
@@ -65,12 +232,12 @@ function SettingsForm() {
   }
 
   return (
-    <Formik
+    <Formik<FormValues>
       initialValues={{
         siteName: settings?.siteName || "",
         siteTitle: settings?.siteTitle || "",
         description: settings?.description || "",
-        logo: settings?.logo || "",
+        logo: null,
         email: settings?.email || "",
         phoneNumber: settings?.phoneNumber || "",
         address: settings?.address || "",
@@ -82,10 +249,17 @@ function SettingsForm() {
         facebook: settings?.facebook || "",
         youtube: settings?.youtube || "",
         workingHours: settings?.workingHours || "",
-        aboutUsImage: settings?.aboutUsImage || "",
-        aboutUsVideo: settings?.aboutUsVideo || "",
-        contactUsImage: settings?.contactUsImage || "",
-        contactUsVideo: settings?.contactUsVideo || "",
+        aboutUsImage: null,
+        aboutUsVideo: null,
+        aboutUsContent: settings?.aboutUsContent || "",
+        contactUsImage: null,
+        contactUsVideo: null,
+        becomeDoctorContent: settings?.becomeDoctorContent || "",
+        deleteLogo: false,
+        deleteAboutUsImage: false,
+        deleteAboutUsVideo: false,
+        deleteContactUsImage: false,
+        deleteContactUsVideo: false,
       }}
       validationSchema={validationSchema}
       enableReinitialize
@@ -121,19 +295,6 @@ function SettingsForm() {
                 errorMessage={
                   formik.touched.siteTitle && formik.errors.siteTitle
                     ? formik.errors.siteTitle
-                    : null
-                }
-              />
-
-              <CustomInput
-                labelText="لوگو"
-                placeholder="آدرس لوگو را وارد کنید"
-                className="bg-white"
-                optional
-                {...formik.getFieldProps("logo")}
-                errorMessage={
-                  formik.touched.logo && formik.errors.logo
-                    ? formik.errors.logo
                     : null
                 }
               />
@@ -175,6 +336,79 @@ function SettingsForm() {
                 errorMessage={
                   formik.touched.workingHours && formik.errors.workingHours
                     ? formik.errors.workingHours
+                    : null
+                }
+              />
+            </div>
+
+            <div className="mt-4">
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                لوگو
+              </label>
+              {settings?.logo && !formik.values.deleteLogo && (
+                <div className="mb-4 mr-4">
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={`http://localhost:4000${settings.logo}`}
+                      alt="لوگوی سایت"
+                      className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-paragray mt-2 mb-2">
+                        لوگوی فعلی (برای تغییر، لوگوی جدید انتخاب کنید)
+                      </p>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={formik.values.deleteLogo}
+                          onChange={(e) =>
+                            formik.setFieldValue("deleteLogo", e.target.checked)
+                          }
+                          className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                        />
+                        <span className="text-red-500 font-estedad-lightbold text-sm">
+                          حذف لوگو
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {formik.values.deleteLogo && (
+                <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
+                  <p className="text-red-600 text-sm font-estedad-lightbold">
+                    لوگو حذف خواهد شد
+                  </p>
+                  <label className="flex items-center gap-2 cursor-pointer mt-2">
+                    <input
+                      type="checkbox"
+                      checked={formik.values.deleteLogo}
+                      onChange={(e) =>
+                        formik.setFieldValue("deleteLogo", e.target.checked)
+                      }
+                      className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                    />
+                    <span className="text-red-500 font-estedad-lightbold text-sm">
+                      لغو حذف
+                    </span>
+                  </label>
+                </div>
+              )}
+              <CustomInput
+                ref={logoInputRef}
+                inputType="file"
+                labelText=""
+                placeholder="لوگو را انتخاب کنید"
+                className="bg-white mr-4"
+                name="logo"
+                accept="image/*"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const file = e.target.files?.[0] || null;
+                  formik.setFieldValue("logo", file);
+                }}
+                errorMessage={
+                  formik.touched.logo && formik.errors.logo
+                    ? formik.errors.logo
                     : null
                 }
               />
@@ -313,58 +547,338 @@ function SettingsForm() {
               تصاویر و ویدیوها
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <CustomInput
-                labelText="تصویر صفحه درباره ما"
-                placeholder="آدرس تصویر را وارد کنید"
-                className="bg-white"
-                optional
-                {...formik.getFieldProps("aboutUsImage")}
-                errorMessage={
-                  formik.touched.aboutUsImage && formik.errors.aboutUsImage
-                    ? formik.errors.aboutUsImage
-                    : null
-                }
-              />
+              <div>
+                <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                  تصویر صفحه درباره ما
+                </label>
+                {settings?.aboutUsImage && !formik.values.deleteAboutUsImage && (
+                  <div className="mb-4 mr-4">
+                    <div className="flex items-start gap-4">
+                      <img
+                        src={`http://localhost:4000${settings.aboutUsImage}`}
+                        alt="تصویر درباره ما"
+                        className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm text-paragray mt-2 mb-2">
+                          تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
+                        </p>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={formik.values.deleteAboutUsImage}
+                            onChange={(e) =>
+                              formik.setFieldValue("deleteAboutUsImage", e.target.checked)
+                            }
+                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                          />
+                          <span className="text-red-500 font-estedad-lightbold text-sm">
+                            حذف تصویر
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {formik.values.deleteAboutUsImage && (
+                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
+                    <p className="text-red-600 text-sm font-estedad-lightbold">
+                      تصویر حذف خواهد شد
+                    </p>
+                    <label className="flex items-center gap-2 cursor-pointer mt-2">
+                      <input
+                        type="checkbox"
+                        checked={formik.values.deleteAboutUsImage}
+                        onChange={(e) =>
+                          formik.setFieldValue("deleteAboutUsImage", e.target.checked)
+                        }
+                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                      />
+                      <span className="text-red-500 font-estedad-lightbold text-sm">
+                        لغو حذف
+                      </span>
+                    </label>
+                  </div>
+                )}
+                <CustomInput
+                  ref={aboutUsImageInputRef}
+                  inputType="file"
+                  labelText=""
+                  placeholder="تصویر را انتخاب کنید"
+                  className="bg-white mr-4"
+                  name="aboutUsImage"
+                  accept="image/*"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("aboutUsImage", file);
+                  }}
+                  errorMessage={
+                    formik.touched.aboutUsImage && formik.errors.aboutUsImage
+                      ? formik.errors.aboutUsImage
+                      : null
+                  }
+                />
+              </div>
 
-              <CustomInput
-                labelText="ویدیو صفحه درباره ما"
-                placeholder="آدرس ویدیو را وارد کنید"
-                className="bg-white"
-                optional
-                {...formik.getFieldProps("aboutUsVideo")}
-                errorMessage={
-                  formik.touched.aboutUsVideo && formik.errors.aboutUsVideo
-                    ? formik.errors.aboutUsVideo
-                    : null
-                }
-              />
+              <div>
+                <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                  ویدیو صفحه درباره ما
+                </label>
+                {settings?.aboutUsVideo && !formik.values.deleteAboutUsVideo && (
+                  <div className="mb-4 mr-4">
+                    <div className="flex items-start gap-4">
+                      <video
+                        src={`http://localhost:4000${settings.aboutUsVideo}`}
+                        controls
+                        className="w-full max-w-md rounded-lg border-2 border-main-border-color"
+                      >
+                        مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                      </video>
+                      <div className="flex-1">
+                        <p className="text-sm text-paragray mt-2 mb-2">
+                          ویدیوی فعلی (برای تغییر، ویدیوی جدید انتخاب کنید)
+                        </p>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={formik.values.deleteAboutUsVideo}
+                            onChange={(e) =>
+                              formik.setFieldValue("deleteAboutUsVideo", e.target.checked)
+                            }
+                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                          />
+                          <span className="text-red-500 font-estedad-lightbold text-sm">
+                            حذف ویدیو
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {formik.values.deleteAboutUsVideo && (
+                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
+                    <p className="text-red-600 text-sm font-estedad-lightbold">
+                      ویدیو حذف خواهد شد
+                    </p>
+                    <label className="flex items-center gap-2 cursor-pointer mt-2">
+                      <input
+                        type="checkbox"
+                        checked={formik.values.deleteAboutUsVideo}
+                        onChange={(e) =>
+                          formik.setFieldValue("deleteAboutUsVideo", e.target.checked)
+                        }
+                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                      />
+                      <span className="text-red-500 font-estedad-lightbold text-sm">
+                        لغو حذف
+                      </span>
+                    </label>
+                  </div>
+                )}
+                <CustomInput
+                  ref={aboutUsVideoInputRef}
+                  inputType="file"
+                  labelText=""
+                  placeholder="ویدیو را انتخاب کنید"
+                  className="bg-white mr-4"
+                  name="aboutUsVideo"
+                  accept="video/*"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("aboutUsVideo", file);
+                  }}
+                  errorMessage={
+                    formik.touched.aboutUsVideo && formik.errors.aboutUsVideo
+                      ? formik.errors.aboutUsVideo
+                      : null
+                  }
+                />
+              </div>
 
-              <CustomInput
-                labelText="تصویر صفحه تماس با ما"
-                placeholder="آدرس تصویر را وارد کنید"
-                className="bg-white"
-                optional
-                {...formik.getFieldProps("contactUsImage")}
-                errorMessage={
-                  formik.touched.contactUsImage && formik.errors.contactUsImage
-                    ? formik.errors.contactUsImage
-                    : null
-                }
-              />
+              <div>
+                <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                  تصویر صفحه تماس با ما
+                </label>
+                {settings?.contactUsImage && !formik.values.deleteContactUsImage && (
+                  <div className="mb-4 mr-4">
+                    <div className="flex items-start gap-4">
+                      <img
+                        src={`http://localhost:4000${settings.contactUsImage}`}
+                        alt="تصویر تماس با ما"
+                        className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm text-paragray mt-2 mb-2">
+                          تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
+                        </p>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={formik.values.deleteContactUsImage}
+                            onChange={(e) =>
+                              formik.setFieldValue("deleteContactUsImage", e.target.checked)
+                            }
+                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                          />
+                          <span className="text-red-500 font-estedad-lightbold text-sm">
+                            حذف تصویر
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {formik.values.deleteContactUsImage && (
+                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
+                    <p className="text-red-600 text-sm font-estedad-lightbold">
+                      تصویر حذف خواهد شد
+                    </p>
+                    <label className="flex items-center gap-2 cursor-pointer mt-2">
+                      <input
+                        type="checkbox"
+                        checked={formik.values.deleteContactUsImage}
+                        onChange={(e) =>
+                          formik.setFieldValue("deleteContactUsImage", e.target.checked)
+                        }
+                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                      />
+                      <span className="text-red-500 font-estedad-lightbold text-sm">
+                        لغو حذف
+                      </span>
+                    </label>
+                  </div>
+                )}
+                <CustomInput
+                  ref={contactUsImageInputRef}
+                  inputType="file"
+                  labelText=""
+                  placeholder="تصویر را انتخاب کنید"
+                  className="bg-white mr-4"
+                  name="contactUsImage"
+                  accept="image/*"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("contactUsImage", file);
+                  }}
+                  errorMessage={
+                    formik.touched.contactUsImage && formik.errors.contactUsImage
+                      ? formik.errors.contactUsImage
+                      : null
+                  }
+                />
+              </div>
 
-              <CustomInput
-                labelText="ویدیو صفحه تماس با ما"
-                placeholder="آدرس ویدیو را وارد کنید"
-                className="bg-white"
-                optional
-                {...formik.getFieldProps("contactUsVideo")}
-                errorMessage={
-                  formik.touched.contactUsVideo && formik.errors.contactUsVideo
-                    ? formik.errors.contactUsVideo
-                    : null
-                }
-              />
+              <div>
+                <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                  ویدیو صفحه تماس با ما
+                </label>
+                {settings?.contactUsVideo && !formik.values.deleteContactUsVideo && (
+                  <div className="mb-4 mr-4">
+                    <div className="flex items-start gap-4">
+                      <video
+                        src={`http://localhost:4000${settings.contactUsVideo}`}
+                        controls
+                        className="w-full max-w-md rounded-lg border-2 border-main-border-color"
+                      >
+                        مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                      </video>
+                      <div className="flex-1">
+                        <p className="text-sm text-paragray mt-2 mb-2">
+                          ویدیوی فعلی (برای تغییر، ویدیوی جدید انتخاب کنید)
+                        </p>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={formik.values.deleteContactUsVideo}
+                            onChange={(e) =>
+                              formik.setFieldValue("deleteContactUsVideo", e.target.checked)
+                            }
+                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                          />
+                          <span className="text-red-500 font-estedad-lightbold text-sm">
+                            حذف ویدیو
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {formik.values.deleteContactUsVideo && (
+                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
+                    <p className="text-red-600 text-sm font-estedad-lightbold">
+                      ویدیو حذف خواهد شد
+                    </p>
+                    <label className="flex items-center gap-2 cursor-pointer mt-2">
+                      <input
+                        type="checkbox"
+                        checked={formik.values.deleteContactUsVideo}
+                        onChange={(e) =>
+                          formik.setFieldValue("deleteContactUsVideo", e.target.checked)
+                        }
+                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
+                      />
+                      <span className="text-red-500 font-estedad-lightbold text-sm">
+                        لغو حذف
+                      </span>
+                    </label>
+                  </div>
+                )}
+                <CustomInput
+                  ref={contactUsVideoInputRef}
+                  inputType="file"
+                  labelText=""
+                  placeholder="ویدیو را انتخاب کنید"
+                  className="bg-white mr-4"
+                  name="contactUsVideo"
+                  accept="video/*"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("contactUsVideo", file);
+                  }}
+                  errorMessage={
+                    formik.touched.contactUsVideo && formik.errors.contactUsVideo
+                      ? formik.errors.contactUsVideo
+                      : null
+                  }
+                />
+              </div>
             </div>
+          </div>
+
+          {/* محتوای صفحه درباره ما */}
+          <div className="bg-white/50 p-6 rounded-lg border-2 border-purple-200">
+            <h3 className="text-lg font-estedad-semibold text-dark mb-4">
+              محتوای صفحه درباره ما
+            </h3>
+            <TextEditor
+              value={formik.values.aboutUsContent || ""}
+              onChange={(value) => formik.setFieldValue("aboutUsContent", value)}
+              labelText="محتوای صفحه"
+              placeholder="محتوای صفحه درباره ما را اینجا وارد کنید..."
+              errorMessage={
+                formik.touched.aboutUsContent && formik.errors.aboutUsContent
+                  ? formik.errors.aboutUsContent
+                  : null
+              }
+            />
+          </div>
+
+          {/* محتوای صفحه دکتر شوید */}
+          <div className="bg-white/50 p-6 rounded-lg border-2 border-purple-200">
+            <h3 className="text-lg font-estedad-semibold text-dark mb-4">
+              محتوای صفحه دکتر شوید
+            </h3>
+            <TextEditor
+              value={formik.values.becomeDoctorContent || ""}
+              onChange={(value) => formik.setFieldValue("becomeDoctorContent", value)}
+              labelText="محتوای صفحه"
+              placeholder="محتوای صفحه دکتر شوید را اینجا وارد کنید..."
+              errorMessage={
+                formik.touched.becomeDoctorContent && formik.errors.becomeDoctorContent
+                  ? formik.errors.becomeDoctorContent
+                  : null
+              }
+            />
           </div>
 
           <div className="flex justify-end mt-6">

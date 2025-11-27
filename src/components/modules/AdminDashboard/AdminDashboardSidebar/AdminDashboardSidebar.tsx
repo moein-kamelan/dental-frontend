@@ -87,6 +87,11 @@ function AdminDashboardSidebar() {
           title="نظرات"
         />
         <AdminDashboardSidebarLink
+          to={"/admin/reviews-management"}
+          icon="fas fa-star"
+          title="دیدگاه کاربران"
+        />
+        <AdminDashboardSidebarLink
           to={"/admin/faqs-management"}
           icon="fas fa-question-circle"
           title="سوالات متداول"

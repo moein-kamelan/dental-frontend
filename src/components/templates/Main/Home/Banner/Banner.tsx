@@ -57,7 +57,7 @@ function Banner() {
                         {settings?.data.settings.description}
                     </p>
                     <a href="doctor.html" className="inline-block main-btn">
-                        درخواست وقت دکتر
+                        درخواست نوبت مشاوره
                     </a>
                     
                     <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
@@ -101,21 +101,6 @@ function Banner() {
                 alt="banner-bg "
                 className="translate-y-10 circular-animation "
               />
-            </div>
-            <div className="hidden lg:block absolute top-[55%] -right-10  w-20 h-20 z-20">
-              <img src="images/react.png" alt="react" className="w-full" />
-            </div>
-            <div className="hidden lg:block absolute top-[36%] -left-5  w-20 h-20 z-20">
-              <img src="images/Call.png" alt="react" className="w-full" />
-            </div>
-            <div className="hidden lg:block absolute top-[12%] right-28  w-20 h-20 z-20">
-              <img src="images/Video-call.png" alt="react" className="w-full" />
-            </div>
-            <div className="hidden lg:block absolute top-[65%] -left-24  w-[170px] h-[90px] z-20">
-              <img src="images/Review.png" alt="react" className="w-full" />
-            </div>
-            <div className="hidden lg:block absolute top-8 -left-6 2xl:-left-14  size-25 z-20">
-              <img src="images/shape-1.png" alt="react" className="w-full" />
             </div>
       </motion.div>
 

@@ -59,7 +59,7 @@ function Process() {
               ۲
             </div>
             <h4 className="text-[20px] font-estedad-semibold text-dark mb-3">
-              رزرو نوبت دکتر
+              دریافت نوبت
             </h4>
             <p className="text-paragray">
               لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ

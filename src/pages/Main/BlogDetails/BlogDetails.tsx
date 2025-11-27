@@ -52,7 +52,7 @@ function BlogDetails() {
                 />
 
                 {/* <!-- Content --> */}
-             <div className="text-dark font-estedad-light text-lg leading-relaxed">
+             <div className="text-dark font-estedad-light text-lg leading-relaxed article-content">
               <div dangerouslySetInnerHTML={{ __html: article?.data?.article?.content }} />
              </div>
 
