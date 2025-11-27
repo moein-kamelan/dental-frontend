@@ -1,7 +1,9 @@
 import { useState } from "react";
 import AdminDashboardSidebarLink from "../AdminDashboardSidebarLink/AdminDashboardSidebarLink";
+import { useAdminDashboardHeader } from "../../../../contexts/useAdminDashboardHeader";
 
 function AdminDashboardSidebar() {
+  const { isSidebarOpen, toggleSidebar } = useAdminDashboardHeader();
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
@@ -9,20 +11,51 @@ function AdminDashboardSidebar() {
   return (
     <aside
       id="sidebar"
-      className="max-md:fixed max-md:-right-full max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 w-64 bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden "
+      className={`max-md:fixed max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 ease-in-out bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden ${
+        isSidebarOpen
+          ? "max-md:right-0 w-64"
+          : "max-md:-right-full md:w-0 md:min-w-0 w-0 min-w-0"
+      } ${
+        !isSidebarOpen
+          ? "pointer-events-none md:pointer-events-none"
+          : "pointer-events-auto"
+      }`}
     >
-      <div className="flex items-center space-x-3 p-4 shrink-0">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-          <i className="fas fa-cube text-purple-500 text-xl"></i>
+      <div
+        className={`flex items-center justify-between space-x-3 p-4 shrink-0 transition-opacity duration-300 ${
+          !isSidebarOpen ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+            <i className="fas fa-cube text-purple-500 text-xl"></i>
+          </div>
+          <h1 className="text-xl font-estedad-semibold">پنل مدیریت</h1>
         </div>
-        <h1 className="text-xl font-estedad-semibold">پنل مدیریت</h1>
+        {/* دکمه بستن سایدبار */}
+        <button
+          onClick={toggleSidebar}
+          className="flex items-center justify-center w-8 h-8 bg-white/20 hover:bg-white/30 rounded-lg transition-all duration-200 group"
+          aria-label="بستن منو"
+        >
+          <i className="fas fa-times text-white group-hover:scale-110 transition-transform duration-200"></i>
+        </button>
       </div>
-      <nav className="grow  overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar">
+      <nav
+        className={`grow overflow-y-auto px-4 pb-4 space-y-2 sidebar-scrollbar transition-opacity duration-300 ${
+          !isSidebarOpen ? "opacity-0" : "opacity-100"
+        }`}
+      >
         <AdminDashboardSidebarLink
           to={"/admin"}
           icon="fas fa-home"
           title="داشبورد"
           end={true}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/users-management"}
+          icon="fas fa-users"
+          title="کاربران"
         />
         <AdminDashboardSidebarLink
           to={"/admin/doctors-management"}

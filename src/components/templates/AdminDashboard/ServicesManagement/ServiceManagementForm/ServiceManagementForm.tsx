@@ -84,7 +84,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
     values: {
       title: string;
       description: string;
-
       price: number | null;
       durationMinutes: number | null;
       categoryIds: string[];

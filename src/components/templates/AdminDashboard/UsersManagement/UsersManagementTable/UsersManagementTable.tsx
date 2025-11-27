@@ -1,26 +1,38 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
-import type { Doctor } from "../../../../../types/types";
+import { formatJalali } from "../../../../../utils/helpers";
+import type { User } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
-interface DoctorManagementTableProps {
-  doctors: Doctor[];
-  isLoadingDoctors: boolean;
+interface UsersManagementTableProps {
+  users: User[];
+  isLoadingUsers: boolean;
   page: number;
   onDeleteClick: (id: string, firstName: string, lastName: string) => void;
   onRefetch?: () => void;
   isRefetching?: boolean;
 }
 
-function DoctorsManagementTable({
-  doctors,
-  isLoadingDoctors,
+const roleLabels: Record<string, string> = {
+  ADMIN: "مدیر",
+  SECRETARY: "منشی",
+  PATIENT: "بیمار",
+};
+
+const genderLabels: Record<string, string> = {
+  MALE: "مرد",
+  FEMALE: "زن",
+  OTHER: "سایر",
+};
+
+function UsersManagementTable({
+  users,
+  isLoadingUsers,
   page,
   onDeleteClick,
   onRefetch,
   isRefetching = false,
-}: DoctorManagementTableProps) {
+}: UsersManagementTableProps) {
   const navigate = useNavigate();
   return (
     <>
@@ -46,28 +58,29 @@ function DoctorsManagementTable({
           <thead className="border-b border-main-border-color ">
             <tr className="*:text-right *:p-4.5 ">
               <th>ردیف</th>
-              <th>پزشک</th>
-              <th>دانشگاه</th>
-              <th>شماره نظام پزشکی</th>
-              <th>کلینیک‌ ها</th>
-              <th>تخصص‌ ها</th>
+              <th>کاربر</th>
+              <th>شماره تماس</th>
+              <th>نقش</th>
+              <th>کد ملی</th>
+              <th>جنسیت</th>
+              <th>کلینیک</th>
               <th>تاریخ ایجاد</th>
               <th>عملیات</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-main-border-color">
-            {isLoadingDoctors ? (
-              <TableSkeleton rows={5} columns={8} />
-            ) : doctors.length === 0 ? (
+            {isLoadingUsers ? (
+              <TableSkeleton rows={5} columns={9} />
+            ) : users.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center p-8 font-estedad-light">
-                  پزشکی یافت نشد
+                <td colSpan={9} className="text-center p-8 font-estedad-light">
+                  کاربری یافت نشد
                 </td>
               </tr>
             ) : (
-              doctors.map((doctor: Doctor, index: number) => (
+              users.map((user: User, index: number) => (
                 <tr
-                  key={doctor.id}
+                  key={user.id}
                   className="hover:bg-purple-400/10 text-dark *:p-4.5"
                 >
                   <td className="font-estedad-light text-center">
@@ -75,10 +88,10 @@ function DoctorsManagementTable({
                   </td>
                   <td className="">
                     <div className="flex items-center gap-3">
-                      {doctor.profileImage ? (
+                      {user.profileImage ? (
                         <img
-                          src={`http://localhost:4000${doctor.profileImage}`}
-                          alt={`${doctor.firstName} ${doctor.lastName}`}
+                          src={`http://localhost:4000${user.profileImage}`}
+                          alt={`${user.firstName} ${user.lastName}`}
                           className="w-12 h-12 rounded-full object-cover"
                         />
                       ) : (
@@ -88,74 +101,59 @@ function DoctorsManagementTable({
                       )}
                       <div>
                         <p className="font-estedad-light">
-                          دکتر {doctor.firstName} {doctor.lastName}
+                          {user.firstName} {user.lastName}
                         </p>
-                        {doctor.biography && (
+                        {user.address && (
                           <span className="text-xs font-estedad-light text-paragray line-clamp-1">
-                            {stripHtmlTags(doctor.biography)}
+                            {user.address.substring(0, 30)}...
                           </span>
                         )}
                       </div>
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {doctor.university}
+                    {user.phoneNumber}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {doctor.medicalLicenseNo}
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        user.role === "ADMIN"
+                          ? "bg-red-100 text-red-600"
+                          : user.role === "SECRETARY"
+                          ? "bg-blue-100 text-blue-600"
+                          : "bg-green-100 text-green-600"
+                      }`}
+                    >
+                      {roleLabels[user.role] || user.role}
+                    </span>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {doctor.clinics && doctor.clinics.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
-                        {doctor.clinics.slice(0, 2).map((dc) => (
-                          <span
-                            key={dc.clinic.id}
-                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary"
-                          >
-                            {dc.clinic.name}
-                          </span>
-                        ))}
-                        {doctor.clinics.length > 2 && (
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-600">
-                            +{doctor.clinics.length - 2}
-                          </span>
-                        )}
-                      </div>
+                    {user.nationalCode || "-"}
+                  </td>
+                  <td className="text-dark font-estedad-light">
+                    {user.gender
+                      ? genderLabels[user.gender] || user.gender
+                      : "-"}
+                  </td>
+                  <td className="text-dark font-estedad-light">
+                    {user.clinic ? (
+                      <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary">
+                        {user.clinic.name}
+                      </span>
                     ) : (
                       <span className="text-paragray">-</span>
                     )}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {doctor.skills && doctor.skills.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
-                        {doctor.skills.slice(0, 2).map((skill, idx) => (
-                          <span
-                            key={idx}
-                            className="px-2 py-1 text-xs rounded-full bg-secondary/10 text-secondary"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                        {doctor.skills.length > 2 && (
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-600">
-                            +{doctor.skills.length - 2}
-                          </span>
-                        )}
-                      </div>
-                    ) : (
-                      <span className="text-paragray">-</span>
-                    )}
-                  </td>
-                  <td className="text-dark font-estedad-light">
-                    {formatJalali(new Date(doctor.createdAt || new Date()))}
+                    {user.createdAt
+                      ? formatJalali(new Date(user.createdAt))
+                      : "-"}
                   </td>
                   <td className="">
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => {
-                          navigate(
-                            `/admin/doctors-management/edit/${doctor.id}`
-                          );
+                          navigate(`/admin/users-management/edit/${user.id}`);
                         }}
                         className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"
                         title="ویرایش"
@@ -164,11 +162,7 @@ function DoctorsManagementTable({
                       </button>
                       <button
                         onClick={() =>
-                          onDeleteClick(
-                            doctor.id,
-                            doctor.firstName,
-                            doctor.lastName
-                          )
+                          onDeleteClick(user.id, user.firstName, user.lastName)
                         }
                         className="p-1.5 rounded-full text-red-500 bg-red-500/20 hover:bg-red-500 hover:text-white transition"
                         title="حذف"
@@ -187,4 +181,4 @@ function DoctorsManagementTable({
   );
 }
 
-export default DoctorsManagementTable;
+export default UsersManagementTable;

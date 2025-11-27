@@ -55,6 +55,10 @@ import Settings from "./pages/AdminDashboard/Settings/Settings";
 import AdminDashboardLogin from "./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin";
 import ReviewsManagement from "./pages/AdminDashboard/ReviewsManagement/ReviewsManagement";
 import ReviewsManagementEdit from "./pages/AdminDashboard/ReviewsManagementEdit/ReviewsManagementEdit";
+import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
+import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
+import ProfileManagement from "./pages/AdminDashboard/ProfileManagement/ProfileManagement";
+
 
 const routes = createBrowserRouter([
   {
@@ -176,11 +180,20 @@ const routes = createBrowserRouter([
         path: "doctor-applications-management",
         element: <DoctorApplicationsManagement />,
       },
+<<<<<<< HEAD
       { path: "reviews-management", element: <ReviewsManagement /> },
       {
         path: "reviews-management/edit/:id",
         element: <ReviewsManagementEdit />,
       },
+=======
+      { path: "users-management", element: <UsersManagement /> },
+      {
+        path: "users-management/edit/:id",
+        element: <UsersManagementEdit />,
+      },
+      { path: "profile-management", element: <ProfileManagement /> },
+>>>>>>> a5462c66775f77b65f5d9136497418f1c518de74
       {
         path: "settings",
         element: <Settings />,

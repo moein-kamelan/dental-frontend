@@ -186,6 +186,7 @@ export interface DoctorApplication {
   createdAt: string;
 }
 
+
 export interface Review {
   id: string;
   name: string;
@@ -196,4 +197,23 @@ export interface Review {
   order: number;
   createdAt: string;
   updatedAt: string;
+
+export interface User {
+  id: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+  role: "ADMIN" | "SECRETARY" | "PATIENT";
+  nationalCode?: string | null;
+  address?: string | null;
+  gender?: "MALE" | "FEMALE" | "OTHER" | null;
+  profileImage?: string | null;
+  clinicId?: string | null;
+  clinic?: {
+    id: string;
+    name: string;
+  } | null;
+  createdAt?: string;
+  updatedAt?: string;
+
 }

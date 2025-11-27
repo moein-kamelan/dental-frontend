@@ -1,4 +1,9 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useInfiniteQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 
 export const useGetAllComments = (
@@ -37,6 +42,8 @@ export const useGetAllComments = (
 };
 
 export const useCreateComment = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async ({
       comment,
@@ -52,6 +59,17 @@ export const useCreateComment = () => {
         rating: comment.rating,
       });
       return response.data;
+    },
+    onSuccess: (_, variables) => {
+      // Invalidate infinite query
+      queryClient.invalidateQueries({
+        queryKey: ["comments-infinite", variables.id, variables.type],
+      });
+
+      // Also invalidate old query key for backward compatibility
+      queryClient.invalidateQueries({
+        queryKey: ["comments", variables.id, variables.type],
+      });
     },
   });
 };
@@ -99,6 +117,36 @@ export const useGetCommentsById = (
       return response.data;
     },
     enabled: !!id && !!type,
+  });
+};
+
+export const useGetCommentsByIdInfinite = (
+  id: string,
+  type: "doctor" | "article" | "service",
+  limit: number = 5
+) => {
+  return useInfiniteQuery({
+    queryKey: ["comments-infinite", id, type, limit],
+    queryFn: async ({ pageParam = 1 }) => {
+      const params = new URLSearchParams({
+        page: pageParam.toString(),
+        limit: limit.toString(),
+      });
+      const response = await axiosInstance.get(
+        `/comments/${type}/${id}?${params.toString()}`
+      );
+      return response.data;
+    },
+    getNextPageParam: (lastPage) => {
+      
+      const meta = lastPage?.meta;
+      if (meta?.hasNextPage) {
+        return meta.page + 1;
+      }
+      return undefined;
+    },
+    enabled: !!id && !!type,
+    initialPageParam: 1,
   });
 };
 
