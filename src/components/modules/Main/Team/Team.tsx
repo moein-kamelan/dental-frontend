@@ -19,7 +19,7 @@ function Team() {
           <div className="text-center mb-12">
             <h5 className="custom-sub-title mx-auto">تیم ما</h5>
             <h2 className="custom-title text-center">
-              با پزشک متخصص ما آشنا شوید
+              با دندان پزشکان مجرب ما آشنا شوید
             </h2>
           </div>
 

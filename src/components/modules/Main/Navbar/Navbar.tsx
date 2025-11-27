@@ -58,11 +58,15 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full ">
-          <NavLink to={"/home"} className="w-40 h-15  flex items-center justify-center">
+          <NavLink to={"/home"} className="w-48 h-20  flex items-center justify-center">
             <img
-              src={settings?.data.settings.logo }
+              src={
+                settings?.data?.settings?.logo
+                  ? `http://localhost:4000${settings.data.settings.logo}`
+                  : "/images/Logo_1.png"
+              }
               alt="logo"
-              className="h-full w-full   "
+              className="h-full w-full object-contain"
             />
           </NavLink>
 
@@ -151,7 +155,7 @@ function Navbar() {
                 <i className="fa fa-search"></i>
               </NavLink>
               <NavLink to={""} className="main-btn lg:text-xs xl:text-sm text-nowrap">
-                نوبت دکتر
+                دریافت نوبت
               </NavLink>
 
               {/* User Menu */} 

@@ -186,6 +186,18 @@ export interface DoctorApplication {
   createdAt: string;
 }
 
+
+export interface Review {
+  id: string;
+  name: string;
+  content: string;
+  rating: number;
+  profileImage?: string | null;
+  published: boolean;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+
 export interface User {
   id: string;
   phoneNumber: string;
@@ -203,4 +215,5 @@ export interface User {
   } | null;
   createdAt?: string;
   updatedAt?: string;
+
 }

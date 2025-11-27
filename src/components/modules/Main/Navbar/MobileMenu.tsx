@@ -6,6 +6,7 @@ import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
 import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
+import { useGetSettings } from "../../../../services/useSettings";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const navigate = useNavigate();
   const [isPagesOpen, setIsPagesOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { data: settings } = useGetSettings();
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -76,11 +78,15 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         {/* Header */}
         <div className="border-b border-gray-200 bg-white shrink-0">
           <div className="flex items-center justify-between p-4">
-            <NavLink to="/home" onClick={handleLinkClick} className="w-32">
+            <NavLink to="/home" onClick={handleLinkClick} className="w-40">
               <img
-                src="../../../../../public/images/Logo_1.png"
+                src={
+                  settings?.data?.settings?.logo
+                    ? `http://localhost:4000${settings.data.settings.logo}`
+                    : "/images/Logo_1.png"
+                }
                 alt="logo"
-                className="w-full"
+                className="w-full object-contain"
               />
             </NavLink>
             <button
@@ -359,7 +365,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={handleLinkClick}
               className="main-btn block text-center w-full"
             >
-              نوبت دکتر
+              دریافت نوبت
             </NavLink>
           </div>
         </div>

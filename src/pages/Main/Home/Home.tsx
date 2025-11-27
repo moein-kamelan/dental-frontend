@@ -5,7 +5,6 @@ import Services from "../../../components/templates/Main/Home/Services/Services"
 import FAQSection from "../../../components/templates/Main/Home/FAQSection/FAQSection";
 import Process from "../../../components/modules/Main/Process/Process";
 import Appointment from "../../../components/modules/Main/Appointment/Appointment";
-import HelpLine from "../../../components/modules/Main/HelpLine/HelpLine";
 import Team from "../../../components/modules/Main/Team/Team";
 import Review from "../../../components/templates/Main/Home/Review/Review";
 import BlogSection from "../../../components/modules/Main/BlogSection/BlogSection";
@@ -19,7 +18,6 @@ function Home() {
       <FAQSection />
       <Process />
       <Appointment />
-      <HelpLine />
       <Team />
       <Review />
       <BlogSection />
