@@ -15,7 +15,6 @@ function BlogDetails() {
   const { slug } = useParams();
 
   const { data: article, isLoading } = useGetArticleBySlug(slug as string);
-  console.log(article);
 
   if (isLoading) return <LoadingState text="در حال بارگذاری مقاله..." />;
 
