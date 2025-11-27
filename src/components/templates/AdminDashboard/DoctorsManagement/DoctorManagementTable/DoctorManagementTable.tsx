@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import type { Doctor } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -92,7 +92,7 @@ function DoctorsManagementTable({
                         </p>
                         {doctor.biography && (
                           <span className="text-xs font-estedad-light text-paragray line-clamp-1">
-                            {doctor.biography.substring(0, 30)}...
+                            {stripHtmlTags(doctor.biography)}
                           </span>
                         )}
                       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { Doctor } from "../../../../types/types";
+import { stripHtmlTags } from "../../../../utils/helpers";
 
 interface DoctorCardProps {
   doctor?: Doctor;
@@ -31,14 +32,16 @@ function DoctorCard({ doctor }: DoctorCardProps) {
     >
       <div className="relative overflow-hidden shrink-0">
         <img
-          src={doctor?.profileImage ? `http://localhost:4000${doctor.profileImage}` : "/images/team-1.jpg"}
+          src={
+            doctor?.profileImage
+              ? `http://localhost:4000${doctor.profileImage}`
+              : "/images/team-1.jpg"
+          }
           alt={`${doctor.firstName} ${doctor.lastName}`}
           className="w-full h-80 object-cover"
         />
 
-        <div className=" absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center">
-     
-        </div>
+        <div className=" absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center"></div>
       </div>
 
       <div className="grow shrink-0 px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex items-center justify-between gap-x-4">
@@ -46,9 +49,8 @@ function DoctorCard({ doctor }: DoctorCardProps) {
           <h6 className="text-xl font-estedad-semibold">
             {doctor.firstName} {doctor.lastName}
           </h6>
-          <p className="text-sm">
-            {" "}
-            {doctor.biography} ({doctor.skills.join(", ")})
+          <p className="text-sm line-clamp-2">
+            {stripHtmlTags(doctor.biography || "")}
           </p>
           <div className="flex items-center  gap-3">
             <i className="	fas fa-graduation-cap"></i>
@@ -57,7 +59,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
             </span>
           </div>
         </div>
-        <div className="flex items-center justify-center size-9 bg-white rounded-full">
+        <div className="flex shrink-0 items-center justify-center size-9 bg-white rounded-full">
           <i className="fa fa-plus text-primary"></i>
         </div>
       </div>

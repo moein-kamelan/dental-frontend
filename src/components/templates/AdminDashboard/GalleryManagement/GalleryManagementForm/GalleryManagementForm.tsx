@@ -33,18 +33,16 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
           .integer("ترتیب باید عدد صحیح باشد")
           .min(0, "ترتیب نمی‌تواند منفی باشد"),
         published: Yup.boolean(),
-        galleryImage: Yup.mixed().test(
-          "file-required",
-          "تصویر الزامی است",
-          function (value) {
+        galleryImage: Yup.mixed()
+          .nullable()
+          .test("file-required", "تصویر الزامی است", function (value) {
             if (isEditMode) {
               // در حالت ویرایش، تصویر اختیاری است
               return true;
             }
             // در حالت ایجاد، تصویر الزامی است
-            return value !== null && value !== undefined;
-          }
-        ),
+            return value !== null && value !== undefined && value !== "";
+          }),
       }),
     [isEditMode]
   );
@@ -102,12 +100,22 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
         }
       }, 0);
     } catch (error: unknown) {
-      const errorMessage =
+      let errorMessage =
         (error as { response?: { data?: { message?: string } } })?.response
           ?.data?.message ||
         (isEditMode
           ? "خطایی در ویرایش تصویر رخ داد"
           : "خطایی در آپلود تصویر رخ داد");
+
+      // تبدیل خطاهای انگلیسی به فارسی
+      if (
+        errorMessage.includes("galleryImage cannot be null") ||
+        errorMessage.includes("galleryImage is required") ||
+        errorMessage.includes("cannot be null")
+      ) {
+        errorMessage = "تصویر الزامی است";
+      }
+
       showErrorToast(errorMessage);
     }
   };
