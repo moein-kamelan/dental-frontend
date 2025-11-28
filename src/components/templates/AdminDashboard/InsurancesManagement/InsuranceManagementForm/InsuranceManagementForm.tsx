@@ -271,36 +271,40 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 لوگو
               </label>
-              {isEditMode && insurance?.logo && (
-                <div className="mb-4 mr-4">
-                  <img
-                    src={`http://localhost:4000${insurance.logo}`}
-                    alt={insurance.name || "لوگو سازمان بیمه"}
-                    className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
-                  />
-                  <p className="text-sm text-paragray mt-2">
-                    لوگوی فعلی (برای تغییر، لوگوی جدید انتخاب کنید)
-                  </p>
-                </div>
-              )}
-              <CustomInput
-                ref={fileInputRef}
-                inputType="file"
-                labelText=""
-                placeholder="لوگو را انتخاب کنید"
-                className="bg-white "
-                name="logo"
-                accept="image/*"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0] || null;
-                  formik.setFieldValue("logo", file);
-                }}
-                errorMessage={
-                  formik.touched.logo && formik.errors.logo
-                    ? formik.errors.logo
-                    : null
-                }
-              />
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("logo", file);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {formik.values.logo && formik.values.logo instanceof File && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {formik.values.logo.name}
+                  </span>
+                )}
+                {isEditMode && insurance?.logo && !formik.values.logo && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${insurance.logo}`}
+                      alt={insurance.name || "لوگو سازمان بیمه"}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <span className="text-sm text-paragray">لوگوی فعلی</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end mt-6">

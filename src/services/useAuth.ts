@@ -1,4 +1,4 @@
-import {  useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 import { showErrorToast } from "../utils/toastify";
 import type { AxiosError } from "axios";
@@ -84,9 +84,38 @@ export const usePostOtpVerify = () => {
 
 export const useUpdateProfile = () => {
   return useMutation({
-    mutationFn: async (values: any) => {
+    mutationFn: async (values: Record<string, unknown>) => {
       const response = await axiosInstance.patch("/auth/me", values);
       return response.data;
+    },
+  });
+};
+
+export const useUpdateProfileWithImage = () => {
+  return useMutation({
+    mutationFn: async (formData: FormData) => {
+      const response = await axiosInstance.patch("/auth/me", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+    onError: (error) => {
+      const err = error as AxiosError<{ message?: string }>;
+      const data = err.response?.data;
+
+      if (typeof data === "string") {
+        showErrorToast(data);
+        return;
+      }
+
+      if (typeof data === "object" && data?.message) {
+        showErrorToast(data.message);
+        return;
+      }
+
+      showErrorToast("خطایی در به‌روزرسانی پروفایل رخ داد");
     },
   });
 };

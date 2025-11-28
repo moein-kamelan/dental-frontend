@@ -165,9 +165,8 @@ function Navbar() {
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 border border-accent/20 hover:border-accent/40"
                   >
-                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-accent to-primary flex items-center justify-center text-white font-bold text-sm">
-                      {user.firstName?.[0] || "U"}
-                    </div>
+                    <img src={user.profileImage ? `http://localhost:4000${user.profileImage}` : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "} alt="profile" className="w-8 h-8 rounded-full object-cover" />
+                    
                     <div className="text-right">
                       <p className="text-sm font-iran-sans-bold text-dark">
                         {user.firstName} {user.lastName}

@@ -131,24 +131,6 @@ function ReviewManagementForm({ review }: { review?: Review }) {
       }}
     >
       {(formik) => {
-        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
-        const getCurrentFileName = () => {
-          if (
-            formik.values.profileImage &&
-            formik.values.profileImage instanceof File
-          ) {
-            return formik.values.profileImage.name;
-          }
-          if (review?.profileImage) {
-            // استخراج نام فایل از URL
-            const urlParts = review.profileImage.split("/");
-            return urlParts[urlParts.length - 1] || "فایل موجود";
-          }
-          return null;
-        };
-
-        const currentFileName = getCurrentFileName();
-
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -237,29 +219,46 @@ function ReviewManagementForm({ review }: { review?: Review }) {
             </div>
 
             <div>
-              <CustomInput
-                ref={fileInputRef}
-                inputType="file"
-                labelText="تصویر پروفایل"
-                placeholder="تصویر پروفایل را انتخاب کنید"
-                className="bg-white"
-                optional
-                name="profileImage"
-                accept="image/*"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0] || null;
-                  formik.setFieldValue("profileImage", file);
-                }}
-                errorMessage={
-                  formik.touched.profileImage && formik.errors.profileImage
-                    ? formik.errors.profileImage
-                    : null
-                }
-              />
-              {currentFileName && (
-                <div className="mr-4 mt-2 text-sm text-paragray">
-                  <span className="font-estedad-lightbold">فایل فعلی: </span>
-                  <span className="font-estedad-light">{currentFileName}</span>
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                تصویر پروفایل
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("profileImage", file);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {formik.values.profileImage && formik.values.profileImage instanceof File && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {formik.values.profileImage.name}
+                  </span>
+                )}
+                {review?.profileImage && !formik.values.profileImage && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${review.profileImage}`}
+                      alt={review.name || "تصویر پروفایل"}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <span className="text-sm text-paragray">تصویر فعلی</span>
+                  </div>
+                )}
+              </div>
+              {formik.touched.profileImage && formik.errors.profileImage && (
+                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
+                  {formik.errors.profileImage}
                 </div>
               )}
             </div>
