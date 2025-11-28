@@ -61,11 +61,6 @@ function SettingsForm() {
     aboutUsVideo?: File | null;
     contactUsImage?: File | null;
     contactUsVideo?: File | null;
-    deleteLogo?: boolean;
-    deleteAboutUsImage?: boolean;
-    deleteAboutUsVideo?: boolean;
-    deleteContactUsImage?: boolean;
-    deleteContactUsVideo?: boolean;
   };
 
   const handleSubmit = async (values: FormValues) => {
@@ -82,8 +77,7 @@ function SettingsForm() {
       const hasAboutUsVideoFile = aboutUsVideoFile && isFile(aboutUsVideoFile) && aboutUsVideoFile.size > 0;
       const hasContactUsImageFile = contactUsImageFile && isFile(contactUsImageFile) && contactUsImageFile.size > 0;
       const hasContactUsVideoFile = contactUsVideoFile && isFile(contactUsVideoFile) && contactUsVideoFile.size > 0;
-      const hasDeleteFlag = values.deleteLogo || values.deleteAboutUsImage || values.deleteAboutUsVideo || values.deleteContactUsImage || values.deleteContactUsVideo;
-      const hasAnyFile = hasLogoFile || hasAboutUsImageFile || hasAboutUsVideoFile || hasContactUsImageFile || hasContactUsVideoFile || hasDeleteFlag;
+      const hasAnyFile = hasLogoFile || hasAboutUsImageFile || hasAboutUsVideoFile || hasContactUsImageFile || hasContactUsVideoFile;
       
       if (hasAnyFile) {
         // Use FormData if there's any file
@@ -93,9 +87,7 @@ function SettingsForm() {
         if (values.siteTitle !== undefined) formData.append("siteTitle", values.siteTitle);
         if (values.description !== undefined) formData.append("description", values.description);
         
-        if (values.deleteLogo) {
-          formData.append("logo", "");
-        } else if (hasLogoFile && isFile(logoFile)) {
+        if (hasLogoFile && isFile(logoFile)) {
           formData.append("logo", logoFile);
         } else if (values.logo === null || values.logo === undefined) {
           // Keep existing logo if not changed
@@ -118,9 +110,7 @@ function SettingsForm() {
         if (values.aboutUsContent !== undefined) formData.append("aboutUsContent", values.aboutUsContent);
         if (values.becomeDoctorContent !== undefined) formData.append("becomeDoctorContent", values.becomeDoctorContent);
         
-        if (values.deleteAboutUsImage) {
-          formData.append("aboutUsImage", "");
-        } else if (hasAboutUsImageFile && isFile(aboutUsImageFile)) {
+        if (hasAboutUsImageFile && isFile(aboutUsImageFile)) {
           formData.append("aboutUsImage", aboutUsImageFile);
         } else if (values.aboutUsImage === null || values.aboutUsImage === undefined) {
           // Keep existing image if not changed
@@ -129,9 +119,7 @@ function SettingsForm() {
           }
         }
         
-        if (values.deleteAboutUsVideo) {
-          formData.append("aboutUsVideo", "");
-        } else if (hasAboutUsVideoFile && isFile(aboutUsVideoFile)) {
+        if (hasAboutUsVideoFile && isFile(aboutUsVideoFile)) {
           formData.append("aboutUsVideo", aboutUsVideoFile);
         } else if (values.aboutUsVideo === null || values.aboutUsVideo === undefined) {
           // Keep existing video if not changed
@@ -140,9 +128,7 @@ function SettingsForm() {
           }
         }
         
-        if (values.deleteContactUsImage) {
-          formData.append("contactUsImage", "");
-        } else if (hasContactUsImageFile && isFile(contactUsImageFile)) {
+        if (hasContactUsImageFile && isFile(contactUsImageFile)) {
           formData.append("contactUsImage", contactUsImageFile);
         } else if (values.contactUsImage === null || values.contactUsImage === undefined) {
           // Keep existing image if not changed
@@ -151,9 +137,7 @@ function SettingsForm() {
           }
         }
         
-        if (values.deleteContactUsVideo) {
-          formData.append("contactUsVideo", "");
-        } else if (hasContactUsVideoFile && isFile(contactUsVideoFile)) {
+        if (hasContactUsVideoFile && isFile(contactUsVideoFile)) {
           formData.append("contactUsVideo", contactUsVideoFile);
         } else if (values.contactUsVideo === null || values.contactUsVideo === undefined) {
           // Keep existing video if not changed
@@ -164,25 +148,8 @@ function SettingsForm() {
         
         await updateSettings(formData);
       } else {
-        // Use regular JSON if no file - handle delete flags
+        // Use regular JSON if no file
         const updateData: Partial<Settings> = {};
-        
-        // Handle delete flags
-        if (values.deleteLogo) {
-          updateData.logo = "";
-        }
-        if (values.deleteAboutUsImage) {
-          updateData.aboutUsImage = "";
-        }
-        if (values.deleteAboutUsVideo) {
-          updateData.aboutUsVideo = "";
-        }
-        if (values.deleteContactUsImage) {
-          updateData.contactUsImage = "";
-        }
-        if (values.deleteContactUsVideo) {
-          updateData.contactUsVideo = "";
-        }
         
         // Add other values
         if (values.siteName !== undefined) updateData.siteName = values.siteName;
@@ -255,11 +222,6 @@ function SettingsForm() {
         contactUsImage: null,
         contactUsVideo: null,
         becomeDoctorContent: settings?.becomeDoctorContent || "",
-        deleteLogo: false,
-        deleteAboutUsImage: false,
-        deleteAboutUsVideo: false,
-        deleteContactUsImage: false,
-        deleteContactUsVideo: false,
       }}
       validationSchema={validationSchema}
       enableReinitialize
@@ -345,53 +307,16 @@ function SettingsForm() {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 لوگو
               </label>
-              {settings?.logo && !formik.values.deleteLogo && (
+              {settings?.logo && (
                 <div className="mb-4 mr-4">
-                  <div className="flex items-start gap-4">
-                    <img
-                      src={`http://localhost:4000${settings.logo}`}
-                      alt="لوگوی سایت"
-                      className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
-                    />
-                    <div className="flex-1">
-                      <p className="text-sm text-paragray mt-2 mb-2">
-                        لوگوی فعلی (برای تغییر، لوگوی جدید انتخاب کنید)
-                      </p>
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={formik.values.deleteLogo}
-                          onChange={(e) =>
-                            formik.setFieldValue("deleteLogo", e.target.checked)
-                          }
-                          className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                        />
-                        <span className="text-red-500 font-estedad-lightbold text-sm">
-                          حذف لوگو
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {formik.values.deleteLogo && (
-                <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
-                  <p className="text-red-600 text-sm font-estedad-lightbold">
-                    لوگو حذف خواهد شد
+                  <img
+                    src={`http://localhost:4000${settings.logo}`}
+                    alt="لوگوی سایت"
+                    className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
+                  />
+                  <p className="text-sm text-paragray mt-2 mb-2">
+                    لوگوی فعلی (برای تغییر، لوگوی جدید انتخاب کنید)
                   </p>
-                  <label className="flex items-center gap-2 cursor-pointer mt-2">
-                    <input
-                      type="checkbox"
-                      checked={formik.values.deleteLogo}
-                      onChange={(e) =>
-                        formik.setFieldValue("deleteLogo", e.target.checked)
-                      }
-                      className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                    />
-                    <span className="text-red-500 font-estedad-lightbold text-sm">
-                      لغو حذف
-                    </span>
-                  </label>
                 </div>
               )}
               <CustomInput
@@ -551,53 +476,16 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   تصویر صفحه درباره ما
                 </label>
-                {settings?.aboutUsImage && !formik.values.deleteAboutUsImage && (
+                {settings?.aboutUsImage && (
                   <div className="mb-4 mr-4">
-                    <div className="flex items-start gap-4">
-                      <img
-                        src={`http://localhost:4000${settings.aboutUsImage}`}
-                        alt="تصویر درباره ما"
-                        className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
-                      />
-                      <div className="flex-1">
-                        <p className="text-sm text-paragray mt-2 mb-2">
-                          تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
-                        </p>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formik.values.deleteAboutUsImage}
-                            onChange={(e) =>
-                              formik.setFieldValue("deleteAboutUsImage", e.target.checked)
-                            }
-                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                          />
-                          <span className="text-red-500 font-estedad-lightbold text-sm">
-                            حذف تصویر
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {formik.values.deleteAboutUsImage && (
-                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
-                    <p className="text-red-600 text-sm font-estedad-lightbold">
-                      تصویر حذف خواهد شد
+                    <img
+                      src={`http://localhost:4000${settings.aboutUsImage}`}
+                      alt="تصویر درباره ما"
+                      className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
+                    />
+                    <p className="text-sm text-paragray mt-2 mb-2">
+                      تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
                     </p>
-                    <label className="flex items-center gap-2 cursor-pointer mt-2">
-                      <input
-                        type="checkbox"
-                        checked={formik.values.deleteAboutUsImage}
-                        onChange={(e) =>
-                          formik.setFieldValue("deleteAboutUsImage", e.target.checked)
-                        }
-                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                      />
-                      <span className="text-red-500 font-estedad-lightbold text-sm">
-                        لغو حذف
-                      </span>
-                    </label>
                   </div>
                 )}
                 <CustomInput
@@ -624,55 +512,18 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   ویدیو صفحه درباره ما
                 </label>
-                {settings?.aboutUsVideo && !formik.values.deleteAboutUsVideo && (
+                {settings?.aboutUsVideo && (
                   <div className="mb-4 mr-4">
-                    <div className="flex items-start gap-4">
-                      <video
-                        src={`http://localhost:4000${settings.aboutUsVideo}`}
-                        controls
-                        className="w-full max-w-md rounded-lg border-2 border-main-border-color"
-                      >
-                        مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
-                      </video>
-                      <div className="flex-1">
-                        <p className="text-sm text-paragray mt-2 mb-2">
-                          ویدیوی فعلی (برای تغییر، ویدیوی جدید انتخاب کنید)
-                        </p>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formik.values.deleteAboutUsVideo}
-                            onChange={(e) =>
-                              formik.setFieldValue("deleteAboutUsVideo", e.target.checked)
-                            }
-                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                          />
-                          <span className="text-red-500 font-estedad-lightbold text-sm">
-                            حذف ویدیو
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {formik.values.deleteAboutUsVideo && (
-                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
-                    <p className="text-red-600 text-sm font-estedad-lightbold">
-                      ویدیو حذف خواهد شد
+                    <video
+                      src={`http://localhost:4000${settings.aboutUsVideo}`}
+                      controls
+                      className="w-full max-w-md rounded-lg border-2 border-main-border-color"
+                    >
+                      مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                    </video>
+                    <p className="text-sm text-paragray mt-2 mb-2">
+                      ویدیوی فعلی (برای تغییر، ویدیوی جدید انتخاب کنید)
                     </p>
-                    <label className="flex items-center gap-2 cursor-pointer mt-2">
-                      <input
-                        type="checkbox"
-                        checked={formik.values.deleteAboutUsVideo}
-                        onChange={(e) =>
-                          formik.setFieldValue("deleteAboutUsVideo", e.target.checked)
-                        }
-                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                      />
-                      <span className="text-red-500 font-estedad-lightbold text-sm">
-                        لغو حذف
-                      </span>
-                    </label>
                   </div>
                 )}
                 <CustomInput
@@ -699,53 +550,16 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   تصویر صفحه تماس با ما
                 </label>
-                {settings?.contactUsImage && !formik.values.deleteContactUsImage && (
+                {settings?.contactUsImage && (
                   <div className="mb-4 mr-4">
-                    <div className="flex items-start gap-4">
-                      <img
-                        src={`http://localhost:4000${settings.contactUsImage}`}
-                        alt="تصویر تماس با ما"
-                        className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
-                      />
-                      <div className="flex-1">
-                        <p className="text-sm text-paragray mt-2 mb-2">
-                          تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
-                        </p>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formik.values.deleteContactUsImage}
-                            onChange={(e) =>
-                              formik.setFieldValue("deleteContactUsImage", e.target.checked)
-                            }
-                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                          />
-                          <span className="text-red-500 font-estedad-lightbold text-sm">
-                            حذف تصویر
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {formik.values.deleteContactUsImage && (
-                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
-                    <p className="text-red-600 text-sm font-estedad-lightbold">
-                      تصویر حذف خواهد شد
+                    <img
+                      src={`http://localhost:4000${settings.contactUsImage}`}
+                      alt="تصویر تماس با ما"
+                      className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
+                    />
+                    <p className="text-sm text-paragray mt-2 mb-2">
+                      تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
                     </p>
-                    <label className="flex items-center gap-2 cursor-pointer mt-2">
-                      <input
-                        type="checkbox"
-                        checked={formik.values.deleteContactUsImage}
-                        onChange={(e) =>
-                          formik.setFieldValue("deleteContactUsImage", e.target.checked)
-                        }
-                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                      />
-                      <span className="text-red-500 font-estedad-lightbold text-sm">
-                        لغو حذف
-                      </span>
-                    </label>
                   </div>
                 )}
                 <CustomInput
@@ -772,55 +586,18 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   ویدیو صفحه تماس با ما
                 </label>
-                {settings?.contactUsVideo && !formik.values.deleteContactUsVideo && (
+                {settings?.contactUsVideo && (
                   <div className="mb-4 mr-4">
-                    <div className="flex items-start gap-4">
-                      <video
-                        src={`http://localhost:4000${settings.contactUsVideo}`}
-                        controls
-                        className="w-full max-w-md rounded-lg border-2 border-main-border-color"
-                      >
-                        مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
-                      </video>
-                      <div className="flex-1">
-                        <p className="text-sm text-paragray mt-2 mb-2">
-                          ویدیوی فعلی (برای تغییر، ویدیوی جدید انتخاب کنید)
-                        </p>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formik.values.deleteContactUsVideo}
-                            onChange={(e) =>
-                              formik.setFieldValue("deleteContactUsVideo", e.target.checked)
-                            }
-                            className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                          />
-                          <span className="text-red-500 font-estedad-lightbold text-sm">
-                            حذف ویدیو
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {formik.values.deleteContactUsVideo && (
-                  <div className="mb-4 mr-4 p-3 bg-red-50 border-2 border-red-200 rounded-lg">
-                    <p className="text-red-600 text-sm font-estedad-lightbold">
-                      ویدیو حذف خواهد شد
+                    <video
+                      src={`http://localhost:4000${settings.contactUsVideo}`}
+                      controls
+                      className="w-full max-w-md rounded-lg border-2 border-main-border-color"
+                    >
+                      مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                    </video>
+                    <p className="text-sm text-paragray mt-2 mb-2">
+                      ویدیوی فعلی (برای تغییر، ویدیوی جدید انتخاب کنید)
                     </p>
-                    <label className="flex items-center gap-2 cursor-pointer mt-2">
-                      <input
-                        type="checkbox"
-                        checked={formik.values.deleteContactUsVideo}
-                        onChange={(e) =>
-                          formik.setFieldValue("deleteContactUsVideo", e.target.checked)
-                        }
-                        className="w-5 h-5 rounded border-2 border-red-500 text-red-500 focus:ring-red-500"
-                      />
-                      <span className="text-red-500 font-estedad-lightbold text-sm">
-                        لغو حذف
-                      </span>
-                    </label>
                   </div>
                 )}
                 <CustomInput
