@@ -9,6 +9,7 @@ interface ReviewManagementTableProps {
   isLoadingReviews: boolean;
   page: number;
   onDeleteClick: (id: string, name: string) => void;
+  onReviewClick?: (review: Review) => void;
   onRefetch?: () => void;
   isRefetching?: boolean;
 }
@@ -18,6 +19,7 @@ function ReviewManagementTable({
   isLoadingReviews,
   page,
   onDeleteClick,
+  onReviewClick,
   onRefetch,
   isRefetching = false,
 }: ReviewManagementTableProps) {
@@ -92,22 +94,27 @@ function ReviewManagementTable({
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light min-w-[250px] pr-6">
-                    <span className="line-clamp-2">
+                    <span
+                      className={`line-clamp-2 ${
+                        onReviewClick
+                          ? "cursor-pointer hover:text-primary transition-colors"
+                          : ""
+                      }`}
+                      onClick={() => onReviewClick?.(review)}
+                      title={onReviewClick ? "کلیک برای مشاهده جزئیات" : ""}
+                    >
                       {review.content.length > 50
                         ? review.content.substring(0, 50) + "..."
                         : review.content}
                     </span>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="flex gap-1 text-secondary">
+                    <div className="flex gap-1 text-yellow-500">
                       {Array.from({ length: review.rating }).map((_, i) => (
-                        <i className="fas fa-star text-sm" key={i}></i>
+                        <i className="fas fa-star " key={i}></i>
                       ))}
                       {Array.from({ length: 5 - review.rating }).map((_, i) => (
-                        <i
-                          className="fas fa-star text-gray-300 text-sm"
-                          key={i}
-                        ></i>
+                        <i className="fas fa-star text-gray-300 " key={i}></i>
                       ))}
                     </div>
                   </td>
@@ -161,4 +168,3 @@ function ReviewManagementTable({
 }
 
 export default ReviewManagementTable;
-

@@ -183,7 +183,7 @@ const routes = createBrowserRouter([
       { path: "reviews-management", element: <ReviewsManagement /> },
       {
         path: "reviews-management/edit/:id",
-        element: <ReviewsManagementEdit />,
+        element: <ReviewsManagementEdit/>,
       },
       { path: "users-management", element: <UsersManagement /> },
       {

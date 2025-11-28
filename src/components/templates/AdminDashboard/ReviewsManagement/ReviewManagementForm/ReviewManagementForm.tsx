@@ -13,6 +13,7 @@ import {
 } from "../../../../../utils/toastify";
 import type { Review } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
+import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 
 function ReviewManagementForm({ review }: { review?: Review }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -220,12 +221,11 @@ function ReviewManagementForm({ review }: { review?: Review }) {
             </div>
 
             <div>
-              <CustomInput
+              <CustomTextArea
                 labelText="متن نظر"
                 placeholder="متن نظر را وارد کنید"
                 className="bg-white"
                 requiredText
-                inputType="textarea"
                 rows={5}
                 {...formik.getFieldProps("content")}
                 errorMessage={

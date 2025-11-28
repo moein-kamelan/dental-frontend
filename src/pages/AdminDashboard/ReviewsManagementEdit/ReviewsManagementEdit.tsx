@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAdminDashboardHeader } from "../../../contexts";
 import { useGetReviewById } from "../../../services/useReviews";
 import ReviewManagementForm from "../../../components/templates/AdminDashboard/ReviewsManagement/ReviewManagementForm/ReviewManagementForm";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
-import TableSkeleton from "../../../components/modules/TableSkeleton/TableSkeleton";
+import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import NotFound from "../../../pages/NotFound/NotFound";
 
 function ReviewsManagementEdit() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { setHeaderConfig } = useAdminDashboardHeader();
   const { data: reviewData, isLoading } = useGetReviewById(id || "");
 
@@ -16,42 +16,14 @@ function ReviewsManagementEdit() {
     setHeaderConfig({
       title: "ویرایش نظر",
       backButton: true,
-      backButtonPath: "/admin/reviews-management",
     });
     return () => {
       setHeaderConfig({ title: undefined, backButton: false });
     };
   }, [setHeaderConfig]);
 
-  if (isLoading) {
-    return (
-      <main>
-        <SectionContainer>
-          <TableSkeleton rows={5} columns={1} />
-        </SectionContainer>
-      </main>
-    );
-  }
-
-  if (!reviewData?.data?.review) {
-    return (
-      <main>
-        <SectionContainer>
-          <div className="text-center p-8">
-            <p className="text-paragray font-estedad-light">
-              نظر یافت نشد
-            </p>
-            <button
-              onClick={() => navigate("/admin/reviews-management")}
-              className="mt-4 purple-btn"
-            >
-              بازگشت به لیست
-            </button>
-          </div>
-        </SectionContainer>
-      </main>
-    );
-  }
+  if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات نظر..." />;
+  if (!reviewData?.data?.review) return <NotFound text="نظر یافت نشد" />;
 
   return (
     <main>
@@ -64,4 +36,3 @@ function ReviewsManagementEdit() {
 }
 
 export default ReviewsManagementEdit;
-
