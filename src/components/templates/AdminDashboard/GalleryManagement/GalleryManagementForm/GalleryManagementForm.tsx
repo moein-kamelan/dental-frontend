@@ -225,7 +225,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                 inputType="file"
                 labelText=""
                 placeholder="تصویر را انتخاب کنید"
-                className="bg-white mr-4"
+                className="bg-white "
                 name="galleryImage"
                 accept="image/*"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

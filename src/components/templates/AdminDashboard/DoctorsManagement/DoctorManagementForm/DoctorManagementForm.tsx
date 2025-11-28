@@ -474,7 +474,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               <label className="block text-dark font-estedad-lightbold mb-4 mr-4">
                 روزهای کاری
               </label>
-              <div className="grid grid-cols-1 xl:grid-cols-2  gap-4 mr-4">
+              <div className="grid grid-cols-1 xl:grid-cols-2  gap-4 ">
                 {daysOfWeek.map((day) => {
                   const timeRanges = formik.values.workingDays[day.value] || [];
 

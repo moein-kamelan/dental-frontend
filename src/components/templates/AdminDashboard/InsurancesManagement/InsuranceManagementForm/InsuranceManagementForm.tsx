@@ -288,7 +288,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
                 inputType="file"
                 labelText=""
                 placeholder="لوگو را انتخاب کنید"
-                className="bg-white mr-4"
+                className="bg-white "
                 name="logo"
                 accept="image/*"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

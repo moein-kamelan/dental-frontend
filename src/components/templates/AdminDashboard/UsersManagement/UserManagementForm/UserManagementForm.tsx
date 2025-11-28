@@ -457,7 +457,7 @@ function UserManagementForm({ user }: { user?: User }) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-4 py-2 rounded-lg text-sm font-estedad-medium bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors"
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>

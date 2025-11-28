@@ -42,7 +42,7 @@ function AdminDashBaordHeader({
   }, [isDropdownOpen]);
   return (
     <div className="relative pb-6 mb-8">
-      <div className="flex flex-col lg:flex-row  justify-between max-lg:items-start gap-4">
+      <div className="flex flex-col lg:flex-row  justify-between max-lg:items-start flex-wrap gap-x-2.5 gap-y-4">
         <div className="flex items-center gap-3">
           {/* دکمه باز/بسته کردن سایدبار */}
           <button
@@ -64,14 +64,14 @@ function AdminDashBaordHeader({
               <i className="fas fa-arrow-right"></i> <span>بازگشت</span>
             </button>
           ) : (
-            <h2 className="text-xl md:text-2xl font-estedad-semibold relative inline-block group">
+            <h2 className="text-xl  font-estedad-semibold relative inline-block group">
               <span className="relative z-10 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
                 {title}
               </span>
             </h2>
           )}
         </div>
-        <div className="flex items-center flex-wrap gap-y-2.5  space-x-4 ">
+        <div className="flex items-center max-lg:flex-wrap gap-y-2.5  space-x-4 ">
           {/* <button className="size-10 flex items-center justify-center shadow-sm bg-gray-50 hover:bg-gray-300 rounded-full">
             <i className="fas fa-bell text-gray-600 "></i>
           </button> */}
@@ -80,7 +80,7 @@ function AdminDashBaordHeader({
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center   gap-5 bg-gray-50 hover:bg-gray-300  py-2 px-5 rounded-lg transition  shadow-sm"
+              className="flex items-center   gap-5 bg-gray-50 hover:bg-gray-300  py-2 px-4 rounded-lg transition  shadow-sm"
             >
               <img
                 src="https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff"
@@ -158,7 +158,7 @@ function AdminDashBaordHeader({
           {/* دکمه بازگشت به صفحه اصلی */}
           <button
             onClick={() => navigate("/home")}
-            className="flex items-center gap-2 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 group hover:from-purple-500 hover:via-purple-600 hover:to-purple-700 text-sm lg:text-base"
+            className="flex items-center gap-2 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 text-white px-3 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 group hover:from-purple-500 hover:via-purple-600 hover:to-purple-700 text-sm lg:text-base"
           >
             <i className="fas fa-home group-hover:scale-110 transition-transform duration-200"></i>
             <span className="font-iran-yekan-medium">صفحه اصلی</span>

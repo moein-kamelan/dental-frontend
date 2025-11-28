@@ -399,7 +399,7 @@ function SettingsForm() {
                 inputType="file"
                 labelText=""
                 placeholder="لوگو را انتخاب کنید"
-                className="bg-white mr-4"
+                className="bg-white "
                 name="logo"
                 accept="image/*"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -605,7 +605,7 @@ function SettingsForm() {
                   inputType="file"
                   labelText=""
                   placeholder="تصویر را انتخاب کنید"
-                  className="bg-white mr-4"
+                  className="bg-white "
                   name="aboutUsImage"
                   accept="image/*"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -680,7 +680,7 @@ function SettingsForm() {
                   inputType="file"
                   labelText=""
                   placeholder="ویدیو را انتخاب کنید"
-                  className="bg-white mr-4"
+                  className="bg-white "
                   name="aboutUsVideo"
                   accept="video/*"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -753,7 +753,7 @@ function SettingsForm() {
                   inputType="file"
                   labelText=""
                   placeholder="تصویر را انتخاب کنید"
-                  className="bg-white mr-4"
+                  className="bg-white "
                   name="contactUsImage"
                   accept="image/*"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -828,7 +828,7 @@ function SettingsForm() {
                   inputType="file"
                   labelText=""
                   placeholder="ویدیو را انتخاب کنید"
-                  className="bg-white mr-4"
+                  className="bg-white "
                   name="contactUsVideo"
                   accept="video/*"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
