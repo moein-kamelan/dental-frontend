@@ -41,7 +41,7 @@ function ReviewsManagement() {
   } = useGetAllReviews(page, 5, debouncedSearch);
 
   useEffect(() => {
-    setHeaderConfig({ title: "مدیریت نظرات" });
+    setHeaderConfig({ title: "مدیریت دیدگاه ها" });
     return () => {
       setHeaderConfig({ title: undefined, backButton: false });
     };
