@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,6 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
   const queryClient = useQueryClient();
   const { mutateAsync: createGallery } = useCreateGallery();
   const { mutateAsync: updateGallery } = useUpdateGallery();
-  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!image?.id;
 
@@ -75,14 +74,10 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
       if (values.galleryImage) {
         formData.append("galleryImage", values.galleryImage);
       }
-      if (removeImage && isEditMode) {
-        formData.append("removeGalleryImage", "true");
-      }
 
       if (isEditMode && image?.id) {
         const response = await updateGallery({ id: image.id, data: formData });
         showSuccessToast("تصویر با موفقیت ویرایش شد");
-        setRemoveImage(false);
         // Update cache immediately with the response data
         if (response?.data?.image) {
           queryClient.setQueryData(["gallery", image.id], response);
@@ -162,7 +157,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
           ) {
             return formik.values.galleryImage.name;
           }
-          if (image?.image && !removeImage) {
+          if (image?.image) {
             const urlParts = image.image.split("/");
             return urlParts[urlParts.length - 1] || "فایل موجود";
           }
@@ -171,7 +166,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
 
         const currentFileName = getCurrentFileName();
         const shouldShowCurrentImage =
-          image?.image && !formik.values.galleryImage && !removeImage;
+          image?.image && !formik.values.galleryImage;
 
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -246,14 +241,12 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     formik.setFieldValue("galleryImage", file);
-                    setRemoveImage(false);
                   }}
                 />
                 <button
                   type="button"
                   onClick={() => {
                     fileInputRef.current?.click();
-                    setRemoveImage(false);
                   }}
                   className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
@@ -272,25 +265,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                       className="w-12 h-12 rounded-lg object-cover"
                     />
                     <span className="text-sm text-paragray">تصویر فعلی</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setRemoveImage(true);
-                        formik.setFieldValue("galleryImage", null);
-                        if (fileInputRef.current) {
-                          fileInputRef.current.value = "";
-                        }
-                      }}
-                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
-                    >
-                      حذف عکس
-                    </button>
                   </div>
-                )}
-                {removeImage && (
-                  <span className="text-sm text-red-500 font-estedad-light">
-                    عکس در حال حذف است
-                  </span>
                 )}
               </div>
               {formik.touched.galleryImage && formik.errors.galleryImage && (
