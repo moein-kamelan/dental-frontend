@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +33,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
   const queryClient = useQueryClient();
   const { mutateAsync: createInsurance } = useCreateInsurance();
   const { mutateAsync: updateInsurance } = useUpdateInsurance();
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!insurance?.id;
 
@@ -90,21 +91,30 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
       if (values.email) {
         formData.append("email", values.email);
       }
-      
-      // Only append file if it's a valid File object
-      if (
-        values.logo &&
-        values.logo instanceof File &&
-        values.logo.size > 0
-      ) {
+
+      if (values.logo) {
         formData.append("logo", values.logo);
+      }
+      if (removeImage && isEditMode) {
+        formData.append("removeLogo", "true");
       }
 
       if (isEditMode && insurance?.id) {
-        await updateInsurance({ id: insurance.id, data: formData });
+        const response = await updateInsurance({
+          id: insurance.id,
+          data: formData,
+        });
         showSuccessToast("سازمان بیمه با موفقیت ویرایش شد");
+        setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.insurance) {
+          queryClient.setQueryData(["insurance", insurance.id], response);
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
         queryClient.invalidateQueries({ queryKey: ["insurances"] });
-        queryClient.invalidateQueries({ queryKey: ["insurance"] });
+        queryClient.invalidateQueries({
+          queryKey: ["insurance", insurance.id],
+        });
         navigate("/admin/insurances-management");
       } else {
         await createInsurance(formData);
@@ -167,6 +177,21 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
       }}
     >
       {(formik) => {
+        const getCurrentFileName = () => {
+          if (formik.values.logo && formik.values.logo instanceof File) {
+            return formik.values.logo.name;
+          }
+          if (insurance?.logo && !removeImage) {
+            const urlParts = insurance.logo.split("/");
+            return urlParts[urlParts.length - 1] || "فایل موجود";
+          }
+          return null;
+        };
+
+        const currentFileName = getCurrentFileName();
+        const shouldShowCurrentImage =
+          insurance?.logo && !formik.values.logo && !removeImage;
+
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <CustomInput
@@ -276,25 +301,29 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  className="hidden"
+                  className="hidden "
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     formik.setFieldValue("logo", file);
+                    setRemoveImage(false);
                   }}
                 />
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
-                {formik.values.logo && formik.values.logo instanceof File && (
+                {currentFileName && (
                   <span className="text-sm text-dark font-estedad-light">
-                    {formik.values.logo.name}
+                    {currentFileName}
                   </span>
                 )}
-                {isEditMode && insurance?.logo && !formik.values.logo && (
+                {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2">
                     <img
                       src={`http://localhost:4000${insurance.logo}`}
@@ -302,7 +331,25 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
                       className="w-12 h-12 rounded-lg object-cover"
                     />
                     <span className="text-sm text-paragray">لوگوی فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("logo", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
                   </div>
+                )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
                 )}
               </div>
             </div>

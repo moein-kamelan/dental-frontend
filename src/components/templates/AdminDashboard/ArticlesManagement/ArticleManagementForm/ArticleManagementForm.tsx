@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +48,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
   const { mutateAsync: createArticle } = useCreateArticle();
   const { mutateAsync: updateArticle } = useUpdateArticle();
   const { data: categoriesData } = useGetArticleCategories();
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!article?.id;
 
@@ -107,20 +108,27 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         formData.append("categoryIds", JSON.stringify(values.categoryIds));
       }
 
-      // Only append file if it's a valid File object (not a fake one from URL)
-      if (
-        values.coverImage &&
-        values.coverImage instanceof File &&
-        values.coverImage.size > 0
-      ) {
+      if (values.coverImage) {
         formData.append("coverImage", values.coverImage);
+      }
+      if (removeImage && isEditMode) {
+        formData.append("removeCoverImage", "true");
       }
 
       if (isEditMode && article?.id) {
-        await updateArticle({ id: article.id, data: formData });
+        const response = await updateArticle({
+          id: article.id,
+          data: formData,
+        });
         showSuccessToast("مقاله با موفقیت ویرایش شد");
+        setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.article) {
+          queryClient.setQueryData(["article", article.id], response);
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
         queryClient.invalidateQueries({ queryKey: ["articles"] });
-        queryClient.invalidateQueries({ queryKey: ["article"] });
+        queryClient.invalidateQueries({ queryKey: ["article", article.id] });
         navigate("/admin/articles-management");
       } else {
         await createArticle(formData);
@@ -183,6 +191,24 @@ function ArticleManagementForm({ article }: { article?: Article }) {
       }}
     >
       {(formik) => {
+        const getCurrentFileName = () => {
+          if (
+            formik.values.coverImage &&
+            formik.values.coverImage instanceof File
+          ) {
+            return formik.values.coverImage.name;
+          }
+          if (article?.coverImage && !removeImage) {
+            const urlParts = article.coverImage.split("/");
+            return urlParts[urlParts.length - 1] || "فایل موجود";
+          }
+          return null;
+        };
+
+        const currentFileName = getCurrentFileName();
+        const shouldShowCurrentImage =
+          article?.coverImage && !formik.values.coverImage && !removeImage;
+
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -321,25 +347,29 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  className="hidden"
+                  className="hidden "
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     formik.setFieldValue("coverImage", file);
+                    setRemoveImage(false);
                   }}
                 />
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
-                {formik.values.coverImage && formik.values.coverImage instanceof File && (
+                {currentFileName && (
                   <span className="text-sm text-dark font-estedad-light">
-                    {formik.values.coverImage.name}
+                    {currentFileName}
                   </span>
                 )}
-                {article?.coverImage && !formik.values.coverImage && (
+                {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2">
                     <img
                       src={`http://localhost:4000${article.coverImage}`}
@@ -347,14 +377,27 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                       className="w-12 h-12 rounded-lg object-cover"
                     />
                     <span className="text-sm text-paragray">تصویر فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("coverImage", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
                   </div>
                 )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
+                )}
               </div>
-              {formik.touched.coverImage && formik.errors.coverImage && (
-                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
-                  {formik.errors.coverImage}
-                </div>
-              )}
             </div>
 
             <div className="flex justify-end mt-6">

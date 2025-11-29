@@ -73,7 +73,7 @@ function SettingsForm() {
     contactUsVideo?: File | null;
   };
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (values: FormValues, formik: any) => {
     try {
       // Check if any file is uploaded
       const logoFile = values.logo;
@@ -104,7 +104,10 @@ function SettingsForm() {
         hasAboutUsImageFile ||
         hasAboutUsVideoFile ||
         hasContactUsImageFile ||
-        hasContactUsVideoFile;
+        hasContactUsVideoFile ||
+        removeLogo ||
+        removeAboutUsImage ||
+        removeContactUsImage;
 
       if (hasAnyFile) {
         // Use FormData if there's any file
@@ -119,8 +122,11 @@ function SettingsForm() {
 
         if (hasLogoFile && isFile(logoFile)) {
           formData.append("logo", logoFile);
-        } else if (values.logo === null || values.logo === undefined) {
-          // Keep existing logo if not changed
+        } else if (
+          (values.logo === null || values.logo === undefined) &&
+          !removeLogo
+        ) {
+          // Keep existing logo if not changed and not being removed
           if (settings?.logo) {
             formData.append("logo", settings.logo);
           }
@@ -155,10 +161,10 @@ function SettingsForm() {
         if (hasAboutUsImageFile && isFile(aboutUsImageFile)) {
           formData.append("aboutUsImage", aboutUsImageFile);
         } else if (
-          values.aboutUsImage === null ||
-          values.aboutUsImage === undefined
+          (values.aboutUsImage === null || values.aboutUsImage === undefined) &&
+          !removeAboutUsImage
         ) {
-          // Keep existing image if not changed
+          // Keep existing image if not changed and not being removed
           if (settings?.aboutUsImage) {
             formData.append("aboutUsImage", settings.aboutUsImage);
           }
@@ -179,10 +185,11 @@ function SettingsForm() {
         if (hasContactUsImageFile && isFile(contactUsImageFile)) {
           formData.append("contactUsImage", contactUsImageFile);
         } else if (
-          values.contactUsImage === null ||
-          values.contactUsImage === undefined
+          (values.contactUsImage === null ||
+            values.contactUsImage === undefined) &&
+          !removeContactUsImage
         ) {
-          // Keep existing image if not changed
+          // Keep existing image if not changed and not being removed
           if (settings?.contactUsImage) {
             formData.append("contactUsImage", settings.contactUsImage);
           }
@@ -211,10 +218,33 @@ function SettingsForm() {
           formData.append("removeContactUsImage", "true");
         }
 
-        await updateSettings(formData);
+        const response = await updateSettings(formData);
+        // Update cache immediately with the response data
+        if (response?.data?.settings) {
+          queryClient.setQueryData(["settings"], response);
+        }
+        // Reset remove states immediately after cache update
         setRemoveLogo(false);
         setRemoveAboutUsImage(false);
         setRemoveContactUsImage(false);
+        // Reset file inputs and formik values after cache update
+        setTimeout(() => {
+          if (logoInputRef.current) logoInputRef.current.value = "";
+          if (aboutUsImageInputRef.current)
+            aboutUsImageInputRef.current.value = "";
+          if (aboutUsVideoInputRef.current)
+            aboutUsVideoInputRef.current.value = "";
+          if (contactUsImageInputRef.current)
+            contactUsImageInputRef.current.value = "";
+          if (contactUsVideoInputRef.current)
+            contactUsVideoInputRef.current.value = "";
+          // Reset formik values to show the new images/videos from cache
+          formik.setFieldValue("logo", null);
+          formik.setFieldValue("aboutUsImage", null);
+          formik.setFieldValue("aboutUsVideo", null);
+          formik.setFieldValue("contactUsImage", null);
+          formik.setFieldValue("contactUsVideo", null);
+        }, 0);
       } else {
         // Use regular JSON if no file
         const updateData: Partial<Settings> = {};
@@ -249,10 +279,15 @@ function SettingsForm() {
         if (values.becomeDoctorContent !== undefined)
           updateData.becomeDoctorContent = values.becomeDoctorContent;
 
-        await updateSettings(updateData);
+        const response = await updateSettings(updateData);
+        // Update cache immediately with the response data
+        if (response?.data?.settings) {
+          queryClient.setQueryData(["settings"], response);
+        }
       }
 
       showSuccessToast("تنظیمات با موفقیت به‌روزرسانی شد");
+      // Invalidate queries to ensure all related queries are refreshed
       queryClient.invalidateQueries({ queryKey: ["settings"] });
 
       setTimeout(() => {
@@ -309,7 +344,7 @@ function SettingsForm() {
       }}
       validationSchema={validationSchema}
       enableReinitialize
-      onSubmit={handleSubmit}
+      onSubmit={(values, formikHelpers) => handleSubmit(values, formikHelpers)}
     >
       {(formik) => (
         <form onSubmit={formik.handleSubmit} className="space-y-6">

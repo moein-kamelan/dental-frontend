@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ function ReviewManagementForm({ review }: { review?: Review }) {
   const queryClient = useQueryClient();
   const { mutateAsync: createReview } = useCreateReview();
   const { mutateAsync: updateReview } = useUpdateReview();
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!review?.id;
 
@@ -33,9 +34,7 @@ function ReviewManagementForm({ review }: { review?: Review }) {
           .required("امتیاز الزامی است")
           .min(1, "امتیاز باید حداقل 1 باشد")
           .max(5, "امتیاز باید حداکثر 5 باشد"),
-        order: Yup.number()
-          .nullable()
-          .min(0, "ترتیب باید مثبت باشد"),
+        order: Yup.number().nullable().min(0, "ترتیب باید مثبت باشد"),
         published: Yup.boolean(),
       }),
     []
@@ -60,20 +59,24 @@ function ReviewManagementForm({ review }: { review?: Review }) {
       formData.append("order", (values.order || 0).toString());
       formData.append("published", values.published.toString());
 
-      // Only append file if it's a valid File object (not a fake one from URL)
-      if (
-        values.profileImage &&
-        values.profileImage instanceof File &&
-        values.profileImage.size > 0
-      ) {
+      if (values.profileImage) {
         formData.append("profileImage", values.profileImage);
+      }
+      if (removeImage && isEditMode) {
+        formData.append("removeProfileImage", "true");
       }
 
       if (isEditMode && review?.id) {
-        await updateReview({ id: review.id, data: formData });
+        const response = await updateReview({ id: review.id, data: formData });
         showSuccessToast("نظر با موفقیت ویرایش شد");
+        setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.review) {
+          queryClient.setQueryData(["review", review.id], response);
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
         queryClient.invalidateQueries({ queryKey: ["reviews"] });
-        queryClient.invalidateQueries({ queryKey: ["review"] });
+        queryClient.invalidateQueries({ queryKey: ["review", review.id] });
         navigate("/admin/reviews-management");
       } else {
         await createReview(formData);
@@ -131,6 +134,24 @@ function ReviewManagementForm({ review }: { review?: Review }) {
       }}
     >
       {(formik) => {
+        const getCurrentFileName = () => {
+          if (
+            formik.values.profileImage &&
+            formik.values.profileImage instanceof File
+          ) {
+            return formik.values.profileImage.name;
+          }
+          if (review?.profileImage && !removeImage) {
+            const urlParts = review.profileImage.split("/");
+            return urlParts[urlParts.length - 1] || "فایل موجود";
+          }
+          return null;
+        };
+
+        const currentFileName = getCurrentFileName();
+        const shouldShowCurrentImage =
+          review?.profileImage && !formik.values.profileImage && !removeImage;
+
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -227,25 +248,29 @@ function ReviewManagementForm({ review }: { review?: Review }) {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  className="hidden"
+                  className="hidden "
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     formik.setFieldValue("profileImage", file);
+                    setRemoveImage(false);
                   }}
                 />
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
-                {formik.values.profileImage && formik.values.profileImage instanceof File && (
+                {currentFileName && (
                   <span className="text-sm text-dark font-estedad-light">
-                    {formik.values.profileImage.name}
+                    {currentFileName}
                   </span>
                 )}
-                {review?.profileImage && !formik.values.profileImage && (
+                {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2">
                     <img
                       src={`http://localhost:4000${review.profileImage}`}
@@ -253,14 +278,27 @@ function ReviewManagementForm({ review }: { review?: Review }) {
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <span className="text-sm text-paragray">تصویر فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("profileImage", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
                   </div>
                 )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
+                )}
               </div>
-              {formik.touched.profileImage && formik.errors.profileImage && (
-                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
-                  {formik.errors.profileImage}
-                </div>
-              )}
             </div>
 
             <div className="flex justify-end mt-6">
@@ -283,4 +321,3 @@ function ReviewManagementForm({ review }: { review?: Review }) {
 }
 
 export default ReviewManagementForm;
-

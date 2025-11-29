@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
@@ -50,40 +50,40 @@ function ProfileManagementForm() {
   const user = useAppSelector((state) => state.user.data);
   const dispatch = useAppDispatch();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfileWithImage();
+  const [removeImage, setRemoveImage] = useState(false);
 
-  const validationSchema = React.useMemo(
-    () =>
-      Yup.object({
-        firstName: Yup.string()
-          .min(2, "نام باید حداقل 2 کاراکتر باشد")
-          .max(50, "نام نمی‌تواند بیشتر از 50 کاراکتر باشد"),
-        lastName: Yup.string()
-          .min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد")
-          .max(50, "نام خانوادگی نمی‌تواند بیشتر از 50 کاراکتر باشد"),
-        nationalCode: Yup.string()
-          .nullable()
-          .matches(/^[0-9]{10}$/, "کد ملی باید 10 رقم باشد")
-          .optional(),
-        address: Yup.string()
-          .max(500, "آدرس نمی‌تواند بیشتر از 500 کاراکتر باشد")
-          .nullable()
-          .optional(),
-        gender: Yup.string()
-          .oneOf(["MALE", "FEMALE", "OTHER"], "جنسیت نامعتبر است")
-          .nullable()
-          .optional(),
-      }),
-    []
-  );
+  const validationSchema = Yup.object({
+    firstName: Yup.string()
+      .min(2, "نام باید حداقل 2 کاراکتر باشد")
+      .max(50, "نام نمی‌تواند بیشتر از 50 کاراکتر باشد"),
+    lastName: Yup.string()
+      .min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد")
+      .max(50, "نام خانوادگی نمی‌تواند بیشتر از 50 کاراکتر باشد"),
+    nationalCode: Yup.string()
+      .nullable()
+      .matches(/^[0-9]{10}$/, "کد ملی باید 10 رقم باشد")
+      .optional(),
+    address: Yup.string()
+      .max(500, "آدرس نمی‌تواند بیشتر از 500 کاراکتر باشد")
+      .nullable()
+      .optional(),
+    gender: Yup.string()
+      .oneOf(["MALE", "FEMALE", "OTHER"], "جنسیت نامعتبر است")
+      .nullable()
+      .optional(),
+  });
 
-  const handleSubmit = async (values: {
-    firstName: string;
-    lastName: string;
-    nationalCode: string | null;
-    address: string | null;
-    gender: string | null;
-    profileImage: File | null;
-  }) => {
+  const handleSubmit = async (
+    values: {
+      firstName: string;
+      lastName: string;
+      nationalCode: string | null;
+      address: string | null;
+      gender: string | null;
+      profileImage: File | null;
+    },
+    formik: any
+  ) => {
     try {
       const formData = new FormData();
 
@@ -108,6 +108,11 @@ function ProfileManagementForm() {
         formData.append("gender", values.gender);
       }
 
+      // Handle image removal
+      if (removeImage) {
+        formData.append("removeProfileImage", "true");
+      }
+
       // Only append file if it's a valid File object (not a fake one from URL)
       if (
         values.profileImage &&
@@ -119,6 +124,7 @@ function ProfileManagementForm() {
 
       const response = await updateProfile(formData);
       showSuccessToast("پروفایل با موفقیت به‌روزرسانی شد");
+      setRemoveImage(false);
 
       // Update Redux store with new user data
       // Preserve the role field from the current user to prevent redirect issues
@@ -130,11 +136,13 @@ function ProfileManagementForm() {
         dispatch(setUser(updatedUser));
       }
 
-      // Reset file input
+      // Reset file input and formik value to show the new image from Redux store
       setTimeout(() => {
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+        // Reset formik profileImage to null so UI shows the new image from Redux store
+        formik.setFieldValue("profileImage", null);
       }, 0);
     } catch (error: unknown) {
       const errorMessage =
@@ -156,15 +164,18 @@ function ProfileManagementForm() {
         profileImage: null as File | null,
       }}
       validationSchema={validationSchema}
-      onSubmit={async (values) => {
-        await handleSubmit({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          nationalCode: values.nationalCode || null,
-          address: values.address || null,
-          gender: values.gender || null,
-          profileImage: values.profileImage,
-        });
+      onSubmit={async (values, formikHelpers) => {
+        await handleSubmit(
+          {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            nationalCode: values.nationalCode || null,
+            address: values.address || null,
+            gender: values.gender || null,
+            profileImage: values.profileImage,
+          },
+          formikHelpers
+        );
       }}
     >
       {(formik) => {
@@ -178,7 +189,7 @@ function ProfileManagementForm() {
                 {...formik.getFieldProps("firstName")}
                 errorMessage={
                   formik.touched.firstName && formik.errors.firstName
-                    ? formik.errors.firstName
+                    ? String(formik.errors.firstName)
                     : null
                 }
               />
@@ -190,7 +201,7 @@ function ProfileManagementForm() {
                 {...formik.getFieldProps("lastName")}
                 errorMessage={
                   formik.touched.lastName && formik.errors.lastName
-                    ? formik.errors.lastName
+                    ? String(formik.errors.lastName)
                     : null
                 }
               />
@@ -204,7 +215,7 @@ function ProfileManagementForm() {
                 {...formik.getFieldProps("nationalCode")}
                 errorMessage={
                   formik.touched.nationalCode && formik.errors.nationalCode
-                    ? formik.errors.nationalCode
+                    ? String(formik.errors.nationalCode)
                     : null
                 }
               />
@@ -256,7 +267,7 @@ function ProfileManagementForm() {
               {...formik.getFieldProps("address")}
               errorMessage={
                 formik.touched.address && formik.errors.address
-                  ? formik.errors.address
+                  ? String(formik.errors.address)
                   : null
               }
             />
@@ -274,11 +285,15 @@ function ProfileManagementForm() {
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     formik.setFieldValue("profileImage", file);
+                    setRemoveImage(false);
                   }}
                 />
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
                   className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                 >
                   انتخاب فایل
@@ -289,15 +304,35 @@ function ProfileManagementForm() {
                       {formik.values.profileImage.name}
                     </span>
                   )}
-                {user?.profileImage && !formik.values.profileImage && (
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={`http://localhost:4000${user.profileImage}`}
-                      alt="Profile"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <span className="text-sm text-paragray">تصویر فعلی</span>
-                  </div>
+                {user?.profileImage &&
+                  !formik.values.profileImage &&
+                  !removeImage && (
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={`http://localhost:4000${user.profileImage}`}
+                        alt="Profile"
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <span className="text-sm text-paragray">تصویر فعلی</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setRemoveImage(true);
+                          formik.setFieldValue("profileImage", null);
+                          if (fileInputRef.current) {
+                            fileInputRef.current.value = "";
+                          }
+                        }}
+                        className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                      >
+                        حذف عکس
+                      </button>
+                    </div>
+                  )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
                 )}
               </div>
               {formik.touched.profileImage && formik.errors.profileImage && (

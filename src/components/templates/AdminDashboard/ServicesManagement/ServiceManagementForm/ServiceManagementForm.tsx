@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +51,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
   const { mutateAsync: createService } = useCreateService();
   const { mutateAsync: updateService } = useUpdateService();
   const { data: categoriesData } = useGetServiceCategories();
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!service?.id;
 
@@ -111,20 +112,27 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         formData.append("categoryIds", JSON.stringify(values.categoryIds));
       }
 
-      // Only append file if it's a valid File object (not a fake one from URL)
-      if (
-        values.coverImage &&
-        values.coverImage instanceof File &&
-        values.coverImage.size > 0
-      ) {
+      if (values.coverImage) {
         formData.append("coverImage", values.coverImage);
+      }
+      if (removeImage && isEditMode) {
+        formData.append("removeCoverImage", "true");
       }
 
       if (isEditMode && service?.id) {
-        await updateService({ id: service.id, data: formData });
+        const response = await updateService({
+          id: service.id,
+          data: formData,
+        });
         showSuccessToast("خدمت با موفقیت ویرایش شد");
+        setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.service) {
+          queryClient.setQueryData(["service", service.id], response);
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
         queryClient.invalidateQueries({ queryKey: ["services"] });
-        queryClient.invalidateQueries({ queryKey: ["service"] });
+        queryClient.invalidateQueries({ queryKey: ["service", service.id] });
         navigate("/admin/services-management");
       } else {
         await createService(formData);
@@ -163,7 +171,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         title: service?.title || "",
         description: service?.description || "",
         price: service?.price || 0,
-        durationMinutes: service?.durationMinutes || 1 ,
+        durationMinutes: service?.durationMinutes || 1,
         categoryIds:
           service?.categories?.map((category) => category.id) ||
           ([] as string[]),
@@ -193,8 +201,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
           ) {
             return formik.values.coverImage.name;
           }
-          if (service?.coverImage) {
-            // استخراج نام فایل از URL
+          if (service?.coverImage && !removeImage) {
             const urlParts = service.coverImage.split("/");
             return urlParts[urlParts.length - 1] || "فایل موجود";
           }
@@ -202,6 +209,8 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         };
 
         const currentFileName = getCurrentFileName();
+        const shouldShowCurrentImage =
+          service?.coverImage && !formik.values.coverImage && !removeImage;
 
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -321,30 +330,65 @@ function ServiceManagementForm({ service }: { service?: Service }) {
             </div>
 
             <div>
-              <CustomInput
-                ref={fileInputRef}
-                inputType="file"
-                labelText="تصویر کاور"
-                placeholder="تصویر کاور را انتخاب کنید"
-                className="bg-white"
-                optional
-                name="coverImage"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0] || null;
-                  formik.setFieldValue("coverImage", file);
-                }}
-                errorMessage={
-                  formik.touched.coverImage && formik.errors.coverImage
-                    ? formik.errors.coverImage
-                    : null
-                }
-              />
-              {currentFileName && (
-                <div className="mr-4 mt-2 text-sm text-paragray">
-                  <span className="font-estedad-lightbold">فایل فعلی: </span>
-                  <span className="font-estedad-light">{currentFileName}</span>
-                </div>
-              )}
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                تصویر کاور
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden "
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("coverImage", file);
+                    setRemoveImage(false);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {currentFileName && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {currentFileName}
+                  </span>
+                )}
+                {shouldShowCurrentImage && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${service.coverImage}`}
+                      alt="Cover"
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <span className="text-sm text-paragray">تصویر فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("coverImage", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
+                  </div>
+                )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end mt-6">

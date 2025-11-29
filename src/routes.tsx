@@ -175,6 +175,11 @@ const routes = createBrowserRouter([
         element: <GalleryManagementEdit />,
       },
       { path: "insurance-management", element: <InsurancesManagement /> },
+      // {
+      //   path: "insurance-management/edit/:id",
+      //   element: <InsurancesManagementEdit />,
+      // },
+
       { path: "contact-us-management", element: <ContactUsManagement /> },
       {
         path: "doctor-applications-management",

@@ -153,11 +153,16 @@ function UserManagementForm({ user }: { user?: User }) {
       }
 
       if (isEditMode && user?.id) {
-        await updateUser({ id: user.id, data: formData });
+        const response = await updateUser({ id: user.id, data: formData });
         showSuccessToast("کاربر با موفقیت ویرایش شد");
-        queryClient.invalidateQueries({ queryKey: ["users"] });
-        queryClient.invalidateQueries({ queryKey: ["user"] });
         setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.user) {
+          queryClient.setQueryData(["user", user.id], response);
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        queryClient.invalidateQueries({ queryKey: ["user", user.id] });
         navigate("/admin/users-management");
       } else {
         await createUser(formData);

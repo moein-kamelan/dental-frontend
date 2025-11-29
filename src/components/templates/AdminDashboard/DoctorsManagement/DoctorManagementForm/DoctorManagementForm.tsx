@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -62,6 +62,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
   const { mutateAsync: createDoctor } = useCreateDoctor();
   const { mutateAsync: updateDoctor } = useUpdateDoctor();
   const { data: clinicsData } = useGetAllClinics(1, 100);
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!doctor?.id;
 
@@ -146,20 +147,24 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         formData.append("workingDays", JSON.stringify(formattedWorkingDays));
       }
 
-      // Only append file if it's a valid File object (not a fake one from URL)
-      if (
-        values.profileImage &&
-        values.profileImage instanceof File &&
-        values.profileImage.size > 0
-      ) {
+      if (values.profileImage) {
         formData.append("profileImage", values.profileImage);
+      }
+      if (removeImage && isEditMode) {
+        formData.append("removeProfileImage", "true");
       }
 
       if (isEditMode && doctor?.id) {
-        await updateDoctor({ id: doctor.id, data: formData });
+        const response = await updateDoctor({ id: doctor.id, data: formData });
         showSuccessToast("پزشک با موفقیت ویرایش شد");
+        setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.doctor) {
+          queryClient.setQueryData(["doctor", doctor.id], response);
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
         queryClient.invalidateQueries({ queryKey: ["doctors"] });
-        queryClient.invalidateQueries({ queryKey: ["doctor"] });
+        queryClient.invalidateQueries({ queryKey: ["doctor", doctor.id] });
         navigate("/admin/doctors-management");
       } else {
         await createDoctor(formData);
@@ -283,8 +288,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
           ) {
             return formik.values.profileImage.name;
           }
-          if (doctor?.profileImage) {
-            // استخراج نام فایل از URL
+          if (doctor?.profileImage && !removeImage) {
             const urlParts = doctor.profileImage.split("/");
             return urlParts[urlParts.length - 1] || "فایل موجود";
           }
@@ -292,6 +296,8 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         };
 
         const currentFileName = getCurrentFileName();
+        const shouldShowCurrentImage =
+          doctor?.profileImage && !formik.values.profileImage && !removeImage;
 
         const addSkill = () => {
           if (formik.values.skillInput.trim()) {
@@ -628,30 +634,65 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
             </div>
 
             <div>
-              <CustomInput
-                ref={fileInputRef}
-                inputType="file"
-                labelText="تصویر پروفایل"
-                placeholder="تصویر پروفایل را انتخاب کنید"
-                className="bg-white"
-                optional
-                name="profileImage"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0] || null;
-                  formik.setFieldValue("profileImage", file);
-                }}
-                errorMessage={
-                  formik.touched.profileImage && formik.errors.profileImage
-                    ? formik.errors.profileImage
-                    : null
-                }
-              />
-              {currentFileName && (
-                <div className="mr-4 mt-2 text-sm text-paragray">
-                  <span className="font-estedad-lightbold">فایل فعلی: </span>
-                  <span className="font-estedad-light">{currentFileName}</span>
-                </div>
-              )}
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                تصویر پروفایل
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden "
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("profileImage", file);
+                    setRemoveImage(false);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {currentFileName && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {currentFileName}
+                  </span>
+                )}
+                {shouldShowCurrentImage && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${doctor.profileImage}`}
+                      alt="Profile"
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <span className="text-sm text-paragray">تصویر فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("profileImage", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
+                  </div>
+                )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end mt-6">
