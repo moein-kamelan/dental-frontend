@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,7 @@ import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import Select, { components } from "react-select";
 import type { DropdownIndicatorProps } from "react-select";
-import {
-  useCreateUser,
-  useUpdateUser,
-} from "../../../../../services/useUsers";
+import { useCreateUser, useUpdateUser } from "../../../../../services/useUsers";
 import { useGetAllClinics } from "../../../../../services/useClinics";
 import {
   showSuccessToast,
@@ -60,6 +57,7 @@ function UserManagementForm({ user }: { user?: User }) {
   const { mutateAsync: createUser } = useCreateUser();
   const { mutateAsync: updateUser } = useUpdateUser();
   const { data: clinicsData } = useGetAllClinics(1, 100);
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!user?.id;
 
@@ -81,7 +79,7 @@ function UserManagementForm({ user }: { user?: User }) {
             try {
               formatPhoneNumber(value || "");
               return true;
-            } catch (error) {
+            } catch {
               return false;
             }
           }),
@@ -150,12 +148,16 @@ function UserManagementForm({ user }: { user?: User }) {
       if (values.profileImage) {
         formData.append("profileImage", values.profileImage);
       }
+      if (removeImage && isEditMode) {
+        formData.append("removeProfileImage", "true");
+      }
 
       if (isEditMode && user?.id) {
         await updateUser({ id: user.id, data: formData });
         showSuccessToast("کاربر با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["users"] });
         queryClient.invalidateQueries({ queryKey: ["user"] });
+        setRemoveImage(false);
         navigate("/admin/users-management");
       } else {
         await createUser(formData);
@@ -222,7 +224,7 @@ function UserManagementForm({ user }: { user?: User }) {
           ) {
             return formik.values.profileImage.name;
           }
-          if (user?.profileImage) {
+          if (user?.profileImage && !removeImage) {
             const urlParts = user.profileImage.split("/");
             return urlParts[urlParts.length - 1] || "فایل موجود";
           }
@@ -230,6 +232,8 @@ function UserManagementForm({ user }: { user?: User }) {
         };
 
         const currentFileName = getCurrentFileName();
+        const shouldShowCurrentImage =
+          user?.profileImage && !formik.values.profileImage && !removeImage;
 
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -276,7 +280,11 @@ function UserManagementForm({ user }: { user?: User }) {
 
               <CustomInput
                 labelText="رمز عبور"
-                placeholder={isEditMode ? "در صورت تغییر وارد کنید" : "رمز عبور را وارد کنید"}
+                placeholder={
+                  isEditMode
+                    ? "در صورت تغییر وارد کنید"
+                    : "رمز عبور را وارد کنید"
+                }
                 requiredText={!isEditMode}
                 className="bg-white"
                 type="password"
@@ -345,10 +353,7 @@ function UserManagementForm({ user }: { user?: User }) {
                       ) || null
                     }
                     onChange={(selected) => {
-                      formik.setFieldValue(
-                        "clinicId",
-                        selected?.value || null
-                      );
+                      formik.setFieldValue("clinicId", selected?.value || null);
                       formik.setFieldTouched("clinicId", true);
                     }}
                     onBlur={() => formik.setFieldTouched("clinicId", true)}
@@ -456,8 +461,11 @@ function UserManagementForm({ user }: { user?: User }) {
                 />
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="px-4 mr-4 py-2 rounded-lg text-sm font-estedad-medium bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
@@ -466,7 +474,7 @@ function UserManagementForm({ user }: { user?: User }) {
                     {currentFileName}
                   </span>
                 )}
-                {user?.profileImage && !formik.values.profileImage && (
+                {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2">
                     <img
                       src={`http://localhost:4000${user.profileImage}`}
@@ -474,7 +482,25 @@ function UserManagementForm({ user }: { user?: User }) {
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <span className="text-sm text-paragray">تصویر فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("profileImage", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
                   </div>
+                )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
                 )}
               </div>
             </div>
@@ -499,4 +525,3 @@ function UserManagementForm({ user }: { user?: User }) {
 }
 
 export default UserManagementForm;
-

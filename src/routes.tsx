@@ -53,9 +53,12 @@ import ContactUsManagement from "./pages/AdminDashboard/ContactUsManagement/Cont
 import DoctorApplicationsManagement from "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement";
 import Settings from "./pages/AdminDashboard/Settings/Settings";
 import AdminDashboardLogin from "./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin";
+import ReviewsManagement from "./pages/AdminDashboard/ReviewsManagement/ReviewsManagement";
+import ReviewsManagementEdit from "./pages/AdminDashboard/ReviewsManagementEdit/ReviewsManagementEdit";
 import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
 import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
 import ProfileManagement from "./pages/AdminDashboard/ProfileManagement/ProfileManagement";
+
 
 const routes = createBrowserRouter([
   {
@@ -176,6 +179,11 @@ const routes = createBrowserRouter([
       {
         path: "doctor-applications-management",
         element: <DoctorApplicationsManagement />,
+      },
+      { path: "reviews-management", element: <ReviewsManagement /> },
+      {
+        path: "reviews-management/edit/:id",
+        element: <ReviewsManagementEdit/>,
       },
       { path: "users-management", element: <UsersManagement /> },
       {

@@ -326,6 +326,33 @@ export default function TextEditor({
                   if (value) {
                     editor.setData(value);
                   }
+
+                  // Make todo list items checked by default when created
+                  // Listen to model changes and check new todo items
+                  const model = editor.model;
+                  const document = model.document;
+
+                  document.on('change:data', () => {
+                    const changes = document.differ.getChanges({ includeChangesInGraveyard: false });
+                    
+                    changes.forEach((change) => {
+                      if (change.type === 'insert' && change.name === 'listItem') {
+                        const item = change.position.nodeAfter;
+                        if (item && item.is('element', 'listItem')) {
+                          const list = item.parent;
+                          if (list && list.is('element', 'list') && list.getAttribute('listType') === 'todo') {
+                            // Check if item is not already checked
+                            if (!item.getAttribute('todoListChecked')) {
+                              // New todo list item - check it by default
+                              model.enqueueChange((writer) => {
+                                writer.setAttribute('todoListChecked', true, item);
+                              });
+                            }
+                          }
+                        }
+                      }
+                    });
+                  });
                 }}
                 onChange={(_event, editor) => {
                   const data = editor.getData();

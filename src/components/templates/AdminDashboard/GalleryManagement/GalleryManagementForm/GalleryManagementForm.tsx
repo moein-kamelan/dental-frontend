@@ -208,36 +208,46 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
               <label className="block text-dark font-estedad-lightbold mb-2 ">
                 تصویر {!isEditMode && <span className="text-red-500">*</span>}
               </label>
-              {isEditMode && image?.image && (
-                <div className="mb-4 mr-4">
-                  <img
-                    src={`http://localhost:4000${image.image}`}
-                    alt={image.title || "تصویر گالری"}
-                    className="w-32 h-32 rounded-lg object-cover border-2 border-main-border-color"
-                  />
-                  <p className="text-sm text-paragray mt-2">
-                    تصویر فعلی (برای تغییر، تصویر جدید انتخاب کنید)
-                  </p>
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("galleryImage", file);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {formik.values.galleryImage &&
+                  formik.values.galleryImage instanceof File && (
+                    <span className="text-sm text-dark font-estedad-light">
+                      {formik.values.galleryImage.name}
+                    </span>
+                  )}
+                {isEditMode && image?.image && !formik.values.galleryImage && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${image.image}`}
+                      alt={image.title || "تصویر گالری"}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <span className="text-sm text-paragray">تصویر فعلی</span>
+                  </div>
+                )}
+              </div>
+              {formik.touched.galleryImage && formik.errors.galleryImage && (
+                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
+                  {formik.errors.galleryImage}
                 </div>
               )}
-              <CustomInput
-                ref={fileInputRef}
-                inputType="file"
-                labelText=""
-                placeholder="تصویر را انتخاب کنید"
-                className="bg-white "
-                name="galleryImage"
-                accept="image/*"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0] || null;
-                  formik.setFieldValue("galleryImage", file);
-                }}
-                errorMessage={
-                  formik.touched.galleryImage && formik.errors.galleryImage
-                    ? formik.errors.galleryImage
-                    : null
-                }
-              />
             </div>
 
             <div className="flex justify-end mt-6">

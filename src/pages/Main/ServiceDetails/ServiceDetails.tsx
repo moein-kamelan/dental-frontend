@@ -45,8 +45,8 @@ function ServiceDetails() {
                     {service?.data?.service?.title}
                   </h3>
 
-              <div className="text-dark font-estedad-light text-lg leading-relaxed">
-                {service?.data?.service?.description}
+              <div className="text-dark font-estedad-light text-lg leading-relaxed article-content">
+                <div dangerouslySetInnerHTML={{ __html: service?.data?.service?.description }} />
               </div>
                 </div>
               </div>

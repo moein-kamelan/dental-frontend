@@ -50,7 +50,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
         website: Yup.string().url("آدرس وب‌سایت معتبر نیست").nullable(),
         phoneNumber: Yup.string().nullable(),
         email: Yup.string().email("ایمیل معتبر نیست").nullable(),
-        logo: Yup.string().nullable(),
+        logo: Yup.mixed().nullable(),
         order: Yup.number()
           .integer("ترتیب باید عدد صحیح باشد")
           .min(0, "ترتیب نمی‌تواند منفی باشد"),
@@ -66,52 +66,48 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
       website?: string;
       phoneNumber?: string;
       email?: string;
-      logo?: string;
+      logo?: File | null;
       published: boolean;
       order: number;
     },
     resetForm: () => void
   ) => {
     try {
-      const data: {
-        name: string;
-        description?: string;
-        website?: string;
-        phoneNumber?: string;
-        email?: string;
-        logo?: string;
-        published?: boolean;
-        order?: number;
-      } = {
-        name: values.name,
-        published: values.published,
-        order: values.order,
-      };
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("published", values.published.toString());
+      formData.append("order", values.order.toString());
 
       if (values.description) {
-        data.description = values.description;
+        formData.append("description", values.description);
       }
       if (values.website) {
-        data.website = values.website;
+        formData.append("website", values.website);
       }
       if (values.phoneNumber) {
-        data.phoneNumber = values.phoneNumber;
+        formData.append("phoneNumber", values.phoneNumber);
       }
       if (values.email) {
-        data.email = values.email;
+        formData.append("email", values.email);
       }
-      if (values.logo) {
-        data.logo = values.logo;
+      
+      // Only append file if it's a valid File object
+      if (
+        values.logo &&
+        values.logo instanceof File &&
+        values.logo.size > 0
+      ) {
+        formData.append("logo", values.logo);
       }
 
       if (isEditMode && insurance?.id) {
-        await updateInsurance({ id: insurance.id, data });
+        await updateInsurance({ id: insurance.id, data: formData });
         showSuccessToast("سازمان بیمه با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["insurances"] });
         queryClient.invalidateQueries({ queryKey: ["insurance"] });
         navigate("/admin/insurances-management");
       } else {
-        await createInsurance(data);
+        await createInsurance(formData);
         showSuccessToast("سازمان بیمه با موفقیت ایجاد شد");
         resetForm();
         queryClient.invalidateQueries({ queryKey: ["insurances"] });
@@ -149,7 +145,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
         website: insurance?.website || "",
         phoneNumber: insurance?.phoneNumber || "",
         email: insurance?.email || "",
-        logo: insurance?.logo || "",
+        logo: null as File | null,
         order: insurance?.order ?? 0,
         published: insurance?.published ?? true,
       }}
@@ -162,7 +158,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
             website: values.website || undefined,
             phoneNumber: values.phoneNumber || undefined,
             email: values.email || undefined,
-            logo: values.logo || undefined,
+            logo: values.logo,
             published: values.published,
             order: values.order,
           },
@@ -242,19 +238,6 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
               />
 
               <CustomInput
-                labelText="لوگو (مسیر فایل)"
-                placeholder="مسیر فایل لوگو را وارد کنید"
-                className="bg-white"
-                optional
-                {...formik.getFieldProps("logo")}
-                errorMessage={
-                  formik.touched.logo && formik.errors.logo
-                    ? formik.errors.logo
-                    : null
-                }
-              />
-
-              <CustomInput
                 labelText="ترتیب"
                 placeholder="ترتیب نمایش را وارد کنید"
                 className="bg-white"
@@ -281,6 +264,46 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
                     منتشر شده
                   </span>
                 </label>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                لوگو
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("logo", file);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {formik.values.logo && formik.values.logo instanceof File && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {formik.values.logo.name}
+                  </span>
+                )}
+                {isEditMode && insurance?.logo && !formik.values.logo && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${insurance.logo}`}
+                      alt={insurance.name || "لوگو سازمان بیمه"}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <span className="text-sm text-paragray">لوگوی فعلی</span>
+                  </div>
+                )}
               </div>
             </div>
 

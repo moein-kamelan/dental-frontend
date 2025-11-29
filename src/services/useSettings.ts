@@ -19,8 +19,10 @@ export interface Settings {
   workingHours?: string;
   aboutUsImage?: string | null;
   aboutUsVideo?: string | null;
+  aboutUsContent?: string;
   contactUsImage?: string | null;
   contactUsVideo?: string | null;
+  becomeDoctorContent?: string;
 }
 
 export interface SettingsResponse {
@@ -43,8 +45,12 @@ export const useGetSettings = () => {
 
 export const useUpdateSettings = () => {
   return useMutation({
-    mutationFn: async (data: Partial<Settings>) => {
-      const response = await axiosInstance.patch("/settings", data);
+    mutationFn: async (data: FormData | Partial<Settings>) => {
+      const response = await axiosInstance.patch("/settings", data, {
+        headers: data instanceof FormData ? {
+          'Content-Type': 'multipart/form-data',
+        } : undefined,
+      });
       return response.data;
     },
   });

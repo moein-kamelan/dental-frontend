@@ -183,24 +183,6 @@ function ArticleManagementForm({ article }: { article?: Article }) {
       }}
     >
       {(formik) => {
-        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
-        const getCurrentFileName = () => {
-          if (
-            formik.values.coverImage &&
-            formik.values.coverImage instanceof File
-          ) {
-            return formik.values.coverImage.name;
-          }
-          if (article?.coverImage) {
-            // استخراج نام فایل از URL
-            const urlParts = article.coverImage.split("/");
-            return urlParts[urlParts.length - 1] || "فایل موجود";
-          }
-          return null;
-        };
-
-        const currentFileName = getCurrentFileName();
-
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -331,28 +313,46 @@ function ArticleManagementForm({ article }: { article?: Article }) {
             </div>
 
             <div>
-              <CustomInput
-                ref={fileInputRef}
-                inputType="file"
-                labelText="تصویر کاور"
-                placeholder="تصویر کاور را انتخاب کنید"
-                className="bg-white"
-                optional
-                name="coverImage"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const file = e.target.files?.[0] || null;
-                  formik.setFieldValue("coverImage", file);
-                }}
-                errorMessage={
-                  formik.touched.coverImage && formik.errors.coverImage
-                    ? formik.errors.coverImage
-                    : null
-                }
-              />
-              {currentFileName && (
-                <div className="mr-4 mt-2 text-sm text-paragray">
-                  <span className="font-estedad-lightbold">فایل فعلی: </span>
-                  <span className="font-estedad-light">{currentFileName}</span>
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                تصویر کاور
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("coverImage", file);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {formik.values.coverImage && formik.values.coverImage instanceof File && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {formik.values.coverImage.name}
+                  </span>
+                )}
+                {article?.coverImage && !formik.values.coverImage && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`http://localhost:4000${article.coverImage}`}
+                      alt={article.title || "تصویر کاور"}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <span className="text-sm text-paragray">تصویر فعلی</span>
+                  </div>
+                )}
+              </div>
+              {formik.touched.coverImage && formik.errors.coverImage && (
+                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
+                  {formik.errors.coverImage}
                 </div>
               )}
             </div>

@@ -8,6 +8,7 @@ export function AdminDashboardHeaderProvider({
 }) {
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [backButton, setBackButton] = useState<boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   const setHeaderConfig = (config: {
     title?: string;
@@ -17,9 +18,19 @@ export function AdminDashboardHeaderProvider({
     setBackButton(config.backButton ?? false);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   return (
     <AdminDashboardHeaderContext.Provider
-      value={{ title, backButton, setHeaderConfig }}
+      value={{
+        title,
+        backButton,
+        setHeaderConfig,
+        isSidebarOpen,
+        toggleSidebar,
+      }}
     >
       {children}
     </AdminDashboardHeaderContext.Provider>

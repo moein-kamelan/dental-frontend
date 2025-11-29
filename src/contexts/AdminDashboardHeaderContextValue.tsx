@@ -4,6 +4,8 @@ interface AdminDashboardHeaderContextType {
   title: string | undefined;
   backButton: boolean;
   setHeaderConfig: (config: { title?: string; backButton?: boolean }) => void;
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
 }
 
 export const AdminDashboardHeaderContext = createContext<

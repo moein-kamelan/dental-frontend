@@ -84,8 +84,8 @@ function ServiceManagementForm({ service }: { service?: Service }) {
     values: {
       title: string;
       description: string;
-      price: number | null;
-      durationMinutes: number | null;
+      price: number;
+      durationMinutes: number;
       categoryIds: string[];
       coverImage: File | null;
     },
@@ -162,8 +162,8 @@ function ServiceManagementForm({ service }: { service?: Service }) {
       initialValues={{
         title: service?.title || "",
         description: service?.description || "",
-        price: service?.price || null,
-        durationMinutes: service?.durationMinutes || null,
+        price: service?.price || 0,
+        durationMinutes: service?.durationMinutes || 1 ,
         categoryIds:
           service?.categories?.map((category) => category.id) ||
           ([] as string[]),

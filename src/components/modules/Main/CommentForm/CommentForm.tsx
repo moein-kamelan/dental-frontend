@@ -33,18 +33,29 @@ function CommentForm({
     resetForm: () => void
   ) => {
     try {
+      const id = doctorId || articleId || serviceId || "";
+      const type = doctorId ? "doctor" : articleId ? "article" : "service";
+
       await createComment({
         comment: {
           content: values.content,
           rating: values.rating,
         },
-        type: doctorId ? "doctor" : articleId ? "article" : "service",
-        id: doctorId || articleId || serviceId || "",
+        type,
+        id,
       });
       showSuccessToast("نظر شما با موفقیت ثبت شد");
+
+      // Invalidate infinite query
       queryClient.invalidateQueries({
-        queryKey: ["comments", doctorId || articleId || serviceId || ""],
+        queryKey: ["comments-infinite", id, type],
       });
+
+      // Also invalidate old query key for backward compatibility
+      queryClient.invalidateQueries({
+        queryKey: ["comments", id, type],
+      });
+
       resetForm();
     } catch (error) {
       console.error("Error submitting comment:", error);

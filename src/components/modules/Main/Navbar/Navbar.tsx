@@ -58,11 +58,15 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full ">
-          <NavLink to={"/home"} className="w-40 h-15  flex items-center justify-center">
+          <NavLink to={"/home"} className="w-48 h-20  flex items-center justify-center">
             <img
-              src={settings?.data.settings.logo }
+              src={
+                settings?.data?.settings?.logo
+                  ? `http://localhost:4000${settings.data.settings.logo}`
+                  : "/images/Logo_1.png"
+              }
               alt="logo"
-              className="h-full w-full   "
+              className="h-full w-full object-contain"
             />
           </NavLink>
 
@@ -151,7 +155,7 @@ function Navbar() {
                 <i className="fa fa-search"></i>
               </NavLink>
               <NavLink to={""} className="main-btn lg:text-xs xl:text-sm text-nowrap">
-                نوبت دکتر
+                دریافت نوبت
               </NavLink>
 
               {/* User Menu */} 
@@ -161,9 +165,8 @@ function Navbar() {
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 border border-accent/20 hover:border-accent/40"
                   >
-                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-accent to-primary flex items-center justify-center text-white font-bold text-sm">
-                      {user.firstName?.[0] || "U"}
-                    </div>
+                    <img src={user.profileImage ? `http://localhost:4000${user.profileImage}` : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "} alt="profile" className="w-8 h-8 rounded-full object-cover" />
+                    
                     <div className="text-right">
                       <p className="text-sm font-iran-sans-bold text-dark">
                         {user.firstName} {user.lastName}
