@@ -115,7 +115,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
         queryClient.invalidateQueries({
           queryKey: ["insurance", insurance.id],
         });
-        navigate("/admin/insurances-management");
+        navigate("/admin/insurance-management");
       } else {
         await createInsurance(formData);
         showSuccessToast("سازمان بیمه با موفقیت ایجاد شد");

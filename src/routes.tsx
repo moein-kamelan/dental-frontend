@@ -49,6 +49,7 @@ import FaqsManagementEdit from "./pages/AdminDashboard/FaqsManagementEdit/FaqsMa
 import GalleryManagement from "./pages/AdminDashboard/GalleryManagement/GalleryManagement";
 import GalleryManagementEdit from "./pages/AdminDashboard/GalleryManagementEdit/GalleryManagementEdit";
 import InsurancesManagement from "./pages/AdminDashboard/InsurancesManagement/InsurancesManagement";
+import InsurancesManagementEdit from "./pages/AdminDashboard/InsurancesManagementEdit/InsurancesManagementEdit";
 import ContactUsManagement from "./pages/AdminDashboard/ContactUsManagement/ContactUsManagement";
 import DoctorApplicationsManagement from "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement";
 import Settings from "./pages/AdminDashboard/Settings/Settings";
@@ -58,7 +59,6 @@ import ReviewsManagementEdit from "./pages/AdminDashboard/ReviewsManagementEdit/
 import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
 import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
 import ProfileManagement from "./pages/AdminDashboard/ProfileManagement/ProfileManagement";
-
 
 const routes = createBrowserRouter([
   {
@@ -175,10 +175,10 @@ const routes = createBrowserRouter([
         element: <GalleryManagementEdit />,
       },
       { path: "insurance-management", element: <InsurancesManagement /> },
-      // {
-      //   path: "insurance-management/edit/:id",
-      //   element: <InsurancesManagementEdit />,
-      // },
+      {
+        path: "insurances-management/edit/:id",
+        element: <InsurancesManagementEdit />,
+      },
 
       { path: "contact-us-management", element: <ContactUsManagement /> },
       {
@@ -188,7 +188,7 @@ const routes = createBrowserRouter([
       { path: "reviews-management", element: <ReviewsManagement /> },
       {
         path: "reviews-management/edit/:id",
-        element: <ReviewsManagementEdit/>,
+        element: <ReviewsManagementEdit />,
       },
       { path: "users-management", element: <UsersManagement /> },
       {
