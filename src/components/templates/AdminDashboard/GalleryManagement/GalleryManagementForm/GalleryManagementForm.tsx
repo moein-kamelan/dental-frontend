@@ -205,7 +205,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
             </div>
 
             <div>
-              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+              <label className="block text-dark font-estedad-lightbold mb-2 ">
                 تصویر {!isEditMode && <span className="text-red-500">*</span>}
               </label>
               {isEditMode && image?.image && (
@@ -225,7 +225,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                 inputType="file"
                 labelText=""
                 placeholder="تصویر را انتخاب کنید"
-                className="bg-white mr-4"
+                className="bg-white "
                 name="galleryImage"
                 accept="image/*"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
