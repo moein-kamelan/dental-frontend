@@ -193,22 +193,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
       }}
     >
       {(formik) => {
-        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
-        const getCurrentFileName = () => {
-          if (
-            formik.values.coverImage &&
-            formik.values.coverImage instanceof File
-          ) {
-            return formik.values.coverImage.name;
-          }
-          if (service?.coverImage && !removeImage) {
-            const urlParts = service.coverImage.split("/");
-            return urlParts[urlParts.length - 1] || "فایل موجود";
-          }
-          return null;
-        };
-
-        const currentFileName = getCurrentFileName();
         const shouldShowCurrentImage =
           service?.coverImage && !formik.values.coverImage && !removeImage;
 
@@ -333,7 +317,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 تصویر کاور
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -351,17 +335,17 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                     fileInputRef.current?.click();
                     setRemoveImage(false);
                   }}
-                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
+                  className="px-8 py-3  rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
-                {currentFileName && (
+                {formik.values.coverImage instanceof File && (
                   <span className="text-sm text-dark font-estedad-light">
-                    {currentFileName}
+                    {formik.values.coverImage.name}
                   </span>
                 )}
                 {shouldShowCurrentImage && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
                       src={`http://localhost:4000${service.coverImage}`}
                       alt="Cover"

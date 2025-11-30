@@ -150,21 +150,6 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
       }}
     >
       {(formik) => {
-        const getCurrentFileName = () => {
-          if (
-            formik.values.galleryImage &&
-            formik.values.galleryImage instanceof File
-          ) {
-            return formik.values.galleryImage.name;
-          }
-          if (image?.image) {
-            const urlParts = image.image.split("/");
-            return urlParts[urlParts.length - 1] || "فایل موجود";
-          }
-          return null;
-        };
-
-        const currentFileName = getCurrentFileName();
         const shouldShowCurrentImage =
           image?.image && !formik.values.galleryImage;
 
@@ -232,7 +217,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
               <label className="block text-dark font-estedad-lightbold mb-2 ">
                 تصویر {!isEditMode && <span className="text-red-500">*</span>}
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -248,17 +233,17 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                   onClick={() => {
                     fileInputRef.current?.click();
                   }}
-                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
+                  className="px-8 py-3  rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
-                {currentFileName && (
+                {formik.values.galleryImage instanceof File && (
                   <span className="text-sm text-dark font-estedad-light">
-                    {currentFileName}
+                    {formik.values.galleryImage.name}
                   </span>
                 )}
                 {shouldShowCurrentImage && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
                       src={`http://localhost:4000${image.image}`}
                       alt={image.title || "تصویر گالری"}

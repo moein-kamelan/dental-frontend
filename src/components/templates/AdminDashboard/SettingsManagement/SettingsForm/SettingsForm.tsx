@@ -426,7 +426,7 @@ function SettingsForm() {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 لوگو
               </label>
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4 flex-wrap mb-4">
                 <input
                   ref={logoInputRef}
                   type="file"
@@ -444,7 +444,7 @@ function SettingsForm() {
                     logoInputRef.current?.click();
                     setRemoveLogo(false);
                   }}
-                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                  className="px-8 py-3  rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                 >
                   انتخاب فایل
                 </button>
@@ -454,7 +454,7 @@ function SettingsForm() {
                   </span>
                 )}
                 {settings?.logo && !formik.values.logo && !removeLogo && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
                       src={`http://localhost:4000${settings.logo}`}
                       alt="لوگوی سایت"
@@ -621,7 +621,7 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   تصویر صفحه درباره ما
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                   <input
                     ref={aboutUsImageInputRef}
                     type="file"
@@ -639,7 +639,7 @@ function SettingsForm() {
                       aboutUsImageInputRef.current?.click();
                       setRemoveAboutUsImage(false);
                     }}
-                    className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                    className="px-8 py-3  rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                   >
                     انتخاب فایل
                   </button>
@@ -652,7 +652,7 @@ function SettingsForm() {
                   {settings?.aboutUsImage &&
                     !formik.values.aboutUsImage &&
                     !removeAboutUsImage && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <img
                           src={`http://localhost:4000${settings.aboutUsImage}`}
                           alt="تصویر درباره ما"
@@ -688,7 +688,7 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   ویدیو صفحه درباره ما
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                   <input
                     ref={aboutUsVideoInputRef}
                     type="file"
@@ -702,7 +702,7 @@ function SettingsForm() {
                   <button
                     type="button"
                     onClick={() => aboutUsVideoInputRef.current?.click()}
-                    className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                    className="px-8 py-3  rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                   >
                     انتخاب فایل
                   </button>
@@ -713,7 +713,7 @@ function SettingsForm() {
                       </span>
                     )}
                   {settings?.aboutUsVideo && !formik.values.aboutUsVideo && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap justify-center ">
                       <video
                         src={`http://localhost:4000${settings.aboutUsVideo}`}
                         controls
@@ -729,7 +729,7 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   تصویر صفحه تماس با ما
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                   <input
                     ref={contactUsImageInputRef}
                     type="file"
@@ -747,7 +747,7 @@ function SettingsForm() {
                       contactUsImageInputRef.current?.click();
                       setRemoveContactUsImage(false);
                     }}
-                    className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                    className="px-8 py-3  rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                   >
                     انتخاب فایل
                   </button>
@@ -760,7 +760,7 @@ function SettingsForm() {
                   {settings?.contactUsImage &&
                     !formik.values.contactUsImage &&
                     !removeContactUsImage && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <img
                           src={`http://localhost:4000${settings.contactUsImage}`}
                           alt="تصویر تماس با ما"
@@ -796,7 +796,7 @@ function SettingsForm() {
                 <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                   ویدیو صفحه تماس با ما
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                   <input
                     ref={contactUsVideoInputRef}
                     type="file"
@@ -810,7 +810,7 @@ function SettingsForm() {
                   <button
                     type="button"
                     onClick={() => contactUsVideoInputRef.current?.click()}
-                    className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                    className="px-8 py-3  rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                   >
                     انتخاب فایل
                   </button>
@@ -822,7 +822,7 @@ function SettingsForm() {
                     )}
                   {settings?.contactUsVideo &&
                     !formik.values.contactUsVideo && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <video
                           src={`http://localhost:4000${settings.contactUsVideo}`}
                           controls

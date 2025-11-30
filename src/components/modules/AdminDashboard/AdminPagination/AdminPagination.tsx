@@ -73,7 +73,7 @@ function AdminPagination({ meta, onPageChange }: AdminPaginationProps) {
       </div>
 
       {/* کنترل‌های صفحه‌بندی */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center flex-wrap justify-center gap-x-2 gap-y-4">
         {/* دکمه صفحه قبل */}
         <button
           onClick={() => handlePageChange(page - 1)}

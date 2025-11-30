@@ -276,7 +276,7 @@ function ProfileManagementForm() {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 تصویر پروفایل
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -294,7 +294,7 @@ function ProfileManagementForm() {
                     fileInputRef.current?.click();
                     setRemoveImage(false);
                   }}
-                  className="px-8 py-3 mr-4 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                  className="px-8 py-3  rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                 >
                   انتخاب فایل
                 </button>
@@ -307,7 +307,7 @@ function ProfileManagementForm() {
                 {user?.profileImage &&
                   !formik.values.profileImage &&
                   !removeImage && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap justify-center ">
                       <img
                         src={`http://localhost:4000${user.profileImage}`}
                         alt="Profile"

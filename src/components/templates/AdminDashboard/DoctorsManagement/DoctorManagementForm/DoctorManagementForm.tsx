@@ -280,22 +280,6 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       }}
     >
       {(formik) => {
-        // استخراج نام فایل از URL موجود یا از فایل انتخاب شده
-        const getCurrentFileName = () => {
-          if (
-            formik.values.profileImage &&
-            formik.values.profileImage instanceof File
-          ) {
-            return formik.values.profileImage.name;
-          }
-          if (doctor?.profileImage && !removeImage) {
-            const urlParts = doctor.profileImage.split("/");
-            return urlParts[urlParts.length - 1] || "فایل موجود";
-          }
-          return null;
-        };
-
-        const currentFileName = getCurrentFileName();
         const shouldShowCurrentImage =
           doctor?.profileImage && !formik.values.profileImage && !removeImage;
 
@@ -392,7 +376,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 تخصص‌ ها
               </label>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center gap-3 mb-2 flex-wrap">
                 <CustomInput
                   className="flex-1 bg-white"
                   labelText=""
@@ -565,7 +549,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                               key={index}
                               className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-main-border-color"
                             >
-                              <div className="flex-1 flex items-center gap-2">
+                              <div className="flex-1 flex flex-wrap items-center gap-2">
                                 <div className="flex-1">
                                   <label className="block text-xs text-paragray mb-1">
                                     از
@@ -637,7 +621,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 تصویر پروفایل
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -655,17 +639,17 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                     fileInputRef.current?.click();
                     setRemoveImage(false);
                   }}
-                  className="px-8 py-3 mr-4 rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
+                  className="px-8 py-3  rounded-lg  font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60  transition-colors"
                 >
                   انتخاب فایل
                 </button>
-                {currentFileName && (
+                {formik.values.profileImage instanceof File && (
                   <span className="text-sm text-dark font-estedad-light">
-                    {currentFileName}
+                    {formik.values.profileImage.name}
                   </span>
                 )}
                 {shouldShowCurrentImage && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
                       src={`http://localhost:4000${doctor.profileImage}`}
                       alt="Profile"

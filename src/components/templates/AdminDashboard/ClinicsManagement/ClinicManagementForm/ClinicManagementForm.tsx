@@ -89,8 +89,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         await updateClinic({ id: clinic.id, data });
         showSuccessToast("کلینیک با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["clinics"] });
-        queryClient.invalidateQueries({ queryKey: ["clinic"] });
-        navigate("/admin/clinics-management");
+        queryClient.invalidateQueries({ queryKey: ["clinic"] });        navigate("/admin/clinics-management");
       } else {
         await createClinic(data);
         showSuccessToast("کلینیک با موفقیت ایجاد شد");
