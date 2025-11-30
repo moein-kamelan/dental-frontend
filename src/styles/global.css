@@ -435,7 +435,6 @@ button {
 }
 
 .swiper {
-  @apply pb-4;
 }
 
 .custom-bullet {

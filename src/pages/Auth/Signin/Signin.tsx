@@ -91,7 +91,11 @@ function Signin() {
       // Only accept numeric characters
       if (/^\d+$/.test(pastedData)) {
         formik.setFieldValue("code", pastedData);
-        formik.setFieldTouched("code", true);
+        // If code is complete (5 digits), set touched after a small delay
+        // to allow validation to run first and prevent error from showing
+        setTimeout(() => {
+          formik.setFieldTouched("code", true, false);
+        }, 10);
 
         // Focus on the last input after pasting
         if (inputsRef.current[length - 1]) {
@@ -167,6 +171,7 @@ function Signin() {
           lastName: values.lastName,
           code: values.code,
           phoneNumber: phoneNumber.current || "",
+          gender: values.gender,
         });
       } else {
         console.log(values);
@@ -306,10 +311,18 @@ function Signin() {
                     code: "",
                     firstName: "",
                     lastName: "",
+                    gender: "" as "MALE" | "FEMALE" | "",
                   }}
                   validationSchema={yup.object({
                     firstName: yup.string().required("نام الزامی است"),
                     lastName: yup.string().required("نام خانوادگی الزامی است"),
+                    gender: yup
+                      .string()
+                      .oneOf(
+                        ["MALE", "FEMALE"],
+                        "لطفا جنسیت خود را انتخاب کنید"
+                      )
+                      .required("انتخاب جنسیت الزامی است"),
                     code: yup
                       .string()
                       .length(5, "کد باید ۵ رقم باشد")
@@ -357,6 +370,66 @@ function Signin() {
                             maxLength={30}
                           />
                         </div>
+                        <div className="mb-6">
+                          <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                            جنسیت <span className="text-red-500">*</span>
+                          </label>
+                          <div className="flex gap-4 mr-4">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                formik.setFieldValue("gender", "MALE");
+                              }}
+                              className={`flex-1 py-3 px-6 rounded-full border-2 transition-all duration-300 font-estedad-lightbold text-center ${
+                                formik.values.gender === "MALE"
+                                  ? "bg-accent text-white border-accent shadow-md"
+                                  : "bg-white text-dark border-main-border-color hover:border-accent hover:text-accent"
+                              }`}
+                            >
+                              <div className="flex items-center justify-center gap-2">
+                                <i
+                                  className={`fas ${
+                                    formik.values.gender === "MALE"
+                                      ? "fa-check-circle"
+                                      : "fa-circle"
+                                  }`}
+                                ></i>
+                                <span>مرد</span>
+                              </div>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                formik.setFieldValue("gender", "FEMALE");
+                              }}
+                              className={`flex-1 py-3 px-6 rounded-full border-2 transition-all duration-300 font-estedad-lightbold text-center ${
+                                formik.values.gender === "FEMALE"
+                                  ? "bg-accent text-white border-accent shadow-md"
+                                  : "bg-white text-dark border-main-border-color hover:border-accent hover:text-accent"
+                              }`}
+                            >
+                              <div className="flex items-center justify-center gap-2">
+                                <i
+                                  className={`fas ${
+                                    formik.values.gender === "FEMALE"
+                                      ? "fa-check-circle"
+                                      : "fa-circle"
+                                  }`}
+                                ></i>
+                                <span>زن</span>
+                              </div>
+                            </button>
+                          </div>
+                          <div className="h-5 mt-1">
+                            {formik.touched.gender &&
+                              formik.errors.gender &&
+                              !formik.values.gender && (
+                                <p className="text-red-500 text-xs text-right pr-6 text-[10px]">
+                                  {formik.errors.gender}
+                                </p>
+                              )}
+                          </div>
+                        </div>
                         <p className="text-center mb-2 font-iran-sans-bold">
                           کد تایید برای {phoneNumber.current} ارسال شد
                         </p>
@@ -377,11 +450,15 @@ function Signin() {
                             />
                           ))}
                         </div>
-                        {formik.touched.code && formik.errors.code && (
-                          <p className="text-red-500   text-xs text-right pr-6 text-[10px]">
-                            {formik.errors.code}
-                          </p>
-                        )}
+                        <div className="h-5 mt-1">
+                          {formik.touched.code &&
+                            formik.errors.code &&
+                            formik.values.code.length < 5 && (
+                              <p className="text-red-500 text-xs text-right pr-6 text-[10px]">
+                                {formik.errors.code}
+                              </p>
+                            )}
+                        </div>
 
                         <button
                           type="button"
@@ -465,11 +542,15 @@ function Signin() {
                             />
                           ))}
                         </div>
-                        {formik.touched.code && formik.errors.code && (
-                          <p className="text-red-500   text-xs text-right pr-6 text-[10px]">
-                            {formik.errors.code}
-                          </p>
-                        )}
+                        <div className="h-5 mt-1">
+                          {formik.touched.code &&
+                            formik.errors.code &&
+                            formik.values.code.length < 5 && (
+                              <p className="text-red-500 text-xs text-right pr-6 text-[10px]">
+                                {formik.errors.code}
+                              </p>
+                            )}
+                        </div>
 
                         <button
                           type="button"

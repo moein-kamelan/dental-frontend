@@ -157,12 +157,14 @@ function Navbar() {
               >
                 <i className="fa fa-search"></i>
               </NavLink>
-              <NavLink
-                to={""}
+              <button
+                onClick={() => {
+                  showSuccessToast("دریافت نوبت به زودی فعال خواهد شد");
+                }}
                 className="main-btn lg:text-xs xl:text-sm text-nowrap"
               >
                 دریافت نوبت
-              </NavLink>
+              </button>
 
               {/* User Menu */}
               {user ? (

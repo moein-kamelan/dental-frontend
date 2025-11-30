@@ -38,11 +38,13 @@ export const usePostOtpVerify = () => {
       lastName,
       code,
       phoneNumber,
+      gender,
     }: {
       firstName?: string;
       lastName?: string;
       code: string;
       phoneNumber?: string;
+      gender?: "MALE" | "FEMALE";
     }) => {
       if (firstName && lastName && phoneNumber && code) {
         const response = await axiosInstance.post("/auth/verify-otp", {
@@ -50,6 +52,7 @@ export const usePostOtpVerify = () => {
           lastName,
           code,
           phoneNumber,
+          gender,
         });
         return response.data;
       }

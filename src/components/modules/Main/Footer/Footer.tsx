@@ -51,10 +51,10 @@ function Footer() {
             </p>
 
             <div className="mb-4 flex items-center gap-5 ">
-              <span className="text-dark font-estedad-light">
-                اشتراک گذاری :{" "}
+              <span className="text-dark font-estedad-light text-nowrap">
+                 ما را دنبال کنید :{" "}
               </span>
-              <div className="flex flex-wrap gap-4 text-xl">
+              <div className="flex flex-wrap gap-3 text-xl">
                 {settings?.data?.settings?.facebook && (
                   <Link
                     to={settings.data.settings.facebook}
@@ -193,7 +193,7 @@ function Footer() {
 
           <div className="max-sm:col-span-4 max-lg:col-span-2">
             <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">
-              اطلاعات شرکت
+              با ما در تماس باشید
             </h5>
             <div className="space-y-3 text-gray-400">
               {settings?.data?.settings?.address && (
@@ -226,25 +226,9 @@ function Footer() {
 
         <div className="border-t border-[#ddd] py-5 flex flex-col md:flex-row justify-between items-center gap-4 text-paragray">
           <p className="font-estedad-light">
-            همه حقوق متعلق به محسن دادار می‌باشد - زمستان ۱۴۰۲
+          تمامی حقوق متعلق به کلینیک دندان پزشکی طاهابی می‌باشد
           </p>
-          <ul className="flex gap-6 ">
-            <li>
-              <Link to={""} className="text-paragray hover:text-accent">
-                شرایط و ضوابط
-              </Link>
-            </li>
-            <li>
-              <Link to={""} className="text-paragray hover:text-accent">
-                کوکی
-              </Link>
-            </li>
-            <li>
-              <Link to={""} className="text-paragray hover:text-accent">
-                سیاست حفظ حریم خصوصی
-              </Link>
-            </li>
-          </ul>
+          <p className="font-estedad-light">ساخته شده توسط</p>
         </div>
       </div>
     </footer>

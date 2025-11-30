@@ -16,7 +16,7 @@ function Home() {
       <AboutUs />
       <Services />
       <FAQSection />
-      <Process />
+      {/* <Process /> */}
       <Appointment />
       <Team />
       <Review />

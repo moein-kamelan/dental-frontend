@@ -1,113 +1,167 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Banner.css";
-import {useMotionValueEvent, useMotionValue, animate, motion} from 'motion/react';
+import {
+  useMotionValueEvent,
+  useMotionValue,
+  animate,
+  motion,
+} from "motion/react";
 import { useGetSettings } from "../../../../../services/useSettings";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import { showSuccessToast } from "../../../../../utils/toastify";
 function Banner() {
-   const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] = useState(0);
-   const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] = useState(0);
-   const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] = useState(0);
-   const { data: settings } = useGetSettings();
+  const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] =
+    useState(0);
+  const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] =
+    useState(0);
+  const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] =
+    useState(0);
+  const { data: settings } = useGetSettings();
 
-   const patientsRecoverdCount = useMotionValue(0)
-   const susseccfulVisitsCount = useMotionValue(0)
-   const popularDoctorsCount = useMotionValue(0)
+  const patientsRecoverdCount = useMotionValue(0);
+  const susseccfulVisitsCount = useMotionValue(0);
+  const popularDoctorsCount = useMotionValue(0);
 
-      useMotionValueEvent(patientsRecoverdCount, "change", (latest) => {
+  useMotionValueEvent(patientsRecoverdCount, "change", (latest) => {
     setDisplayPatientsRecoverdCount(Math.round(latest));
   });
-      useMotionValueEvent(susseccfulVisitsCount, "change", (latest) => {
+  useMotionValueEvent(susseccfulVisitsCount, "change", (latest) => {
     setDisplaySusseccfullVisitsCount(Math.round(latest));
   });
-      useMotionValueEvent(popularDoctorsCount, "change", (latest) => {
+  useMotionValueEvent(popularDoctorsCount, "change", (latest) => {
     setDisplayPopularDoctorsCount(Math.round(latest));
   });
 
-    useEffect(() => {
-        const controls1 = animate(patientsRecoverdCount, 100, { duration: 2 })
-        const controls2 = animate(susseccfulVisitsCount, 280, { duration: 2 })
-        const controls3 = animate(popularDoctorsCount, 120, { duration: 2 })
-        return () => {
-          controls1.stop()
-          controls2.stop()
-          controls3.stop()
-        }
-    }, [])
-  
+  useEffect(() => {
+    const controls1 = animate(patientsRecoverdCount, 100, { duration: 2 });
+    const controls2 = animate(susseccfulVisitsCount, 280, { duration: 2 });
+    const controls3 = animate(popularDoctorsCount, 120, { duration: 2 });
+    return () => {
+      controls1.stop();
+      controls2.stop();
+      controls3.stop();
+    };
+  }, []);
+
   return (
-     <motion.section
-          className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 lg:min-h-[800px] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden"
-          >
+    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[800px] md:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
           <motion.div
-          className="space-y-6"
+            className="space-y-6"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
+            <div className="custom-sub-title">
+              <span>به مدیفکس خوش آمدید</span>
+            </div>
+            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
+              {settings?.data.settings.siteTitle}
+            </h1>
+            <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
+              {settings?.data.settings.description}
+            </p>
+            <button onClick={() => {
+              showSuccessToast("دریافت نوبت به زودی فعال خواهد شد");
+            }} className="inline-block main-btn">
+              درخواست نوبت مشاوره
+            </button>
 
-                    <div className="custom-sub-title">
-
-                        <span>به مدیفکس خوش آمدید</span>
-                    </div>
-                    <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
-                        {settings?.data.settings.siteTitle}
-                    </h1>
-                    <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
-                        {settings?.data.settings.description}
-                    </p>
-                    <a href="doctor.html" className="inline-block main-btn">
-                        درخواست نوبت مشاوره
-                    </a>
-                    
-                    <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
-                        <div>
-                          <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
-
-                            {displayPatientsRecoverdCount}<span className="text-2xl">+</span>
-                          </motion.h3>
-                            <p className="text-paragray md:text-lg font-estedad-light ">بیماران بهبود یافته</p>
-                        </div>
-                        <div>
-                           
-                                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
-
-                            {displaySusseccfullVisitsCount}<span className="text-2xl">%</span>
-                          </motion.h3>
-                            <p className="text-paragray md:text-lg font-estedad-light ">بازدید موفق</p>
-                        </div>
-                        <div>
-                             <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
-                           {displayPopularDoctorsCount}<span className="text-2xl">+</span>
-                          </motion.h3>
-                            <p className="text-paragray md:text-lg font-estedad-light ">دکترهای محبوب</p>
-                        </div>
-                </div>
-            
+            <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
+              <div>
+                <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+                  {displayPatientsRecoverdCount}
+                  <span className="text-2xl">+</span>
+                </motion.h3>
+                <p className="text-paragray md:text-lg font-estedad-light ">
+                  بیماران بهبود یافته
+                </p>
+              </div>
+              <div>
+                <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+                  {displaySusseccfullVisitsCount}
+                  <span className="text-2xl">%</span>
+                </motion.h3>
+                <p className="text-paragray md:text-lg font-estedad-light ">
+                  بازدید موفق
+                </p>
+              </div>
+              <div>
+                <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+                  {displayPopularDoctorsCount}
+                  <span className="text-2xl">+</span>
+                </motion.h3>
+                <p className="text-paragray md:text-lg font-estedad-light ">
+                  دکترهای محبوب
+                </p>
+              </div>
+            </div>
           </motion.div>
 
-                          <motion.div className="relative h-full" initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 1, ease: "easeOut" }} >
-        
-            <img
-              src="images/banner_img.png"
-              alt="banner"
-              className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
-            />
-            <div className=" z-10 h-full overflow-hidden">
+          <motion.div
+            className="relative h-full min-h-[500px] md:min-h-[600px]"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={0}
+              className="h-[500px] md:h-full w-full absolute top-0 left-0 right-0"
+              slidesPerView={1}
+              loop={true}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+            >
+              <SwiperSlide>
+                {" "}
+                <img
+                  src="images/banner_img.png"
+                  alt="banner"
+                  className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                {" "}
+                <img
+                  src="images/banner_img.png"
+                  alt="banner"
+                  className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                {" "}
+                <img
+                  src="images/banner_img.png"
+                  alt="banner"
+                  className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                {" "}
+                <img
+                  src="images/banner_img.png"
+                  alt="banner"
+                  className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
+                />
+              </SwiperSlide>
+            </Swiper>
+
+            <div className="  h-full  w-[70%]  lg:w-[85%] mx-auto absolute top-10 left-0 right-0">
               <img
                 src="images/banner-new-bg.png"
                 alt="banner-bg "
                 className="translate-y-10 circular-animation "
               />
             </div>
-      </motion.div>
-
+          </motion.div>
         </div>
       </div>
-
-          </motion.section>
+    </motion.section>
   );
 }
 
