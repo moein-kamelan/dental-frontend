@@ -154,3 +154,24 @@ export const useAdminLogin = () => {
     },
   });
 };
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post("/auth/logout");
+      return response.data;
+    },
+    onError: (error) => {
+      const err = error as AxiosError<{ message?: string }>;
+      console.log(err);
+      const data = err.response?.data;
+      if (typeof data === "string") {
+        showErrorToast(data);
+        return;
+      }
+    },
+    onSuccess: (res) => {
+      console.log(res);
+    },
+  });
+};

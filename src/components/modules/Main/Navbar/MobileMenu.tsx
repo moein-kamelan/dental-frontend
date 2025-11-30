@@ -3,10 +3,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
 import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
-import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
 import { useGetSettings } from "../../../../services/useSettings";
+import { useLogout } from "../../../../services/useAuth";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -20,7 +20,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [isPagesOpen, setIsPagesOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { data: settings } = useGetSettings();
-
+  const { mutateAsync: logout } = useLogout();
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -35,11 +35,11 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post("/auth/logout");
+      await logout();
       dispatch(clearUser());
       dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
-      navigate("/home");
+      navigate("/home" , { replace: true });
       setIsUserMenuOpen(false);
       onClose();
     } catch (error) {

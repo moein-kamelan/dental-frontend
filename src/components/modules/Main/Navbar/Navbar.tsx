@@ -3,11 +3,11 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
 import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
-import { axiosInstance } from "../../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
 import MobileMenu from "./MobileMenu";
 import { useGetSettings } from "../../../../services/useSettings";
+import { useLogout } from "../../../../services/useAuth";
 
 function Navbar() {
   const user = useAppSelector((state) => state.user.data);
@@ -18,6 +18,7 @@ function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: settings } = useGetSettings();
+  const { mutateAsync: logout } = useLogout();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -36,12 +37,11 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post("/auth/logout");
+      await logout();
       dispatch(clearUser());
       dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
-      navigate("/home");
-      setIsDropdownOpen(false);
+      navigate("/home" , { replace: true });
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
 
@@ -58,7 +58,10 @@ function Navbar() {
     <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between py-4 h-full ">
-          <NavLink to={"/home"} className="w-48 h-20  flex items-center justify-center">
+          <NavLink
+            to={"/home"}
+            className="w-48 h-16  flex items-center justify-center"
+          >
             <img
               src={
                 settings?.data?.settings?.logo
@@ -130,7 +133,7 @@ function Navbar() {
                     isActive ? "text-accent" : "text-dark hover:text-accent"
                   }
                 >
-                   همکاری با ما
+                  همکاری با ما
                 </NavLink>
               </li>
               <li className="text-nowrap">
@@ -154,19 +157,30 @@ function Navbar() {
               >
                 <i className="fa fa-search"></i>
               </NavLink>
-              <NavLink to={""} className="main-btn lg:text-xs xl:text-sm text-nowrap">
+              <NavLink
+                to={""}
+                className="main-btn lg:text-xs xl:text-sm text-nowrap"
+              >
                 دریافت نوبت
               </NavLink>
 
-              {/* User Menu */} 
+              {/* User Menu */}
               {user ? (
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 border border-accent/20 hover:border-accent/40"
                   >
-                    <img src={user.profileImage ? `http://localhost:4000${user.profileImage}` : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "} alt="profile" className="w-8 h-8 rounded-full object-cover" />
-                    
+                    <img
+                      src={
+                        user.profileImage
+                          ? `http://localhost:4000${user.profileImage}`
+                          : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "
+                      }
+                      alt="profile"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+
                     <div className="text-right">
                       <p className="text-sm font-iran-sans-bold text-dark">
                         {user.firstName} {user.lastName}
@@ -296,7 +310,7 @@ function Navbar() {
               ) : (
                 <NavLink
                   to="/auth/sign-in"
-                className="main-btn flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
+                  className="main-btn flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
                 >
                   <i className="fas fa-user"></i>
                   <span>ورود / ثبت نام</span>

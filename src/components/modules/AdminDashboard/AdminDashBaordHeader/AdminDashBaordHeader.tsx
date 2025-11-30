@@ -3,10 +3,10 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
 import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
-import { axiosInstance } from "../../../../utils/axios";
 import { showErrorToast, showSuccessToast } from "../../../../utils/toastify";
 import type { AxiosError } from "axios";
 import { useAdminDashboardHeader } from "../../../../contexts/useAdminDashboardHeader";
+import { useLogout } from "../../../../services/useAuth";
 
 function AdminDashBaordHeader({
   title,
@@ -22,6 +22,7 @@ function AdminDashBaordHeader({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { mutateAsync: logout } = useLogout();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -84,7 +85,11 @@ function AdminDashBaordHeader({
               className="flex items-center   gap-5 bg-gray-50 hover:bg-gray-300  py-2 px-4 rounded-lg transition  shadow-sm"
             >
               <img
-                src={user?.profileImage ? `http://localhost:4000${user?.profileImage}` : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "}
+                src={
+                  user?.profileImage
+                    ? `http://localhost:4000${user?.profileImage}`
+                    : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "
+                }
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
               />
@@ -151,13 +156,13 @@ function AdminDashBaordHeader({
                 <hr className="my-2 border-gray-200" />
                 <button
                   onClick={async () => {
-                    await axiosInstance.post("/auth/logout");
                     try {
+                      await logout();
                       dispatch(clearUser());
                       dispatch(clearCsrfToken());
                       setIsDropdownOpen(false);
                       showSuccessToast("خروج موفقیت‌آمیز بود");
-                      navigate("/home");
+                      navigate("/admin-login", { replace: true });
                     } catch (error) {
                       const err = error as AxiosError<{ message?: string }>;
 
