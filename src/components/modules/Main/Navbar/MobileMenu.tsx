@@ -7,6 +7,7 @@ import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
+import { useLoginModal } from "../../../../contexts/LoginModalContext";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { data: settings } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
+  const { openModal } = useLoginModal();
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -224,14 +226,16 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           {/* Login Button if not logged in */}
           {!user && (
             <div className="px-4 pb-4">
-              <NavLink
-                to="/auth/sign-in"
-                onClick={handleLinkClick}
+              <button
+                onClick={() => {
+                  openModal();
+                  onClose();
+                }}
                 className="main-btn flex items-center justify-center gap-2 w-full"
               >
                 <i className="fas fa-user"></i>
                 <span>ورود / ثبت نام</span>
-              </NavLink>
+              </button>
             </div>
           )}
         </div>
