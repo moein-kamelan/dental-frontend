@@ -84,7 +84,7 @@ function ContactUsManagementTable({
                   <td className="">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <i className="far fa-user text-primary"></i>
+                        <i className="fa fa-user text-primary"></i>
                       </div>
                       <div>
                         <p className="font-estedad-light">{message.name}</p>

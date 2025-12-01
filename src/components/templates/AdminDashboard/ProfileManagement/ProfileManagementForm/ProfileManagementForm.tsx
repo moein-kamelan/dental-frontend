@@ -1,5 +1,5 @@
 import { useRef, useMemo, useState } from "react";
-import { Formik } from "formik";
+import { Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
 import CustomInput from "../../../../../components/modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../../components/modules/CustomTextArea/CustomTextArea";
@@ -72,14 +72,24 @@ function ProfileManagementForm() {
     []
   );
 
-  const handleSubmit = async (values: {
-    firstName: string;
-    lastName: string;
-    nationalCode: string | null;
-    address: string | null;
-    gender: string | null;
-    profileImage: File | null;
-  }) => {
+  const handleSubmit = async (
+    values: {
+      firstName: string;
+      lastName: string;
+      nationalCode: string | null;
+      address: string | null;
+      gender: string | null;
+      profileImage: File | null;
+    },
+    setFieldValue: FormikHelpers<{
+      firstName: string;
+      lastName: string;
+      nationalCode: string | null;
+      address: string | null;
+      gender: string | null;
+      profileImage: File | null;
+    }>["setFieldValue"]
+  ) => {
     try {
       const formData = new FormData();
       formData.append("firstName", values.firstName);
@@ -108,11 +118,23 @@ function ProfileManagementForm() {
       showSuccessToast("پروفایل با موفقیت به‌روزرسانی شد");
 
       // Update Redux state with new user data
+      // Preserve the role field from the current user since backend doesn't return it
       if (response?.data?.user) {
-        dispatch(setUser(response.data.user));
+        const updatedUser = {
+          ...response.data.user,
+          role: user?.role || response.data.user.role,
+        };
+        dispatch(setUser(updatedUser));
       }
 
       setRemoveImage(false);
+
+      // Reset profileImage field and file input after successful submission
+      // This allows the current image to be displayed again
+      setFieldValue("profileImage", null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
 
       // Scroll to top of the container
       const scrollContainer = document.querySelector(".overflow-auto");
@@ -141,15 +163,18 @@ function ProfileManagementForm() {
       }}
       validationSchema={validationSchema}
       enableReinitialize
-      onSubmit={async (values) => {
-        await handleSubmit({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          nationalCode: values.nationalCode || null,
-          address: values.address || null,
-          gender: values.gender || null,
-          profileImage: values.profileImage,
-        });
+      onSubmit={async (values, formikHelpers) => {
+        await handleSubmit(
+          {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            nationalCode: values.nationalCode || null,
+            address: values.address || null,
+            gender: values.gender || null,
+            profileImage: values.profileImage,
+          },
+          formikHelpers.setFieldValue
+        );
       }}
     >
       {(formik) => {

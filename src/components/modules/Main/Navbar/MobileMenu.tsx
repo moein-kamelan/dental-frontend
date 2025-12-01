@@ -22,6 +22,14 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { data: settings } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
+
+  // Close user menu dropdown when user logs out
+  useEffect(() => {
+    if (!user) {
+      setIsUserMenuOpen(false);
+    }
+  }, [user]);
+
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -36,12 +44,12 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   const handleLogout = async () => {
     try {
+      setIsUserMenuOpen(false);
       await logout();
       dispatch(clearUser());
       dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
       navigate("/home", { replace: true });
-      setIsUserMenuOpen(false);
       onClose();
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;

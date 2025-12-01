@@ -39,7 +39,7 @@ function DoctorApplicationsManagementTable({
             {isRefetching ? (
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
             ) : (
-              <i className="fas fa-sync-alt"></i>
+              <i className="fas fa-sync-alt text-primary "></i>
             )}
             بروزرسانی
           </button>

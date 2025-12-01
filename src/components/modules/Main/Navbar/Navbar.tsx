@@ -21,6 +21,14 @@ function Navbar() {
   const { data: settings } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
+
+  // Close dropdown when user logs out
+  useEffect(() => {
+    if (!user) {
+      setIsDropdownOpen(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -39,6 +47,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
+      setIsDropdownOpen(false);
       await logout();
       dispatch(clearUser());
       dispatch(clearCsrfToken());
