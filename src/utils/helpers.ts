@@ -14,6 +14,27 @@ export function formatJalali(dateString: Date) {
   return `${day} ${month} ${year}`;
 }
 
+export function formatPersianNameForGreeting(firstName: string | null | undefined): string {
+  if (!firstName || typeof firstName !== 'string') {
+    return '';
+  }
+
+  const trimmedName = firstName.trim();
+  
+  if (trimmedName.length === 0) {
+    return '';
+  }
+
+  const lastChar = trimmedName[trimmedName.length - 1];
+  const lastCharCode = lastChar.charCodeAt(0);
+  
+  if (lastCharCode === 0x0627) {
+    return trimmedName + 'ی';
+  }
+  
+  return trimmedName;
+}
+
 /**
  * تبدیل نام روزهای هفته از انگلیسی به فارسی
  * @param dayName - نام روز به انگلیسی (مثل: saturday, sunday, ...)

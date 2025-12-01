@@ -6,13 +6,7 @@ function Footer() {
   const { data: settings } = useGetSettings();
   return (
     <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42 relative">
-      <motion.div
-        className="absolute left-0 right-0 top-0 -translate-y-1/2 w-full"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        viewport={{ once: true, margin: "-100px" }}
-      >
+      <div className="absolute left-0 right-0 top-0 -translate-y-1/2 w-full">
         <div className="flex items-center justify-end gap-3 sm:gap-4 md:gap-6 py-6 sm:py-8 md:py-10 px-4 md:px-8 lg:px-12">
           <div className="h-px bg-linear-to-l from-accent via-accent/80 to-transparent flex-1"></div>
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
@@ -33,7 +27,7 @@ function Footer() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
       <div className="container mx-auto px-4 pt-8 sm:pt-10 md:pt-12 relative ">
 
         <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_3fr] gap-8 mb-12 items-start">
