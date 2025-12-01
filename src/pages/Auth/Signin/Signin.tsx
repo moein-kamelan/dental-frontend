@@ -7,7 +7,6 @@ import * as yup from "yup";
 import { formatPhoneNumber } from "../../../validators/phoneNumberValidator";
 import { AnimatePresence, motion } from "motion/react";
 import { showSuccessToast } from "../../../utils/toastify";
-import { FormikDevTool } from "formik-devtools";
 import { useAppDispatch } from "../../../redux/typedHooks";
 import { setUser } from "../../../redux/slices/userSlice";
 function Signin() {
@@ -314,8 +313,8 @@ function Signin() {
                     gender: "" as "MALE" | "FEMALE" | "",
                   }}
                   validationSchema={yup.object({
-                    firstName: yup.string().required("نام الزامی است"),
-                    lastName: yup.string().required("نام خانوادگی الزامی است"),
+                    firstName: yup.string().min(2, "نام باید حداقل 2 کاراکتر باشد").required("نام الزامی است"),
+                    lastName: yup.string().min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد").required("نام خانوادگی الزامی است"),
                     gender: yup
                       .string()
                       .oneOf(
@@ -500,7 +499,6 @@ function Signin() {
                             "ورود"
                           )}
                         </button>
-                        <FormikDevTool />
                       </form>
                     );
                   }}
@@ -592,7 +590,6 @@ function Signin() {
                             "ورود"
                           )}
                         </button>
-                        <FormikDevTool />
                       </form>
                     );
                   }}

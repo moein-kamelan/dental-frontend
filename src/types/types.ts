@@ -26,6 +26,7 @@ export interface Doctor {
   slug: string;
   profileImage?: string;
   university: string;
+  shortDescription?: string;
   biography?: string;
   skills: string[];
   medicalLicenseNo: string;
