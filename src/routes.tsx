@@ -55,6 +55,8 @@ import ReviewsManagementEdit from "./pages/AdminDashboard/ReviewsManagementEdit/
 import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
 import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
 import ProfileManagement from "./pages/AdminDashboard/ProfileManagement/ProfileManagement";
+import BannerManagement from "./pages/AdminDashboard/BannerManagement/BannerManagement";
+import BannerManagementEdit from "./pages/AdminDashboard/BannerManagementEdit/BannerManagementEdit";
 
 const routes = createBrowserRouter([
   {
@@ -177,6 +179,14 @@ const routes = createBrowserRouter([
         element: <UsersManagementEdit />,
       },
       { path: "profile-management", element: <ProfileManagement /> },
+      {
+        path: "banner-management",
+        element: <BannerManagement />,
+      },
+      {
+        path: "banner-management/edit/:id",
+        element: <BannerManagementEdit />,
+      },
       {
         path: "settings",
         element: <Settings />,

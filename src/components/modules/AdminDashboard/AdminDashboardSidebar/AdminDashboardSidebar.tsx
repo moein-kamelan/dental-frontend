@@ -161,6 +161,11 @@ function AdminDashboardSidebar() {
           title="سازمان های بیمه"
         />
         <AdminDashboardSidebarLink
+          to={"/admin/banner-management"}
+          icon="fas fa-layer-group"
+          title="بنر"
+        />
+        <AdminDashboardSidebarLink
           to={"/admin/contact-us-management"}
           icon="fas fa-envelope"
           title="پیام های تماس با ما"

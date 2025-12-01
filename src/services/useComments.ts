@@ -180,6 +180,33 @@ export const useToggleCommentStatus = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments"] });
+      queryClient.invalidateQueries({ queryKey: ["commentsStats"] });
     },
+  });
+};
+
+export const useToggleCommentReadStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await axiosInstance.patch(`/comments/${id}/toggle-read`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+      queryClient.invalidateQueries({ queryKey: ["commentsStats"] });
+    },
+  });
+};
+
+export const useGetCommentsStats = () => {
+  return useQuery({
+    queryKey: ["commentsStats"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/comments/stats");
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };

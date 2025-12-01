@@ -10,6 +10,7 @@ import AdminPagination from "../../../components/modules/AdminDashboard/AdminPag
 import DoctorCommentsTable from "../../../components/templates/AdminDashboard/CommentsManagements/DoctorCommentsTable/DoctorCommentsTable";
 import ArticleCommentsTable from "../../../components/templates/AdminDashboard/CommentsManagements/ArticleCommentsTable/ArticleCommentsTable";
 import ServiceCommentsTable from "../../../components/templates/AdminDashboard/CommentsManagements/ServiceCommentsTable/ServiceCommentsTable";
+import CommentsStats from "../../../components/templates/AdminDashboard/CommentsManagements/CommentsStats/CommentsStats";
 import { useDebounce } from "use-debounce";
 import DeleteModal from "../../../components/modules/AdminDashboard/DeleteModal/DeleteModal";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
@@ -117,6 +118,7 @@ function CommentsManagements() {
       await deleteComment(commentToDelete.id);
       showSuccessToast("نظر با موفقیت حذف شد");
       queryClient.invalidateQueries({ queryKey: ["comments"] });
+      queryClient.invalidateQueries({ queryKey: ["commentsStats"] });
       setDeleteModalOpen(false);
       setCommentToDelete(null);
     } catch (error: unknown) {
@@ -190,6 +192,8 @@ function CommentsManagements() {
   return (
     <main>
       <SectionContainer>
+        <CommentsStats />
+
         <h5 className="main-header ">لیست نظرات</h5>
 
         {/* Tabs */}

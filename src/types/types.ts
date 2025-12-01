@@ -108,6 +108,7 @@ export interface Comment {
   content: string;
   rating?: number | null;
   published: boolean;
+  read: boolean;
   userId: string;
   parentId?: string | null;
   doctorId?: string | null;
@@ -188,7 +189,6 @@ export interface DoctorApplication {
   createdAt: string;
 }
 
-
 export interface Review {
   id: string;
   name: string;
@@ -199,6 +199,20 @@ export interface Review {
   order: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface HeroSlider {
+  id: string;
+  title?: string | null;
+  description?: string | null;
+  buttonText?: string | null;
+  buttonLink?: string | null;
+  image: string;
+  order: number;
+  published: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
 
 export interface User {
   id: string;
@@ -217,5 +231,4 @@ export interface User {
   } | null;
   createdAt?: string;
   updatedAt?: string;
-
 }

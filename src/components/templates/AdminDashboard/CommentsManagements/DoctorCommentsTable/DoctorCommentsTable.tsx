@@ -2,7 +2,10 @@ import TableContainer from "../../../../../components/modules/TableContainer/Tab
 import TableSkeleton from "../../../../../components/modules/TableSkeleton/TableSkeleton";
 import { formatJalali } from "../../../../../utils/helpers";
 import type { Comment } from "../../../../../types/types";
-import { useToggleCommentStatus } from "../../../../../services/useComments";
+import {
+  useToggleCommentStatus,
+  useToggleCommentReadStatus,
+} from "../../../../../services/useComments";
 import { showSuccessToast, showErrorToast } from "../../../../../utils/toastify";
 import { useState } from "react";
 
@@ -26,7 +29,12 @@ function DoctorCommentsTable({
   isRefetching = false,
 }: DoctorCommentsTableProps) {
   const { mutateAsync: toggleCommentStatus } = useToggleCommentStatus();
+  const { mutateAsync: toggleCommentReadStatus } =
+    useToggleCommentReadStatus();
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
+  const [togglingReadIds, setTogglingReadIds] = useState<Set<string>>(
+    new Set()
+  );
 
   const handleToggleStatus = async (id: string) => {
     setTogglingIds((prev) => new Set(prev).add(id));
@@ -41,6 +49,26 @@ function DoctorCommentsTable({
       showErrorToast(errorMessage);
     } finally {
       setTogglingIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
+
+  const handleToggleReadStatus = async (id: string) => {
+    setTogglingReadIds((prev) => new Set(prev).add(id));
+    try {
+      await toggleCommentReadStatus(id);
+      showSuccessToast("وضعیت خوانده شده با موفقیت تغییر کرد");
+      onRefetch?.();
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as { response?: { data?: { message?: string } } })?.response
+          ?.data?.message || "خطایی در تغییر وضعیت خوانده شده رخ داد";
+      showErrorToast(errorMessage);
+    } finally {
+      setTogglingReadIds((prev) => {
         const newSet = new Set(prev);
         newSet.delete(id);
         return newSet;
@@ -95,16 +123,17 @@ function DoctorCommentsTable({
               <th>متن نظر</th>
               <th>امتیاز</th>
               <th>وضعیت انتشار</th>
+              <th>وضعیت خوانده شده</th>
               <th>تاریخ ایجاد</th>
               <th>عملیات</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingComments ? (
-              <TableSkeleton rows={5} columns={8} />
+              <TableSkeleton rows={5} columns={9} />
             ) : comments.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center p-8 font-estedad-light">
+                <td colSpan={9} className="text-center p-8 font-estedad-light">
                   نظری یافت نشد
                 </td>
               </tr>
@@ -112,7 +141,9 @@ function DoctorCommentsTable({
               comments.map((comment: Comment, index: number) => (
                 <tr
                   key={comment.id}
-                  className="hover:bg-purple-400/10 text-dark *:p-4.5"
+                  className={`hover:bg-purple-400/10 text-dark *:p-4.5 ${
+                    !comment.read ? "bg-blue-50/50" : ""
+                  }`}
                 >
                   <td className="font-estedad-light text-center">
                     {(page - 1) * 5 + index + 1}
@@ -184,10 +215,50 @@ function DoctorCommentsTable({
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
+                    <div className="flex items-center gap-2">
+                      {comment.read ? (
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                          خوانده شده
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                          خوانده نشده
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="text-dark font-estedad-light">
                     {formatJalali(new Date(comment.createdAt))}
                   </td>
                   <td className="">
                     <div className="flex items-center gap-2">
+                      {comment.read ? (
+                        <button
+                          onClick={() => handleToggleReadStatus(comment.id)}
+                          disabled={togglingReadIds.has(comment.id)}
+                          className="p-1.5 rounded-full text-blue-500 bg-blue-500/20 hover:bg-blue-500 hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="علامت‌گذاری به عنوان خوانده نشده"
+                        >
+                          {togglingReadIds.has(comment.id) ? (
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
+                          ) : (
+                            <i className="far fa-envelope"></i>
+                          )}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleToggleReadStatus(comment.id)}
+                          disabled={togglingReadIds.has(comment.id)}
+                          className="p-1.5 rounded-full text-green-500 bg-green-500/20 hover:bg-green-500 hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="علامت‌گذاری به عنوان خوانده شده"
+                        >
+                          {togglingReadIds.has(comment.id) ? (
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-green-500 border-t-transparent"></div>
+                          ) : (
+                            <i className="far fa-envelope-open"></i>
+                          )}
+                        </button>
+                      )}
                       <button
                         onClick={() =>
                           onDeleteClick(
