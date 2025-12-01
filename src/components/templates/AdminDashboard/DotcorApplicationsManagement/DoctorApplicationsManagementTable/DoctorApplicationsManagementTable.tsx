@@ -39,7 +39,7 @@ function DoctorApplicationsManagementTable({
             {isRefetching ? (
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
             ) : (
-              <i className="fas fa-sync-alt text-primary "></i>
+              <i className="fas fa-sync-alt"></i>
             )}
             بروزرسانی
           </button>
@@ -74,8 +74,10 @@ function DoctorApplicationsManagementTable({
                 (application: DoctorApplication, index: number) => (
                   <tr
                     key={application.id}
-                    className={`hover:bg-purple-400/10 text-dark *:p-4.5 ${
-                      !application.read ? "bg-blue-50/50" : ""
+                    className={`text-dark *:p-4.5 ${
+                      !application.read
+                        ? "bg-blue-100 hover:bg-blue-200"
+                        : "bg-gray-50 hover:bg-gray-100"
                     }`}
                   >
                     <td className="font-estedad-light text-center">
@@ -84,7 +86,7 @@ function DoctorApplicationsManagementTable({
                     <td className="">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <i className="far fa-user-md text-primary"></i>
+                          <i className="far fa-user text-primary"></i>
                         </div>
                         <div>
                           <p className="font-estedad-light">

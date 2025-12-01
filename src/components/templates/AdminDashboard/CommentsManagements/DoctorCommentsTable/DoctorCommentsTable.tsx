@@ -6,7 +6,10 @@ import {
   useToggleCommentStatus,
   useToggleCommentReadStatus,
 } from "../../../../../services/useComments";
-import { showSuccessToast, showErrorToast } from "../../../../../utils/toastify";
+import {
+  showSuccessToast,
+  showErrorToast,
+} from "../../../../../utils/toastify";
 import { useState } from "react";
 
 interface DoctorCommentsTableProps {
@@ -29,8 +32,7 @@ function DoctorCommentsTable({
   isRefetching = false,
 }: DoctorCommentsTableProps) {
   const { mutateAsync: toggleCommentStatus } = useToggleCommentStatus();
-  const { mutateAsync: toggleCommentReadStatus } =
-    useToggleCommentReadStatus();
+  const { mutateAsync: toggleCommentReadStatus } = useToggleCommentReadStatus();
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
   const [togglingReadIds, setTogglingReadIds] = useState<Set<string>>(
     new Set()
@@ -141,8 +143,10 @@ function DoctorCommentsTable({
               comments.map((comment: Comment, index: number) => (
                 <tr
                   key={comment.id}
-                  className={`hover:bg-purple-400/10 text-dark *:p-4.5 ${
-                    !comment.read ? "bg-blue-50/50" : ""
+                  className={`text-dark *:p-4.5 ${
+                    !comment.read
+                      ? "bg-blue-100 hover:bg-blue-200"
+                      : "bg-gray-50 hover:bg-gray-100"
                   }`}
                 >
                   <td className="font-estedad-light text-center">
@@ -205,9 +209,7 @@ function DoctorCommentsTable({
                         ) : (
                           <i
                             className={`fas ${
-                              comment.published
-                                ? "fa-eye"
-                                : "fa-eye-slash"
+                              comment.published ? "fa-eye" : "fa-eye-slash"
                             }`}
                           ></i>
                         )}
