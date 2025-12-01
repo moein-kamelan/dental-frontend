@@ -44,7 +44,7 @@ function CommentForm({
         type,
         id,
       });
-      showSuccessToast("نظر شما با موفقیت ثبت شد");
+      showSuccessToast("نظر شما با موفقیت ثبت شد و در انتظار تایید مدیر است");
 
       // Invalidate infinite query
       queryClient.invalidateQueries({

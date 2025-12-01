@@ -169,3 +169,17 @@ export const useReplyToComment = () => {
     },
   });
 };
+
+export const useToggleCommentStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await axiosInstance.patch(`/comments/${id}/toggle-status`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
+};

@@ -107,6 +107,7 @@ export interface Comment {
   id: string;
   content: string;
   rating?: number | null;
+  published: boolean;
   userId: string;
   parentId?: string | null;
   doctorId?: string | null;

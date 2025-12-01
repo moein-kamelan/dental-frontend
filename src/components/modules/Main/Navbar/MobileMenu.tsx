@@ -104,9 +104,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 border border-accent/20 hover:from-accent/20 hover:to-primary/20 transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-full bg-linear-to-br from-accent to-primary flex items-center justify-center text-white font-bold text-sm">
-                  <img src={user.profileImage ? `http://localhost:4000${user.profileImage}` : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff"} alt="avatar" className="w-full h-full object-cover rounded-full" />
-                </div>
+     
                 <div className="flex-1 text-right">
                   <p className="text-sm font-iran-sans-bold text-dark">
                     {user.firstName} {user.lastName}

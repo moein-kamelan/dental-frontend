@@ -2,6 +2,9 @@ import TableContainer from "../../../../../components/modules/TableContainer/Tab
 import TableSkeleton from "../../../../../components/modules/TableSkeleton/TableSkeleton";
 import { formatJalali } from "../../../../../utils/helpers";
 import type { Comment } from "../../../../../types/types";
+import { useToggleCommentStatus } from "../../../../../services/useComments";
+import { showSuccessToast, showErrorToast } from "../../../../../utils/toastify";
+import { useState } from "react";
 
 interface ArticleCommentsTableProps {
   comments: Comment[];
@@ -22,6 +25,29 @@ function ArticleCommentsTable({
   onRefetch,
   isRefetching = false,
 }: ArticleCommentsTableProps) {
+  const { mutateAsync: toggleCommentStatus } = useToggleCommentStatus();
+  const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
+
+  const handleToggleStatus = async (id: string) => {
+    setTogglingIds((prev) => new Set(prev).add(id));
+    try {
+      await toggleCommentStatus(id);
+      showSuccessToast("وضعیت انتشار با موفقیت تغییر کرد");
+      onRefetch?.();
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as { response?: { data?: { message?: string } } })?.response
+          ?.data?.message || "خطایی در تغییر وضعیت انتشار رخ داد";
+      showErrorToast(errorMessage);
+    } finally {
+      setTogglingIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
+
   const renderStars = (rating: number | null | undefined) => {
     if (!rating) return <span className="text-paragray">-</span>;
     return (
@@ -68,16 +94,17 @@ function ArticleCommentsTable({
               <th>مقاله</th>
               <th>متن نظر</th>
               <th>امتیاز</th>
+              <th>وضعیت انتشار</th>
               <th>تاریخ ایجاد</th>
               <th>عملیات</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingComments ? (
-              <TableSkeleton rows={5} columns={7} />
+              <TableSkeleton rows={5} columns={8} />
             ) : comments.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center p-8 font-estedad-light">
+                <td colSpan={8} className="text-center p-8 font-estedad-light">
                   نظری یافت نشد
                 </td>
               </tr>
@@ -123,6 +150,37 @@ function ArticleCommentsTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {renderStars(comment.rating)}
+                  </td>
+                  <td className="text-dark font-estedad-light">
+                    <div className="flex items-center gap-2">
+                      {comment.published ? (
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                          منتشر شده
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                          پنهان
+                        </span>
+                      )}
+                      <button
+                        onClick={() => handleToggleStatus(comment.id)}
+                        disabled={togglingIds.has(comment.id)}
+                        className="p-1.5 rounded-full text-primary bg-primary/20 hover:bg-primary hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        title={comment.published ? "پنهان کردن" : "انتشار"}
+                      >
+                        {togglingIds.has(comment.id) ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
+                        ) : (
+                          <i
+                            className={`fas ${
+                              comment.published
+                                ? "fa-eye"
+                                : "fa-eye-slash"
+                            }`}
+                          ></i>
+                        )}
+                      </button>
+                    </div>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {formatJalali(new Date(comment.createdAt))}

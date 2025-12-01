@@ -19,12 +19,18 @@ function CommentsBox({
       5
     );
 
-  // جمع‌آوری تمام کامنت‌ها از صفحات مختلف
+  // جمع‌آوری تمام کامنت‌ها از صفحات مختلف و فیلتر کردن فقط نظرات منتشر شده
   const allComments =
-    data?.pages.flatMap((page) => page?.data?.comments || []) || [];
+    data?.pages
+      .flatMap((page) => page?.data?.comments || [])
+      .filter((comment: Comment) => comment.published === true) || [];
 
-  // محاسبه تعداد کل کامنت‌ها از meta اولین صفحه
-  const totalComments = data?.pages[0]?.meta?.total || allComments.length;
+  // محاسبه تعداد کل کامنت‌های منتشر شده
+  // از تعداد نظرات فیلتر شده استفاده می‌کنیم تا دقیقاً همان چیزی باشد که نمایش داده می‌شود
+  // اگر همه صفحات لود نشده باشند، از meta.total استفاده می‌کنیم
+  const totalComments = hasNextPage
+    ? data?.pages[0]?.meta?.total ?? allComments.length
+    : allComments.length;
 
   if (isLoading) return <LoadingState />;
 
@@ -88,33 +94,38 @@ function CommentsBox({
                   </p>
 
                   {/* نمایش پاسخ‌ها */}
-                  {comment.replies && comment.replies.length > 0 && (
-                    <div className="mt-4 pr-4 space-y-4 border-r-2 border-primary/20">
-                      {comment.replies.map((reply) => (
-                        <div
-                          key={reply.id}
-                          className="bg-primary/10 rounded-lg p-4 border-r-4 border-primary/30"
-                        >
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                <i className="far fa-user text-primary text-xs"></i>
+                  {comment.replies &&
+                    comment.replies.filter(
+                      (reply: Comment) => reply.published === true
+                    ).length > 0 && (
+                      <div className="mt-4 pr-4 space-y-4 border-r-2 border-primary/20">
+                        {comment.replies
+                          .filter((reply: Comment) => reply.published === true)
+                          .map((reply) => (
+                            <div
+                              key={reply.id}
+                              className="bg-primary/10 rounded-lg p-4 border-r-4 border-primary/30"
+                            >
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <i className="far fa-user text-primary text-xs"></i>
+                                  </div>
+                                  <span className="text-sm font-estedad-medium text-dark">
+                                    {reply.user.firstName} {reply.user.lastName}
+                                  </span>
+                                </div>
+                                <span className="text-xs text-paragray font-estedad-light">
+                                  {formatJalali(new Date(reply.createdAt))}
+                                </span>
                               </div>
-                              <span className="text-sm font-estedad-medium text-dark">
-                                {reply.user.firstName} {reply.user.lastName}
-                              </span>
+                              <p className="text-paragray font-estedad-light text-sm leading-6 whitespace-pre-wrap">
+                                {reply.content}
+                              </p>
                             </div>
-                            <span className="text-xs text-paragray font-estedad-light">
-                              {formatJalali(new Date(reply.createdAt))}
-                            </span>
-                          </div>
-                          <p className="text-paragray font-estedad-light text-sm leading-6 whitespace-pre-wrap">
-                            {reply.content}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                          ))}
+                      </div>
+                    )}
                 </div>
               </div>
             </div>
