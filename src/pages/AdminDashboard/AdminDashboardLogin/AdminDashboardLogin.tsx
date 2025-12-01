@@ -193,7 +193,7 @@ const AdminDashboardLogin = () => {
             {/* جای عکس - کاربر می‌تواند بعداً عکس را اضافه کند */}
             <div className="w-full h-full flex items-center justify-center">
               <img
-                src="/images/admin-login-image.jpg"
+                src="/images/admin-login.png"
                 alt="Admin Login"
                 className="w-full h-full object-cover rounded-2xl"
                 onError={(e) => {
