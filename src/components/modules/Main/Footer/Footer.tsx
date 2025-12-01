@@ -5,34 +5,36 @@ import { Link } from "react-router-dom";
 function Footer() {
   const { data: settings } = useGetSettings();
   return (
-    <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42">
-      <div className="container mx-auto px-4 max-sm:pt-52  pt-46 sm:pt-40 lg:pt-32 relative ">
-        <motion.div
-          className="bg-accent  p-10 absolute rounded-xl lg:rounded-full left-0 right-0 top-0 -translate-y-1/2 mx-8"
-          initial={{ opacity: 0, y: 200 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
-            <h2 className="text-2xl lg:text-[32px]/10 font-estedad-semibold">
-              برای به‌روزرسانی‌های انحصاری مشترک شوید!
-            </h2>
-            <form className="flex flex-col md:flex-row items-center justify-between gap-4 flex-1  w-full lg:max-w-md md:bg-white  p-2 pr-4 rounded-[30px]">
-              <input
-                type="text"
-                placeholder="ایمیل آدرس را وارد نمایید"
-                className="   placeholder:text-paragray text-dark max-md:w-full max-md:py-3 max-md:px-6 max-md:rounded-[30px] md:basis-1/2 bg-white"
-              />
-              <button
-                type="submit"
-                className=" bg-secondary md:bg-primary main-btn shrink-0 max-md:w-full"
-              >
-                عضویت
-              </button>
-            </form>
+    <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42 relative">
+      <motion.div
+        className="absolute left-0 right-0 top-0 -translate-y-1/2 w-full"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <div className="flex items-center justify-end gap-3 sm:gap-4 md:gap-6 py-6 sm:py-8 md:py-10 px-4 md:px-8 lg:px-12">
+          <div className="h-px bg-linear-to-l from-accent via-accent/80 to-transparent flex-1"></div>
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-accent/20 flex items-center justify-center">
+              <div className="text-accent">
+                <i className="fas fa-tooth text-sm sm:text-base md:text-lg"></i>
+              </div>
+            </div>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-secondary/20 flex items-center justify-center">
+              <div className="text-secondary">
+                <i className="fas fa-smile text-sm sm:text-base md:text-lg"></i>
+              </div>
+            </div>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-accent/20 flex items-center justify-center">
+              <div className="text-accent">
+                <i className="fas fa-tooth text-sm sm:text-base md:text-lg"></i>
+              </div>
+            </div>
           </div>
-        </motion.div>
+        </div>
+      </motion.div>
+      <div className="container mx-auto px-4 pt-8 sm:pt-10 md:pt-12 relative ">
 
         <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_3fr] gap-8 mb-12 items-start">
           <div className=" max-lg:col-span-4">
