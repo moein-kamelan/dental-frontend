@@ -111,7 +111,7 @@ function Banner() {
           </motion.div>
 
           <motion.div
-            className="relative h-full min-h-[500px] md:min-h-[600px]"
+            className="relative h-full min-h-[500px] md:min-h-[600px] flex items-center justify-center"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -119,7 +119,7 @@ function Banner() {
             <Swiper
               modules={[Autoplay]}
               spaceBetween={0}
-              className="h-[500px] md:h-full w-full absolute top-0 left-0 right-0"
+              className="h-[500px] md:h-full w-full"
               slidesPerView={1}
               loop={doctors.length > 1}
               autoplay={{
@@ -135,32 +135,41 @@ function Banner() {
             >
               {doctors.length > 0 &&
                 doctors.map((doctor, index) => (
-                  <SwiperSlide key={doctor.id || index} className="relative">
-                    <img
-                      src="images/banner_img.png"
-                      alt="banner"
-                      className="w-[80%] mx-auto absolute bottom-0 left-0 right-0 h-[90%] z-20"
-                    />
-                    {/* Doctor Info Card */}
-                    <motion.div
-                      key={`doctor-info-${doctor.id}-slide-${activeSlideIndex}`}
-                      className="absolute   top-100  w-[280px] md:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(21,61,61,0.15)] p-3 md:p-4 z-30 border-2 border-secondary/80 hover:shadow-[0_12px_40px_rgba(21,61,61,0.2)] hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
-                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{
-                        duration: 1.5,
-                        delay: 0.2,
-                        ease: [0.25, 0.46, 0.45, 0.74],
-                      }}
-                    >
-                      {/* Accent Bar */}
+                  <SwiperSlide
+                    key={doctor.id || index}
+                    className="relative flex items-end justify-center"
+                  >
+                    <div className="relative w-full h-full flex items-end justify-center">
+                      <img
+                        src="images/banner_img.png"
+                        alt="banner"
+                        className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
+                      />
+                      <motion.div
+                        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 md:left-auto md:right-0 lg:right-0 md:translate-x-0 w-[280px] sm:w-[260px] md:w-[280px] lg:w-[260px] h-[120px] md:h-[140px] rounded-2xl bg-linear-to-br from-secondary/30 via-accent/15 to-transparent blur-xl opacity-60 z-10"
+                        initial={{ opacity: 0, scale: 0.9, y: 24 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{
+                          duration: 0.9,
+                          delay: 0.08,
+                          ease: "easeOut",
+                        }}
+                      ></motion.div>
+                      <motion.div
+                        key={`doctor-info-${doctor.id}-slide-${activeSlideIndex}`}
+                        className="absolute bottom-[30%] left-1/2 -translate-x-1/2 md:left-auto md:right-1 lg:right-2 md:translate-x-0 w-[280px] sm:w-[260px] md:w-[280px] lg:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(21,61,61,0.15)] p-3 md:p-4 z-30 border-2 border-secondary/80 hover:shadow-[0_12px_40px_rgba(21,61,61,0.2)] hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
+                        initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 80,
+                          damping: 18,
+                          delay: 0.12,
+                        }}
+                      >
                       <div className="absolute top-0 right-0 left-0 h-1 bg-linear-to-r from-secondary via-accent to-secondary opacity-80"></div>
-
-                      {/* Decorative Corner */}
                       <div className="absolute top-2 left-2 w-12 h-12 bg-secondary/5 rounded-full blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"></div>
-
                       <div className="relative space-y-2">
-                        {/* Doctor Name with Icon */}
                         <div className="flex items-start gap-2 pb-2 border-b border-secondary/10">
                           <div className="shrink-0 mt-0.5">
                             <div className="w-8 h-8 rounded-lg bg-linear-to-br from-secondary/20 to-accent/20 flex items-center justify-center border border-secondary/20">
@@ -175,7 +184,6 @@ function Banner() {
                           </div>
                         </div>
 
-                        {/* University */}
                         {doctor.skills && doctor.skills.length > 0 && (
                           <div className="flex items-center gap-2 text-xs md:text-sm">
                             <div className="shrink-0 w-6 h-6 rounded-md bg-accent/10 flex items-center justify-center border border-accent/20">
@@ -188,16 +196,19 @@ function Banner() {
                         )}
                       </div>
                     </motion.div>
+                    </div>
                   </SwiperSlide>
                 ))}
             </Swiper>
 
-            <div className="  h-full  w-[70%]  lg:w-[85%] mx-auto absolute top-10 left-0 right-0">
-              <img
-                src="images/banner-new-bg.png"
-                alt="banner-bg "
-                className="translate-y-10 circular-animation "
-              />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+              <div className="w-[70%] sm:w-[75%] md:w-[80%] lg:w-[85%] h-auto">
+                <img
+                  src="images/banner-new-bg.png"
+                  alt="banner-bg"
+                  className="w-full h-auto circular-animation"
+                />
+              </div>
             </div>
           </motion.div>
         </div>
