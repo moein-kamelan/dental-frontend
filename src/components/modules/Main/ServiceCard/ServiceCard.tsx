@@ -26,16 +26,24 @@ function ServiceCard({ service }: { service: Service }) {
       className="bg-white rounded-[10px] group overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition p-5 cursor-pointer border border-transparent hover:border-secondary/20 flex flex-col"
     >
       <div className="relative h-64">
-        <img
-          src={
-            service?.coverImage
-              ? `http://localhost:4000${service.coverImage}`
-              : "/images/service-1.jpg"
-          }
-          alt={service.title}
-          className="w-full h-full  rounded-[5px] group-hover:scale-105 transition-all duration-500"
-        />
- 
+        {service?.coverImage ? (
+          <img
+            src={`http://localhost:4000${service.coverImage}`}
+            alt={service.title}
+            className="w-full h-full rounded-[5px] group-hover:scale-105 transition-all duration-500 object-cover"
+          />
+        ) : (
+          <div className="w-full h-full rounded-[5px] bg-gray-100 flex items-center justify-center">
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-200 flex items-center justify-center">
+                  <i className="fas fa-image text-gray-400 text-xl sm:text-2xl"></i>
+                </div>
+              </div>
+              <p className="text-gray-400 text-xs sm:text-sm font-estedad-light">تصویر خدمات</p>
+            </div>
+          </div>
+        )}
       </div>
       <div className="mt-6 flex flex-col grow gap-y-3">
         <h3 className="text-2xl sm:text-[18px] md:text-2xl font-estedad-semibold text-dark group-hover:text-accent transition-all duration-500 line-clamp-1">

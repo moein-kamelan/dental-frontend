@@ -45,9 +45,9 @@ function Banner() {
   });
 
   useEffect(() => {
-    const controls1 = animate(patientsRecoverdCount, 100, { duration: 2 });
+    const controls1 = animate(patientsRecoverdCount, 32000, { duration: 2 });
     const controls2 = animate(susseccfulVisitsCount, yearsOfExperience, { duration: 2 });
-    const controls3 = animate(popularDoctorsCount, 120, { duration: 2 });
+    const controls3 = animate(popularDoctorsCount, 18, { duration: 2 });
     return () => {
       controls1.stop();
       controls2.stop();
@@ -66,7 +66,7 @@ function Banner() {
             transition={{ duration: 1, ease: "easeOut" }}
           >
             <div className="custom-sub-title text-sm sm:text-base md:text-lg max-md:mx-auto">
-              <span>به مدیفکس خوش آمدید</span>
+              <span>خوش آمدید</span>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] xl:text-[52px] custom-title mt-4 sm:mt-5 md:mt-[22px] mb-3 sm:mb-4 leading-tight xl:max-w-[526px] max-md:text-center md:text-right">
               {settings?.data.settings.siteTitle}
@@ -88,15 +88,6 @@ function Banner() {
             <div className="flex flex-wrap gap-y-3 sm:gap-y-4 max-md:justify-center gap-x-3 sm:gap-x-4 md:gap-x-6 pt-6 sm:pt-8">
               <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
                 <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
-                  {displayPatientsRecoverdCount}
-                  <span className="text-xl sm:text-2xl">+</span>
-                </motion.h3>
-                <p className="text-paragray text-xs sm:text-sm md:text-lg font-estedad-light text-center mt-1">
-                  بیماران بهبود یافته
-                </p>
-              </div>
-              <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
-                <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
                   {displaySusseccfullVisitsCount}
                   <span className="text-xl sm:text-2xl"> سال</span>
                 </motion.h3>
@@ -106,11 +97,20 @@ function Banner() {
               </div>
               <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
                 <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
+                  {displayPatientsRecoverdCount}
+                  <span className="text-xl sm:text-2xl">+</span>
+                </motion.h3>
+                <p className="text-paragray text-xs sm:text-sm md:text-lg font-estedad-light text-center mt-1">
+                  مراجع بهبود یافته
+                </p>
+              </div>
+              <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
+                <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
                   {displayPopularDoctorsCount}
                   <span className="text-xl sm:text-2xl">+</span>
                 </motion.h3>
                 <p className="text-paragray text-xs sm:text-sm md:text-lg font-estedad-light text-center mt-1">
-                  دکترهای محبوب
+                  دندان پزشک مجرب
                 </p>
               </div>
             </div>

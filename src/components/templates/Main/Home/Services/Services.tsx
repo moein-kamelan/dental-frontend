@@ -20,7 +20,7 @@ function Services() {
         >
           <div className="text-center mb-12">
             <h5 className="custom-sub-title mx-auto">خدمات ما</h5>
-            <h2 className="custom-title  text-center">سرویس های پزشکی ما</h2>
+            <h2 className="custom-title  text-center">سرویس های دندانپزشکی ما</h2>
           </div>
 
           <Swiper
