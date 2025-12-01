@@ -3,39 +3,34 @@
 @import "swiper/css";
 @import "swiper/css/navigation";
 /* ckeditor styles */
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 @media print {
-	body {
-		margin: 0 !important;
-	}
+  body {
+    margin: 0 !important;
+  }
 }
 :root {
   direction: rtl;
   scroll-behavior: smooth;
-	--ck-content-font-family: 'estedad-medium';
-
+  --ck-content-font-family: "estedad-medium";
 }
 
-
 .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
-border : none;
+  border: none;
 }
 
 .main-container {
-	font-family: var(--ck-content-font-family) ;
-	width: fit-content;
-	margin-left: auto;
-	margin-right: auto;
+  font-family: var(--ck-content-font-family);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 8px;
   /* overflow: hidden; */
 }
 
-
-
-
 figure {
-  @apply text-center flex items-center justify-center py-4; 
+  @apply text-center flex items-center justify-center py-4;
 }
 figure img {
   @apply w-full h-full object-cover rounded-xl max-h-150!;
@@ -256,8 +251,8 @@ figure img {
 .article-content ul[data-todo-list] li::before,
 .ck-content .todo-list li::before,
 .article-content .todo-list li::before {
-  content: '\f058'; /* Font Awesome check-circle icon Unicode */
-  font-family: 'Font Awesome 5 Free';
+  content: "\f058"; /* Font Awesome check-circle icon Unicode */
+  font-family: "Font Awesome 5 Free";
   font-weight: 900; /* Solid style */
   font-size: 22px;
   line-height: 1;
@@ -277,8 +272,8 @@ figure img {
 .article-content ul[data-todo-list] li[data-todo-checked]::before,
 .ck-content .todo-list li[data-todo-checked]::before,
 .article-content .todo-list li[data-todo-checked]::before {
-  content: '\f058'; /* Font Awesome check-circle icon Unicode */
-  font-family: 'Font Awesome 5 Free';
+  content: "\f058"; /* Font Awesome check-circle icon Unicode */
+  font-family: "Font Awesome 5 Free";
   font-weight: 900; /* Solid style */
   font-size: 22px;
   line-height: 1;
@@ -314,8 +309,8 @@ figure img {
 
 .ck-content li[data-todo]::before,
 .article-content li[data-todo]::before {
-  content: '\f058'; /* Font Awesome check-circle icon Unicode */
-  font-family: 'Font Awesome 5 Free';
+  content: "\f058"; /* Font Awesome check-circle icon Unicode */
+  font-family: "Font Awesome 5 Free";
   font-weight: 900; /* Solid style */
   font-size: 22px;
   line-height: 1;
@@ -332,8 +327,8 @@ figure img {
 
 .ck-content li[data-todo][data-todo-checked]::before,
 .article-content li[data-todo][data-todo-checked]::before {
-  content: '\f058'; /* Font Awesome check-circle icon Unicode */
-  font-family: 'Font Awesome 5 Free';
+  content: "\f058"; /* Font Awesome check-circle icon Unicode */
+  font-family: "Font Awesome 5 Free";
   font-weight: 900; /* Solid style */
   font-size: 22px;
   line-height: 1;
@@ -345,9 +340,8 @@ figure img {
 .article-content li[data-todo][data-todo-checked] {
   /* Remove line-through and opacity for checked items to match BecomeDoctorContent style */
 }
- /* end ckeditor styles */
+/* end ckeditor styles */
 
- 
 @theme {
   --color-primary: #153d3d;
   --color-secondary: #d4af37;
@@ -377,8 +371,6 @@ figure img {
   --font-estedad-medium: "estedad-medium";
   --font-estedad-semibold: "estedad-semibold";
 }
-
-
 
 html {
   overflow-x: hidden;
@@ -415,7 +407,7 @@ button {
 }
 
 @utility custom-sub-title {
-  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit ;
+  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit;
 }
 
 @utility main-btn {
@@ -431,7 +423,7 @@ button {
 }
 
 @utility purple-btn {
-  @apply px-8 py-3 bg-purple-500 hover:bg-purple-600 border-2 border-purple-700 text-white rounded-md transition font-estedad-semibold ;
+  @apply px-8 py-3 bg-purple-500 hover:bg-purple-600 border-2 border-purple-700 text-white rounded-md transition font-estedad-semibold;
 }
 
 .swiper {
@@ -550,4 +542,40 @@ input[type="number"] {
 .sidebar-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+}
+
+/* Auth Modal scrollbar styles - جذاب و زیبا */
+.auth-modal-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.auth-modal-scrollbar::-webkit-scrollbar-track {
+  background: rgba(42, 122, 122, 0.1);
+  border-radius: 10px;
+  margin: 8px 0;
+}
+
+.auth-modal-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2a7a7a 0%, #d4af37 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(42, 122, 122, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(42, 122, 122, 0.3);
+}
+
+.auth-modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d4af37 0%, #2a7a7a 100%);
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.5);
+  transform: scaleY(1.1);
+}
+
+.auth-modal-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #2a7a7a 0%, #1a5a5a 100%);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox scrollbar styles for auth modal */
+.auth-modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #2a7a7a rgba(42, 122, 122, 0.1);
 }

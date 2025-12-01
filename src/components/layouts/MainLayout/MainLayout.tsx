@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Topbar from "../../modules/Main/Topbar/Topbar";
 import Navbar from "../../modules/Main/Navbar/Navbar";
 import Footer from "../../modules/Main/Footer/Footer";
+import AuthModal from "../../modules/Main/AuthModal/AuthModal";
 
 function MainLayout() {
   return (
@@ -19,6 +20,8 @@ function MainLayout() {
       >
         <i className="fas fa-arrow-alt-up"></i>
       </div>
+
+      <AuthModal />
     </div>
   );
 }

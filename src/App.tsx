@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { useAppDispatch } from "./redux/typedHooks";
 import { fetchUser } from "./redux/slices/userSlice";
 import { useCsrfToken } from "./services/useCsrfToken";
+import { AuthModalProvider } from "./contexts/AuthModalContext";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <AuthModalProvider>
       <ToastContainer
         stacked
         position="top-left"
@@ -33,7 +34,7 @@ function App() {
       />
 
       <RouterProvider router={routes} />
-    </>
+    </AuthModalProvider>
   );
 }
 

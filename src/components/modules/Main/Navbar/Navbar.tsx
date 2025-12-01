@@ -8,6 +8,7 @@ import { AxiosError } from "axios";
 import MobileMenu from "./MobileMenu";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
+import { useAuthModal } from "../../../../contexts/useAuthModal";
 
 function Navbar() {
   const user = useAppSelector((state) => state.user.data);
@@ -19,6 +20,7 @@ function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: settings } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
+  const { openModal } = useAuthModal();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -41,7 +43,7 @@ function Navbar() {
       dispatch(clearUser());
       dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
-      navigate("/home" , { replace: true });
+      navigate("/home", { replace: true });
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
 
@@ -310,13 +312,13 @@ function Navbar() {
                   )}
                 </div>
               ) : (
-                <NavLink
-                  to="/auth/sign-in"
+                <button
+                  onClick={openModal}
                   className="main-btn flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
                 >
                   <i className="fas fa-user"></i>
                   <span>ورود / ثبت نام</span>
-                </NavLink>
+                </button>
               )}
             </div>
           </div>

@@ -7,6 +7,7 @@ import { showSuccessToast, showErrorToast } from "../../../../utils/toastify";
 import { AxiosError } from "axios";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
+import { useAuthModal } from "../../../../contexts/useAuthModal";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -17,10 +18,10 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const user = useAppSelector((state) => state.user.data);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [isPagesOpen, setIsPagesOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { data: settings } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
+  const { openModal } = useAuthModal();
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -39,7 +40,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       dispatch(clearUser());
       dispatch(clearCsrfToken());
       showSuccessToast("خروج موفقیت‌آمیز بود");
-      navigate("/home" , { replace: true });
+      navigate("/home", { replace: true });
       setIsUserMenuOpen(false);
       onClose();
     } catch (error) {
@@ -55,7 +56,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   const handleLinkClick = () => {
     onClose();
-    setIsPagesOpen(false);
     setIsUserMenuOpen(false);
   };
 
@@ -104,7 +104,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 border border-accent/20 hover:from-accent/20 hover:to-primary/20 transition-all duration-300"
               >
-     
                 <div className="flex-1 text-right">
                   <p className="text-sm font-iran-sans-bold text-dark">
                     {user.firstName} {user.lastName}
@@ -222,14 +221,16 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           {/* Login Button if not logged in */}
           {!user && (
             <div className="px-4 pb-4">
-              <NavLink
-                to="/auth/sign-in"
-                onClick={handleLinkClick}
+              <button
+                onClick={() => {
+                  openModal();
+                  onClose();
+                }}
                 className="main-btn flex items-center justify-center gap-2 w-full"
               >
                 <i className="fas fa-user"></i>
                 <span>ورود / ثبت نام</span>
-              </NavLink>
+              </button>
             </div>
           )}
         </div>

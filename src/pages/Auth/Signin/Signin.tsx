@@ -9,7 +9,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { showSuccessToast } from "../../../utils/toastify";
 import { useAppDispatch } from "../../../redux/typedHooks";
 import { setUser } from "../../../redux/slices/userSlice";
-function Signin() {
+
+interface SigninProps {
+  onClose?: () => void;
+}
+
+function Signin({ onClose }: SigninProps = {}) {
   const phoneNumber = useRef<string>("");
   const [codeExpireTime, setCodeExpireTime] = useState<number>(20);
   const [authStep, setAuthStep] = useState<number>(1);
@@ -93,7 +98,7 @@ function Signin() {
         // If code is complete (5 digits), set touched after a small delay
         // to allow validation to run first and prevent error from showing
         setTimeout(() => {
-          formik.setFieldTouched("code", true, false);
+          formik.setFieldTouched("code", true);
         }, 10);
 
         // Focus on the last input after pasting
@@ -189,6 +194,10 @@ function Signin() {
       }
 
       setArtificialLoading(false);
+      // بستن مودال اگر از طریق مودال باز شده باشد
+      if (onClose) {
+        onClose();
+      }
       navigate("/home");
     } catch (error) {
       console.log(error);
@@ -197,9 +206,15 @@ function Signin() {
   };
 
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4 max-w-md ">
-        <div className="relative bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12 ">
+    <div className={onClose ? "" : "py-20"}>
+      <div className={onClose ? "" : "container mx-auto px-4 max-w-md"}>
+        <div
+          className={
+            onClose
+              ? "relative p-8 md:p-12"
+              : "relative bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12"
+          }
+        >
           {authStep === 2 && (
             <button
               onClick={() => {
@@ -215,7 +230,7 @@ function Signin() {
               <i className="	fas fa-arrow-left text-2xl text-white absolute"></i>
             </button>
           )}
-          <h2 className="text-3xl font-iran-yekan-bold text-center mb-8">
+          <h2 className="text-3xl font-iran-yekan-bold text-center mb-8 max-sm:mt-9">
             خوش آمدید
           </h2>
           <p className="text-center text-paragray mb-8 ">
@@ -313,8 +328,14 @@ function Signin() {
                     gender: "" as "MALE" | "FEMALE" | "",
                   }}
                   validationSchema={yup.object({
-                    firstName: yup.string().min(2, "نام باید حداقل 2 کاراکتر باشد").required("نام الزامی است"),
-                    lastName: yup.string().min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد").required("نام خانوادگی الزامی است"),
+                    firstName: yup
+                      .string()
+                      .min(2, "نام باید حداقل 2 کاراکتر باشد")
+                      .required("نام الزامی است"),
+                    lastName: yup
+                      .string()
+                      .min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد")
+                      .required("نام خانوادگی الزامی است"),
                     gender: yup
                       .string()
                       .oneOf(
@@ -599,7 +620,7 @@ function Signin() {
           </AnimatePresence>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
