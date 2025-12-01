@@ -56,8 +56,8 @@ function Banner() {
   }, [yearsOfExperience]);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 min-h-[500px] sm:min-h-[550px] md:min-h-[700px] lg:min-h-[800px] xl:min-h-[900px] pt-4 sm:pt-5 md:pt-8 lg:pt-10 overflow-hidden">
-      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12 lg:py-16">
+    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 min-h-[500px] sm:min-h-[550px] md:min-h-[700px] lg:min-h-[800px] xl:min-h-[900px] pt-4 sm:pt-5 md:pt-8 lg:pt-10 pb-4 sm:pb-6 md:-mb-[300px] lg:-mb-[300px] overflow-hidden">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 md:pt-[100px] lg:py-10 lg:pt-[100px]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center">
           <motion.div
             className="space-y-4 sm:space-y-5 md:space-y-6 lg:-translate-y-16 xl:-translate-y-20"
@@ -85,7 +85,7 @@ function Banner() {
               </button>
             </div>
 
-            <div className="flex flex-wrap gap-y-3 sm:gap-y-4 max-md:justify-center gap-x-3 sm:gap-x-4 md:gap-x-6 pt-6 sm:pt-8">
+            <div className="flex flex-wrap gap-y-3 sm:gap-y-4 max-md:justify-center gap-x-3 sm:gap-x-4 md:gap-x-6 pt-4 sm:pt-5 md:pt-6">
               <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
                 <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
                   {displaySusseccfullVisitsCount}

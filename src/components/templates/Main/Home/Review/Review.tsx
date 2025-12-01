@@ -12,16 +12,16 @@ function Review() {
 
   return (
     <section className="py-20 md:py-24 bg-[rgba(94,94,238,0.10)] relative">
-      <img
-        src="/images/heart.png"
-        alt="heart"
-        className="absolute top-25 right-40 size-22 opacity-30 hidden md:block heart-bounce"
-      />
-      <img
-        src="/images/family-love.png"
-        alt="family-love"
-        className="absolute  size-22 bottom-10 left-20 opacity-30 hidden md:block"
-      />
+      <div className="absolute top-25 right-40 size-22 opacity-30 hidden md:block heart-bounce flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
+          <i className="fas fa-tooth text-accent text-6xl"></i>
+        </div>
+      </div>
+      <div className="absolute bottom-10 left-20 size-22 opacity-30 hidden md:block flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
+          <i className="fas fa-smile text-secondary text-6xl"></i>
+        </div>
+      </div>
       <div className="container mx-auto px-4">
                             <motion.div
           className=""
