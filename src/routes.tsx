@@ -1,9 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./pages/Main/Home/Home";
 import MainLayout from "./components/layouts/MainLayout/MainLayout";
-import Signin from "./pages/Auth/Signin/Signin";
-import Signup from "./pages/Auth/Signup/Signup";
-import Auth from "./pages/Auth/Auth";
 import Doctors from "./pages/Main/Doctors/Doctors";
 import Services from "./pages/Main/Services/Services";
 import DoctorDetails from "./pages/Main/DoctorDetails/DoctorDetails";
@@ -23,7 +20,6 @@ import FAQ from "./pages/Main/FAQ/FAQ";
 import MeetingHistory from "./pages/Main/Dashboard/MeetingHistory/MeetingHistory";
 import {
   ProtectedUserDashboardRoute,
-  ProtectedAuthRoute,
   ProtectedAdminRoute,
   ProtectedAdminAuthRoute,
 } from "./components/guards";
@@ -101,21 +97,6 @@ const routes = createBrowserRouter([
       //   {index : true , element : <Navigate to={"home"} replace/>},
       //   {path : "home" , element : <AdminDashboardHome/>}
       // ]},
-
-      {
-        path: "/auth/*",
-        element: (
-          <ProtectedAuthRoute>
-            <Auth />
-          </ProtectedAuthRoute>
-        ),
-        children: [
-          { index: true, element: <Navigate to="sign-in" replace /> },
-          { path: "sign-in", element: <Signin /> },
-          { path: "sign-up", element: <Signup /> },
-          { path: "*", element: <Navigate to="/404" replace /> },
-        ],
-      },
     ],
   },
   {

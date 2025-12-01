@@ -137,7 +137,7 @@ function Banner() {
                       />
                       {/* Doctor Info Card */}
                       <motion.div
-                        className="absolute top-4 right-0 md:top-100  w-[280px] md:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(21,61,61,0.15)] p-3 md:p-4 z-30 border-2 border-secondary/80 hover:shadow-[0_12px_40px_rgba(21,61,61,0.2)] hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
+                        className="absolute   top-100  w-[280px] md:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(21,61,61,0.15)] p-3 md:p-4 z-30 border-2 border-secondary/80 hover:shadow-[0_12px_40px_rgba(21,61,61,0.2)] hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
                         initial={{ opacity: 0, x: 20, scale: 0.95 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         transition={{ duration: 0.5, delay: 0.2 }}

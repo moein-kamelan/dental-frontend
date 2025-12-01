@@ -1,15 +1,14 @@
 import React from 'react'
-import Breadcrumb from '../../components/modules/Main/Breadcrumb/Breadcrumb'
 import { Link } from 'react-router-dom'
 import Topbar from '../../components/modules/Main/Topbar/Topbar'
 import Navbar from '../../components/modules/Main/Navbar/Navbar'
+import Footer from '../../components/modules/Main/Footer/Footer'
 
 function NotFound({ text }: { text?: string }) {
   return (
     <>
     <Topbar/>
     <Navbar/>
-    <Breadcrumb/>
 
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -25,6 +24,8 @@ function NotFound({ text }: { text?: string }) {
             </div>
         </div>
     </section>
+
+    <Footer/>
     
     </>
   )
