@@ -126,6 +126,12 @@ export interface Comment {
   article?: {
     id: string;
     title: string;
+    categories?: Array<{
+      id: string;
+      name: string;
+      slug: string;
+    }>;
+    excerpt?: string;
   } | null;
   service?: {
     id: string;

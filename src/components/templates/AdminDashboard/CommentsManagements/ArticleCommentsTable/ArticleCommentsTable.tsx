@@ -6,7 +6,10 @@ import {
   useToggleCommentStatus,
   useToggleCommentReadStatus,
 } from "../../../../../services/useComments";
-import { showSuccessToast, showErrorToast } from "../../../../../utils/toastify";
+import {
+  showSuccessToast,
+  showErrorToast,
+} from "../../../../../utils/toastify";
 import { useState } from "react";
 
 interface ArticleCommentsTableProps {
@@ -29,8 +32,7 @@ function ArticleCommentsTable({
   isRefetching = false,
 }: ArticleCommentsTableProps) {
   const { mutateAsync: toggleCommentStatus } = useToggleCommentStatus();
-  const { mutateAsync: toggleCommentReadStatus } =
-    useToggleCommentReadStatus();
+  const { mutateAsync: toggleCommentReadStatus } = useToggleCommentReadStatus();
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
   const [togglingReadIds, setTogglingReadIds] = useState<Set<string>>(
     new Set()
@@ -116,10 +118,12 @@ function ArticleCommentsTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>کاربر</th>
-              <th>مقاله</th>
+              <th className="min-w-[250px]">مقاله</th>
+              <th>نام دسته بندی</th>
+              <th>توضیحات</th>
               <th>متن نظر</th>
               <th>امتیاز</th>
               <th>وضعیت انتشار</th>
@@ -130,10 +134,10 @@ function ArticleCommentsTable({
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingComments ? (
-              <TableSkeleton rows={5} columns={9} />
+              <TableSkeleton rows={5} columns={11} />
             ) : comments.length === 0 ? (
               <tr>
-                <td colSpan={9} className="text-center p-8 font-estedad-light">
+                <td colSpan={11} className="text-center p-8 font-estedad-light">
                   نظری یافت نشد
                 </td>
               </tr>
@@ -142,8 +146,8 @@ function ArticleCommentsTable({
                 <tr
                   key={comment.id}
                   className={`text-dark *:p-4.5 ${
-                    !comment.read 
-                      ? "bg-blue-100 hover:bg-blue-200" 
+                    !comment.read
+                      ? "bg-blue-100 hover:bg-blue-200"
                       : "bg-gray-50 hover:bg-gray-100"
                   }`}
                 >
@@ -151,7 +155,7 @@ function ArticleCommentsTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 ">
                       <div>
                         <p className="font-estedad-light">
                           {comment.user.firstName} {comment.user.lastName}
@@ -159,10 +163,31 @@ function ArticleCommentsTable({
                       </div>
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light ">
                     {comment.article ? (
-                      <span className="line-clamp-1 max-w-[200px]">
+                      <span className="line-clamp-2 max-w-[200px]  block">
                         {comment.article.title}
+                      </span>
+                    ) : (
+                      <span className="text-paragray">-</span>
+                    )}
+                  </td>
+                  <td className="text-dark font-estedad-light">
+                    {comment.article?.categories &&
+                    comment.article.categories.length > 0 ? (
+                      <span className="line-clamp-2 max-w-[200px] block">
+                        {comment.article.categories
+                          .map((cat) => cat.name)
+                          .join(", ")}
+                      </span>
+                    ) : (
+                      <span className="text-paragray">-</span>
+                    )}
+                  </td>
+                  <td className="text-dark font-estedad-light">
+                    {comment.article?.excerpt ? (
+                      <span className="line-clamp-2 max-w-[200px] block">
+                        {comment.article.excerpt}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -206,9 +231,7 @@ function ArticleCommentsTable({
                         ) : (
                           <i
                             className={`fas ${
-                              comment.published
-                                ? "fa-eye"
-                                : "fa-eye-slash"
+                              comment.published ? "fa-eye" : "fa-eye-slash"
                             }`}
                           ></i>
                         )}

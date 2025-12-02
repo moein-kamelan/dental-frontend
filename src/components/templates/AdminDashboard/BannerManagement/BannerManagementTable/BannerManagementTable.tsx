@@ -44,7 +44,7 @@ function BannerManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>تصویر</th>
               <th>عنوان</th>
@@ -79,19 +79,26 @@ function BannerManagementTable({
                       <img
                         src={`http://localhost:4000${banner.image}`}
                         alt={banner.title || "Banner"}
-                        className="w-16 h-16 rounded-lg object-cover"
+                        className="w-16 h-16 rounded-lg object-cover shrink-0"
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
                         <i className="far fa-image text-gray-400"></i>
                       </div>
                     )}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {banner.title || "-"}
+                    <span className="line-clamp-2 max-w-[220px] inline-block">
+                      {banner.title || "-"}
+                    </span>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <span dangerouslySetInnerHTML={{ __html: banner.description || "-" }}></span>
+                    <div
+                      className="line-clamp-2 max-w-[260px]"
+                      dangerouslySetInnerHTML={{
+                        __html: banner.description || "-",
+                      }}
+                    ></div>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {banner.buttonText ? (

@@ -56,7 +56,7 @@ function UsersManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>کاربر</th>
               <th>شماره تماس</th>
@@ -92,15 +92,15 @@ function UsersManagementTable({
                         <img
                           src={`http://localhost:4000${user.profileImage}`}
                           alt={`${user.firstName} ${user.lastName}`}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-12 h-12 rounded-full object-cover shrink-0"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-user text-gray-400"></i>
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light">
+                        <p className="font-estedad-light line-clamp-2">
                           {user.firstName} {user.lastName}
                         </p>
                         {user.address && (

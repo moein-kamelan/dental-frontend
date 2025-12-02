@@ -44,7 +44,7 @@ function ClinicManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>نام کلینیک</th>
               <th>آدرس</th>
@@ -72,18 +72,20 @@ function ClinicManagementTable({
                   <td className="font-estedad-light text-center">
                     {(page - 1) * 5 + index + 1}
                   </td>
-                  <td className="">
+                  <td className="min-w-[200px]">
                     <div>
-                      <p className="font-estedad-light">{clinic.name}</p>
+                      <p className="font-estedad-light line-clamp-2">
+                        {clinic.name}
+                      </p>
                       {clinic.description && (
-                        <span className="text-xs font-estedad-light text-paragray line-clamp-1">
+                        <span className="text-xs font-estedad-light text-paragray line-clamp-2">
                           {clinic.description.substring(0, 30)}...
                         </span>
                       )}
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light">
-                    {clinic.address}
+                  <td className="text-dark font-estedad-light max-w-[260px]">
+                    <span className="line-clamp-2">{clinic.address}</span>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {clinic.phoneNumber || "-"}

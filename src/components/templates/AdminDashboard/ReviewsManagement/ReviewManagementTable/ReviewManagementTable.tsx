@@ -81,10 +81,10 @@ function ReviewManagementTable({
                         <img
                           src={`http://localhost:4000${review.profileImage}`}
                           alt={review.name}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-12 h-12 rounded-full object-cover shrink-0"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-user text-gray-400"></i>
                         </div>
                       )}

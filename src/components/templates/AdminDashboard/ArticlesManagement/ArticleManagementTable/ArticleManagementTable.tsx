@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import type { Article } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ function ArticleManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>مقاله</th>
               <th>خلاصه</th>
@@ -72,29 +72,30 @@ function ArticleManagementTable({
                   <td className="font-estedad-light text-center">
                     {(page - 1) * 5 + index + 1}
                   </td>
-                  <td className="">
-                    <div className="flex items-center gap-3">
+                  <td className="max-w-[220px]">
+                    <div className="flex items-center gap-3 max-w-[220px]">
                       {article.coverImage ? (
                         <img
                           src={`http://localhost:4000${article.coverImage}`}
                           alt={article.title}
-                          className="w-12 h-12 rounded-lg object-cover"
+                          className="w-12 h-12 rounded-lg object-cover shrink-0"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-file-alt text-gray-400"></i>
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light">{article.title}</p>
+                        <p className="font-estedad-light">
+                          <span className="line-clamp-2">{article.title}</span>
+                        </p>
                       </div>
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light max-w-[260px]">
                     {article.excerpt ? (
                       <span className="line-clamp-2">
-                        {article.excerpt.substring(0, 50)}
-                        {article.excerpt.length > 50 ? "..." : ""}
+                        {stripHtmlTags(article.excerpt)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -106,7 +107,7 @@ function ArticleManagementTable({
                         {article.categories.slice(0, 2).map((category) => (
                           <span
                             key={category.id}
-                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary"
+                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center"
                           >
                             {category.name}
                           </span>

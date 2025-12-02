@@ -44,7 +44,7 @@ function GalleryManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>تصویر</th>
               <th>عنوان</th>
@@ -79,10 +79,10 @@ function GalleryManagementTable({
                         <img
                           src={`http://localhost:4000${image.image}`}
                           alt={image.title || "تصویر گالری"}
-                          className="w-16 h-16 rounded-lg object-cover"
+                          className="w-16 h-16 rounded-lg object-cover shrink-0"
                         />
                       ) : (
-                        <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-image text-gray-400 text-2xl"></i>
                         </div>
                       )}

@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
+import { formatJalali } from "../../../../../utils/helpers";
 import type { Doctor } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ function DoctorsManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>پزشک</th>
               <th>دانشگاه</th>
@@ -74,43 +74,40 @@ function DoctorsManagementTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 max-w-[220px]">
                       {doctor.profileImage ? (
                         <img
                           src={`http://localhost:4000${doctor.profileImage}`}
                           alt={`${doctor.firstName} ${doctor.lastName}`}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-12 h-12 rounded-full object-cover shrink-0"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-user text-gray-400"></i>
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light">
+                        <p className="font-estedad-light line-clamp-2  ">
                           دکتر {doctor.firstName} {doctor.lastName}
                         </p>
-                        {doctor.biography && (
-                          <span className="text-xs font-estedad-light text-paragray line-clamp-1">
-                            {stripHtmlTags(doctor.biography )} 
-                          </span>
-                        )}
                       </div>
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {doctor.university}
+                    <div className="line-clamp-2 overflow-hidden max-w-[200px]">
+                      {doctor.university}
+                    </div>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {doctor.medicalLicenseNo}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light max-w-[260px]">
                     {doctor.clinics && doctor.clinics.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
+                      <div className="flex justify-center items-start flex-wrap gap-1  overflow-hidden">
                         {doctor.clinics.slice(0, 2).map((dc) => (
                           <span
                             key={dc.clinic.id}
-                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary"
+                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center"
                           >
                             {dc.clinic.name}
                           </span>

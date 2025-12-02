@@ -56,7 +56,7 @@ function InsuranceManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>نام سازمان</th>
               <th>توضیحات</th>
@@ -92,10 +92,10 @@ function InsuranceManagementTable({
                         <img
                           src={`http://localhost:4000${insurance.logo}`}
                           alt={insurance.name}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-12 h-12 rounded-full object-cover shrink-0"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-building text-gray-400"></i>
                         </div>
                       )}
