@@ -55,17 +55,17 @@ function Banner() {
   return (
     <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[800px] md:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
       <div className="container mx-auto px-4 h-full ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
-            className="space-y-6 lg:-translate-y-16"
+            className="space-y-6 lg:-translate-y-16 max-md:text-center"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <div className="custom-sub-title">
-              <span>به مدیفکس خوش آمدید</span>
+            <div className="custom-sub-title max-md:mx-auto">
+              <span>خوش آمدید</span>
             </div>
-            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
+            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px] max-md:text-center">
               {settings?.data.settings.siteTitle}
             </h1>
             <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
