@@ -97,7 +97,9 @@ function Dashboard() {
                     src={
                       user?.profileImage
                         ? `http://localhost:4000${user.profileImage}`
-                        : "/images/user_img.png"
+                        : user?.gender === "FEMALE"
+                        ? "/images/female-user.jpeg"
+                        : "/images/male-user.jpeg"
                     }
                     alt="user"
                     className="w-full h-full rounded-full object-cover"
@@ -215,7 +217,7 @@ function Dashboard() {
                       onClick={async () => {
                         await logout();
                         console.log("hello");
-                        
+
                         dispatch(clearUser());
                         dispatch(clearCsrfToken());
                         navigate("/home", { replace: true });

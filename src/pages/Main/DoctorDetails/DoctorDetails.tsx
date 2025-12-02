@@ -33,11 +33,19 @@ function DoctorDetails() {
             <div className="lg:col-span-2 space-y-8">
               <div className=" ">
                 <div className="grid md:grid-cols-[342px_1fr] gap-8 mb-8 ">
-                  <div className="">
+                  <div className="max-md:flex max-md:justify-center max-md:items-center">
                     <img
-                      src={`http://localhost:4000${doctor?.data?.doctor?.profileImage}`}
-                      alt={doctor?.data?.doctor?.firstName + " " + doctor?.data?.doctor?.lastName}
-                      className="rounded-2xl w-full  md:max-h-[362px] "
+                      src={
+                        doctor?.data?.doctor?.profileImage
+                          ? `http://localhost:4000${doctor?.data?.doctor?.profileImage}`
+                          : "/images/user_img.png"
+                      }
+                      alt={
+                        doctor?.data?.doctor?.firstName +
+                        " " +
+                        doctor?.data?.doctor?.lastName
+                      }
+                      className="rounded-2xl   size-80  "
                     />
                   </div>
                   <div className="space-y-5">
@@ -77,12 +85,16 @@ function DoctorDetails() {
                       {doctor?.data?.doctor?.lastName}
                     </h3>
                   </div>
-                  <div className="py-8 px-10" dangerouslySetInnerHTML={ {__html: doctor?.data?.doctor?.biography || ""} }></div>
-                 
+                  <div
+                    className="py-8 px-10"
+                    dangerouslySetInnerHTML={{
+                      __html: doctor?.data?.doctor?.biography || "",
+                    }}
+                  ></div>
                 </div>
               </div>
 
-            <CommentsBox doctorId={doctor?.data?.doctor?.id} /> 
+              <CommentsBox doctorId={doctor?.data?.doctor?.id} />
               <CommentForm doctorId={doctor?.data?.doctor?.id} />
             </div>
 

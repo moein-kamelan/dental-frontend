@@ -31,13 +31,14 @@ function ServiceDetails() {
                 {/* <!-- Main Image with Icon --> */}
                 <div className="relative ">
                   <img
-                    src={`http://localhost:4000${service?.data?.service?.coverImage}`}
+                    src={
+                      service?.data?.service?.coverImage
+                        ? `http://localhost:4000${service?.data?.service?.coverImage}`
+                        : "/images/service-1.jpg"
+                    }
                     alt={service?.data?.service?.title}
-                    className="w-8/10 mx-auto   h-150 rounded-xl" 
+                    className="w-8/10 mx-auto   h-150 rounded-xl"
                   />
-                  <div className="absolute bottom-0 left-8 transform  translate-y-1/3 size-17.5 bg-accent text-white rounded-lg flex items-center justify-center ">
-                    <i className="fas fa-heartbeat text-3xl "></i>
-                  </div>
                 </div>
 
                 <div className="p-8">
@@ -45,9 +46,14 @@ function ServiceDetails() {
                     {service?.data?.service?.title}
                   </h3>
 
-              <div className="text-dark font-estedad-light text-lg leading-relaxed article-content">
-                <div dangerouslySetInnerHTML={{ __html: service?.data?.service?.description }} />
-              </div>
+                  <div className="text-dark font-estedad-light text-lg leading-relaxed article-content">
+                    <div
+                      className="py-8 px-10"
+                      dangerouslySetInnerHTML={{
+                        __html: service?.data?.service?.description,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -175,7 +181,9 @@ function ServiceDetails() {
                   categories={service?.data?.service?.categories || []}
                   isServiceCategory
                 />
-                <RecentPosts services={service?.data?.service?.services || []} />
+                <RecentPosts
+                  services={service?.data?.service?.services || []}
+                />
               </div>
             </StickyBox>
           </div>

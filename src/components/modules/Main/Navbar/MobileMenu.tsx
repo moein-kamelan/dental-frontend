@@ -111,6 +111,17 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 border border-accent/20 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 active:scale-[0.98]"
               >
+                <img
+                  src={
+                    user.profileImage
+                      ? `http://localhost:4000${user.profileImage}`
+                      : user.gender === "FEMALE"
+                      ? "/images/female-user.jpeg"
+                      : "/images/male-user.jpeg"
+                  }
+                  alt="profile"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover shrink-0"
+                />
                 <div className="flex-1 text-right min-w-0">
                   <p className="text-sm font-iran-sans-bold text-dark truncate">
                     {user.firstName} {user.lastName}

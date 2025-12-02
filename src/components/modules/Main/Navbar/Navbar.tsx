@@ -182,13 +182,15 @@ function Navbar() {
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 border border-accent/20 hover:border-accent/40"
+                    className="flex items-center gap-4 p-2 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 border border-accent/20 hover:border-accent/40"
                   >
                     <img
                       src={
                         user.profileImage
                           ? `http://localhost:4000${user.profileImage}`
-                          : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "
+                          : user.gender === "FEMALE"
+                          ? "/images/female-user.jpeg"
+                          : "/images/male-user.jpeg"
                       }
                       alt="profile"
                       className="w-8 h-8 rounded-full object-cover"

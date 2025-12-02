@@ -31,10 +31,12 @@ function BlogDetails() {
                 <div className="relative">
                   <img
                     src={
-                      `http://localhost:4000${article?.data?.article?.coverImage}`
+                      article?.data?.article?.coverImage
+                        ? `http://localhost:4000${article?.data?.article?.coverImage}`
+                        : "/images/blog-1.jpg"
                     }
                     alt={article?.data?.article?.title}
-                      className="w-8/10 mx-auto   h-150 rounded-xl" 
+                    className="w-8/10 mx-auto   h-150 rounded-xl"
                   />
                 </div>
 
@@ -51,9 +53,14 @@ function BlogDetails() {
                 />
 
                 {/* <!-- Content --> */}
-             <div className="text-dark font-estedad-light text-lg leading-relaxed article-content">
-              <div dangerouslySetInnerHTML={{ __html: article?.data?.article?.content }} />
-             </div>
+                <div className="text-dark font-estedad-light text-lg leading-relaxed article-content">
+                  <div
+                    className="py-8 px-10"
+                    dangerouslySetInnerHTML={{
+                      __html: article?.data?.article?.content,
+                    }}
+                  />
+                </div>
 
                 <BlogDetailsTagsAndShare />
                 <div className="flex flex-col gap-8">
@@ -70,7 +77,9 @@ function BlogDetails() {
                   categories={article?.data?.article?.categories}
                   isArticleCategory
                 />
-                <RecentPosts articles={article?.data?.article?.articles || []} />
+                <RecentPosts
+                  articles={article?.data?.article?.articles || []}
+                />
               </div>
             </StickyBox>
           </div>

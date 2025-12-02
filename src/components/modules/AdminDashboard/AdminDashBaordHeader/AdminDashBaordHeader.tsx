@@ -88,7 +88,9 @@ function AdminDashBaordHeader({
                 src={
                   user?.profileImage
                     ? `http://localhost:4000${user?.profileImage}`
-                    : "https://ui-avatars.com/api/?name=Admin&background=4F46E5&color=fff "
+                    : user?.gender === "FEMALE"
+                    ? "/images/female-user.jpeg"
+                    : "/images/male-user.jpeg"
                 }
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
