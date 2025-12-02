@@ -30,7 +30,10 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
       Yup.object({
         title: Yup.string().max(200, "عنوان نباید بیشتر از 200 کاراکتر باشد"),
         description: Yup.string(),
-        buttonText: Yup.string().max(100, "متن دکمه نباید بیشتر از 100 کاراکتر باشد"),
+        buttonText: Yup.string().max(
+          100,
+          "متن دکمه نباید بیشتر از 100 کاراکتر باشد"
+        ),
         buttonLink: Yup.string().url("لینک معتبر نیست"),
         order: Yup.number()
           .integer("ترتیب باید عدد صحیح باشد")
@@ -59,7 +62,12 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
         return;
       }
 
-      if (isEditMode && !values.heroSliderImage && !banner?.image && !removeImage) {
+      if (
+        isEditMode &&
+        !values.heroSliderImage &&
+        !banner?.image &&
+        !removeImage
+      ) {
         showErrorToast("لطفاً یک تصویر انتخاب کنید");
         return;
       }
@@ -260,9 +268,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 تصویر بنر
-                {!isEditMode && (
-                  <span className="text-red-500 mr-1">*</span>
-                )}
+                {!isEditMode && <span className="text-red-500 mr-1">*</span>}
               </label>
               <div className="flex items-center gap-4 flex-wrap">
                 <input
@@ -342,4 +348,3 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
 }
 
 export default BannerManagementForm;
-
