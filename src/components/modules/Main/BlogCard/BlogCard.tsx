@@ -35,15 +35,24 @@ function BlogCard({ article }: BlogCardProps) {
       className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20"
     >
       <div className="relative h-64">
-        <img
-          src={
-            article?.coverImage
-              ? `http://localhost:4000${article.coverImage}`
-              : "/images/blog-1.jpg"
-          }
-          alt={article.title}
-          className="w-full h-full  group-hover/card:scale-105 transition-all duration-800"
-        />
+        {article?.coverImage ? (
+          <img
+            src={`http://localhost:4000${article.coverImage}`}
+            alt={article.title}
+            className="w-full h-full group-hover/card:scale-105 transition-all duration-800 object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-200 flex items-center justify-center">
+                  <i className="fas fa-image text-gray-400 text-xl sm:text-2xl"></i>
+                </div>
+              </div>
+              <p className="text-gray-400 text-xs sm:text-sm font-estedad-light">تصویر مقاله</p>
+            </div>
+          </div>
+        )}
         {article.categories && article.categories.length > 0 && (
           <span
             onClick={(e) => e.stopPropagation()}

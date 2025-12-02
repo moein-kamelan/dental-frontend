@@ -36,11 +36,12 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
         galleryImage: Yup.mixed()
           .nullable()
           .test("file-required", "تصویر الزامی است", function (value) {
-            if (isEditMode) {
-              // در حالت ویرایش، تصویر اختیاری است
-              return true;
+            // در هر دو حالت ایجاد و ویرایش، تصویر الزامی است
+            // در حالت ویرایش، اگر تصویر جدید انتخاب نشده باشد، تصویر فعلی باید وجود داشته باشد
+            if (isEditMode && !value && image?.image) {
+              return true; // تصویر فعلی وجود دارد
             }
-            // در حالت ایجاد، تصویر الزامی است
+            // در حالت ایجاد یا ویرایش بدون تصویر فعلی، باید تصویر جدید انتخاب شود
             return value !== null && value !== undefined && value !== "";
           }),
       }),
@@ -58,6 +59,17 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
     resetForm: () => void
   ) => {
     try {
+      // Validate image requirement
+      if (!isEditMode && !values.galleryImage) {
+        showErrorToast("لطفاً یک تصویر انتخاب کنید");
+        return;
+      }
+
+      if (isEditMode && !values.galleryImage && !image?.image) {
+        showErrorToast("لطفاً یک تصویر انتخاب کنید");
+        return;
+      }
+
       const formData = new FormData();
 
       if (values.title) {

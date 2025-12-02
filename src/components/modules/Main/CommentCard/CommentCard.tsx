@@ -32,11 +32,11 @@ function CommentCard({ review }: { review?: Review }) {
               </span>
             </div>
           </div>
-          <img
-            src="/images/review-shape.png "
-            alt="review-shape"
-            className="w-[42px] h-8 shrink-0"
-          />
+          <div className="w-[42px] h-8 shrink-0 flex items-center justify-center">
+            <div className="text-accent">
+              <i className="fas fa-tooth text-2xl"></i>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -77,11 +77,11 @@ function CommentCard({ review }: { review?: Review }) {
             </span>
           </div>
         </div>
-        <img
-          src="/images/review-shape.png "
-          alt="review-shape"
-          className="w-[42px] h-8 shrink-0"
-        />
+        <div className="w-[42px] h-8 shrink-0 flex items-center justify-center">
+          <div className="text-accent">
+            <i className="fas fa-tooth text-2xl"></i>
+          </div>
+        </div>
       </div>
     </div>
   );

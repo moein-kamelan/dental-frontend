@@ -8,7 +8,7 @@ import { formatPhoneNumber } from "../../../validators/phoneNumberValidator";
 import { AnimatePresence, motion } from "motion/react";
 import { showSuccessToast } from "../../../utils/toastify";
 import { useAppDispatch } from "../../../redux/typedHooks";
-import { setUser } from "../../../redux/slices/userSlice";
+import { fetchUser } from "../../../redux/slices/userSlice";
 
 interface SigninProps {
   onClose?: () => void;
@@ -188,10 +188,8 @@ function Signin({ onClose }: SigninProps = {}) {
         });
       }
 
-      // به‌روزرسانی وضعیت کاربر در Redux
-      if (response?.data?.user) {
-        dispatch(setUser(response.data.user));
-      }
+      // دریافت اطلاعات کامل کاربر از سرور (شامل profileImage و سایر فیلدها)
+      await dispatch(fetchUser());
 
       setArtificialLoading(false);
       // بستن مودال اگر از طریق مودال باز شده باشد

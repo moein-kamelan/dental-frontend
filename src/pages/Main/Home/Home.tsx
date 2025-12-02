@@ -4,7 +4,7 @@ import AboutUs from "../../../components/modules/Main/AboutUsSection/AboutUsSect
 import Services from "../../../components/templates/Main/Home/Services/Services";
 import FAQSection from "../../../components/templates/Main/Home/FAQSection/FAQSection";
 import Process from "../../../components/modules/Main/Process/Process";
-import Appointment from "../../../components/modules/Main/Appointment/Appointment";
+// import Appointment from "../../../components/modules/Main/Appointment/Appointment";
 import Team from "../../../components/modules/Main/Team/Team";
 import Review from "../../../components/templates/Main/Home/Review/Review";
 import BlogSection from "../../../components/modules/Main/BlogSection/BlogSection";
@@ -17,7 +17,7 @@ function Home() {
       <Services />
       <FAQSection />
       {/* <Process /> */}
-      <Appointment />
+      {/* <Appointment /> */}
       <Team />
       <Review />
       <BlogSection />

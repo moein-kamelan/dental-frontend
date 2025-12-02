@@ -141,8 +141,10 @@ function ServiceCommentsTable({
               comments.map((comment: Comment, index: number) => (
                 <tr
                   key={comment.id}
-                  className={`hover:bg-purple-400/10 text-dark *:p-4.5 ${
-                    !comment.read ? "bg-blue-50/50" : ""
+                  className={`text-dark *:p-4.5 ${
+                    !comment.read 
+                      ? "bg-blue-100 hover:bg-blue-200" 
+                      : "bg-gray-50 hover:bg-gray-100"
                   }`}
                 >
                   <td className="font-estedad-light text-center">

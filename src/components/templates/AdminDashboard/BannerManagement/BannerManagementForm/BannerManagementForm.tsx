@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,6 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
   const queryClient = useQueryClient();
   const { mutateAsync: createBanner } = useCreateHeroSlider();
   const { mutateAsync: updateBanner } = useUpdateHeroSlider();
-  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!banner?.id;
 
@@ -62,12 +61,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
         return;
       }
 
-      if (
-        isEditMode &&
-        !values.heroSliderImage &&
-        !banner?.image &&
-        !removeImage
-      ) {
+      if (isEditMode && !values.heroSliderImage && !banner?.image) {
         showErrorToast("لطفاً یک تصویر انتخاب کنید");
         return;
       }
@@ -97,14 +91,9 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
         formData.append("heroSliderImage", values.heroSliderImage);
       }
 
-      if (removeImage && isEditMode) {
-        formData.append("removeHeroSliderImage", "true");
-      }
-
       if (isEditMode && banner?.id) {
         const response = await updateBanner({ id: banner.id, data: formData });
         showSuccessToast("بنر با موفقیت ویرایش شد");
-        setRemoveImage(false);
         // Update cache immediately with the response data
         if (response?.data?.slider) {
           queryClient.setQueryData(["heroSlider", banner.id], response);
@@ -173,7 +162,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
     >
       {(formik) => {
         const shouldShowCurrentImage =
-          banner?.image && !formik.values.heroSliderImage && !removeImage;
+          banner?.image && !formik.values.heroSliderImage;
 
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -268,7 +257,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 تصویر بنر
-                {!isEditMode && <span className="text-red-500 mr-1">*</span>}
+                <span className="text-red-500 mr-1">*</span>
               </label>
               <div className="flex items-center gap-4 flex-wrap">
                 <input
@@ -279,14 +268,12 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     formik.setFieldValue("heroSliderImage", file);
-                    setRemoveImage(false);
                   }}
                 />
                 <button
                   type="button"
                   onClick={() => {
                     fileInputRef.current?.click();
-                    setRemoveImage(false);
                   }}
                   className="px-8 py-3 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
                 >
@@ -305,25 +292,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
                       className="w-32 h-20 rounded-lg object-cover"
                     />
                     <span className="text-sm text-paragray">تصویر فعلی</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setRemoveImage(true);
-                        formik.setFieldValue("heroSliderImage", null);
-                        if (fileInputRef.current) {
-                          fileInputRef.current.value = "";
-                        }
-                      }}
-                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
-                    >
-                      حذف عکس
-                    </button>
                   </div>
-                )}
-                {removeImage && (
-                  <span className="text-sm text-red-500 font-estedad-light">
-                    عکس در حال حذف است
-                  </span>
                 )}
               </div>
             </div>

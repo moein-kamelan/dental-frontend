@@ -94,36 +94,34 @@ function CommentsBox({
                   </p>
 
                   {/* نمایش پاسخ‌ها */}
+                  {/* اگر کامنت منتشر شده باشد، تمام پاسخ‌ها را نمایش می‌دهیم (حتی اگر پاسخ منتشر نشده باشد) */}
                   {comment.replies &&
-                    comment.replies.filter(
-                      (reply: Comment) => reply.published === true
-                    ).length > 0 && (
+                    comment.replies.length > 0 &&
+                    comment.published === true && (
                       <div className="mt-4 pr-4 space-y-4 border-r-2 border-primary/20">
-                        {comment.replies
-                          .filter((reply: Comment) => reply.published === true)
-                          .map((reply) => (
-                            <div
-                              key={reply.id}
-                              className="bg-primary/10 rounded-lg p-4 border-r-4 border-primary/30"
-                            >
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                    <i className="far fa-user text-primary text-xs"></i>
-                                  </div>
-                                  <span className="text-sm font-estedad-medium text-dark">
-                                    {reply.user.firstName} {reply.user.lastName}
-                                  </span>
+                        {comment.replies.map((reply) => (
+                          <div
+                            key={reply.id}
+                            className="bg-primary/10 rounded-lg p-4 border-r-4 border-primary/30"
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                  <i className="far fa-user text-primary text-xs"></i>
                                 </div>
-                                <span className="text-xs text-paragray font-estedad-light">
-                                  {formatJalali(new Date(reply.createdAt))}
+                                <span className="text-sm font-estedad-medium text-dark">
+                                  {reply.user.firstName} {reply.user.lastName}
                                 </span>
                               </div>
-                              <p className="text-paragray font-estedad-light text-sm leading-6 whitespace-pre-wrap">
-                                {reply.content}
-                              </p>
+                              <span className="text-xs text-paragray font-estedad-light">
+                                {formatJalali(new Date(reply.createdAt))}
+                              </span>
                             </div>
-                          ))}
+                            <p className="text-paragray font-estedad-light text-sm leading-6 whitespace-pre-wrap">
+                              {reply.content}
+                            </p>
+                          </div>
+                        ))}
                       </div>
                     )}
                 </div>

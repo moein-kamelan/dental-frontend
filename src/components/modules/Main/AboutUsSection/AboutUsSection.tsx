@@ -8,7 +8,7 @@ function AboutUsSection() {
 
   const aboutUsImage = settings?.aboutUsImage
     ? `http://localhost:4000${settings.aboutUsImage}`
-    : "/images/about-img1.jpg";
+    : null;
 
   const aboutUsContent = settings?.aboutUsContent || "";
 
@@ -36,14 +36,27 @@ function AboutUsSection() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-lg">
-                <img
-                  src={aboutUsImage}
-                  alt="درباره ما"
-                  className="w-full h-auto object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
+              {aboutUsImage ? (
+                <div className="relative rounded-2xl overflow-hidden shadow-lg">
+                  <img
+                    src={aboutUsImage}
+                    alt="درباره ما"
+                    className="w-full h-auto object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </div>
+              ) : (
+                <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-[4/3] flex items-center justify-center">
+                  <div className="text-center space-y-3">
+                    <div className="flex items-center justify-center">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-200 flex items-center justify-center">
+                        <i className="fas fa-image text-gray-400 text-2xl sm:text-3xl"></i>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 text-sm sm:text-base font-estedad-light">تصویر درباره ما</p>
+                  </div>
+                </div>
+              )}
             </motion.div>
 
             {/* محتوا */}

@@ -91,9 +91,7 @@ function BannerManagementTable({
                     {banner.title || "-"}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="max-w-xs truncate">
-                      {banner.description || "-"}
-                    </div>
+                    <span dangerouslySetInnerHTML={{ __html: banner.description || "-" }}></span>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {banner.buttonText ? (

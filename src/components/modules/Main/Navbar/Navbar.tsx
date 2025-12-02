@@ -21,6 +21,14 @@ function Navbar() {
   const { data: settings } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
+
+  // Close dropdown when user logs out
+  useEffect(() => {
+    if (!user) {
+      setIsDropdownOpen(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -39,6 +47,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
+      setIsDropdownOpen(false);
       await logout();
       dispatch(clearUser());
       dispatch(clearCsrfToken());
@@ -57,12 +66,12 @@ function Navbar() {
     }
   };
   return (
-    <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-[76px] w-full">
-      <div className="container mx-auto px-4 h-full">
-        <div className="flex items-center justify-between py-4 h-full ">
+    <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-16 sm:h-18 md:h-[76px] w-full">
+      <div className="container mx-auto px-3 sm:px-4 h-full">
+        <div className="flex items-center justify-between py-2 sm:py-3 md:py-4 h-full">
           <NavLink
             to={"/home"}
-            className="w-48 h-16  flex items-center justify-center"
+            className="w-32 sm:w-40 md:w-48 h-10 sm:h-12 md:h-16 flex items-center justify-center shrink-0"
           >
             <img
               src={
@@ -325,9 +334,10 @@ function Navbar() {
 
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden text-dark text-2xl hover:text-accent transition-colors "
+            className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-lg hover:bg-accent/10 text-dark hover:text-accent transition-all duration-200 active:scale-95"
+            aria-label="باز کردن منو"
           >
-            <i className="fas fa-bars"></i>
+            <i className="fas fa-bars text-xl sm:text-2xl"></i>
           </button>
         </div>
       </div>

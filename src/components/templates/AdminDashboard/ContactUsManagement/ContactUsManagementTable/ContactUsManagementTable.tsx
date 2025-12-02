@@ -74,8 +74,10 @@ function ContactUsManagementTable({
               messages.map((message: ContactMessage, index: number) => (
                 <tr
                   key={message.id}
-                  className={`hover:bg-purple-400/10 text-dark *:p-4.5 ${
-                    !message.read ? "bg-blue-50/50" : ""
+                  className={`text-dark *:p-4.5 ${
+                    !message.read
+                      ? "bg-blue-100 hover:bg-blue-200"
+                      : "bg-gray-50 hover:bg-gray-100"
                   }`}
                 >
                   <td className="font-estedad-light text-center">
@@ -84,7 +86,7 @@ function ContactUsManagementTable({
                   <td className="">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <i className="far fa-user text-primary"></i>
+                        <i className="fa fa-user text-primary"></i>
                       </div>
                       <div>
                         <p className="font-estedad-light">{message.name}</p>

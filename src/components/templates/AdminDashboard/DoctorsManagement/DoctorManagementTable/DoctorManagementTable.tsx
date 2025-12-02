@@ -92,7 +92,7 @@ function DoctorsManagementTable({
                         </p>
                         {doctor.biography && (
                           <span className="text-xs font-estedad-light text-paragray line-clamp-1">
-                            {stripHtmlTags(doctor.biography)}
+                            {stripHtmlTags(doctor.biography )} 
                           </span>
                         )}
                       </div>
