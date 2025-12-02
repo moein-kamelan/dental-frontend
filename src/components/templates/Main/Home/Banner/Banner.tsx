@@ -24,11 +24,8 @@ function Banner() {
   const { data: settings } = useGetSettings();
   const { data: bannersData } = useGetAllHeroSliders(1, 20, "true");
 
+  // Get banners array or use empty array as fallback (only published banners)
   const banners: HeroSlider[] = bannersData?.data?.sliders || [];
-
-  const startYear = 2014;
-  const currentYear = new Date().getFullYear();
-  const yearsOfExperience = currentYear - startYear;
 
   const patientsRecoverdCount = useMotionValue(0);
   const susseccfulVisitsCount = useMotionValue(0);
@@ -45,97 +42,85 @@ function Banner() {
   });
 
   useEffect(() => {
-    const controls1 = animate(patientsRecoverdCount, 32000, { duration: 2 });
-    const controls2 = animate(susseccfulVisitsCount, yearsOfExperience, { duration: 2 });
-    const controls3 = animate(popularDoctorsCount, 18, { duration: 2 });
+    const controls1 = animate(patientsRecoverdCount, 100, { duration: 2 });
+    const controls2 = animate(susseccfulVisitsCount, 280, { duration: 2 });
+    const controls3 = animate(popularDoctorsCount, 120, { duration: 2 });
     return () => {
       controls1.stop();
       controls2.stop();
       controls3.stop();
     };
-  }, [yearsOfExperience]);
+  }, []);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 min-h-[500px] sm:min-h-[550px] md:min-h-[700px] lg:min-h-[800px] xl:min-h-[900px] pt-4 sm:pt-5 md:pt-8 lg:pt-10 pb-4 sm:pb-6 md:-mb-[300px] lg:-mb-[300px] overflow-hidden">
-      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 md:pt-[100px] lg:py-10 lg:pt-[100px]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center">
+    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[800px] md:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
+      <div className="container mx-auto px-4 h-full ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
           <motion.div
-            className="space-y-4 sm:space-y-5 md:space-y-6 lg:-translate-y-16 xl:-translate-y-20"
+            className="space-y-6 lg:-translate-y-16"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <div className="custom-sub-title text-sm sm:text-base md:text-lg max-md:mx-auto">
-              <span>خوش آمدید</span>
+            <div className="custom-sub-title">
+              <span>به مدیفکس خوش آمدید</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] xl:text-[52px] custom-title mt-4 sm:mt-5 md:mt-[22px] mb-3 sm:mb-4 leading-tight xl:max-w-[526px] max-md:text-center md:text-right">
+            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px]">
               {settings?.data.settings.siteTitle}
             </h1>
-            <p className="text-paragray text-sm sm:text-base md:text-lg xl:max-w-[526px] font-estedad-light leading-relaxed max-md:text-center md:text-right">
+            <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
               {settings?.data.settings.description}
             </p>
-            <div className="max-md:flex max-md:justify-center md:block">
-              <button
-                onClick={() => {
-                  showSuccessToast("دریافت نوبت به زودی فعال خواهد شد");
-                }}
-                className="inline-block main-btn text-sm sm:text-base py-2.5 sm:py-3 px-6 sm:px-10 mt-2 sm:mt-3"
-              >
-                درخواست نوبت مشاوره
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                showSuccessToast("دریافت نوبت به زودی فعال خواهد شد");
+              }}
+              className="inline-block main-btn"
+            >
+              درخواست نوبت مشاوره
+            </button>
 
-            <div className="flex flex-wrap gap-y-3 sm:gap-y-4 max-md:justify-center gap-x-3 sm:gap-x-4 md:gap-x-6 pt-4 sm:pt-5 md:pt-6">
-              <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
-                <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
-                  {displaySusseccfullVisitsCount}
-                  <span className="text-xl sm:text-2xl"> سال</span>
-                </motion.h3>
-                <p className="text-paragray text-xs sm:text-sm md:text-lg font-estedad-light text-center mt-1">
-                  تجربه
-                </p>
-              </div>
-              <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
-                <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
+            <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
+              <div>
+                <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
                   {displayPatientsRecoverdCount}
-                  <span className="text-xl sm:text-2xl">+</span>
+                  <span className="text-2xl">+</span>
                 </motion.h3>
-                <p className="text-paragray text-xs sm:text-sm md:text-lg font-estedad-light text-center mt-1">
-                  مراجع بهبود یافته
+                <p className="text-paragray md:text-lg font-estedad-light ">
+                  بیماران بهبود یافته
                 </p>
               </div>
-              <div className="flex-none w-auto min-w-[100px] sm:min-w-[110px] md:min-w-[120px]">
-                <motion.h3 className="text-2xl sm:text-[28px] md:text-[32px] lg:text-[40px] font-estedad-semibold text-dark text-center">
-                  {displayPopularDoctorsCount}
-                  <span className="text-xl sm:text-2xl">+</span>
+              <div>
+                <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+                  {displaySusseccfullVisitsCount}
+                  <span className="text-2xl">%</span>
                 </motion.h3>
-                <p className="text-paragray text-xs sm:text-sm md:text-lg font-estedad-light text-center mt-1">
-                  دندان پزشک مجرب
+                <p className="text-paragray md:text-lg font-estedad-light ">
+                  بازدید موفق
+                </p>
+              </div>
+              <div>
+                <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
+                  {displayPopularDoctorsCount}
+                  <span className="text-2xl">+</span>
+                </motion.h3>
+                <p className="text-paragray md:text-lg font-estedad-light ">
+                  دکترهای محبوب
                 </p>
               </div>
             </div>
           </motion.div>
 
           <motion.div
-            className="relative w-full min-h-[350px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] flex items-center justify-center mt-4 sm:mt-6 md:-mt-[50px] lg:-mt-[80px] xl:-mt-[100px] 2xl:-mt-[120px]"
+            className="relative h-full min-h-[500px] md:min-h-[600px] flex items-center justify-center"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-              <div className="w-[70%] sm:w-[70%] md:w-[75%] lg:w-[85%] xl:w-[90%] h-auto max-h-full">
-                <img
-                  src="images/banner-new-bg.png"
-                  alt="banner-bg"
-                  className="w-full h-auto circular-animation"
-                />
-              </div>
-            </div>
-
             <Swiper
               modules={[Autoplay]}
               spaceBetween={0}
-              className="h-[350px] sm:h-[400px] md:h-[450px] lg:h-[550px] xl:h-[600px] w-full relative z-10"
+              className="h-[500px] md:h-full w-full"
               slidesPerView={1}
               loop={banners.length > 1}
               autoplay={{
@@ -167,12 +152,22 @@ function Banner() {
                     <img
                       src="images/banner_img.png"
                       alt="banner"
-                      className="w-[75%] sm:w-[80%] max-w-[600px] h-auto max-h-[80%] sm:max-h-[85%] object-contain z-20"
+                      className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
                     />
                   </div>
                 </SwiperSlide>
               )}
             </Swiper>
+
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+              <div className="w-[70%] sm:w-[75%] md:w-[80%] lg:w-[85%] h-auto">
+                <img
+                  src="images/banner-new-bg.png"
+                  alt="banner-bg"
+                  className="w-full h-auto circular-animation"
+                />
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
