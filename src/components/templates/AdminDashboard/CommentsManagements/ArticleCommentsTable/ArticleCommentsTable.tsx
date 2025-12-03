@@ -121,9 +121,7 @@ function ArticleCommentsTable({
             <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>کاربر</th>
-              <th className="min-w-[250px]">مقاله</th>
-              <th>نام دسته بندی</th>
-              <th>توضیحات</th>
+              <th >مقاله</th>
               <th>متن نظر</th>
               <th>امتیاز</th>
               <th>وضعیت انتشار</th>
@@ -155,9 +153,9 @@ function ArticleCommentsTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-3 ">
+                    <div className="flex items-center gap-3 min-w-[200px]">
                       <div>
-                        <p className="font-estedad-light">
+                        <p className="font-estedad-light line-clamp-2 ">
                           {comment.user.firstName} {comment.user.lastName}
                         </p>
                       </div>
@@ -165,37 +163,18 @@ function ArticleCommentsTable({
                   </td>
                   <td className="text-dark font-estedad-light ">
                     {comment.article ? (
-                      <span className="line-clamp-2 max-w-[200px]  block">
+                      <span className="line-clamp-2 min-w-[200px]">
                         {comment.article.title}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
-                    {comment.article?.categories &&
-                    comment.article.categories.length > 0 ? (
-                      <span className="line-clamp-2 max-w-[200px] block">
-                        {comment.article.categories
-                          .map((cat) => cat.name)
-                          .join(", ")}
-                      </span>
-                    ) : (
-                      <span className="text-paragray">-</span>
-                    )}
-                  </td>
-                  <td className="text-dark font-estedad-light">
-                    {comment.article?.excerpt ? (
-                      <span className="line-clamp-2 max-w-[200px] block">
-                        {comment.article.excerpt}
-                      </span>
-                    ) : (
-                      <span className="text-paragray">-</span>
-                    )}
-                  </td>
+      
+        
                   <td className="text-dark font-estedad-light">
                     <span
-                      className={`line-clamp-2 max-w-[300px] ${
+                      className={`line-clamp-2 max-w-[300px] min-w-[220px] ${
                         onCommentClick
                           ? "cursor-pointer hover:text-primary transition-colors"
                           : ""
@@ -210,20 +189,20 @@ function ArticleCommentsTable({
                     {renderStars(comment.rating)}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       {comment.published ? (
-                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                           منتشر شده
                         </span>
                       ) : (
-                        <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                           پنهان
                         </span>
                       )}
                       <button
                         onClick={() => handleToggleStatus(comment.id)}
                         disabled={togglingIds.has(comment.id)}
-                        className="p-1.5 rounded-full text-primary bg-primary/20 hover:bg-primary hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="p-1.5 rounded-full text-primary bg-primary/20 hover:bg-primary hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed "
                         title={comment.published ? "پنهان کردن" : "انتشار"}
                       >
                         {togglingIds.has(comment.id) ? (
@@ -239,13 +218,13 @@ function ArticleCommentsTable({
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       {comment.read ? (
-                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                           خوانده شده
                         </span>
                       ) : (
-                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 text-nowrap">
                           خوانده نشده
                         </span>
                       )}
@@ -255,7 +234,7 @@ function ArticleCommentsTable({
                     {formatJalali(new Date(comment.createdAt))}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       {comment.read ? (
                         <button
                           onClick={() => handleToggleReadStatus(comment.id)}

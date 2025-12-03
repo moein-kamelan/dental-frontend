@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 
 interface Faq {
@@ -52,7 +52,7 @@ function FaqsManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>سوال</th>
               <th>پاسخ</th>
@@ -81,14 +81,13 @@ function FaqsManagementTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <p className="font-estedad-light line-clamp-2">
+                    <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">
                       {faq.question}
                     </p>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <span className="line-clamp-2">
-                      {faq.answer.substring(0, 80)}
-                      {faq.answer.length > 80 ? "..." : ""}
+                    <span className="line-clamp-2 max-w-[300px] min-w-[220px]">
+                      {stripHtmlTags(faq.answer)}
                     </span>
                   </td>
                   <td className="text-dark font-estedad-light text-center">
@@ -96,11 +95,11 @@ function FaqsManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {faq.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                         پیش‌نویس
                       </span>
                     )}

@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import type { ServiceCategory } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -72,18 +72,15 @@ function ServicesCategoryManagementTable({
                     {index + 1}
                   </td>
                   <td className="">
-                    <div>
-                      <p className="font-estedad-light">{category.name}</p>
-                      <span className="text-xs font-estedad-light text-paragray line-clamp-1">
-                        {category.slug}
-                      </span>
+                    <div className="min-w-[200px]">
+                      <p className="font-estedad-light line-clamp-2">{category.name}</p>
+              
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {category.description ? (
-                      <span className="line-clamp-2">
-                        {category.description.substring(0, 50)}
-                        {category.description.length > 50 ? "..." : ""}
+                      <span className="line-clamp-2 min-w-[200px]">
+                        {stripHtmlTags(category.description)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -97,11 +94,11 @@ function ServicesCategoryManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {category.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                         پیش‌نویس
                       </span>
                     )}

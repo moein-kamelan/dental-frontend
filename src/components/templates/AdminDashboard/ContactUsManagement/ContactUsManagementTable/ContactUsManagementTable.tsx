@@ -85,11 +85,11 @@ function ContactUsManagementTable({
                   </td>
                   <td className="">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <i className="fa fa-user text-primary"></i>
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <i className="far fa-user text-primary"></i>
                       </div>
                       <div>
-                        <p className="font-estedad-light">{message.name}</p>
+                        <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{message.name}</p>
                       </div>
                     </div>
                   </td>
@@ -103,7 +103,7 @@ function ContactUsManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {message.subject ? (
-                      <span className="line-clamp-1 max-w-[150px]">
+                      <span className="line-clamp-2 max-w-[200px] min-w-[200px]">
                         {message.subject}
                       </span>
                     ) : (
@@ -130,11 +130,11 @@ function ContactUsManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {message.read ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         خوانده شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 text-nowrap">
                         خوانده نشده
                       </span>
                     )}
@@ -143,7 +143,7 @@ function ContactUsManagementTable({
                     {formatJalali(new Date(message.createdAt))}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center  gap-2">
                       {message.read ? (
                         <button
                           onClick={() => onMarkAsUnread(message.id)}

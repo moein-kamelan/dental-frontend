@@ -72,8 +72,8 @@ function ArticleManagementTable({
                   <td className="font-estedad-light text-center">
                     {(page - 1) * 5 + index + 1}
                   </td>
-                  <td className="max-w-[220px]">
-                    <div className="flex items-center gap-3 max-w-[220px]">
+                  <td className="  ">
+                    <div className="flex items-center gap-3 min-w-[240px] ">
                       {article.coverImage ? (
                         <img
                           src={`http://localhost:4000${article.coverImage}`}
@@ -92,7 +92,7 @@ function ArticleManagementTable({
                       </div>
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light max-w-[260px]">
+                  <td className="text-dark font-estedad-light min-w-[240px] max-w-[260px]">
                     {article.excerpt ? (
                       <span className="line-clamp-2">
                         {stripHtmlTags(article.excerpt)}
@@ -107,7 +107,7 @@ function ArticleManagementTable({
                         {article.categories.slice(0, 2).map((category) => (
                           <span
                             key={category.id}
-                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center"
+                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center line-clamp-2 text-nowrap"
                           >
                             {category.name}
                           </span>
@@ -124,7 +124,7 @@ function ArticleManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {article.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (

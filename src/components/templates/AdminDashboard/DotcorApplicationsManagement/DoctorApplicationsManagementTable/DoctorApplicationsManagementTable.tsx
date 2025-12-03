@@ -48,7 +48,7 @@ function DoctorApplicationsManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>نام و نام خانوادگی</th>
               <th>ایمیل</th>
@@ -85,11 +85,11 @@ function DoctorApplicationsManagementTable({
                     </td>
                     <td className="">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                           <i className="far fa-user text-primary"></i>
                         </div>
                         <div>
-                          <p className="font-estedad-light">
+                          <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">
                             {application.firstName} {application.lastName}
                           </p>
                         </div>
@@ -106,7 +106,7 @@ function DoctorApplicationsManagementTable({
                     <td className="text-dark font-estedad-light">
                       <button
                         onClick={() => onApplicationClick(application)}
-                        className="line-clamp-2 max-w-[200px] text-right hover:text-primary transition-colors cursor-pointer"
+                        className="line-clamp-2 max-w-[260px] min-w-[200px] text-right hover:text-primary transition-colors cursor-pointer"
                         title="کلیک برای مشاهده کامل اطلاعات"
                       >
                         {application.doctorInfo}
@@ -114,20 +114,20 @@ function DoctorApplicationsManagementTable({
                     </td>
                     <td className="text-dark font-estedad-light">
                       {application.clinic ? (
-                        <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary">
+                        <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-nowrap">
                           {application.clinic.name}
                         </span>
                       ) : (
-                        <span className="text-paragray">-</span>
+                        <span className="text-paragray ">-</span>
                       )}
                     </td>
                     <td className="text-dark font-estedad-light">
                       {application.read ? (
-                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                           خوانده شده
                         </span>
                       ) : (
-                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 text-nowrap">
                           خوانده نشده
                         </span>
                       )}
@@ -136,7 +136,7 @@ function DoctorApplicationsManagementTable({
                       {formatJalali(new Date(application.createdAt))}
                     </td>
                     <td className="">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-center gap-2">
                         {application.read ? (
                           <button
                             onClick={() => onMarkAsUnread(application.id)}

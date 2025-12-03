@@ -46,7 +46,7 @@ function ReviewManagementTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>نام</th>
               <th>متن نظر</th>
@@ -89,7 +89,7 @@ function ReviewManagementTable({
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light">{review.name}</p>
+                        <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{review.name}</p>
                       </div>
                     </div>
                   </td>
@@ -120,11 +120,11 @@ function ReviewManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {review.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                         در انتظار تایید
                       </span>
                     )}
@@ -136,7 +136,7 @@ function ReviewManagementTable({
                     {formatJalali(new Date(review.createdAt || new Date()))}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center  gap-2">
                       <button
                         onClick={() => {
                           navigate(

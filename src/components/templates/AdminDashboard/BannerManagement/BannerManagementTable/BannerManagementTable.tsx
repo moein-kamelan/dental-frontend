@@ -88,13 +88,13 @@ function BannerManagementTable({
                     )}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <span className="line-clamp-2 max-w-[220px] inline-block">
+                    <span className="line-clamp-2 max-w-[240px] min-w-[200px] ">
                       {banner.title || "-"}
                     </span>
                   </td>
                   <td className="text-dark font-estedad-light">
                     <div
-                      className="line-clamp-2 max-w-[260px]"
+                      className="line-clamp-2 max-w-[260px] min-w-[200px] "
                       dangerouslySetInnerHTML={{
                         __html: banner.description || "-",
                       }}
@@ -102,10 +102,10 @@ function BannerManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {banner.buttonText ? (
-                      <div className="flex flex-col gap-1">
-                        <span className="text-xs">{banner.buttonText}</span>
+                      <div className="flex flex-col gap-1 min-w-[200px]">
+                        <span className="text-xs line-clamp-2 max-w-[200px] ">{banner.buttonText}</span>
                         {banner.buttonLink && (
-                          <span className="text-xs text-paragray truncate max-w-[150px]">
+                          <span className="text-xs text-paragray truncate max-w-[200px] min-w-[150px]  line-clamp-2">
                             {banner.buttonLink}
                           </span>
                         )}
@@ -119,11 +119,11 @@ function BannerManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {banner.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 text-nowrap">
                         منتشر نشده
                       </span>
                     )}
@@ -134,7 +134,7 @@ function BannerManagementTable({
                       : "-"}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center  gap-2">
                       <button
                         onClick={() => {
                           navigate(

@@ -116,7 +116,7 @@ function ServiceCommentsTable({
       <TableContainer withBg withMargin>
         <table className="w-full ">
           <thead className="border-b border-main-border-color ">
-            <tr className="*:text-right *:p-4.5 ">
+            <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>کاربر</th>
               <th>خدمت</th>
@@ -151,9 +151,9 @@ function ServiceCommentsTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 min-w-[200px]">
                       <div>
-                        <p className="font-estedad-light">
+                        <p className="font-estedad-light line-clamp-2">
                           {comment.user.firstName} {comment.user.lastName}
                         </p>
                       </div>
@@ -161,7 +161,7 @@ function ServiceCommentsTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {comment.service ? (
-                      <span className="line-clamp-1 max-w-[200px]">
+                      <span className="line-clamp-2 min-w-[200px]">
                         {comment.service.title}
                       </span>
                     ) : (
@@ -170,7 +170,7 @@ function ServiceCommentsTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     <span
-                      className={`line-clamp-2 max-w-[300px] ${
+                      className={`line-clamp-2 max-w-[300px] min-w-[220px] ${
                         onCommentClick
                           ? "cursor-pointer hover:text-primary transition-colors"
                           : ""
@@ -185,13 +185,13 @@ function ServiceCommentsTable({
                     {renderStars(comment.rating)}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       {comment.published ? (
-                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                           منتشر شده
                         </span>
                       ) : (
-                        <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                           پنهان
                         </span>
                       )}
@@ -216,13 +216,13 @@ function ServiceCommentsTable({
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       {comment.read ? (
-                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                           خوانده شده
                         </span>
                       ) : (
-                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 text-nowrap">
                           خوانده نشده
                         </span>
                       )}
