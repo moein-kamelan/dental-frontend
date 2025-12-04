@@ -103,7 +103,7 @@ function ArticlesCategoryManagementTable({
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {category.createdAt
                       ? formatJalali(new Date(category.createdAt))
                       : "-"}

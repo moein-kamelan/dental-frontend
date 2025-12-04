@@ -87,14 +87,16 @@ function ServiceManagementTable({
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light line-clamp-2">{service.title}</p>
+                        <p className="font-estedad-light line-clamp-2">
+                          {service.title}
+                        </p>
                       </div>
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light min-w-[250px] pr-6">
                     {service.description ? (
                       <span className="line-clamp-2">
-                      {stripHtmlTags(service.description)}
+                        {stripHtmlTags(service.description)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -138,7 +140,7 @@ function ServiceManagementTable({
                       <span className="text-paragray">-</span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(service.createdAt || new Date()))}
                   </td>
                   <td className="">

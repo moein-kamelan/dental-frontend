@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import type { Review } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -93,9 +93,9 @@ function ReviewManagementTable({
                       </div>
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light min-w-[250px] pr-6">
+                  <td className="text-dark font-estedad-light  pr-6">
                     <span
-                      className={`line-clamp-2 ${
+                      className={`line-clamp-2 max-w-[300px] min-w-[220px] ${
                         onReviewClick
                           ? "cursor-pointer hover:text-primary transition-colors"
                           : ""
@@ -103,9 +103,7 @@ function ReviewManagementTable({
                       onClick={() => onReviewClick?.(review)}
                       title={onReviewClick ? "کلیک برای مشاهده جزئیات" : ""}
                     >
-                      {review.content.length > 50
-                        ? review.content.substring(0, 50) + "..."
-                        : review.content}
+                      {stripHtmlTags(review.content || "")}
                     </span>
                   </td>
                   <td className="text-dark font-estedad-light">
@@ -132,7 +130,7 @@ function ReviewManagementTable({
                   <td className="text-dark font-estedad-light text-center">
                     {review.order}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(review.createdAt || new Date()))}
                   </td>
                   <td className="">

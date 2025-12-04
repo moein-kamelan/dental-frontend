@@ -228,7 +228,7 @@ function ServiceCommentsTable({
                       )}
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(comment.createdAt))}
                   </td>
                   <td className="">

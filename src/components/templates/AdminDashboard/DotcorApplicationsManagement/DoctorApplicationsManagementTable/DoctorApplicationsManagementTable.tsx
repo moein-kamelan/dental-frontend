@@ -132,7 +132,7 @@ function DoctorApplicationsManagementTable({
                         </span>
                       )}
                     </td>
-                    <td className="text-dark font-estedad-light">
+                    <td className="text-dark font-estedad-light text-nowrap">
                       {formatJalali(new Date(application.createdAt))}
                     </td>
                     <td className="">

@@ -128,7 +128,7 @@ function BannerManagementTable({
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {banner.createdAt
                       ? formatJalali(new Date(banner.createdAt))
                       : "-"}

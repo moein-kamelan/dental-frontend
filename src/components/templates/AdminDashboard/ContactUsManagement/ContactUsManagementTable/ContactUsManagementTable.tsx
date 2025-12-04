@@ -121,7 +121,7 @@ function ContactUsManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {message.clinic ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary">
+                      <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-nowrap">
                         {message.clinic.name}
                       </span>
                     ) : (
@@ -139,7 +139,7 @@ function ContactUsManagementTable({
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(message.createdAt))}
                   </td>
                   <td className="">

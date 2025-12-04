@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import * as Yup from "yup";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
@@ -11,10 +11,46 @@ import {
   showErrorToast,
 } from "../../../../../utils/toastify";
 import { isValidFileType } from "../../../../../validators/fileTypeValidator";
+import { useGetAllClinics } from "../../../../../services/useClinics";
+import Select, { components } from "react-select";
+import type { DropdownIndicatorProps } from "react-select";
+import type { OptionType, Clinic } from "../../../../../types/types";
+
+const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
+  return (
+    <components.DropdownIndicator {...props}>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 7.5L10 12.5L15 7.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </components.DropdownIndicator>
+  );
+};
 
 function BecomeDoctorForm() {
   const { mutateAsync: createDoctorApplication } = useCreateDoctorApplication();
+  const { data: clinicsData } = useGetAllClinics(1, 100);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const clinicOptions: OptionType[] = useMemo(
+    () =>
+      clinicsData?.data?.clinics?.map((clinic: Clinic) => ({
+        value: clinic.id,
+        label: clinic.name,
+      })) || [],
+    [clinicsData?.data?.clinics]
+  );
 
   const handleSubmit = async (
     values: {
@@ -24,6 +60,7 @@ function BecomeDoctorForm() {
       phone: string;
       documents: File[];
       information: string;
+      clinicId: string | null;
     },
     resetForm: () => void
   ) => {
@@ -34,6 +71,10 @@ function BecomeDoctorForm() {
       formData.append("email", values.email);
       formData.append("phoneNumber", values.phone);
       formData.append("doctorInfo", values.information);
+
+      if (values.clinicId) {
+        formData.append("clinicId", values.clinicId);
+      }
 
       if (values.documents && values.documents.length > 0) {
         values.documents.forEach((file: File) => {
@@ -71,6 +112,7 @@ function BecomeDoctorForm() {
           phone: "",
           documents: [],
           information: "",
+          clinicId: null as string | null,
         }}
         validationSchema={Yup.object({
           firstName: Yup.string().required("نام الزامی است"),
@@ -100,6 +142,7 @@ function BecomeDoctorForm() {
           information: Yup.string()
             .required("اطلاعات الزامی است")
             .min(20, "اطلاعات پزشک باید حداقل 20 کاراکتر باشد"),
+          clinicId: Yup.string().uuid().nullable(),
         })}
         onSubmit={async (values, { resetForm }) => {
           await handleSubmit(values, resetForm);
@@ -157,6 +200,48 @@ function BecomeDoctorForm() {
                     : null
                 }
               />
+
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  کلینیک (اختیاری)
+                </label>
+                <Select<OptionType>
+                  options={clinicOptions}
+                  value={
+                    clinicOptions.find(
+                      (option) => option.value === formik.values.clinicId
+                    ) || null
+                  }
+                  onChange={(selected) => {
+                    formik.setFieldValue("clinicId", selected?.value || null);
+                    formik.setFieldTouched("clinicId", true);
+                  }}
+                  onBlur={() => formik.setFieldTouched("clinicId", true)}
+                  placeholder="کلینیک را انتخاب کنید (اختیاری)"
+                  isClearable
+                  components={{ DropdownIndicator }}
+                  classNames={{
+                    control: () =>
+                      `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2 !border-main-border-color !focus:outline-none h-full !cursor-pointer`,
+                    option: ({ isFocused, isSelected }) =>
+                      `px-3 py-2 cursor-pointer !text-lg border-r-6 ${
+                        isSelected
+                          ? "!bg-primary text-white !cursor-pointer"
+                          : isFocused
+                          ? "!text-secondary !cursor-pointer"
+                          : "bg-white !cursor-pointer"
+                      }`,
+                    menu: () =>
+                      "!mt-0 !rounded-t-none shadow-lg bg-white overflow-hidden",
+                    placeholder: () => `!text-dark`,
+                  }}
+                />
+                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
+                  {formik.touched.clinicId && formik.errors.clinicId
+                    ? formik.errors.clinicId
+                    : null}
+                </div>
+              </div>
 
               <CustomInput
                 ref={fileInputRef}

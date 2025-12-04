@@ -114,7 +114,7 @@ function GalleryManagementTable({
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(image.createdAt || new Date()))}
                   </td>
                   <td className="">

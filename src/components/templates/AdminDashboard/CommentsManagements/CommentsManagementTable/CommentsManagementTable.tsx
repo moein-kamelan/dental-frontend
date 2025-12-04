@@ -116,7 +116,7 @@ function CommentsManagementTable({
                 <td className="text-dark font-estedad-light">
                   {renderStars(comment.rating)}
                 </td>
-                <td className="text-dark font-estedad-light">
+                <td className="text-dark font-estedad-light text-nowrap">
                   {formatJalali(new Date(comment.createdAt))}
                 </td>
                 <td className="">

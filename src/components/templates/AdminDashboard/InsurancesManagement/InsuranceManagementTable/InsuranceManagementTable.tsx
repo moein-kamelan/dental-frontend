@@ -158,7 +158,7 @@ function InsuranceManagementTable({
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(insurance.createdAt || new Date()))}
                   </td>
                   <td className="">

@@ -43,7 +43,9 @@ function AboutUsSection() {
                     alt="درباره ما"
                     className="w-full h-auto object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent size-10">
+
+                  </div>
                 </div>
               ) : (
                 <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-[4/3] flex items-center justify-center">

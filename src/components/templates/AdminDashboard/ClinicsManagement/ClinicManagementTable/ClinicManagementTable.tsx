@@ -93,7 +93,7 @@ function ClinicManagementTable({
                   <td className="text-dark font-estedad-light text-center">
                     {clinic._count?.doctors || 0}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {clinic.createdAt
                       ? formatJalali(new Date(clinic.createdAt))
                       : "-"}

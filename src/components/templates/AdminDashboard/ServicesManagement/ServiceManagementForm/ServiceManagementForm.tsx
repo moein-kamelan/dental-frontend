@@ -73,8 +73,9 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         durationMinutes: Yup.number()
           .nullable()
           .min(1, "مدت زمان باید حداقل 1 دقیقه باشد"),
+        // id های دسته‌بندی را به صورت رشته ساده اعتبارسنجی می‌کنیم
         categoryIds: Yup.array()
-          .of(Yup.string().uuid())
+          .of(Yup.string())
           .min(1, "انتخاب حداقل یک دسته‌بندی الزامی است")
           .required("انتخاب دسته‌بندی الزامی است"),
       }),
@@ -276,7 +277,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                       ? selected.map((opt) => opt.value)
                       : [];
                     formik.setFieldValue("categoryIds", ids);
-                    formik.setFieldTouched("categoryIds", true);
                   }}
                   onBlur={() => formik.setFieldTouched("categoryIds", true)}
                   placeholder="دسته‌بندی‌ها را انتخاب کنید"
@@ -303,7 +303,8 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                 />
                 <div
                   className={`text-red-500 text-[10px] mt-1 mr-4 min-h-[20px] ${
-                    formik.touched.categoryIds && formik.errors.categoryIds
+                    (formik.touched.categoryIds || formik.submitCount > 0) &&
+                    formik.errors.categoryIds
                       ? "visible"
                       : "invisible"
                   }`}
