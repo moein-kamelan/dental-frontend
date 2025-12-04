@@ -123,6 +123,7 @@ function ContactMessageForm() {
         {(formik) => {
           return (
             <form onSubmit={formik.handleSubmit} className="space-y-4">
+              <div className="md:grid xl:block  md:grid-cols-2  gap-6">
               <CustomInput
                 placeholder="نام"
                 requiredText
@@ -219,11 +220,13 @@ function ContactMessageForm() {
 
               <button
                 type="submit"
-                className="w-full main-btn mt-6"
+                className=" main-btn mt-6 col-span-2 justify-self-end"
                 disabled={isPending}
               >
                 {isPending ? <div className="btn-loader"></div> : "ارسال پیام"}
               </button>
+              </div>
+ 
             </form>
           );
         }}

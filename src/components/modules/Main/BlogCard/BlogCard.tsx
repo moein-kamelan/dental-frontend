@@ -32,7 +32,7 @@ function BlogCard({ article }: BlogCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20"
+      className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20"
     >
       <div className="relative h-64">
         {article?.coverImage ? (
@@ -62,7 +62,7 @@ function BlogCard({ article }: BlogCardProps) {
           </span>
         )}
       </div>
-      <div className="p-6 space-y-4">
+      <div className="p-6  grow flex flex-col gap-y-4">
         <div className="flex flex-wrap gap-6 text-sm text-paragray">
           <span className="flex items-center gap-2">
             <i className="fas fa-user mr-1 text-primary"></i>
@@ -81,8 +81,8 @@ function BlogCard({ article }: BlogCardProps) {
         <p className="text-paragray font-estedad-light line-clamp-2">
           {article.excerpt}
         </p>
-        <div className="flex justify-between items-center pt-4">
-          <span className="text-dark hover:text-primary flex items-center gap-2 transition-colors duration-500 text-sm md:text-base group-hover/card:text-accent">
+        <div className=" mt-auto flex justify-between items-center pt-4">
+          <span className="  text-dark hover:text-primary flex items-center gap-2 transition-colors duration-500 text-sm md:text-base group-hover/card:text-accent">
             بیشتر بخوانید <i className="fas fa-long-arrow-alt-left"></i>
           </span>
         </div>

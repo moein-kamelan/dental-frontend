@@ -17,10 +17,9 @@ function Contact() {
       {/* Main Content: Maps and Contact Form */}
       <section className="py-12 bg-white">
           <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <div className="grid xl:grid-cols-12 gap-8 ">
               {/* Contact Form Section - Right Side (4 columns) - First in RTL */}
-              <div className="lg:col-span-4">
+              <div className="xl:col-span-4">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -33,9 +32,10 @@ function Contact() {
               </div>
 
               {/* Maps Section - Left Side (8 columns) - Second in RTL */}
-              <div className="lg:col-span-8 space-y-6">
+              <div className="xl:col-span-8 flex flex-col gap-y-6 ">
                 {clinicsList.length > 0 ? (
                   <motion.div
+                    className="grow h-full flex flex-col"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -49,17 +49,17 @@ function Contact() {
                         برای مشاهده موقعیت دقیق کلینیک‌ها روی نقشه کلیک کنید
                       </p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 grow ">
                       {clinicsList.map((clinic: Clinic, index: number) => (
                         <motion.div
+                          className="flex flex-col "
                           key={clinic.id}
                           initial={{ opacity: 0, y: 20 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: index * 0.1 }}
                           viewport={{ once: true, amount: 0.2 }}
-                          className="h-full"
                         >
-                          <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+                          <div className="grow bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
                             <ClinicMap clinic={clinic} />
                           </div>
                         </motion.div>
@@ -77,11 +77,10 @@ function Contact() {
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* Review Form Section - Bottom */}
-      <section className="bg-gradient-to-b from-white to-gray-50">
+      <section className=" ">
         <ReviewForm />
       </section>
     </>

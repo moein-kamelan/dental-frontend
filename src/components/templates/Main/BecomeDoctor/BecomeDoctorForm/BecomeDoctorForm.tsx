@@ -202,7 +202,7 @@ function BecomeDoctorForm() {
               />
 
               <div>
-                <label className="block text-gray-700 font-medium mb-2">
+                <label className="block text-dark font-estedad-lightbold mb-2">
                   کلینیک (اختیاری)
                 </label>
                 <Select<OptionType>
@@ -233,7 +233,7 @@ function BecomeDoctorForm() {
                       }`,
                     menu: () =>
                       "!mt-0 !rounded-t-none shadow-lg bg-white overflow-hidden",
-                    placeholder: () => `!text-dark`,
+                    placeholder: () => `!text-paragray font-estedad-light`,
                   }}
                 />
                 <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
@@ -248,6 +248,7 @@ function BecomeDoctorForm() {
                 inputType="file"
                 labelText="آپلود مدارک (اختیاری - حداکثر 10 فایل - PDF، تصاویر JPG/PNG، Word)"
                 placeholder="آپلود مدارک"
+                className="!text-paragray font-estedad-light"
                 multiple
                 name="documents"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

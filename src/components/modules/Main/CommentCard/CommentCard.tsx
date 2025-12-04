@@ -5,7 +5,7 @@ function CommentCard({ review }: { review?: Review }) {
   // Fallback for static content if no review provided
   if (!review) {
   return (
-    <div className="bg-white rounded-lg  p-8 shadow-lg">
+    <div className="bg-white rounded-lg  p-8 sm:p-6 lg:p-8 shadow-lg">
       <div className="flex gap-1 text-secondary mb-4">
         <i className="fas fa-star"></i>
         <i className="fas fa-star"></i>
@@ -43,7 +43,7 @@ function CommentCard({ review }: { review?: Review }) {
   }
 
   return (
-    <div className="bg-white rounded-lg  p-8 shadow-lg">
+    <div className="bg-white rounded-lg  p-8 sm:p-6 lg:p-8 shadow-lg">
       <div className="flex gap-1 text-secondary mb-4">
         {Array.from({ length: review.rating }).map((_, index) => (
           <i className="fas fa-star" key={index}></i>

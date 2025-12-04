@@ -44,22 +44,22 @@ function DoctorCard({ doctor }: DoctorCardProps) {
         <div className=" absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center"></div>
       </div>
 
-      <div className="grow shrink-0 px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex items-center justify-between gap-x-4">
-        <div className="flex flex-col gap-y-2">
-          <h6 className="text-xl font-estedad-semibold">
+      <div className="grow  shrink-0 px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex  justify-between gap-x-4">
+        <div className="flex flex-col grow justify-between  gap-y-2">
+          <h6 className="text-xl font-estedad-semibold line-clamp-2">
             {doctor.firstName} {doctor.lastName}
           </h6>
           <p className="text-sm line-clamp-2">
             {stripHtmlTags(doctor.biography || "")}
           </p>
-          <div className="flex items-center  gap-3">
+          <div className="flex mt-auto items-center  gap-3">
             <i className="	fas fa-graduation-cap"></i>
             <span className="text-sm block  font-estedad-light">
               MBBS, FCPS, FRCS
             </span>
           </div>
         </div>
-        <div className="flex shrink-0 items-center justify-center size-9 bg-white rounded-full">
+        <div className="flex shrink-0 my-auto  items-center justify-center size-9 bg-white rounded-full">
           <i className="fa fa-plus text-primary"></i>
         </div>
       </div>

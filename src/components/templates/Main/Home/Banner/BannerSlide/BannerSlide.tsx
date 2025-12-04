@@ -32,7 +32,7 @@ function BannerSlide({ banner, isActive }: BannerSlideProps) {
       {(banner.title || banner.description || banner.buttonText) && (
         <motion.div
           key={`banner-info-${banner.id}-${isActive}`}
-          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[10%] xl:bottom-[25%] left-1/2 -translate-x-1/2 md:left-auto md:right-1 lg:right-0 xl:right-2 md:translate-x-0 w-[200px] sm:w-[240px]  lg:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(21,61,61,0.15)] p-3 md:p-4 z-30 border-2 border-secondary/80 hover:shadow-[0_12px_40px_rgba(21,61,61,0.2)] hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
+          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[10%] xl:bottom-[25%] left-1/2 -translate-x-1/2 md:left-auto md:right-1 lg:right-0 xl:right-2 md:translate-x-0 w-[200px] sm:w-[240px]  lg:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl p-3 md:p-4 z-30 border-2 border-secondary/80  hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
           initial={{ opacity: 0, y: 14, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{
