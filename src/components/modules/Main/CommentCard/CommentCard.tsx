@@ -1,5 +1,4 @@
-import React from "react";
-import type { Review } from "../../../types/types";
+import type { Review } from "../../../../types/types";
 
 function CommentCard({ review }: { review?: Review }) {
   // Fallback for static content if no review provided

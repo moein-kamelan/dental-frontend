@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import type { Article } from "../../../../types/types";
-import { stripHtmlTags } from "../../../../utils/helpers";
 
 interface BlogCardProps {
   article?: Article;

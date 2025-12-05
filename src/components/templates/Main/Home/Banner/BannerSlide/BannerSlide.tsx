@@ -1,6 +1,5 @@
-import React from "react";
 import { motion } from "motion/react";
-import type { HeroSlider } from "../../../../../types/types";
+import type { HeroSlider } from "../../../../../../types/types";
 
 interface BannerSlideProps {
   banner: HeroSlider;
