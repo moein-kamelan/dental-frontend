@@ -112,7 +112,7 @@ function Banner() {
           </motion.div>
 
           <motion.div
-            className="relative h-full min-h-[500px] md:min-h-[600px] flex items-center justify-center"
+            className="relative h-full min-h-[380px] md:min-h-[600px] flex items-center justify-center"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -120,7 +120,7 @@ function Banner() {
             <Swiper
               modules={[Autoplay]}
               spaceBetween={0}
-              className="h-[500px] md:h-full w-full"
+              className="h-[380px] md:h-full w-full"
               slidesPerView={1}
               loop={banners.length > 1}
               autoplay={{

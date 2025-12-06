@@ -58,12 +58,12 @@ function AboutUsSection() {
                   </div>
                 </div>
               )
-              }
+            }
+            {aboutUsVideo ? (
               <div className="shrink-0 lg:absolute lg:top-1/2  left-0   bg-linear-to-t from-black/20 to-transparent aspect-4/3 md:h-full  w-full    lg:size-64 xl:size-74   rounded-2xl overflow-hidden">
-              {aboutUsVideo ? (
                 <video controls  src={aboutUsVideo}  muted loop className="w-full h-full object-cover " />
-                ) : null}
               </div>
+                ) : null}
             </motion.div>
 
             {/* محتوا */}

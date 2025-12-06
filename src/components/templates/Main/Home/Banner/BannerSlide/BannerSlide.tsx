@@ -31,7 +31,7 @@ function BannerSlide({ banner, isActive }: BannerSlideProps) {
       {(banner.title || banner.description || banner.buttonText) && (
         <motion.div
           key={`banner-info-${banner.id}-${isActive}`}
-          className="absolute bottom-[10%] md:bottom-[30%] lg:bottom-[10%] xl:bottom-[25%] left-1/2 -translate-x-1/2 md:left-auto md:right-1 lg:right-0 xl:right-2 md:translate-x-0 w-[200px] sm:w-[240px]  lg:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl p-3 md:p-4 z-30 border-2 border-secondary/80  hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
+          className="absolute bottom-[5%] md:bottom-[30%] lg:bottom-[12%] xl:bottom-[25%] left-1/2 -translate-x-1/2 md:left-auto md:right-1 lg:right-0 xl:right-2 md:translate-x-0 w-[200px] sm:w-[240px]  lg:w-[260px] bg-white/50 backdrop-blur-lg rounded-2xl p-2 md:p-4 z-30 border-2 border-secondary/80  hover:border-secondary/50 transition-all duration-300 overflow-hidden group"
           initial={{ opacity: 0, y: 14, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{
@@ -43,9 +43,9 @@ function BannerSlide({ banner, isActive }: BannerSlideProps) {
         >
           <div className="absolute top-0 right-0 left-0 h-1 bg-linear-to-r from-secondary via-accent to-secondary opacity-80 "></div>
           <div className="absolute top-2 left-2 w-12 h-12 bg-secondary/5 rounded-full blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"></div>
-          <div className="relative space-y-2">
+          <div className="relative space-y-1">
             {banner.title && (
-              <div className="flex items-start gap-2 pb-2 border-b border-secondary/10">
+              <div className="flex items-start gap-2  border-b border-secondary/10">
                 <div className="shrink-0 mt-0.5">
               
                 </div>
@@ -53,7 +53,7 @@ function BannerSlide({ banner, isActive }: BannerSlideProps) {
                   <h3 className="text-base md:text-lg font-estedad-semibold text-dark leading-tight mb-0.5 text-center line-clamp-2">
                     {banner.title}
                   </h3>
-                  <div className="w-full mt-3 h-0.5 bg-linear-to-r from-transparent via-secondary to-transparent rounded-full"></div>
+                  <div className="w-full mt-1 h-0.5 bg-linear-to-r from-transparent via-secondary to-transparent rounded-full"></div>
                 </div>
               </div>
             )}
@@ -68,7 +68,7 @@ function BannerSlide({ banner, isActive }: BannerSlideProps) {
             )}
 
             {banner.buttonText && banner.buttonLink && (
-              <div className="pt-2">
+              <div className="pt-1">
                 <a
                   href={banner.buttonLink}
                   className="inline-block text-xs md:text-sm px-4 py-2 bg-secondary/40 hover:bg-secondary/30 text-primary font-estedad-medium rounded-lg transition-colors duration-300"
