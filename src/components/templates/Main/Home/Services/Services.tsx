@@ -1,4 +1,3 @@
-import React from "react";
 import ServiceCard from "../../../../modules/Main/ServiceCard/ServiceCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";

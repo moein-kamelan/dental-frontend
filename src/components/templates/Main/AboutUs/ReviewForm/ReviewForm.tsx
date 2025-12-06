@@ -9,6 +9,7 @@ import {
   showSuccessToast,
 } from "../../../../../utils/toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import type { ChangeEvent } from "react";
 
 function ReviewForm() {
   const { mutateAsync: createReview, isPending } = useCreateReview();
@@ -160,7 +161,7 @@ function ReviewForm() {
                         placeholder="تصویر پروفایل را انتخاب کنید"
                         optional
                         accept="image/*"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           const file = e.target.files?.[0] || null;
                           formik.setFieldValue("profileImage", file);
                         }}

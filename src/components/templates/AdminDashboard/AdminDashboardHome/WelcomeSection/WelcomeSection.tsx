@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAppSelector } from '../../../../../redux/typedHooks'
 import { formatPersianNameForGreeting } from '../../../../../utils/helpers'
 

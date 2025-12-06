@@ -1,9 +1,9 @@
 import { Formik } from "formik";
-import React, { useRef } from "react";
+import { useRef, type ChangeEvent } from "react";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import * as Yup from "yup";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
-// import { FormikDevTool } from "formik-devtools"; // Disabled due to File objects causing render errors
+
 import { useCreateDoctorApplication } from "../../../../../services/useDoctorApplications";
 import {
   showSuccessToast,
@@ -165,7 +165,7 @@ function BecomeDoctorForm() {
                 placeholder="آپلود مدارک"
                 multiple
                 name="documents"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const files = e.target.files;
                   if (files && files.length > 0) {
                     const newFilesArray = Array.from(files);

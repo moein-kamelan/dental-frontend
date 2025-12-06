@@ -1,62 +1,178 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import Home from "./pages/Main/Home/Home";
-import MainLayout from "./components/layouts/MainLayout/MainLayout";
-import Doctors from "./pages/Main/Doctors/Doctors";
-import Services from "./pages/Main/Services/Services";
-import DoctorDetails from "./pages/Main/DoctorDetails/DoctorDetails";
-import AboutUs from "./pages/Main/AbousUs/AboutUs";
-import Contact from "./pages/Main/Contact/Contact";
-import Gallery from "./pages/Main/Gallery/Gallery";
-import Blog from "./pages/Main/Blog/Blog";
-import Dashboard from "./pages/Main/Dashboard/Dashboard";
-import Profile from "./pages/Main/Dashboard/Profile/Profile";
-import Turns from "./pages/Main/Dashboard/Turns/Turns";
-import UpcomingMeeting from "./pages/Main/Dashboard/UpcomingMeeting/UpcomingMeeting";
-import Messages from "./pages/Main/Dashboard/Messages/Messages";
-import ServiceDetails from "./pages/Main/ServiceDetails/ServiceDetails";
-import NotFound from "./pages/NotFound/NotFound";
-import BlogDetails from "./pages/Main/BlogDetails/BlogDetails";
-import FAQ from "./pages/Main/FAQ/FAQ";
-import MeetingHistory from "./pages/Main/Dashboard/MeetingHistory/MeetingHistory";
+import { lazy } from "react";
 import {
   ProtectedUserDashboardRoute,
   ProtectedAdminRoute,
   ProtectedAdminAuthRoute,
 } from "./components/guards";
-import ProfileEdit from "./pages/Main/Dashboard/ProfileEdit/ProfileEdit";
-import BecomeDoctor from "./pages/Main/BecomeDotor/BecomeDoctor";
-import AdminDashboardLayout from "./components/layouts/AdminDashboardLayout/AdminDashboardLayout";
-import AdminDashboardHome from "./pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome";
-import DoctorsManagement from "./pages/AdminDashboard/DoctorsManagement/DoctorsManagement";
-import DoctorsManagementEdit from "./pages/AdminDashboard/DoctorsManagementEdit/DoctorsManagementEdit";
-import ClinicsManagement from "./pages/AdminDashboard/ClinicsManagement/ClinicsManagement";
-import ClinicsManagementEdit from "./pages/AdminDashboard/ClinicsManagementEdit/ClinicsManagementEdit";
-import ArticlesManagement from "./pages/AdminDashboard/ArticlesManagement/ArticlesManagement";
-import ArticlesManagementEdit from "./pages/AdminDashboard/ArticlesManagementEdit/ArticlesManagementEdit";
-import ArticlesCategoryManagement from "./pages/AdminDashboard/ArticlesCategoryManagement/ArticlesCategoryManagement";
-import ArticlesCategoryManagementEdit from "./pages/AdminDashboard/ArticlesCategoryManagementEdit/ArticlesCategoryManagementEdit";
-import ServicesCategoryManagement from "./pages/AdminDashboard/ServicesCategoryManagement/ServicesCategoryManagement";
-import ServicesCategoryManagementEdit from "./pages/AdminDashboard/ServicesCategoryManagementEdit/ServicesCategoryManagementEdit";
-import ServicesManagement from "./components/modules/AdminDashboard/ServicesManagement/ServicesManagement";
-import ServicesManagementEdit from "./pages/AdminDashboard/ServicesManagementEdit/ServicesManagementEdit";
-import CommentsManagements from "./pages/AdminDashboard/CommentsManagement/CommentsManagements";
-import FaqsManagement from "./pages/AdminDashboard/FaqsManagement/FaqsManagement";
-import FaqsManagementEdit from "./pages/AdminDashboard/FaqsManagementEdit/FaqsManagementEdit";
-import GalleryManagement from "./pages/AdminDashboard/GalleryManagement/GalleryManagement";
-import GalleryManagementEdit from "./pages/AdminDashboard/GalleryManagementEdit/GalleryManagementEdit";
-import InsurancesManagement from "./pages/AdminDashboard/InsurancesManagement/InsurancesManagement";
-import InsurancesManagementEdit from "./pages/AdminDashboard/InsurancesManagementEdit/InsurancesManagementEdit";
-import ContactUsManagement from "./pages/AdminDashboard/ContactUsManagement/ContactUsManagement";
-import DoctorApplicationsManagement from "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement";
-import Settings from "./pages/AdminDashboard/Settings/Settings";
-import AdminDashboardLogin from "./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin";
-import ReviewsManagement from "./pages/AdminDashboard/ReviewsManagement/ReviewsManagement";
-import ReviewsManagementEdit from "./pages/AdminDashboard/ReviewsManagementEdit/ReviewsManagementEdit";
-import UsersManagement from "./pages/AdminDashboard/UsersManagement/UsersManagement";
-import UsersManagementEdit from "./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit";
-import ProfileManagement from "./pages/AdminDashboard/ProfileManagement/ProfileManagement";
-import BannerManagement from "./pages/AdminDashboard/BannerManagement/BannerManagement";
-import BannerManagementEdit from "./pages/AdminDashboard/BannerManagementEdit/BannerManagementEdit";
+
+// Lazy load Main Layout (only loaded once, so can stay eager)
+import MainLayout from "./components/layouts/MainLayout/MainLayout";
+
+// Lazy load Main pages
+const Home = lazy(() => import("./pages/Main/Home/Home"));
+const Doctors = lazy(() => import("./pages/Main/Doctors/Doctors"));
+const Services = lazy(() => import("./pages/Main/Services/Services"));
+const DoctorDetails = lazy(
+  () => import("./pages/Main/DoctorDetails/DoctorDetails")
+);
+const AboutUs = lazy(() => import("./pages/Main/AbousUs/AboutUs"));
+const Contact = lazy(() => import("./pages/Main/Contact/Contact"));
+const Gallery = lazy(() => import("./pages/Main/Gallery/Gallery"));
+const Blog = lazy(() => import("./pages/Main/Blog/Blog"));
+const BlogDetails = lazy(() => import("./pages/Main/BlogDetails/BlogDetails"));
+const FAQ = lazy(() => import("./pages/Main/FAQ/FAQ"));
+const ServiceDetails = lazy(
+  () => import("./pages/Main/ServiceDetails/ServiceDetails")
+);
+const BecomeDoctor = lazy(
+  () => import("./pages/Main/BecomeDotor/BecomeDoctor")
+);
+const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
+
+// Lazy load Dashboard pages
+const Dashboard = lazy(() => import("./pages/Main/Dashboard/Dashboard"));
+const Profile = lazy(() => import("./pages/Main/Dashboard/Profile/Profile"));
+const ProfileEdit = lazy(
+  () => import("./pages/Main/Dashboard/ProfileEdit/ProfileEdit")
+);
+const Turns = lazy(() => import("./pages/Main/Dashboard/Turns/Turns"));
+const UpcomingMeeting = lazy(
+  () => import("./pages/Main/Dashboard/UpcomingMeeting/UpcomingMeeting")
+);
+const Messages = lazy(() => import("./pages/Main/Dashboard/Messages/Messages"));
+const MeetingHistory = lazy(
+  () => import("./pages/Main/Dashboard/MeetingHistory/MeetingHistory")
+);
+
+// Lazy load Admin Dashboard pages
+const AdminDashboardLayout = lazy(
+  () => import("./components/layouts/AdminDashboardLayout/AdminDashboardLayout")
+);
+const AdminDashboardHome = lazy(
+  () => import("./pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome")
+);
+const AdminDashboardLogin = lazy(
+  () => import("./pages/AdminDashboard/AdminDashboardLogin/AdminDashboardLogin")
+);
+const DoctorsManagement = lazy(
+  () => import("./pages/AdminDashboard/DoctorsManagement/DoctorsManagement")
+);
+const DoctorsManagementEdit = lazy(
+  () =>
+    import("./pages/AdminDashboard/DoctorsManagementEdit/DoctorsManagementEdit")
+);
+const ClinicsManagement = lazy(
+  () => import("./pages/AdminDashboard/ClinicsManagement/ClinicsManagement")
+);
+const ClinicsManagementEdit = lazy(
+  () =>
+    import("./pages/AdminDashboard/ClinicsManagementEdit/ClinicsManagementEdit")
+);
+const ArticlesManagement = lazy(
+  () => import("./pages/AdminDashboard/ArticlesManagement/ArticlesManagement")
+);
+const ArticlesManagementEdit = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/ArticlesManagementEdit/ArticlesManagementEdit"
+    )
+);
+const ArticlesCategoryManagement = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/ArticlesCategoryManagement/ArticlesCategoryManagement"
+    )
+);
+const ArticlesCategoryManagementEdit = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/ArticlesCategoryManagementEdit/ArticlesCategoryManagementEdit"
+    )
+);
+const ServicesCategoryManagement = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/ServicesCategoryManagement/ServicesCategoryManagement"
+    )
+);
+const ServicesCategoryManagementEdit = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/ServicesCategoryManagementEdit/ServicesCategoryManagementEdit"
+    )
+);
+const ServicesManagement = lazy(
+  () =>
+    import(
+      "./components/modules/AdminDashboard/ServicesManagement/ServicesManagement"
+    )
+);
+const ServicesManagementEdit = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/ServicesManagementEdit/ServicesManagementEdit"
+    )
+);
+const CommentsManagements = lazy(
+  () => import("./pages/AdminDashboard/CommentsManagement/CommentsManagements")
+);
+const FaqsManagement = lazy(
+  () => import("./pages/AdminDashboard/FaqsManagement/FaqsManagement")
+);
+const FaqsManagementEdit = lazy(
+  () => import("./pages/AdminDashboard/FaqsManagementEdit/FaqsManagementEdit")
+);
+const GalleryManagement = lazy(
+  () => import("./pages/AdminDashboard/GalleryManagement/GalleryManagement")
+);
+const GalleryManagementEdit = lazy(
+  () =>
+    import("./pages/AdminDashboard/GalleryManagementEdit/GalleryManagementEdit")
+);
+const InsurancesManagement = lazy(
+  () =>
+    import("./pages/AdminDashboard/InsurancesManagement/InsurancesManagement")
+);
+const InsurancesManagementEdit = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/InsurancesManagementEdit/InsurancesManagementEdit"
+    )
+);
+const ContactUsManagement = lazy(
+  () => import("./pages/AdminDashboard/ContactUsManagement/ContactUsManagement")
+);
+const DoctorApplicationsManagement = lazy(
+  () =>
+    import(
+      "./pages/AdminDashboard/DotcorApplicationsManagement/DoctorApplicationsManagement"
+    )
+);
+const ReviewsManagement = lazy(
+  () => import("./pages/AdminDashboard/ReviewsManagement/ReviewsManagement")
+);
+const ReviewsManagementEdit = lazy(
+  () =>
+    import("./pages/AdminDashboard/ReviewsManagementEdit/ReviewsManagementEdit")
+);
+const UsersManagement = lazy(
+  () => import("./pages/AdminDashboard/UsersManagement/UsersManagement")
+);
+const UsersManagementEdit = lazy(
+  () => import("./pages/AdminDashboard/UsersManagementEdit/UsersManagementEdit")
+);
+const ProfileManagement = lazy(
+  () => import("./pages/AdminDashboard/ProfileManagement/ProfileManagement")
+);
+const BannerManagement = lazy(
+  () => import("./pages/AdminDashboard/BannerManagement/BannerManagement")
+);
+const BannerManagementEdit = lazy(
+  () =>
+    import("./pages/AdminDashboard/BannerManagementEdit/BannerManagementEdit")
+);
+const Settings = lazy(() => import("./pages/AdminDashboard/Settings/Settings"));
 
 const routes = createBrowserRouter([
   {

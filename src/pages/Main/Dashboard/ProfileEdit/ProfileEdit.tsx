@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import CustomInput from "../../../../components/modules/CustomInput/CustomInput";
 import { useAppDispatch, useAppSelector } from "../../../../redux/typedHooks";
 import { formatPhoneNumber } from "../../../../validators/phoneNumberValidator";
-import { FormikDevTool } from "formik-devtools";
 import { useUpdateProfile } from "../../../../services/useAuth";
 import { showSuccessToast } from "../../../../utils/toastify";
 import { setUser } from "../../../../redux/slices/userSlice";
@@ -74,7 +73,6 @@ function ProfileEdit() {
         {(formik) => {
           return (
             <form onSubmit={formik.handleSubmit} className="space-y-6">
-              <FormikDevTool />
               <div className="grid md:grid-cols-2 gap-6">
                 <CustomInput
                   labelText="نام"

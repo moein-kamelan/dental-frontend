@@ -1,4 +1,3 @@
-import React from "react";
 import Banner from "../../../components/templates/Main/Home/Banner/Banner";
 import AboutUs from "../../../components/modules/Main/AboutUsSection/AboutUsSection";
 import Services from "../../../components/templates/Main/Home/Services/Services";

@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../redux/typedHooks";
 import { useDispatch } from "react-redux";
 import { clearUser, setUser } from "../../../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import {
   useLogout,
   useUpdateProfileWithImage,
@@ -23,7 +23,7 @@ function Dashboard() {
   const [isUploading, setIsUploading] = useState(false);
   const { mutateAsync: updateProfile } = useUpdateProfileWithImage();
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 

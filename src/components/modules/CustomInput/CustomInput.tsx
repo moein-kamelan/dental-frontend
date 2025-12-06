@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import { forwardRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
 
 type CustomInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   inputType?: "text" | "phone" | "password" | "number" | "file" | "email";
@@ -15,7 +15,7 @@ type CustomInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   name?: string;
   manualOnChange?: (value: string, index?: number) => void;
   onKeyDown?: (
-    e: React.KeyboardEvent<HTMLInputElement>,
+    e: KeyboardEvent<HTMLInputElement>,
     index?: number
   ) => void;
   beforeIcon?: string;
@@ -48,9 +48,9 @@ const [showPassword, setShowPassword] = useState(false);
     const controlledValue =
       restProps.value !== undefined ? restProps.value : manualValue ?? "";
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (typeof restProps.onChange === "function") {
-        restProps.onChange(e as React.ChangeEvent<HTMLInputElement>);
+        restProps.onChange(e as ChangeEvent<HTMLInputElement>);
       } else if (manualOnChange) {
         manualOnChange(e.target.value, index);
       }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 
 interface PaginationMeta {
   total: number;
@@ -35,7 +35,7 @@ function AdminPagination({ meta, onPageChange }: AdminPaginationProps) {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // فقط اعداد مجاز هستند
     if (value === "" || /^\d+$/.test(value)) {
@@ -43,7 +43,7 @@ function AdminPagination({ meta, onPageChange }: AdminPaginationProps) {
     }
   };
 
-  const handleInputSubmit = (e: React.FormEvent) => {
+  const handleInputSubmit = (e: FormEvent) => {
     e.preventDefault();
     const pageNumber = parseInt(pageInput, 10);
     if (pageNumber >= 1 && pageNumber <= totalPages) {

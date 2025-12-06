@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef, type ChangeEvent, type KeyboardEvent } from 'react'
 
 type CustomTextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   rows?: number;
@@ -12,7 +12,7 @@ type CustomTextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   index?: number; 
   manualOnChange?: (value: string, index?: number) => void;
   onKeyDown?: (
-    e: React.KeyboardEvent<HTMLTextAreaElement>,
+    e: KeyboardEvent<HTMLTextAreaElement>,
     index?: number
   ) => void;
   manualValue?: string | number;
@@ -27,9 +27,9 @@ const CustomTextArea = forwardRef<HTMLTextAreaElement, CustomTextAreaProps>(({ r
   const controlledValue =
     restProps.value !== undefined ? restProps.value : manualValue ?? "";
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (typeof restProps.onChange === "function") {
-      restProps.onChange(e as React.ChangeEvent<HTMLTextAreaElement>);
+      restProps.onChange(e as ChangeEvent<HTMLTextAreaElement>);
     } else if (manualOnChange) {
       manualOnChange(e.target.value, index);
     }

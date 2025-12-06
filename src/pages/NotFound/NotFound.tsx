@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import Topbar from '../../components/modules/Main/Topbar/Topbar'
 import Navbar from '../../components/modules/Main/Navbar/Navbar'
