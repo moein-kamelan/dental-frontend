@@ -8,10 +8,47 @@ import {
   showErrorToast,
   showSuccessToast,
 } from "../../../../../utils/toastify";
+import { useGetAllClinics } from "../../../../../services/useClinics";
+import Select, { components } from "react-select";
+import type { DropdownIndicatorProps } from "react-select";
+import type { OptionType, Clinic } from "../../../../../types/types";
+import { useMemo } from "react";
+
+const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
+  return (
+    <components.DropdownIndicator {...props}>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 7.5L10 12.5L15 7.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </components.DropdownIndicator>
+  );
+};
 
 function ContactMessageForm() {
   const { mutateAsync: createContactMessage, isPending } =
     useCreateContactMessage();
+  const { data: clinicsData } = useGetAllClinics(1, 100);
+
+  const clinicOptions: OptionType[] = useMemo(
+    () =>
+      clinicsData?.data?.clinics?.map((clinic: Clinic) => ({
+        value: clinic.id,
+        label: clinic.name,
+      })) || [],
+    [clinicsData?.data?.clinics]
+  );
 
   const handleSubmit = async (
     values: {
@@ -20,11 +57,19 @@ function ContactMessageForm() {
       phone: string;
       subject: string;
       message: string;
+      clinicId: string | null;
     },
     resetForm: () => void
   ) => {
     try {
-      await createContactMessage(values);
+      await createContactMessage({
+        name: values.name,
+        email: values.email,
+        phoneNumber: values.phone,
+        subject: values.subject,
+        message: values.message,
+        clinicId: values.clinicId || null,
+      });
       showSuccessToast("پیام شما با موفقیت ارسال شد");
       resetForm();
     } catch (error) {
@@ -51,37 +96,34 @@ function ContactMessageForm() {
           phone: "",
           subject: "",
           message: "",
+          clinicId: null as string | null,
         }}
-        onSubmit={(values, { resetForm }) =>
-          handleSubmit(values, resetForm)
-        }
+        onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
         validationSchema={Yup.object({
           name: Yup.string().required("نام الزامی است"),
           email: Yup.string().email("ایمیل معتبر نیست"),
           phone: Yup.string()
             .required("شماره الزامی است")
-            .test(
-              "is-valid-phone",
-              "شماره موبایل معتبر نمیباشد",
-              (value) => {
-                try {
-                  formatPhoneNumber(value);
-                  return true;
-                } catch (error) {
-                  console.log(error);
-                  return false;
-                }
+            .test("is-valid-phone", "شماره موبایل معتبر نمیباشد", (value) => {
+              try {
+                formatPhoneNumber(value);
+                return true;
+              } catch (error) {
+                console.log(error);
+                return false;
               }
-            ),
+            }),
           subject: Yup.string().required("موضوع الزامی است"),
           message: Yup.string()
             .required("پیام الزامی است")
             .min(10, "پیام باید حداقل 10 کاراکتر باشد"),
+          clinicId: Yup.string().uuid().nullable(),
         })}
       >
         {(formik) => {
           return (
             <form onSubmit={formik.handleSubmit} className="space-y-4">
+              <div className="md:grid xl:block  md:grid-cols-2  gap-6">
               <CustomInput
                 placeholder="نام"
                 requiredText
@@ -124,6 +166,45 @@ function ContactMessageForm() {
                     : null
                 }
               />
+              <div>
+        
+                <Select<OptionType>
+                  options={clinicOptions}
+                  value={
+                    clinicOptions.find(
+                      (option) => option.value === formik.values.clinicId
+                    ) || null
+                  }
+                  onChange={(selected) => {
+                    formik.setFieldValue("clinicId", selected?.value || null);
+                    formik.setFieldTouched("clinicId", true);
+                  }}
+                  onBlur={() => formik.setFieldTouched("clinicId", true)}
+                  placeholder="کلینیک را انتخاب کنید (اختیاری)"
+                  isClearable
+                  components={{ DropdownIndicator }}
+                  classNames={{
+                    control: () =>
+                      `!text-dark px-5 !min-h-[52px] !rounded-lg !border-2 !border-main-border-color !focus:outline-none h-full !cursor-pointer`,
+                    option: ({ isFocused, isSelected }) =>
+                      `px-3 py-2 cursor-pointer !text-lg border-r-6 ${
+                        isSelected
+                          ? "!bg-primary text-white !cursor-pointer"
+                          : isFocused
+                          ? "!text-secondary !cursor-pointer"
+                          : "bg-white !cursor-pointer"
+                      }`,
+                    menu: () =>
+                      "!mt-0 !rounded-t-none shadow-lg bg-white overflow-hidden",
+                    placeholder: () => `!text-paragray font-estedad-light`,
+                  }}
+                />
+                <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
+                  {formik.touched.clinicId && formik.errors.clinicId
+                    ? formik.errors.clinicId
+                    : null}
+                </div>
+              </div>
               <CustomTextArea
                 placeholder="پیام"
                 rows={4}
@@ -139,15 +220,13 @@ function ContactMessageForm() {
 
               <button
                 type="submit"
-                className="w-full main-btn mt-6"
+                className=" main-btn mt-6 col-span-2 justify-self-end"
                 disabled={isPending}
               >
-                {isPending ? (
-                  <div className="btn-loader"></div>
-                ) : (
-                  "ارسال پیام"
-                )}
+                {isPending ? <div className="btn-loader"></div> : "ارسال پیام"}
               </button>
+              </div>
+ 
             </form>
           );
         }}
@@ -157,4 +236,3 @@ function ContactMessageForm() {
 }
 
 export default ContactMessageForm;
-

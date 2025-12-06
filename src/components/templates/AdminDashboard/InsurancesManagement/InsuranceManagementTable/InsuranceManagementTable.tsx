@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 
 interface Insurance {
@@ -99,14 +99,13 @@ function InsuranceManagementTable({
                           <i className="far fa-building text-gray-400"></i>
                         </div>
                       )}
-                      <p className="font-estedad-light">{insurance.name}</p>
+                      <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{insurance.name}</p>
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {insurance.description ? (
-                      <span className="line-clamp-2">
-                        {insurance.description.substring(0, 50)}
-                        {insurance.description.length > 50 ? "..." : ""}
+                      <span className="line-clamp-2 max-w-[300px] min-w-[220px]">
+                        {stripHtmlTags(insurance.description)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -118,30 +117,26 @@ function InsuranceManagementTable({
                         href={insurance.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary hover:underline"
+                        className="text-primary hover:underline line-clamp-2 max-w-[260px] min-w-[200px]"
                       >
-                        {insurance.website.length > 30
-                          ? `${insurance.website.substring(0, 30)}...`
-                          : insurance.website}
+                        {insurance.website}
                       </a>
                     ) : (
                       <span className="text-paragray">-</span>
                     )}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="space-y-1">
+                    <div className="space-y-1 line-clamp-2  min-w-[220px]">
                       {insurance.phoneNumber && (
                         <div className="text-sm">
-                          <i className="far fa-phone text-paragray ml-1"></i>
+                          <i className="fas fa-phone text-paragray ml-1"></i>
                           {insurance.phoneNumber}
                         </div>
                       )}
                       {insurance.email && (
-                        <div className="text-sm">
+                        <div className="text-sm flex items-center gap-1 line-clamp-2">
                           <i className="far fa-envelope text-paragray ml-1"></i>
-                          {insurance.email.length > 20
-                            ? `${insurance.email.substring(0, 20)}...`
-                            : insurance.email}
+                          {insurance.email}
                         </div>
                       )}
                       {!insurance.phoneNumber && !insurance.email && (
@@ -154,20 +149,20 @@ function InsuranceManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {insurance.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                         پیش‌نویس
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(insurance.createdAt || new Date()))}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center  gap-2">
                       <button
                         onClick={() => {
                           navigate(

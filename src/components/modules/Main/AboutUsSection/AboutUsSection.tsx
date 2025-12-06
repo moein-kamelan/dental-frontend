@@ -10,11 +10,13 @@ function AboutUsSection() {
     : null;
 
   const aboutUsContent = settings?.aboutUsContent || "";
+  const aboutUsVideo = settings?.aboutUsVideo
+    ? `http://localhost:4000${settings.aboutUsVideo}`
+    : null;
 
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="py-16 md:py-20 bg-white overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: -20 }}
@@ -26,26 +28,26 @@ function AboutUsSection() {
             <h2 className="custom-title">مرکز پزشکی ما</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-20  items-center">
             {/* تصویر */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true }}
-              className="relative"
+              className="max-lg:grid grid-cols-1 md:grid-cols-2 gap-12 relative"
             >
               {aboutUsImage ? (
-                <div className="relative rounded-2xl overflow-hidden shadow-lg">
+                <div className=" shrink-0 rounded-2xl lg:w-8/10 ">
                   <img
                     src={aboutUsImage}
                     alt="درباره ما"
                     className="w-full h-auto object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+      
                 </div>
               ) : (
-                <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-[4/3] flex items-center justify-center">
+                <div className="relative rounded-2xl overflow-hidden  bg-gray-100 aspect-4/3 flex items-center justify-center">
                   <div className="text-center space-y-3">
                     <div className="flex items-center justify-center">
                       <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-200 flex items-center justify-center">
@@ -55,7 +57,13 @@ function AboutUsSection() {
                     <p className="text-gray-400 text-sm sm:text-base font-estedad-light">تصویر درباره ما</p>
                   </div>
                 </div>
-              )}
+              )
+              }
+              <div className="shrink-0 lg:absolute lg:top-1/2  left-0   bg-linear-to-t from-black/20 to-transparent aspect-4/3 md:h-full  w-full    lg:size-64 xl:size-74   rounded-2xl overflow-hidden">
+              {aboutUsVideo ? (
+                <video controls  src={aboutUsVideo}  muted loop className="w-full h-full object-cover " />
+                ) : null}
+              </div>
             </motion.div>
 
             {/* محتوا */}
@@ -90,7 +98,6 @@ function AboutUsSection() {
             </motion.div>
           </div>
         </div>
-      </div>
     </section>
   );
 }

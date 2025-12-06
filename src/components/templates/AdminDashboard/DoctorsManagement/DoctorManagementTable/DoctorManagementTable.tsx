@@ -74,7 +74,7 @@ function DoctorsManagementTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center gap-3 max-w-[220px]">
+                    <div className="flex items-center gap-3 min-w-[220px] max-w-[220px]">
                       {doctor.profileImage ? (
                         <img
                           src={`http://localhost:4000${doctor.profileImage}`}
@@ -94,20 +94,20 @@ function DoctorsManagementTable({
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">
-                    <div className="line-clamp-2 overflow-hidden max-w-[200px]">
+                    <div className="line-clamp-2   min-w-[200px] ">
                       {doctor.university}
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-center">
                     {doctor.medicalLicenseNo}
                   </td>
                   <td className="text-dark font-estedad-light max-w-[260px]">
                     {doctor.clinics && doctor.clinics.length > 0 ? (
-                      <div className="flex justify-center items-start flex-wrap gap-1  overflow-hidden">
+                      <div className="flex justify-center items-start flex-wrap gap-1  ">
                         {doctor.clinics.slice(0, 2).map((dc) => (
                           <span
                             key={dc.clinic.id}
-                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center"
+                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center  text-nowrap"
                           >
                             {dc.clinic.name}
                           </span>
@@ -128,7 +128,7 @@ function DoctorsManagementTable({
                         {doctor.skills.slice(0, 2).map((skill, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-1 text-xs rounded-full bg-secondary/10 text-secondary"
+                            className="px-2 py-1 text-xs rounded-full bg-secondary/10 text-secondary text-center text-nowrap"
                           >
                             {skill}
                           </span>
@@ -143,7 +143,7 @@ function DoctorsManagementTable({
                       <span className="text-paragray">-</span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(doctor.createdAt || new Date()))}
                   </td>
                   <td className="">

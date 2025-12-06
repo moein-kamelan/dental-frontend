@@ -144,7 +144,7 @@ function UsersManagementTable({
                       <span className="text-paragray">-</span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {user.createdAt
                       ? formatJalali(new Date(user.createdAt))
                       : "-"}

@@ -55,14 +55,14 @@ function CommentsStats() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
       {statsCards.map((card, index) => (
         <div
           key={index}
-          className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition"
+          className={`bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition ${index === 2 ? "md:col-span-2 lg:col-span-1" : ""}`}
         >
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-lg font-estedad-semibold text-dark">
+            <h4 className="text-lg font-estedad-semibold text-dark md:text-sm lg:text-lg">
               {card.title}
             </h4>
             <div

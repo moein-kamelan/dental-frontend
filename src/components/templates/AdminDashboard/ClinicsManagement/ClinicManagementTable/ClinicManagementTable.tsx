@@ -84,16 +84,16 @@ function ClinicManagementTable({
                       )}
                     </div>
                   </td>
-                  <td className="text-dark font-estedad-light max-w-[260px]">
+                  <td className="text-dark font-estedad-light min-w-[260px] max-w-[260px]">
                     <span className="line-clamp-2">{clinic.address}</span>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {clinic.phoneNumber || "-"}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-center">
                     {clinic._count?.doctors || 0}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {clinic.createdAt
                       ? formatJalali(new Date(clinic.createdAt))
                       : "-"}

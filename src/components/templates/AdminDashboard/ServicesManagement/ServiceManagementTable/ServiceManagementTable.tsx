@@ -87,19 +87,16 @@ function ServiceManagementTable({
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light">{service.title}</p>
+                        <p className="font-estedad-light line-clamp-2">
+                          {service.title}
+                        </p>
                       </div>
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light min-w-[250px] pr-6">
                     {service.description ? (
                       <span className="line-clamp-2">
-                        {(() => {
-                          const plainText = stripHtmlTags(service.description);
-                          return plainText.length > 50
-                            ? plainText.substring(0, 50) + "..."
-                            : plainText;
-                        })()}
+                        {stripHtmlTags(service.description)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -107,11 +104,11 @@ function ServiceManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {service.categories && service.categories.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
+                      <div className="flex flex-wrap gap-1 ">
                         {service.categories.slice(0, 2).map((category) => (
                           <span
                             key={category.id}
-                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary"
+                            className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-center text-nowrap  "
                           >
                             {category.name}
                           </span>
@@ -143,7 +140,7 @@ function ServiceManagementTable({
                       <span className="text-paragray">-</span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(service.createdAt || new Date()))}
                   </td>
                   <td className="">

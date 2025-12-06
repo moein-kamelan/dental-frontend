@@ -114,6 +114,9 @@ function ViewCommentModal({
           user: response.data.reply.user,
           createdAt: response.data.reply.createdAt,
           updatedAt: response.data.reply.updatedAt,
+          published: response.data.reply.published ?? true,
+          read: response.data.reply.read ?? false,
+          rating: response.data.reply.rating,
         };
 
         setCurrentComment((prev) => {

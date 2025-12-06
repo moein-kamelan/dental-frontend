@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import type { Gallery } from "../../../../../types/types";
 
@@ -74,7 +74,7 @@ function GalleryManagementTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center ">
                       {image.image ? (
                         <img
                           src={`http://localhost:4000${image.image}`}
@@ -89,13 +89,12 @@ function GalleryManagementTable({
                     </div>
                   </td>
                   <td className="">
-                    <p className="font-estedad-light">{image.title || "-"}</p>
+                    <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{image.title || "-"}</p>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {image.description ? (
-                      <span className="line-clamp-2">
-                        {image.description.substring(0, 50)}
-                        {image.description.length > 50 ? "..." : ""}
+                      <span className="line-clamp-2 max-w-[300px] min-w-[220px]">
+                    {stripHtmlTags(image.description)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>
@@ -106,16 +105,16 @@ function GalleryManagementTable({
                   </td>
                   <td className="text-dark font-estedad-light">
                     {image.published ? (
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 text-nowrap">
                         منتشر شده
                       </span>
                     ) : (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 text-nowrap">
                         پیش‌نویس
                       </span>
                     )}
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark font-estedad-light text-nowrap">
                     {formatJalali(new Date(image.createdAt || new Date()))}
                   </td>
                   <td className="">

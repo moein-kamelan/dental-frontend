@@ -1,10 +1,16 @@
-
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { Link } from "react-router-dom";
 
-import Link from "next/link";
+interface MapSectionProps {
+  position: [number, number];
+  title: string;
+  des: string;
+  phone: string;
+}
 
-const customIcon = new L.icon({
+const customIcon = new L.Icon({
   iconUrl: "/img/leaflet/marker-icon.png",
   shadowUrl: "/img/leaflet/marker-shadow.png",
   iconSize: [25, 41],
@@ -12,7 +18,12 @@ const customIcon = new L.icon({
   popupAnchor: [1, -34],
 });
 
-export default function MapSection({ position, title, des, phone }) {
+export default function MapSection({
+  position,
+  title,
+  des,
+  phone,
+}: MapSectionProps) {
   return (
     <div className="relative">
       <MapContainer
@@ -35,7 +46,7 @@ export default function MapSection({ position, title, des, phone }) {
         <p className="text-center">{des}</p>
         <span>{phone}</span>
         <Link
-          href={"/about-us"}
+          to="/about-us"
           className="text-zinc-700 font-bold underline underline-offset-8 hover:text-zinc-500"
         >
           درباره فروشگاه

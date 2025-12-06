@@ -538,6 +538,32 @@ input[type="number"] {
   background: rgba(255, 255, 255, 0.5);
 }
 
+/* Custom scrollbar for admin dashboard tables (inspired by playground design) */
+.custom-scrollbar {
+  --sb-track-color: #e3cae6;
+  --sb-thumb-color: #d48cde;
+  --sb-size: 16px;
+
+  /* Firefox - auto gives thicker scrollbar than thin */
+  scrollbar-width: auto;
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 15px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 15px;
+}
+
 /* Firefox scrollbar styles */
 .sidebar-scrollbar {
   scrollbar-width: thin;

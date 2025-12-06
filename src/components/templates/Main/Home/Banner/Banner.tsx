@@ -53,11 +53,11 @@ function Banner() {
   }, []);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[800px] md:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
+    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[600px] md:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
-            className="space-y-6 lg:-translate-y-16 max-md:text-center"
+            className="space-y-6 xl:-translate-y-16 max-md:text-center"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}

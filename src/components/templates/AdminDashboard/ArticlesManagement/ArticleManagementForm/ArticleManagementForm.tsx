@@ -69,8 +69,9 @@ function ArticleManagementForm({ article }: { article?: Article }) {
         excerpt: Yup.string(),
         author: Yup.string(),
         published: Yup.boolean(),
+        // id های دسته‌بندی را به صورت رشته ساده اعتبارسنجی می‌کنیم
         categoryIds: Yup.array()
-          .of(Yup.string().uuid())
+          .of(Yup.string())
           .min(1, "انتخاب حداقل یک دسته‌بندی الزامی است")
           .required("انتخاب دسته‌بندی الزامی است"),
       }),
@@ -270,7 +271,6 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                       ? selected.map((opt) => opt.value)
                       : [];
                     formik.setFieldValue("categoryIds", ids);
-                    formik.setFieldTouched("categoryIds", true);
                   }}
                   onBlur={() => formik.setFieldTouched("categoryIds", true)}
                   placeholder="دسته‌بندی‌ها را انتخاب کنید"
@@ -297,7 +297,8 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                 />
                 <div
                   className={`text-red-500 text-[10px] mt-1 mr-4 min-h-[20px] ${
-                    formik.touched.categoryIds && formik.errors.categoryIds
+                    (formik.touched.categoryIds || formik.submitCount > 0) &&
+                    formik.errors.categoryIds
                       ? "visible"
                       : "invisible"
                   }`}

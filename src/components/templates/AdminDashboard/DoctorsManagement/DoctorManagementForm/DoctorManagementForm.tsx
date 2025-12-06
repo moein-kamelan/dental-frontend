@@ -84,8 +84,10 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         medicalLicenseNo: Yup.string().required("شماره نظام پزشکی الزامی است"),
         biography: Yup.string(),
         skills: Yup.array().of(Yup.string()),
+        // شناسه‌ها را به صورت رشته ساده اعتبارسنجی می‌کنیم (نه uuid)،
+        // چون در اکثر سناریوها id ها uuid استاندارد نیستند.
         clinicIds: Yup.array()
-          .of(Yup.string().uuid())
+          .of(Yup.string())
           .min(1, "انتخاب حداقل یک کلینیک الزامی است")
           .required("انتخاب کلینیک الزامی است"),
         workingDays: Yup.object(),
@@ -431,7 +433,6 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                       ? selected.map((opt) => opt.value)
                       : [];
                     formik.setFieldValue("clinicIds", ids);
-                    formik.setFieldTouched("clinicIds", true);
                   }}
                   onBlur={() => formik.setFieldTouched("clinicIds", true)}
                   placeholder="کلینیک‌ها را انتخاب کنید"
@@ -453,9 +454,10 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                   }}
                 />
                 <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
-                  {formik.touched.clinicIds && formik.errors.clinicIds && (
-                    <span>{formik.errors.clinicIds}</span>
-                  )}
+                  {(formik.touched.clinicIds || formik.submitCount > 0) &&
+                    formik.errors.clinicIds && (
+                      <span>{formik.errors.clinicIds}</span>
+                    )}
                 </div>
               </div>
             </div>
