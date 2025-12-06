@@ -39,7 +39,10 @@ function AuthModal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ 
+            duration: 0.3, 
+            ease: [0.4, 0, 0.2, 1] // Custom cubic-bezier for smoother animation
+          }}
         >
           {/* Overlay با backdrop blur */}
           <motion.div
@@ -47,7 +50,10 @@ function AuthModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ 
+              duration: 0.3, 
+              ease: [0.4, 0, 0.2, 1] // Custom cubic-bezier for smoother animation
+            }}
           />
 
           {/* مدال */}

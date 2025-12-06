@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { formatJalali } from "../../../../utils/helpers";
 import type { Review } from "../../../../types/types";
 
@@ -31,8 +32,6 @@ function ViewReviewModal({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !review) return null;
-
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -53,15 +52,38 @@ function ViewReviewModal({
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={handleOverlayClick}
-    >
-      {/* Overlay با backdrop blur */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300" />
+    <AnimatePresence mode="wait">
+      {isOpen && review && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={handleOverlayClick}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {/* Overlay با backdrop blur */}
+          <motion.div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
 
-      {/* مدال */}
-      <div className="relative z-10 w-full max-w-2xl bg-white rounded-xl shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-hidden flex flex-col">
+          {/* مدال */}
+          <motion.div
+            className="relative z-10 w-full max-w-2xl bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col"
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
+              duration: 0.3,
+            }}
+          >
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 px-6 py-4 rounded-t-xl">
           <div className="flex items-center justify-between">
@@ -84,7 +106,7 @@ function ViewReviewModal({
         </div>
 
         {/* Content - Scrollable */}
-        <div className="px-6 py-6 overflow-y-auto flex-1">
+        <div className="px-6 py-6 overflow-y-auto flex-1 admin-modal-scrollbar">
           <div className="space-y-4">
             {/* نام و تصویر پروفایل */}
             <div className="border-b border-gray-200 pb-3">
@@ -189,8 +211,10 @@ function ViewReviewModal({
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

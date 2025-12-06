@@ -143,18 +143,7 @@ const AdminDashboardLogin = () => {
                         : null
                     }
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-paragray hover:text-purple-600 transition-colors z-10"
-                    style={{ top: "calc(50% + 12px)" }}
-                  >
-                    <i
-                      className={`fas ${
-                        showPassword ? "fa-eye-slash" : "fa-eye"
-                      }`}
-                    ></i>
-                  </button>
+             
 
                   {/* دکمه ورود */}
                   <button

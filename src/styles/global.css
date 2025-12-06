@@ -605,3 +605,39 @@ input[type="number"] {
   scrollbar-width: thin;
   scrollbar-color: #2a7a7a rgba(42, 122, 122, 0.1);
 }
+
+/* Admin Modal scrollbar styles - زیبا و مطابق طرح purple */
+.admin-modal-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.admin-modal-scrollbar::-webkit-scrollbar-track {
+  background: rgba(147, 51, 234, 0.1);
+  border-radius: 10px;
+  margin: 8px 0;
+}
+
+.admin-modal-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #9333ea 0%, #a855f7 50%, #c084fc 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(147, 51, 234, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(147, 51, 234, 0.3);
+}
+
+.admin-modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c084fc 0%, #a855f7 50%, #9333ea 100%);
+  box-shadow: 0 4px 8px rgba(168, 85, 247, 0.5);
+  transform: scaleY(1.1);
+}
+
+.admin-modal-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #7e22ce 0%, #9333ea 100%);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox scrollbar styles for admin modal */
+.admin-modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #9333ea rgba(147, 51, 234, 0.1);
+}
