@@ -77,7 +77,7 @@ function GalleryManagementTable({
                     <div className="flex items-center ">
                       {image.image ? (
                         <img
-                          src={`http://localhost:4000${image.image}`}
+                          src={`${image.image}`}
                           alt={image.title || "تصویر گالری"}
                           className="w-16 h-16 rounded-lg object-cover shrink-0"
                         />

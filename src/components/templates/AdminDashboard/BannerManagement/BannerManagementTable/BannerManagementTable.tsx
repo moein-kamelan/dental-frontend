@@ -77,7 +77,7 @@ function BannerManagementTable({
                   <td className="">
                     {banner.image ? (
                       <img
-                        src={`http://localhost:4000${banner.image}`}
+                        src={`${banner.image}`}
                         alt={banner.title || "Banner"}
                         className="w-16 h-16 rounded-lg object-cover shrink-0"
                       />

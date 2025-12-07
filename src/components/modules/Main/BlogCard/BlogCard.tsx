@@ -36,7 +36,7 @@ function BlogCard({ article }: BlogCardProps) {
       <div className="relative h-64">
         {article?.coverImage ? (
           <img
-            src={`http://localhost:4000${article.coverImage}`}
+            src={`${article.coverImage}`}
             alt={article.title}
             className="w-full h-full group-hover/card:scale-105 transition-all duration-800 object-cover"
           />

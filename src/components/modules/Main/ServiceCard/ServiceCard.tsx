@@ -28,7 +28,7 @@ function ServiceCard({ service }: { service: Service }) {
       <div className="relative h-64">
         {service?.coverImage ? (
           <img
-            src={`http://localhost:4000${service.coverImage}`}
+            src={`${service.coverImage}`}
             alt={service.title}
             className="w-full h-full rounded-[5px] group-hover:scale-105 transition-all duration-500 object-cover"
           />

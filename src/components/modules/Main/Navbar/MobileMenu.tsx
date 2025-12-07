@@ -20,7 +20,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { data: settings } = useGetSettings();
+  const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
 
@@ -101,15 +101,19 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={handleLinkClick}
                   className="w-32 sm:w-40 shrink-0"
                 >
-                  <img
-                    src={
-                      settings?.data?.settings?.logo
-                        ? `http://localhost:4000${settings.data.settings.logo}`
-                        : "/images/Logo_1.png"
-                    }
-                    alt="logo"
-                    className="w-full object-contain"
-                  />
+                  {isSettingsLoading ? (
+                    <div className="w-full h-10 bg-gray-200 animate-pulse rounded" />
+                  ) : (
+                    <img
+                      src={
+                        settings?.data?.settings?.logo
+                          ? `${settings.data.settings.logo}`
+                          : "/images/Logo_1.png"
+                      }
+                      alt="logo"
+                      className="w-full object-contain"
+                    />
+                  )}
                 </NavLink>
                 <button
                   onClick={onClose}
@@ -130,7 +134,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <img
                       src={
                         user.profileImage
-                          ? `http://localhost:4000${user.profileImage}`
+                          ? `${user.profileImage}`
                           : user.gender === "FEMALE"
                           ? "/images/female-user.jpeg"
                           : "/images/male-user.jpeg"

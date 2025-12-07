@@ -309,7 +309,7 @@ function ProfileManagementForm() {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center">
                     <img
-                      src={`http://localhost:4000${user.profileImage}`}
+                      src={`${user.profileImage}`}
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover"
                     />

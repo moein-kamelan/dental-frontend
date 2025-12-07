@@ -90,7 +90,7 @@ function UsersManagementTable({
                     <div className="flex items-center gap-3">
                       {user.profileImage ? (
                         <img
-                          src={`http://localhost:4000${user.profileImage}`}
+                          src={`${user.profileImage}`}
                           alt={`${user.firstName} ${user.lastName}`}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

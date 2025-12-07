@@ -13,7 +13,6 @@ import {
 } from "../../../../../utils/toastify";
 import type { Clinic } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
-import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
 
 function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const navigate = useNavigate();
@@ -26,17 +25,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const validationSchema = Yup.object({
     name: Yup.string().required("نام کلینیک الزامی است"),
     address: Yup.string().required("آدرس الزامی است"),
-    phoneNumber: Yup.string()
-      .required("شماره تلفن الزامی است")
-      .test("is-valid-phone", "شماره تلفن معتبر نیست", (value) => {
-        try {
-          formatPhoneNumber(value);
-          return true;
-        } catch (error) {
-          console.log(error);
-          return false;
-        }
-      }),
+    phoneNumber: Yup.string(),
     description: Yup.string(),
     latitude: Yup.number()
       .nullable()

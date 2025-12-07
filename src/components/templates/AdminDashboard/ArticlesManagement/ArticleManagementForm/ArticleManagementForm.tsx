@@ -358,7 +358,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`http://localhost:4000${article.coverImage}`}
+                      src={`${article.coverImage}`}
                       alt={article.title || "تصویر کاور"}
                       className="w-12 h-12 rounded-lg object-cover"
                     />

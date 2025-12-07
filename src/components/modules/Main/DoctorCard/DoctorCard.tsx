@@ -34,7 +34,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
         <img
           src={
             doctor?.profileImage
-              ? `http://localhost:4000${doctor.profileImage}`
+              ? `${doctor.profileImage}`
               : "/images/team-1.jpg"
           }
           alt={`${doctor.firstName} ${doctor.lastName}`}

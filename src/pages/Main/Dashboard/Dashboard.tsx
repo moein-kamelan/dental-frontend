@@ -96,7 +96,7 @@ function Dashboard() {
                   <img
                     src={
                       user?.profileImage
-                        ? `http://localhost:4000${user.profileImage}`
+                        ? `${user.profileImage}`
                         : user?.gender === "FEMALE"
                         ? "/images/female-user.jpeg"
                         : "/images/male-user.jpeg"

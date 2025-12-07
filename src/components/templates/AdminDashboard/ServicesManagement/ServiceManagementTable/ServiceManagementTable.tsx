@@ -77,7 +77,7 @@ function ServiceManagementTable({
                     <div className="flex items-center gap-3">
                       {service.coverImage ? (
                         <img
-                          src={`http://localhost:4000${service.coverImage}`}
+                          src={`${service.coverImage}`}
                           alt={service.title}
                           className="w-12 h-12 rounded-lg object-cover shrink-0"
                         />

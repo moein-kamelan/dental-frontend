@@ -258,7 +258,7 @@ function ReviewManagementForm({ review }: { review?: Review }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`http://localhost:4000${review.profileImage}`}
+                      src={`${review.profileImage}`}
                       alt={review.name || "تصویر پروفایل"}
                       className="w-12 h-12 rounded-full object-cover"
                     />

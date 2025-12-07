@@ -79,7 +79,7 @@ function ReviewManagementTable({
                     <div className="flex items-center gap-3">
                       {review.profileImage ? (
                         <img
-                          src={`http://localhost:4000${review.profileImage}`}
+                          src={`${review.profileImage}`}
                           alt={review.name}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

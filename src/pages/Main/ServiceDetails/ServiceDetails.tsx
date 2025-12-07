@@ -32,7 +32,7 @@ function ServiceDetails() {
                   <img
                     src={
                       service?.data?.service?.coverImage
-                        ? `http://localhost:4000${service?.data?.service?.coverImage}`
+                        ? `${service?.data?.service?.coverImage}`
                         : "/images/service-1.jpg"
                     }
                     alt={service?.data?.service?.title}

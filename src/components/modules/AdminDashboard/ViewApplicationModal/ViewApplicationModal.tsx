@@ -48,7 +48,7 @@ function ViewApplicationModal({
     }
   }
 
-  const baseURL = "http://localhost:4000";
+  const baseURL = "";
 
   return (
     <AnimatePresence mode="wait">

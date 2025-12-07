@@ -3,7 +3,7 @@ import { useGetSettings } from "../../../../services/useSettings";
 import { Link } from "react-router-dom";
 
 function Footer() {
-  const { data: settings } = useGetSettings();
+  const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
   return (
     <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42 relative">
       <div className="absolute left-0 right-0 top-0 -translate-y-1/2 w-full">
@@ -32,15 +32,19 @@ function Footer() {
 
         <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_3fr] gap-8 mb-12 items-start">
           <div className=" max-lg:col-span-4">
-            <img
-              src={
-                settings?.data?.settings?.logo
-                  ? `http://localhost:4000${settings.data.settings.logo}`
-                  : "/images/Logo_1.png"
-              }
-              alt="logo"
-              className="mb-6 w-48 h-20 object-contain"
-            />
+            {isSettingsLoading ? (
+              <div className="mb-6 w-48 h-20 bg-gray-600 animate-pulse rounded" />
+            ) : (
+              <img
+                src={
+                  settings?.data?.settings?.logo
+                    ? `${settings.data.settings.logo}`
+                    : "/images/Logo_1.png"
+                }
+                alt="logo"
+                className="mb-6 w-48 h-20 object-contain"
+              />
+            )}
             <p className="text-paragray font-estedad-light mb-4 ">
               {settings?.data?.settings?.description ||
                 "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ"}

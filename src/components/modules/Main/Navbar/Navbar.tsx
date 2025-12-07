@@ -18,7 +18,7 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { data: settings } = useGetSettings();
+  const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
 
@@ -73,15 +73,19 @@ function Navbar() {
             to={"/home"}
             className="w-32 sm:w-40 md:w-48 h-10 sm:h-12 md:h-16 flex items-center justify-center shrink-0"
           >
-            <img
-              src={
-                settings?.data?.settings?.logo
-                  ? `http://localhost:4000${settings.data.settings.logo}`
-                  : "/images/Logo_1.png"
-              }
-              alt="logo"
-              className="h-full w-full object-contain"
-            />
+            {isSettingsLoading ? (
+              <div className="h-full w-full bg-gray-200 animate-pulse rounded" />
+            ) : (
+              <img
+                src={
+                  settings?.data?.settings?.logo
+                    ? `${settings.data.settings.logo}`
+                    : "/images/Logo_1.png"
+                }
+                alt="logo"
+                className="h-full w-full object-contain"
+              />
+            )}
           </NavLink>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -187,7 +191,7 @@ function Navbar() {
                     <img
                       src={
                         user.profileImage
-                          ? `http://localhost:4000${user.profileImage}`
+                          ? `${user.profileImage}`
                           : user.gender === "FEMALE"
                           ? "/images/female-user.jpeg"
                           : "/images/male-user.jpeg"

@@ -3,7 +3,7 @@ import type { AppStore } from "../redux/store";
 import type { AsyncThunk } from "@reduxjs/toolkit";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: "/api",
   timeout: 10000,
   withCredentials: true,
 });

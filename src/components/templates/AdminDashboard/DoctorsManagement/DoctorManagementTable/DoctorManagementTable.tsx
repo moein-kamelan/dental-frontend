@@ -77,7 +77,7 @@ function DoctorsManagementTable({
                     <div className="flex items-center gap-3 min-w-[220px] max-w-[220px]">
                       {doctor.profileImage ? (
                         <img
-                          src={`http://localhost:4000${doctor.profileImage}`}
+                          src={`${doctor.profileImage}`}
                           alt={`${doctor.firstName} ${doctor.lastName}`}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

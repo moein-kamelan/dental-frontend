@@ -37,7 +37,7 @@ function DoctorDetails() {
                     <img
                       src={
                         doctor?.data?.doctor?.profileImage
-                          ? `http://localhost:4000${doctor?.data?.doctor?.profileImage}`
+                          ? `${doctor?.data?.doctor?.profileImage}`
                           : "/images/user_img.png"
                       }
                       alt={

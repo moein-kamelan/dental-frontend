@@ -12,7 +12,7 @@ function RecentPosts({ articles, services }: { articles?: Article[], services?: 
         {recentPosts.map((recentPost: Article | Service) => (
           <Link to={`/blog/${recentPost.slug}`} className="flex gap-3  group">
             <img
-              src={`http://localhost:4000${recentPost.coverImage}`}
+              src={`${recentPost.coverImage}`}
               alt="post"
               className="size-20 rounded-lg  shrink-0"
             />

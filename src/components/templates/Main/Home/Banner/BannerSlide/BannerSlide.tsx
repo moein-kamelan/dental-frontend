@@ -8,7 +8,7 @@ interface BannerSlideProps {
 
 function BannerSlide({ banner, isActive }: BannerSlideProps) {
   const imageUrl = banner.image
-    ? `http://localhost:4000${banner.image}`
+    ? `${banner.image}`
     : "images/banner_img.png";
 
   return (

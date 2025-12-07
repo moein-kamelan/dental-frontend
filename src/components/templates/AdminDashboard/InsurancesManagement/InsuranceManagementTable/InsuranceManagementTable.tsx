@@ -90,7 +90,7 @@ function InsuranceManagementTable({
                     <div className="flex items-center gap-3">
                       {insurance.logo ? (
                         <img
-                          src={`http://localhost:4000${insurance.logo}`}
+                          src={`${insurance.logo}`}
                           alt={insurance.name}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

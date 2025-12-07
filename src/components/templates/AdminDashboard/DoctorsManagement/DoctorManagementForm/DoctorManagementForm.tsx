@@ -653,7 +653,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`http://localhost:4000${doctor.profileImage}`}
+                      src={`${doctor.profileImage}`}
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover"
                     />

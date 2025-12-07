@@ -257,7 +257,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`http://localhost:4000${image.image}`}
+                      src={`${image.image}`}
                       alt={image.title || "تصویر گالری"}
                       className="w-12 h-12 rounded-lg object-cover"
                     />

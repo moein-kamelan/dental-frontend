@@ -6,12 +6,12 @@ function AboutUsSection() {
   const settings = settingsData?.data?.settings;
 
   const aboutUsImage = settings?.aboutUsImage
-    ? `http://localhost:4000${settings.aboutUsImage}`
+    ? `${settings.aboutUsImage}`
     : null;
 
   const aboutUsContent = settings?.aboutUsContent || "";
   const aboutUsVideo = settings?.aboutUsVideo
-    ? `http://localhost:4000${settings.aboutUsVideo}`
+    ? `${settings.aboutUsVideo}`
     : null;
 
   return (

@@ -32,7 +32,7 @@ function BlogDetails() {
                   <img
                     src={
                       article?.data?.article?.coverImage
-                        ? `http://localhost:4000${article?.data?.article?.coverImage}`
+                        ? `${article?.data?.article?.coverImage}`
                         : "/images/blog-1.jpg"
                     }
                     alt={article?.data?.article?.title}

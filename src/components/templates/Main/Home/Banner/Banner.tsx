@@ -22,7 +22,7 @@ function Banner() {
     useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const { data: settings } = useGetSettings();
-  const { data: bannersData } = useGetAllHeroSliders(1, 20, "true");
+  const { data: bannersData, isLoading: isBannersLoading } = useGetAllHeroSliders(1, 20, "true");
 
   // Get banners array or use empty array as fallback (only published banners)
   const banners: HeroSlider[] = bannersData?.data?.sliders || [];
@@ -117,47 +117,53 @@ function Banner() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <Swiper
-              modules={[Autoplay]}
-              spaceBetween={0}
-              className="h-[380px] md:h-full w-full"
-              slidesPerView={1}
-              loop={banners.length > 1}
-              autoplay={{
-                delay: 7500,
-                disableOnInteraction: false,
-              }}
-              onSlideChange={(swiper) => {
-                setActiveSlideIndex(swiper.realIndex);
-              }}
-              onSwiper={(swiper) => {
-                setActiveSlideIndex(swiper.realIndex);
-              }}
-            >
-              {banners.length > 0 ? (
-                banners.map((banner, index) => (
-                  <SwiperSlide
-                    key={banner.id || index}
-                    className="relative flex items-end justify-center"
-                  >
-                    <BannerSlide
-                      banner={banner}
-                      isActive={activeSlideIndex === index}
-                    />
+            {isBannersLoading ? (
+              <div className="h-[380px] md:h-full w-full flex items-center justify-center">
+                <div className="w-[80%] max-w-[600px] h-[300px] md:h-[400px] bg-gray-200/50 animate-pulse rounded-2xl" />
+              </div>
+            ) : (
+              <Swiper
+                modules={[Autoplay]}
+                spaceBetween={0}
+                className="h-[380px] md:h-full w-full"
+                slidesPerView={1}
+                loop={banners.length > 1}
+                autoplay={{
+                  delay: 7500,
+                  disableOnInteraction: false,
+                }}
+                onSlideChange={(swiper) => {
+                  setActiveSlideIndex(swiper.realIndex);
+                }}
+                onSwiper={(swiper) => {
+                  setActiveSlideIndex(swiper.realIndex);
+                }}
+              >
+                {banners.length > 0 ? (
+                  banners.map((banner, index) => (
+                    <SwiperSlide
+                      key={banner.id || index}
+                      className="relative flex items-end justify-center"
+                    >
+                      <BannerSlide
+                        banner={banner}
+                        isActive={activeSlideIndex === index}
+                      />
+                    </SwiperSlide>
+                  ))
+                ) : (
+                  <SwiperSlide className="relative flex items-end justify-center">
+                    <div className="relative w-full h-full flex items-end justify-center">
+                      <img
+                        src="images/banner_img.png"
+                        alt="banner"
+                        className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
+                      />
+                    </div>
                   </SwiperSlide>
-                ))
-              ) : (
-                <SwiperSlide className="relative flex items-end justify-center">
-                  <div className="relative w-full h-full flex items-end justify-center">
-                    <img
-                      src="images/banner_img.png"
-                      alt="banner"
-                      className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
-                    />
-                  </div>
-                </SwiperSlide>
-              )}
-            </Swiper>
+                )}
+              </Swiper>
+            )}
 
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
               <div className="w-[70%] sm:w-[75%] md:w-[80%] lg:w-[85%] h-auto">

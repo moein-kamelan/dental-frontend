@@ -287,7 +287,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center">
                     <img
-                      src={`http://localhost:4000${banner.image}`}
+                      src={`${banner.image}`}
                       alt="Banner"
                       className="w-32 h-20 rounded-lg object-cover"
                     />

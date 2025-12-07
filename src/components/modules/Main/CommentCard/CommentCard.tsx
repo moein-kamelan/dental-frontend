@@ -58,7 +58,7 @@ function CommentCard({ review }: { review?: Review }) {
         <div className="flex items-center gap-4">
           {review.profileImage ? (
             <img
-              src={`http://localhost:4000${review.profileImage}`}
+              src={`${review.profileImage}`}
               alt={review.name}
               className="w-16 h-16 rounded-full object-cover"
             />

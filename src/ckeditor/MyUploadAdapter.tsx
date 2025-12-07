@@ -17,7 +17,7 @@ export default class MyUploadAdapter {
         const data = new FormData();
         data.append("file", file);
 
-        fetch("http://localhost:4000/api/upload", {
+        fetch("/api/upload", {
           method: "POST",
           body: data,
         })

@@ -456,7 +456,7 @@ function SettingsForm() {
                 {settings?.logo && !formik.values.logo && !removeLogo && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`http://localhost:4000${settings.logo}`}
+                      src={`${settings.logo}`}
                       alt="لوگوی سایت"
                       className="w-12 h-12 rounded-lg object-cover"
                     />
@@ -654,7 +654,7 @@ function SettingsForm() {
                     !removeAboutUsImage && (
                       <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <img
-                          src={`http://localhost:4000${settings.aboutUsImage}`}
+                          src={`${settings.aboutUsImage}`}
                           alt="تصویر درباره ما"
                           className="w-12 h-12 rounded-lg object-cover"
                         />
@@ -715,7 +715,7 @@ function SettingsForm() {
                   {settings?.aboutUsVideo && !formik.values.aboutUsVideo && (
                     <div className="flex items-center gap-2 flex-wrap justify-center ">
                       <video
-                        src={`http://localhost:4000${settings.aboutUsVideo}`}
+                        src={`${settings.aboutUsVideo}`}
                         controls
                         className="w-24 h-24 rounded-lg object-cover"
                       />
@@ -762,7 +762,7 @@ function SettingsForm() {
                     !removeContactUsImage && (
                       <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <img
-                          src={`http://localhost:4000${settings.contactUsImage}`}
+                          src={`${settings.contactUsImage}`}
                           alt="تصویر تماس با ما"
                           className="w-12 h-12 rounded-lg object-cover"
                         />
@@ -824,7 +824,7 @@ function SettingsForm() {
                     !formik.values.contactUsVideo && (
                       <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <video
-                          src={`http://localhost:4000${settings.contactUsVideo}`}
+                          src={`${settings.contactUsVideo}`}
                           controls
                           className="w-24 h-24 rounded-lg object-cover"
                         />
