@@ -14,6 +14,21 @@ import {
 import type { Clinic } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 
+const daysOfWeek = [
+  { value: "saturday", label: "شنبه" },
+  { value: "sunday", label: "یکشنبه" },
+  { value: "monday", label: "دوشنبه" },
+  { value: "tuesday", label: "سه‌شنبه" },
+  { value: "wednesday", label: "چهارشنبه" },
+  { value: "thursday", label: "پنج‌شنبه" },
+  { value: "friday", label: "جمعه" },
+];
+
+type TimeRange = {
+  start: string;
+  end: string;
+};
+
 function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -35,6 +50,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       .nullable()
       .min(-180, "طول جغرافیایی باید بین -180 تا 180 باشد")
       .max(180, "طول جغرافیایی باید بین -180 تا 180 باشد"),
+    workingHours: Yup.object(),
   });
 
   const handleSubmit = async (
@@ -45,6 +61,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       description: string;
       latitude: number | null;
       longitude: number | null;
+      workingHours: Record<string, TimeRange[]>;
     },
     resetForm: () => void
   ) => {
@@ -56,6 +73,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         description?: string;
         latitude?: number | null;
         longitude?: number | null;
+        workingHours?: Record<string, string | null>;
       } = {
         name: values.name,
         address: values.address,
@@ -74,11 +92,29 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         data.longitude = values.longitude;
       }
 
+      if (values.workingHours) {
+        const formattedWorkingHours: Record<string, string | null> = {};
+        daysOfWeek.forEach((day) => {
+          const timeRanges = values.workingHours[day.value] || [];
+          if (timeRanges.length > 0) {
+            const timeStrings = timeRanges
+              .filter((range) => range.start && range.end)
+              .map((range) => `${range.start}-${range.end}`);
+            formattedWorkingHours[day.value] =
+              timeStrings.length > 0 ? timeStrings.join(" & ") : null;
+          } else {
+            formattedWorkingHours[day.value] = null;
+          }
+        });
+        data.workingHours = formattedWorkingHours;
+      }
+
       if (isEditMode && clinic?.id) {
         await updateClinic({ id: clinic.id, data });
         showSuccessToast("کلینیک با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["clinics"] });
-        queryClient.invalidateQueries({ queryKey: ["clinic"] });        navigate("/admin/clinics-management");
+        queryClient.invalidateQueries({ queryKey: ["clinic"] });
+        navigate("/admin/clinics-management");
       } else {
         await createClinic(data);
         showSuccessToast("کلینیک با موفقیت ایجاد شد");
@@ -113,6 +149,49 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         description: clinic?.description || "",
         latitude: clinic?.latitude ?? null,
         longitude: clinic?.longitude ?? null,
+        workingHours: (() => {
+          const workingHoursData = clinic?.workingHours;
+          if (workingHoursData) {
+            const converted: Record<string, TimeRange[]> = {};
+
+            daysOfWeek.forEach((day) => {
+              const value = workingHoursData[day.value];
+
+              if (value === null || value === undefined) {
+                converted[day.value] = [];
+              } else if (typeof value === "string" && value.trim()) {
+                if (value.includes(" & ")) {
+                  const timeRanges = value.split(" & ").map((range) => {
+                    const [start, end] = range.trim().split("-");
+                    return { start: start || "", end: end || "" };
+                  });
+                  converted[day.value] = timeRanges.filter(
+                    (range) => range.start && range.end
+                  );
+                } else {
+                  const [start, end] = value.split("-");
+                  converted[day.value] =
+                    start && end
+                      ? [{ start: start.trim(), end: end.trim() }]
+                      : [];
+                }
+              } else if (Array.isArray(value)) {
+                converted[day.value] = value.map((item) => {
+                  if (typeof item === "string") {
+                    const [start, end] = item.split("-");
+                    return { start: start || "", end: end || "" };
+                  }
+                  return item as TimeRange;
+                });
+              } else {
+                converted[day.value] = [];
+              }
+            });
+
+            return converted;
+          }
+          return {} as Record<string, TimeRange[]>;
+        })(),
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { resetForm }) => {
@@ -130,6 +209,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
               values.longitude === null || values.longitude === undefined
                 ? null
                 : Number(values.longitude),
+            workingHours: values.workingHours,
           },
           resetForm
         );
@@ -250,6 +330,164 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                     : null
                 }
               />
+            </div>
+
+            <div>
+              <label className="block text-dark font-estedad-lightbold mb-4 mr-4">
+                روزهای کاری
+              </label>
+              <div className="grid grid-cols-1 xl:grid-cols-2  gap-4 ">
+                {daysOfWeek.map((day) => {
+                  const timeRanges =
+                    formik.values.workingHours[day.value] || [];
+
+                  const addTimeRange = () => {
+                    const newRanges = [
+                      ...timeRanges,
+                      { start: "08:00", end: "12:00" },
+                    ];
+                    const newWorkingDays = {
+                      ...formik.values.workingHours,
+                      [day.value]: newRanges,
+                    };
+                    formik.setFieldValue("workingHours", newWorkingDays);
+                  };
+
+                  const updateTimeRange = (
+                    index: number,
+                    field: "start" | "end",
+                    value: string
+                  ) => {
+                    const newRanges = [...timeRanges];
+                    newRanges[index] = {
+                      ...newRanges[index],
+                      [field]: value,
+                    };
+                    const newWorkingDays = {
+                      ...formik.values.workingHours,
+                      [day.value]: newRanges,
+                    };
+                    formik.setFieldValue("workingHours", newWorkingDays);
+                  };
+
+                  const removeTimeRange = (index: number) => {
+                    const newRanges = timeRanges.filter((_, i) => i !== index);
+                    const newWorkingDays = {
+                      ...formik.values.workingHours,
+                      [day.value]: newRanges,
+                    };
+                    formik.setFieldValue("workingHours", newWorkingDays);
+                  };
+
+                  return (
+                    <div
+                      key={day.value}
+                      className="space-y-3 p-4 border-2 border-main-border-color rounded-lg bg-white"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <label className="block text-sm font-medium text-dark">
+                          {day.label}
+                        </label>
+                        <button
+                          type="button"
+                          onClick={addTimeRange}
+                          className="text-primary hover:text-primary/80 text-xs font-estedad-lightbold flex items-center gap-1"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8 3V13M3 8H13"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                          افزودن بازه
+                        </button>
+                      </div>
+
+                      {timeRanges.length === 0 ? (
+                        <div className="text-center py-4 text-paragray text-sm">
+                          بازه زمانی انتخاب نشده است
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {timeRanges.map((range, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-main-border-color"
+                            >
+                              <div className="flex-1 flex flex-wrap items-center gap-2">
+                                <div className="flex-1">
+                                  <label className="block text-xs text-paragray mb-1">
+                                    از
+                                  </label>
+                                  <input
+                                    type="time"
+                                    value={range.start}
+                                    onChange={(e) =>
+                                      updateTimeRange(
+                                        index,
+                                        "start",
+                                        e.target.value
+                                      )
+                                    }
+                                    className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="block text-xs text-paragray mb-1">
+                                    تا
+                                  </label>
+                                  <input
+                                    type="time"
+                                    value={range.end}
+                                    onChange={(e) =>
+                                      updateTimeRange(
+                                        index,
+                                        "end",
+                                        e.target.value
+                                      )
+                                    }
+                                    min={range.start}
+                                    className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                  />
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeTimeRange(index)}
+                                className="text-red-500 hover:text-red-700 p-2 transition-colors"
+                                title="حذف"
+                              >
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 20 20"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5 5L15 15M15 5L5 15"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="flex justify-end mt-6">

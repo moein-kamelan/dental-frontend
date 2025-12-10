@@ -38,6 +38,7 @@ export const useCreateClinic = () => {
       description?: string;
       latitude?: number | null;
       longitude?: number | null;
+      workingHours?: Record<string, string | null>;
     }) => {
       const response = await axiosInstance.post("/clinics", data);
       return response.data;
@@ -59,6 +60,7 @@ export const useUpdateClinic = () => {
         description?: string;
         latitude?: number | null;
         longitude?: number | null;
+        workingHours?: Record<string, string | null>;
       };
     }) => {
       const response = await axiosInstance.patch(`/clinics/${id}`, data);
