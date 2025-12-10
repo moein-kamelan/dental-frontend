@@ -22,7 +22,8 @@ function Banner() {
     useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const { data: settings } = useGetSettings();
-  const { data: bannersData, isLoading: isBannersLoading } = useGetAllHeroSliders(1, 20, "true");
+  const { data: bannersData, isLoading: isBannersLoading } =
+    useGetAllHeroSliders(1, 20, "true");
 
   // Get banners array or use empty array as fallback (only published banners)
   const banners: HeroSlider[] = bannersData?.data?.sliders || [];
@@ -66,10 +67,10 @@ function Banner() {
               <span>خوش آمدید</span>
             </div>
             <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px] max-md:text-center">
-              {settings?.data.settings.siteTitle}
+              {settings?.data?.settings?.siteTitle ?? "عنوان سایت"}
             </h1>
             <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
-              {settings?.data.settings.description}
+              {settings?.data?.settings?.description ?? ""}
             </p>
             <button
               onClick={() => {

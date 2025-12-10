@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { formatJalali } from "../../../../utils/helpers";
+import { backendBaseUrl } from "../../../../utils/axios";
 import type { DoctorApplication } from "../../../../types/types";
 
 interface ViewApplicationModalProps {
@@ -48,7 +49,19 @@ function ViewApplicationModal({
     }
   }
 
-  const baseURL = "";
+  const baseURL = backendBaseUrl;
+
+  const buildDocumentUrl = (path: string) => {
+    if (!path) return "";
+    if (/^https?:\/\//i.test(path)) return path;
+
+    if (baseURL) {
+      const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+      return `${baseURL}${normalizedPath}`;
+    }
+
+    return path;
+  };
 
   return (
     <AnimatePresence mode="wait">
@@ -169,7 +182,7 @@ function ViewApplicationModal({
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {documentPaths.map((docPath, index) => {
-                    const fullUrl = `${baseURL}${docPath}`;
+                    const fullUrl = buildDocumentUrl(docPath);
                     const fileName = docPath.split("/").pop() || `مدرک ${index + 1}`;
                     const isImage = /\.(jpg|jpeg|png|gif)$/i.test(docPath);
                     const isPdf = /\.pdf$/i.test(docPath);

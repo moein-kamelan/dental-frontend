@@ -2,8 +2,22 @@ import axios from "axios";
 import type { AppStore } from "../redux/store";
 import type { AsyncThunk } from "@reduxjs/toolkit";
 
+// Backend origin is configurable per environment (dev/prod)
+// Default to localhost in dev if env is not provided.
+const rawBackendBase =
+  import.meta.env.VITE_BACKEND_URL ||
+  (import.meta.env.DEV ? "http://localhost:4000" : "");
+
+  console.log(import.meta.env.VITE_BACKEND_URL);
+  
+
+// Keep without trailing slash so we can safely append paths.
+export const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+
+const apiBaseUrl = backendBaseUrl ? `${backendBaseUrl}/api` : "/api";
+
 export const axiosInstance = axios.create({
-  baseURL: "/api",
+  baseURL: apiBaseUrl,
   timeout: 10000,
   withCredentials: true,
 });
