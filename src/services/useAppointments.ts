@@ -118,3 +118,14 @@ export const useDeleteAppointment = () => {
     },
   });
 };
+
+export const useGetAppointmentsStats = () => {
+  return useQuery({
+    queryKey: ["appointmentsStats"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/appointments/stats");
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};

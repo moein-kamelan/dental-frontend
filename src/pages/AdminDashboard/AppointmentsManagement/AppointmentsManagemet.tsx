@@ -10,6 +10,7 @@ import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import AdminPagination from "../../../components/modules/AdminDashboard/AdminPagination/AdminPagination";
 import AppointmentsManagementTable from "../../../components/templates/AdminDashboard/AppointmentsManagement/AppointmentsManagementTable/AppointmentsManagementTable";
+import AppointmentsStats from "../../../components/templates/AdminDashboard/AppointmentsManagement/AppointmentsStats/AppointmentsStats";
 import { useDebounce } from "use-debounce";
 import DeleteModal from "../../../components/modules/AdminDashboard/DeleteModal/DeleteModal";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
@@ -125,6 +126,7 @@ function AppointmentsManagement() {
       await approveAppointment(appointmentToApprove.id);
       showSuccessToast("نوبت با موفقیت تأیید شد");
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["appointmentsStats"] });
       setApproveModalOpen(false);
       setAppointmentToApprove(null);
     } catch (error: unknown) {
@@ -150,6 +152,7 @@ function AppointmentsManagement() {
       await cancelAppointment({ id: appointmentToCancel.id });
       showSuccessToast("نوبت با موفقیت لغو شد");
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["appointmentsStats"] });
       setCancelModalOpen(false);
       setAppointmentToCancel(null);
     } catch (error: unknown) {
@@ -175,6 +178,7 @@ function AppointmentsManagement() {
       await deleteAppointment(appointmentToDelete.id);
       showSuccessToast("نوبت با موفقیت حذف شد");
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["appointmentsStats"] });
       setDeleteModalOpen(false);
       setAppointmentToDelete(null);
     } catch (error: unknown) {
@@ -215,6 +219,9 @@ function AppointmentsManagement() {
     <main>
       <SectionContainer>
         <h5 className="main-header">لیست نوبت‌ها</h5>
+
+        {/* Stats Cards */}
+        <AppointmentsStats />
 
         {/* Search and Filter */}
         <div className="mb-4 flex flex-col md:flex-row gap-4">

@@ -98,9 +98,7 @@ function AppointmentManagementForm({
 
     return doctorsData.data.doctors
       .filter((doctor: Doctor) => {
-        return doctor.clinics?.some(
-          (dc) => dc.clinic.id === clinicId
-        );
+        return doctor.clinics?.some((dc) => dc.clinic.id === clinicId);
       })
       .map((doctor: Doctor) => ({
         value: doctor.id,
@@ -125,9 +123,7 @@ function AppointmentManagementForm({
       clinicId: appointment?.clinic?.id || "",
       doctorId: appointment?.doctor?.id || null,
       appointmentDate: appointment
-        ? new Date(appointment.appointmentDate)
-            .toISOString()
-            .slice(0, 16)
+        ? new Date(appointment.appointmentDate).toISOString().slice(0, 16)
         : "",
       patientName: appointment?.patientName || "",
       notes: appointment?.notes || "",
@@ -192,11 +188,12 @@ function AppointmentManagementForm({
             queryClient.invalidateQueries({
               queryKey: ["appointment", appointment.id],
             });
+            queryClient.invalidateQueries({ queryKey: ["appointmentsStats"] });
             navigate("/admin/appointments-management");
           } catch (error: unknown) {
             const errorMessage =
-              (error as { response?: { data?: { message?: string } } })?.response
-                ?.data?.message || "خطایی در به‌روزرسانی نوبت رخ داد";
+              (error as { response?: { data?: { message?: string } } })
+                ?.response?.data?.message || "خطایی در به‌روزرسانی نوبت رخ داد";
             showErrorToast(errorMessage);
           } finally {
             setSubmitting(false);
@@ -250,8 +247,9 @@ function AppointmentManagementForm({
                 <Select
                   options={clinicOptions}
                   value={
-                    clinicOptions.find((opt) => opt.value === values.clinicId) ||
-                    null
+                    clinicOptions.find(
+                      (opt) => opt.value === values.clinicId
+                    ) || null
                   }
                   onChange={(option) => {
                     setFieldValue("clinicId", option?.value || "");
@@ -395,4 +393,3 @@ function AppointmentManagementForm({
 }
 
 export default AppointmentManagementForm;
-
