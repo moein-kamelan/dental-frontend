@@ -63,6 +63,11 @@ function AdminDashboardSidebar() {
           end={true}
         />
         <AdminDashboardSidebarLink
+          to={"/admin/appointments-management"}
+          icon="fas fa-calendar-alt"
+          title="نوبت بیماران"
+        />
+        <AdminDashboardSidebarLink
           to={"/admin/users-management"}
           icon="fas fa-users"
           title="کاربران"

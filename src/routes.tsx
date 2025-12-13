@@ -8,7 +8,8 @@ import {
 
 // Lazy load Main Layout (only loaded once, so can stay eager)
 import MainLayout from "./components/layouts/MainLayout/MainLayout";
-
+import AppointmentsManagementEdit from "./pages/AdminDashboard/AppointmentsManagementEdit/AppointmentsManagementEdit";
+import AppointmentsManagement from "./pages/AdminDashboard/AppointmentsManagement/AppointmentsManagemet";
 // Lazy load Main pages
 const Home = lazy(() => import("./pages/Main/Home/Home"));
 const Doctors = lazy(() => import("./pages/Main/Doctors/Doctors"));
@@ -226,11 +227,17 @@ const routes = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AdminDashboardHome /> },
+      { path : "appointments-management", element: <AppointmentsManagement /> },
+      {
+        path : "appointments-management/edit/:id",
+        element : <AppointmentsManagementEdit />,
+      },
       { path: "doctors-management", element: <DoctorsManagement /> },
       {
         path: "doctors-management/edit/:id",
         element: <DoctorsManagementEdit />,
       },
+       
       { path: "clinics-management", element: <ClinicsManagement /> },
       {
         path: "clinics-management/edit/:id",
