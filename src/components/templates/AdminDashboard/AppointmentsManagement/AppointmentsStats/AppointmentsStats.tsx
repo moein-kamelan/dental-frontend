@@ -56,7 +56,7 @@ function AppointmentsStats() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-3  mb-8">
       {statsCards.map((card, index) => (
         <div
           key={index}
@@ -64,7 +64,7 @@ function AppointmentsStats() {
         >
           <div className="flex items-center justify-between w-full">
             <div>
-              <p className="text-gray-500 font-estedad-light text-[10px] ">
+              <p className="text-gray-500 font-estedad-light text-[12px]">
                 {card.title}
               </p>
               {card.isLoading ? (

@@ -49,22 +49,22 @@ const statusConfig = {
   PENDING: {
     label: "در انتظار بررسی",
     className: "bg-gray-100 text-gray-700",
-    rowBg: "bg-gray-50/30 hover:bg-gray-100/50",
+    rowBg: "bg-gray-100/50 hover:bg-gray-100/70",
   },
   APPROVED_BY_USER: {
     label: "در انتظار تأیید منشی",
     className: "bg-yellow-100 text-yellow-700",
-    rowBg: "bg-yellow-50/40 hover:bg-yellow-100/60",
+    rowBg: "bg-yellow-100/60 hover:bg-yellow-100/80",
   },
   FINAL_APPROVED: {
     label: "تأیید شده",
     className: "bg-green-100 text-green-700",
-    rowBg: "bg-green-50/40 hover:bg-green-100/60",
+    rowBg: "bg-green-100/60 hover:bg-green-100/80",
   },
   CANCELED: {
     label: "لغو شده",
     className: "bg-red-100 text-red-700",
-    rowBg: "bg-red-50/30 hover:bg-red-100/50",
+    rowBg: "bg-red-100/50 hover:bg-red-100/70",
   },
 };
 
@@ -153,9 +153,11 @@ function AppointmentsManagementTable({
                     </td>
                     <td className="">
                       <div className="min-w-[180px]">
-                        <p className="font-estedad-light">{patientName}</p>
+                        <p className="font-estedad-light text-nowrap">
+                          {patientName}
+                        </p>
                         {appointment.patientName && (
-                          <p className="text-xs text-paragray">
+                          <p className="text-xs text-paragray text-nowrap">
                             رزرو کننده: {appointment.user.firstName}{" "}
                             {appointment.user.lastName}
                           </p>
@@ -167,7 +169,7 @@ function AppointmentsManagementTable({
                       </div>
                     </td>
                     <td className="text-dark font-estedad-light">
-                      <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary">
+                      <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-nowrap">
                         {appointment.clinic.name}
                       </span>
                     </td>
@@ -196,18 +198,7 @@ function AppointmentsManagementTable({
                       {formatJalali(new Date(appointment.createdAt))}
                     </td>
                     <td className="">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <button
-                          onClick={() => {
-                            navigate(
-                              `/admin/appointments-management/edit/${appointment.id}`
-                            );
-                          }}
-                          className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"
-                          title="ویرایش"
-                        >
-                          <i className="far fa-edit"></i>
-                        </button>
+                      <div className="flex items-center gap-2 ">
                         {appointment.status === "APPROVED_BY_USER" &&
                           onApproveClick && (
                             <button
@@ -227,6 +218,18 @@ function AppointmentsManagementTable({
                             <i className="fas fa-times"></i>
                           </button>
                         )}
+                        <button
+                          onClick={() => {
+                            navigate(
+                              `/admin/appointments-management/edit/${appointment.id}`
+                            );
+                          }}
+                          className="p-1.5 rounded-full text-secondary bg-secondary/20 hover:bg-secondary hover:text-white transition"
+                          title="ویرایش"
+                        >
+                          <i className="far fa-edit"></i>
+                        </button>
+
                         {onDeleteClick && (
                           <button
                             onClick={() => onDeleteClick(appointment.id)}

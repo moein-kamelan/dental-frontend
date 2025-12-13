@@ -22,7 +22,7 @@ function AdminDashboardSidebar() {
       }`}
     >
       <div
-        className={`flex items-center justify-between space-x-3 p-4 shrink-0 transition-opacity duration-200 ${
+        className={`flex items-center justify-between space-x-3 px-4 pt-3 pb-2 shrink-0 transition-opacity duration-200 ${
           !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
         }`}
         style={
