@@ -54,6 +54,50 @@ function DeleteModal({
     }
   };
 
+  // تعیین آیکون و رنگ بر اساس نوع عملیات
+  const getActionConfig = () => {
+    const confirmLower = confirmText.toLowerCase();
+
+    if (confirmLower.includes("حذف") || confirmLower.includes("delete")) {
+      return {
+        icon: "fa-trash",
+        bgColor: "bg-red-500",
+        hoverColor: "hover:bg-red-600",
+        loadingText: "در حال حذف...",
+      };
+    } else if (
+      confirmLower.includes("تایید") ||
+      confirmLower.includes("confirm") ||
+      confirmLower.includes("accept")
+    ) {
+      return {
+        icon: "fa-check",
+        bgColor: "bg-green-500",
+        hoverColor: "hover:bg-green-600",
+        loadingText: "در حال تایید...",
+      };
+    } else if (
+      confirmLower.includes("لغو") ||
+      confirmLower.includes("cancel")
+    ) {
+      return {
+        icon: "fa-times",
+        bgColor: "bg-gray-500",
+        hoverColor: "hover:bg-gray-600",
+        loadingText: "در حال لغو...",
+      };
+    }
+    // پیش‌فرض برای سایر موارد
+    return {
+      icon: "fa-check",
+      bgColor: "bg-primary",
+      hoverColor: "hover:bg-primary/90",
+      loadingText: "در حال پردازش...",
+    };
+  };
+
+  const actionConfig = getActionConfig();
+
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
@@ -128,16 +172,16 @@ function DeleteModal({
                 <button
                   onClick={handleConfirm}
                   disabled={isLoading}
-                  className="px-6 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-lg font-estedad-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className={`px-6 py-2.5 ${actionConfig.bgColor} ${actionConfig.hoverColor} text-white rounded-lg font-estedad-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2`}
                 >
                   {isLoading ? (
                     <>
                       <div className="btn-loader"></div>
-                      <span>در حال حذف...</span>
+                      <span>{actionConfig.loadingText}</span>
                     </>
                   ) : (
                     <>
-                      <i className="far fa-trash-alt"></i>
+                      <i className={`fa ${actionConfig.icon}`}></i>
                       <span>{confirmText}</span>
                     </>
                   )}

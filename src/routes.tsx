@@ -227,17 +227,17 @@ const routes = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AdminDashboardHome /> },
-      { path : "appointments-management", element: <AppointmentsManagement /> },
+      { path: "appointments-management", element: <AppointmentsManagement /> },
       {
-        path : "appointments-management/edit/:id",
-        element : <AppointmentsManagementEdit />,
+        path: "appointments-management/edit/:id",
+        element: <AppointmentsManagementEdit />,
       },
       { path: "doctors-management", element: <DoctorsManagement /> },
       {
         path: "doctors-management/edit/:id",
         element: <DoctorsManagementEdit />,
       },
-       
+
       { path: "clinics-management", element: <ClinicsManagement /> },
       {
         path: "clinics-management/edit/:id",

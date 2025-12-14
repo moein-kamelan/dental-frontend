@@ -50,21 +50,25 @@ const statusConfig = {
     label: "در انتظار بررسی",
     className: "bg-gray-100 text-gray-700",
     rowBg: "bg-gray-100/50 hover:bg-gray-100/70",
+    rowNumberBg: "bg-gray-200",
   },
   APPROVED_BY_USER: {
     label: "در انتظار تأیید منشی",
     className: "bg-yellow-100 text-yellow-700",
     rowBg: "bg-yellow-100/60 hover:bg-yellow-100/80",
+    rowNumberBg: "bg-yellow-200",
   },
   FINAL_APPROVED: {
     label: "تأیید شده",
     className: "bg-green-100 text-green-700",
     rowBg: "bg-green-100/60 hover:bg-green-100/80",
+    rowNumberBg: "bg-green-200",
   },
   CANCELED: {
     label: "لغو شده",
     className: "bg-red-100 text-red-700",
     rowBg: "bg-red-100/50 hover:bg-red-100/70",
+    rowNumberBg: "bg-red-200",
   },
 };
 
@@ -148,7 +152,9 @@ function AppointmentsManagementTable({
                     key={appointment.id}
                     className={`${statusInfo.rowBg} text-dark *:p-4.5 transition-colors`}
                   >
-                    <td className="font-estedad-light text-center">
+                    <td
+                      className={`font-estedad-light text-center ${statusInfo.rowNumberBg}`}
+                    >
                       {(page - 1) * 10 + index + 1}
                     </td>
                     <td className="">

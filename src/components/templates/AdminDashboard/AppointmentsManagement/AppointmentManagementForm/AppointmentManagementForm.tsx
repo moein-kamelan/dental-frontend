@@ -357,30 +357,19 @@ function AppointmentManagementForm({
               </div>
 
               {/* دکمه‌ها */}
-              <div className="flex items-center justify-end gap-4 pt-4 border-t">
-                <button
-                  type="button"
-                  onClick={() => navigate("/admin/appointments-management")}
-                  disabled={isSubmitting}
-                  className="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-dark rounded-lg font-estedad-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  انصراف
-                </button>
+              <div className="flex justify-end mt-6">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg font-estedad-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="purple-btn flex items-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="btn-loader"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
                       <span>در حال ذخیره...</span>
                     </>
                   ) : (
-                    <>
-                      <i className="far fa-save"></i>
-                      <span>ذخیره تغییرات</span>
-                    </>
+                    <span>ذخیره تغییرات</span>
                   )}
                 </button>
               </div>
