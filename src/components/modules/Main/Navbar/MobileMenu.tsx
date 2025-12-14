@@ -226,22 +226,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       </div>
                       <span>پیام‌ها</span>
                     </NavLink>
-                    <NavLink
-                      to="/dashboard/meeting-history"
-                      onClick={handleLinkClick}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 text-sm transition-colors rounded active:scale-[0.98] ${
-                          isActive
-                            ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                            : "text-dark hover:bg-accent/10 hover:text-accent"
-                        }`
-                      }
-                    >
-                      <div className="w-5 flex items-center justify-center shrink-0">
-                        <i className="fas fa-history"></i>
-                      </div>
-                      <span>تاریخچه نوبت‌ها</span>
-                    </NavLink>
+        
 
                     <div className="border-t border-gray-200 pt-2 mt-2">
                       <button
