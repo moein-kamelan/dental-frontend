@@ -55,12 +55,12 @@ const statusConfig = {
   APPROVED_BY_USER: {
     label: "در انتظار تأیید منشی",
     className: "bg-yellow-100 text-yellow-700",
-    rowBg: "bg-yellow-100/60 hover:bg-yellow-100/80",
+    rowBg: "bg-yellow-100/50 hover:bg-yellow-100/80",
     rowNumberBg: "bg-yellow-200",
   },
   FINAL_APPROVED: {
     label: "تأیید شده",
-    className: "bg-green-100 text-green-700",
+    className: "bg-green-200 text-green-700",
     rowBg: "bg-green-100/60 hover:bg-green-100/80",
     rowNumberBg: "bg-green-200",
   },

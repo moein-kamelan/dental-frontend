@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TableContainer from "../../../../components/modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../components/modules/TableSkeleton/TableSkeleton";
-import AdminPagination from "../../../../components/modules/AdminDashboard/AdminPagination/AdminPagination";
+import MainPagination from "../../../../components/modules/MainPagination/MainPagination";
 import {
   useGetMyAppointments,
   useCancelAppointment,
@@ -161,7 +161,7 @@ function Turns() {
                       <span className="text-xs text-accent">{time}</span>
                     </td>
                     <td className="text-dark font-estedad-light">
-                      { appointment.clinic.name}
+                      {appointment.clinic.name}
                     </td>
                     <td className="">
                       <span
@@ -192,7 +192,7 @@ function Turns() {
 
       {meta && (
         <div className="mb-12 mt-6">
-          <AdminPagination
+          <MainPagination
             meta={meta}
             onPageChange={(newPage) => setPage(newPage)}
           />
