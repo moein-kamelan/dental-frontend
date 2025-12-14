@@ -51,6 +51,10 @@ function AppointmentsManagement() {
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("");
+  const [fromDate, setFromDate] = useState<string>("");
+  const [toDate, setToDate] = useState<string>("");
+  const [fromTime, setFromTime] = useState<string>("");
+  const [toTime, setToTime] = useState<string>("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
   const [isSearching, setIsSearching] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -76,6 +80,31 @@ function AppointmentsManagement() {
   const { mutateAsync: approveAppointment } = useApproveAppointment();
   const { mutateAsync: cancelAppointment } = useCancelAppointment();
 
+  // تابع برای ترکیب تاریخ و زمان
+  const combineDateAndTime = (
+    date: string,
+    time: string,
+    isEndDate: boolean = false
+  ): string | undefined => {
+    if (!date) return undefined;
+    if (!time) {
+      if (isEndDate) {
+        // برای تاریخ پایان، اگر زمان مشخص نشده، از پایان روز استفاده می‌کنیم
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999);
+        return endOfDay.toISOString();
+      } else {
+        // برای تاریخ شروع، اگر زمان مشخص نشده، از ابتدای روز استفاده می‌کنیم
+        return new Date(date).toISOString();
+      }
+    }
+    const dateTime = new Date(`${date}T${time}`);
+    return dateTime.toISOString();
+  };
+
+  const finalFromDate = combineDateAndTime(fromDate, fromTime, false);
+  const finalToDate = combineDateAndTime(toDate, toTime, true);
+
   const {
     data: appointmentsData,
     isLoading: isLoadingAppointments,
@@ -87,6 +116,8 @@ function AppointmentsManagement() {
     limit: 10,
     search: debouncedSearch,
     status: statusFilter || undefined,
+    fromDate: finalFromDate,
+    toDate: finalToDate,
   });
 
   useEffect(() => {
@@ -230,43 +261,125 @@ function AppointmentsManagement() {
         <AppointmentsStats />
 
         {/* Search and Filter */}
-        <div className="mb-4 flex flex-col md:flex-row gap-4">
-          <div className="relative max-w-md flex-1">
-            <CustomInput
-              labelText="جستجو"
-              placeholder="جستجو بر اساس نام، نام خانوادگی یا شماره تلفن..."
-              className="bg-white pr-12"
-              value={searchInput}
-              onChange={(e) => {
-                setSearchInput(e.target.value);
-                setPage(1);
-              }}
-            />
-            {isSearching && searchInput && (
-              <div className="absolute left-6 top-[calc(100%-38px)] flex items-center pointer-events-none">
-                <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent"></div>
-              </div>
-            )}
+        <div className="mb-4 flex flex-col gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative max-w-md flex-1">
+              <CustomInput
+                labelText="جستجو"
+                placeholder="جستجو بر اساس نام، نام خانوادگی یا شماره تلفن..."
+                className="bg-white pr-12"
+                value={searchInput}
+                onChange={(e) => {
+                  setSearchInput(e.target.value);
+                  setPage(1);
+                }}
+              />
+              {isSearching && searchInput && (
+                <div className="absolute left-6 top-[calc(100%-38px)] flex items-center pointer-events-none">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent"></div>
+                </div>
+              )}
+            </div>
+
+            <div className="max-w-xs">
+              <label className="block text-sm font-estedad-medium text-dark mb-2">
+                فیلتر وضعیت
+              </label>
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+              >
+                <option value="">همه وضعیت‌ها</option>
+                <option value="PENDING">در انتظار بررسی</option>
+                <option value="APPROVED_BY_USER">در انتظار تأیید منشی</option>
+                <option value="FINAL_APPROVED">تأیید شده</option>
+                <option value="CANCELED">لغو شده</option>
+              </select>
+            </div>
           </div>
 
-          <div className="max-w-xs">
-            <label className="block text-sm font-estedad-medium text-dark mb-2">
-              فیلتر وضعیت
-            </label>
-            <select
-              value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value);
-                setPage(1);
-              }}
-              className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
-            >
-              <option value="">همه وضعیت‌ها</option>
-              <option value="PENDING">در انتظار بررسی</option>
-              <option value="APPROVED_BY_USER">در انتظار تأیید منشی</option>
-              <option value="FINAL_APPROVED">تأیید شده</option>
-              <option value="CANCELED">لغو شده</option>
-            </select>
+          {/* Date and Time Filters */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="max-w-xs">
+              <label className="block text-sm font-estedad-medium text-dark mb-2">
+                از تاریخ
+              </label>
+              <input
+                type="date"
+                value={fromDate}
+                onChange={(e) => {
+                  setFromDate(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+              />
+            </div>
+
+            <div className="max-w-xs">
+              <label className="block text-sm font-estedad-medium text-dark mb-2">
+                از ساعت
+              </label>
+              <input
+                type="time"
+                value={fromTime}
+                onChange={(e) => {
+                  setFromTime(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+              />
+            </div>
+
+            <div className="max-w-xs">
+              <label className="block text-sm font-estedad-medium text-dark mb-2">
+                تا تاریخ
+              </label>
+              <input
+                type="date"
+                value={toDate}
+                onChange={(e) => {
+                  setToDate(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+              />
+            </div>
+
+            <div className="max-w-xs">
+              <label className="block text-sm font-estedad-medium text-dark mb-2">
+                تا ساعت
+              </label>
+              <input
+                type="time"
+                value={toTime}
+                onChange={(e) => {
+                  setToTime(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+              />
+            </div>
+
+            {(fromDate || toDate || fromTime || toTime) && (
+              <div className="flex items-end">
+                <button
+                  onClick={() => {
+                    setFromDate("");
+                    setToDate("");
+                    setFromTime("");
+                    setToTime("");
+                    setPage(1);
+                  }}
+                  className="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-dark rounded-lg font-estedad-medium transition-colors"
+                >
+                  پاک کردن فیلتر تاریخ
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
