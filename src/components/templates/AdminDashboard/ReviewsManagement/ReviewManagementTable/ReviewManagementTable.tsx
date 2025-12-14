@@ -1,6 +1,10 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
+import {
+  formatJalali,
+  stripHtmlTags,
+  getImageUrl,
+} from "../../../../../utils/helpers";
 import type { Review } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +83,7 @@ function ReviewManagementTable({
                     <div className="flex items-center gap-3">
                       {review.profileImage ? (
                         <img
-                          src={`${review.profileImage}`}
+                          src={getImageUrl(review.profileImage)}
                           alt={review.name}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />
@@ -89,7 +93,9 @@ function ReviewManagementTable({
                         </div>
                       )}
                       <div>
-                        <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{review.name}</p>
+                        <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">
+                          {review.name}
+                        </p>
                       </div>
                     </div>
                   </td>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { Doctor } from "../../../../types/types";
-import { stripHtmlTags } from "../../../../utils/helpers";
+import { stripHtmlTags, getImageUrl } from "../../../../utils/helpers";
 
 interface DoctorCardProps {
   doctor?: Doctor;
@@ -34,7 +34,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
         <img
           src={
             doctor?.profileImage
-              ? `${doctor.profileImage}`
+              ? getImageUrl(doctor.profileImage)
               : "/images/team-1.jpg"
           }
           alt={`${doctor.firstName} ${doctor.lastName}`}

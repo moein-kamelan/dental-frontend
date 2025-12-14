@@ -11,6 +11,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type { Review } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
@@ -258,7 +259,7 @@ function ReviewManagementForm({ review }: { review?: Review }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${review.profileImage}`}
+                      src={getImageUrl(review.profileImage)}
                       alt={review.name || "تصویر پروفایل"}
                       className="w-12 h-12 rounded-full object-cover"
                     />

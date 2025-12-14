@@ -6,7 +6,7 @@ import StickyBox from "react-sticky-box";
 import { useParams } from "react-router-dom";
 import { useGetDoctorByIdentifier } from "../../../services/useDoctors";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
-import { translateDayName } from "../../../utils/helpers";
+import { translateDayName, getImageUrl } from "../../../utils/helpers";
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 const options: OptionType[] = [
@@ -37,7 +37,7 @@ function DoctorDetails() {
                     <img
                       src={
                         doctor?.data?.doctor?.profileImage
-                          ? `${doctor?.data?.doctor?.profileImage}`
+                          ? getImageUrl(doctor.data.doctor.profileImage)
                           : "/images/user_img.png"
                       }
                       alt={

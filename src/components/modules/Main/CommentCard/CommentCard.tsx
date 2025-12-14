@@ -1,31 +1,32 @@
 import type { Review } from "../../../../types/types";
+import { getImageUrl } from "../../../../utils/helpers";
 
 function CommentCard({ review }: { review?: Review }) {
   // Fallback for static content if no review provided
   if (!review) {
-  return (
-    <div className="bg-white rounded-lg  p-8 sm:p-6 lg:p-8 shadow-lg">
-      <div className="flex gap-1 text-secondary mb-4">
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-        <i className="fas fa-star"></i>
-      </div>
-      <p className="text-paragray mb-6 font-estedad-light line-clamp-3">
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
-        از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و
-        سطرآنچنان که لازم است
-      </p>
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <img
-            src="images/review-1.png"
-            alt="reviewer"
-            className="w-16 h-16 rounded-full"
-          />
-          <div>
-            <h3 className="font-bold text-dark">محسن دادار</h3>
+    return (
+      <div className="bg-white rounded-lg  p-8 sm:p-6 lg:p-8 shadow-lg">
+        <div className="flex gap-1 text-secondary mb-4">
+          <i className="fas fa-star"></i>
+          <i className="fas fa-star"></i>
+          <i className="fas fa-star"></i>
+          <i className="fas fa-star"></i>
+          <i className="fas fa-star"></i>
+        </div>
+        <p className="text-paragray mb-6 font-estedad-light line-clamp-3">
+          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
+          از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و
+          سطرآنچنان که لازم است
+        </p>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <img
+              src="images/review-1.png"
+              alt="reviewer"
+              className="w-16 h-16 rounded-full"
+            />
+            <div>
+              <h3 className="font-bold text-dark">محسن دادار</h3>
               <span className="text-paragray text-sm font-estedad-light">
                 مشتری
               </span>
@@ -58,7 +59,7 @@ function CommentCard({ review }: { review?: Review }) {
         <div className="flex items-center gap-4">
           {review.profileImage ? (
             <img
-              src={`${review.profileImage}`}
+              src={getImageUrl(review.profileImage)}
               alt={review.name}
               className="w-16 h-16 rounded-full object-cover"
             />

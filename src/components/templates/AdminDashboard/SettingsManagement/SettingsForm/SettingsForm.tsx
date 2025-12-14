@@ -13,6 +13,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import { useQueryClient } from "@tanstack/react-query";
 
 const validationSchema = Yup.object({
@@ -456,7 +457,7 @@ function SettingsForm() {
                 {settings?.logo && !formik.values.logo && !removeLogo && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${settings.logo}`}
+                      src={getImageUrl(settings.logo)}
                       alt="لوگوی سایت"
                       className="w-12 h-12 rounded-lg object-cover"
                     />

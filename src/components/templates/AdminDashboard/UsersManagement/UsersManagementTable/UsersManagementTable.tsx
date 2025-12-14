@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, getImageUrl } from "../../../../../utils/helpers";
 import type { User } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -90,7 +90,7 @@ function UsersManagementTable({
                     <div className="flex items-center gap-3">
                       {user.profileImage ? (
                         <img
-                          src={`${user.profileImage}`}
+                          src={getImageUrl(user.profileImage)}
                           alt={`${user.firstName} ${user.lastName}`}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

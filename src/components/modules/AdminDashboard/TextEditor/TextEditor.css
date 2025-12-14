@@ -7,8 +7,8 @@
 }
 
 :root {
-  --ck-content-font-family: "estedad-medium", "estedad-light", "estedad-semibold", "Tahoma", "Arial",
-    sans-serif;
+  --ck-content-font-family: "estedad-verybold", "estedad-medium",
+    "estedad-light", "estedad-semibold", "Tahoma", "Arial", sans-serif;
 }
 
 .main-container {
@@ -17,23 +17,21 @@
   margin: auto;
 }
 .editor-container__editor {
-    width: 100%;
+  width: 100%;
 }
 .text-editor-rtl {
   direction: rtl;
 }
 
 .text-editor-rtl .editor-container_classic-editor .editor-container__editor {
-    width: 100%;
+  width: 100%;
   direction: rtl;
 }
 
 .editor-container_classic-editor .editor-container__editor {
-    max-width: auto !important;
-    min-width: auto !important;
+  max-width: auto !important;
+  min-width: auto !important;
 }
-
-
 
 /* RTL styles for CKEditor */
 .text-editor-rtl .ck-editor__editable {

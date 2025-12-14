@@ -9,6 +9,7 @@ import MobileMenu from "./MobileMenu";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
+import { getImageUrl } from "../../../../utils/helpers";
 
 function Navbar() {
   const user = useAppSelector((state) => state.user.data);
@@ -79,7 +80,7 @@ function Navbar() {
               <img
                 src={
                   settings?.data?.settings?.logo
-                    ? `${settings.data.settings.logo}`
+                    ? getImageUrl(settings.data.settings.logo)
                     : "/images/Logo_1.png"
                 }
                 alt="logo"
@@ -191,7 +192,7 @@ function Navbar() {
                     <img
                       src={
                         user.profileImage
-                          ? `${user.profileImage}`
+                          ? getImageUrl(user.profileImage)
                           : user.gender === "FEMALE"
                           ? "/images/female-user.jpeg"
                           : "/images/male-user.jpeg"

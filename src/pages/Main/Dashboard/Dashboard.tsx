@@ -13,6 +13,7 @@ import {
 import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
 import type { AxiosError } from "axios";
 import { clearCsrfToken } from "../../../redux/slices/csrfSlice";
+import { getImageUrl } from "../../../utils/helpers";
 function Dashboard() {
   const user = useAppSelector((state) => state.user.data);
   const location = useLocation();
@@ -96,7 +97,7 @@ function Dashboard() {
                   <img
                     src={
                       user?.profileImage
-                        ? `${user.profileImage}`
+                        ? getImageUrl(user.profileImage)
                         : user?.gender === "FEMALE"
                         ? "/images/female-user.jpeg"
                         : "/images/male-user.jpeg"

@@ -10,6 +10,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type { OptionType } from "../../../../../types/types";
 import {
   useAppSelector,
@@ -309,7 +310,7 @@ function ProfileManagementForm() {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center">
                     <img
-                      src={`${user.profileImage}`}
+                      src={getImageUrl(user.profileImage)}
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover"
                     />

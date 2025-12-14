@@ -12,6 +12,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type { OptionType, Clinic, User } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
@@ -467,7 +468,7 @@ function UserManagementForm({ user }: { user?: User }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${user.profileImage}`}
+                      src={getImageUrl(user.profileImage)}
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover"
                     />

@@ -15,6 +15,7 @@ import { useDebounce } from "use-debounce";
 import DeleteModal from "../../../components/modules/AdminDashboard/DeleteModal/DeleteModal";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
+import { combineDateAndTime } from "../../../utils/helpers";
 
 interface AppointmentUser {
   id: string;
@@ -79,28 +80,7 @@ function AppointmentsManagement() {
   const { mutateAsync: deleteAppointment } = useDeleteAppointment();
   const { mutateAsync: approveAppointment } = useApproveAppointment();
   const { mutateAsync: cancelAppointment } = useCancelAppointment();
-
-  // تابع برای ترکیب تاریخ و زمان
-  const combineDateAndTime = (
-    date: string,
-    time: string,
-    isEndDate: boolean = false
-  ): string | undefined => {
-    if (!date) return undefined;
-    if (!time) {
-      if (isEndDate) {
-        // برای تاریخ پایان، اگر زمان مشخص نشده، از پایان روز استفاده می‌کنیم
-        const endOfDay = new Date(date);
-        endOfDay.setHours(23, 59, 59, 999);
-        return endOfDay.toISOString();
-      } else {
-        // برای تاریخ شروع، اگر زمان مشخص نشده، از ابتدای روز استفاده می‌کنیم
-        return new Date(date).toISOString();
-      }
-    }
-    const dateTime = new Date(`${date}T${time}`);
-    return dateTime.toISOString();
-  };
+  
 
   const finalFromDate = combineDateAndTime(fromDate, fromTime, false);
   const finalToDate = combineDateAndTime(toDate, toTime, true);
@@ -303,8 +283,8 @@ function AppointmentsManagement() {
           </div>
 
           {/* Date and Time Filters */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="max-w-xs">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+            <div className="md:max-w-xs grow">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 از تاریخ
               </label>
@@ -319,7 +299,7 @@ function AppointmentsManagement() {
               />
             </div>
 
-            <div className="max-w-xs">
+            <div className="md:max-w-xs grow">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 از ساعت
               </label>
@@ -334,7 +314,7 @@ function AppointmentsManagement() {
               />
             </div>
 
-            <div className="max-w-xs">
+            <div className="md:max-w-xs grow">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 تا تاریخ
               </label>
@@ -349,7 +329,7 @@ function AppointmentsManagement() {
               />
             </div>
 
-            <div className="max-w-xs">
+            <div className="md:max-w-xs grow">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 تا ساعت
               </label>
@@ -365,7 +345,7 @@ function AppointmentsManagement() {
             </div>
 
             {(fromDate || toDate || fromTime || toTime) && (
-              <div className="flex items-end">
+              <div className="flex items-end justify-end">
                 <button
                   onClick={() => {
                     setFromDate("");
@@ -374,7 +354,7 @@ function AppointmentsManagement() {
                     setToTime("");
                     setPage(1);
                   }}
-                  className="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-dark rounded-lg font-estedad-medium transition-colors"
+                  className="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-dark rounded-lg font-estedad-medium transition-colors text-nowrap"
                 >
                   پاک کردن فیلتر تاریخ
                 </button>

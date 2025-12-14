@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useGetSettings } from "../../../../services/useSettings";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "../../../../utils/helpers";
 
 function Footer() {
   const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
@@ -29,7 +30,6 @@ function Footer() {
         </div>
       </div>
       <div className="container mx-auto px-4 pt-8 sm:pt-10 md:pt-12 relative ">
-
         <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_3fr] gap-8 mb-12 items-start">
           <div className=" max-lg:col-span-4">
             {isSettingsLoading ? (
@@ -38,7 +38,7 @@ function Footer() {
               <img
                 src={
                   settings?.data?.settings?.logo
-                    ? `${settings.data.settings.logo}`
+                    ? getImageUrl(settings.data.settings.logo)
                     : "/images/Logo_1.png"
                 }
                 alt="logo"
@@ -52,7 +52,7 @@ function Footer() {
 
             <div className="mb-4 flex items-center gap-5 ">
               <span className="text-dark font-estedad-light text-nowrap">
-                 ما را دنبال کنید :{" "}
+                ما را دنبال کنید :{" "}
               </span>
               <div className="flex flex-wrap gap-3 text-xl">
                 {settings?.data?.settings?.facebook && (
@@ -60,7 +60,7 @@ function Footer() {
                     to={settings.data.settings.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                        className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
+                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
                   >
                     <i className="text-sm md:text-base fab fa-facebook-f"></i>
                   </Link>
@@ -70,7 +70,7 @@ function Footer() {
                     to={settings.data.settings.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                        className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
+                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
                   >
                     <i className="text-sm md:text-base fab fa-twitter"></i>
                   </Link>
@@ -226,7 +226,7 @@ function Footer() {
 
         <div className="border-t border-[#ddd] py-5 flex flex-col md:flex-row justify-between items-center gap-4 text-paragray">
           <p className="font-estedad-light">
-          تمامی حقوق متعلق به کلینیک دندان پزشکی طاهابی می‌باشد
+            تمامی حقوق متعلق به کلینیک دندان پزشکی طاهابی می‌باشد
           </p>
           <p className="font-estedad-light">ساخته شده توسط</p>
         </div>

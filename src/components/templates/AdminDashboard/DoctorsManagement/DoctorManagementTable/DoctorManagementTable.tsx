@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, getImageUrl } from "../../../../../utils/helpers";
 import type { Doctor } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -77,7 +77,7 @@ function DoctorsManagementTable({
                     <div className="flex items-center gap-3 min-w-[220px] max-w-[220px]">
                       {doctor.profileImage ? (
                         <img
-                          src={`${doctor.profileImage}`}
+                          src={getImageUrl(doctor.profileImage)}
                           alt={`${doctor.firstName} ${doctor.lastName}`}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

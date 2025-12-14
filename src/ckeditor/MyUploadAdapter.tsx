@@ -1,4 +1,5 @@
 import type { FileLoader } from "@ckeditor/ckeditor5-upload";
+import { getApiUrl } from "../utils/helpers";
 
 export default class MyUploadAdapter {
   private loader: FileLoader;
@@ -17,7 +18,7 @@ export default class MyUploadAdapter {
         const data = new FormData();
         data.append("file", file);
 
-        fetch("/api/upload", {
+        fetch(getApiUrl("/api/upload"), {
           method: "POST",
           body: data,
         })

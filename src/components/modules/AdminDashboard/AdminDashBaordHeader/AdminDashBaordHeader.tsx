@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/typedHooks";
 import { clearUser } from "../../../../redux/slices/userSlice";
 import { clearCsrfToken } from "../../../../redux/slices/csrfSlice";
 import { showErrorToast, showSuccessToast } from "../../../../utils/toastify";
+import { getImageUrl } from "../../../../utils/helpers";
 import type { AxiosError } from "axios";
 import { useAdminDashboardHeader } from "../../../../contexts/useAdminDashboardHeader";
 import { useLogout } from "../../../../services/useAuth";
@@ -87,7 +88,7 @@ function AdminDashBaordHeader({
               <img
                 src={
                   user?.profileImage
-                    ? `${user?.profileImage}`
+                    ? getImageUrl(user.profileImage)
                     : user?.gender === "FEMALE"
                     ? "/images/female-user.jpeg"
                     : "/images/male-user.jpeg"

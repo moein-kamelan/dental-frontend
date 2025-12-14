@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
+import { getImageUrl } from "../../../../utils/helpers";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -134,7 +135,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <img
                       src={
                         user.profileImage
-                          ? `${user.profileImage}`
+                          ? getImageUrl(user.profileImage)
                           : user.gender === "FEMALE"
                           ? "/images/female-user.jpeg"
                           : "/images/male-user.jpeg"

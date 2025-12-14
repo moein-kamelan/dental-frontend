@@ -14,24 +14,26 @@ export function formatJalali(dateString: Date) {
   return `${day} ${month} ${year}`;
 }
 
-export function formatPersianNameForGreeting(firstName: string | null | undefined): string {
-  if (!firstName || typeof firstName !== 'string') {
-    return '';
+export function formatPersianNameForGreeting(
+  firstName: string | null | undefined
+): string {
+  if (!firstName || typeof firstName !== "string") {
+    return "";
   }
 
   const trimmedName = firstName.trim();
-  
+
   if (trimmedName.length === 0) {
-    return '';
+    return "";
   }
 
   const lastChar = trimmedName[trimmedName.length - 1];
   const lastCharCode = lastChar.charCodeAt(0);
-  
+
   if (lastCharCode === 0x0627) {
-    return trimmedName + 'ی';
+    return trimmedName + "ی";
   }
-  
+
   return trimmedName;
 }
 
@@ -65,4 +67,88 @@ export function stripHtmlTags(html: string): string {
   // استفاده از DOMParser برای امن‌تر بودن
   const doc = new DOMParser().parseFromString(html, "text/html");
   return doc.body.textContent || doc.body.innerText || "";
+}
+
+// تابع برای ترکیب تاریخ و زمان
+export const combineDateAndTime = (
+  date: string,
+  time: string,
+  isEndDate: boolean = false
+): string | undefined => {
+  if (!date) return undefined;
+  if (!time) {
+    if (isEndDate) {
+      // برای تاریخ پایان، اگر زمان مشخص نشده، از پایان روز استفاده می‌کنیم
+      const endOfDay = new Date(date);
+      endOfDay.setHours(23, 59, 59, 999);
+      return endOfDay.toISOString();
+    } else {
+      // برای تاریخ شروع، اگر زمان مشخص نشده، از ابتدای روز استفاده می‌کنیم
+      return new Date(date).toISOString();
+    }
+  }
+  const dateTime = new Date(`${date}T${time}`);
+  return dateTime.toISOString();
+};
+
+/**
+ * ساخت URL کامل برای تصاویر و فایل‌ها بر اساس محیط (development/production)
+ * @param path - مسیر نسبی یا کامل فایل
+ * @returns URL کامل برای استفاده در src یا href
+ */
+export function getImageUrl(path: string | null | undefined): string {
+  if (!path) return "";
+
+  // اگر URL کامل است (شروع با http:// یا https://)، آن را برگردان
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+
+  // دریافت backendBaseUrl از environment variable
+  const rawBackendBase =
+    import.meta.env.VITE_BACKEND_URL ||
+    (import.meta.env.DEV ? "http://localhost:4000" : "");
+
+  const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+
+  // اگر backendBaseUrl وجود دارد، مسیر را با آن ترکیب کن
+  if (backendBaseUrl) {
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    return `${backendBaseUrl}${normalizedPath}`;
+  }
+
+  // در غیر این صورت، مسیر نسبی را برگردان
+  return path;
+}
+
+/**
+ * ساخت URL کامل برای API endpoints بر اساس محیط (development/production)
+ * @param endpoint - endpoint نسبی (مثل /api/upload)
+ * @returns URL کامل برای استفاده در fetch یا axios
+ */
+export function getApiUrl(endpoint: string): string {
+  if (!endpoint) return "";
+
+  // اگر URL کامل است، آن را برگردان
+  if (/^https?:\/\//i.test(endpoint)) {
+    return endpoint;
+  }
+
+  // دریافت backendBaseUrl از environment variable
+  const rawBackendBase =
+    import.meta.env.VITE_BACKEND_URL ||
+    (import.meta.env.DEV ? "http://localhost:4000" : "");
+
+  const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+
+  // اگر backendBaseUrl وجود دارد، endpoint را با آن ترکیب کن
+  if (backendBaseUrl) {
+    const normalizedEndpoint = endpoint.startsWith("/")
+      ? endpoint
+      : `/${endpoint}`;
+    return `${backendBaseUrl}${normalizedEndpoint}`;
+  }
+
+  // در غیر این صورت، endpoint نسبی را برگردان
+  return endpoint;
 }
