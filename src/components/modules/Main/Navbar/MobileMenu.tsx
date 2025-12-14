@@ -108,7 +108,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <img
                       src={
                         settings?.data?.settings?.logo
-                          ? `${settings.data.settings.logo}`
+                          ? getImageUrl(settings.data.settings.logo)
                           : "/images/Logo_1.png"
                       }
                       alt="logo"
@@ -209,22 +209,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       </div>
                       <span>نوبت‌ها</span>
                     </NavLink>
-                    <NavLink
-                      to="/dashboard/upcoming-meeting"
-                      onClick={handleLinkClick}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 text-sm transition-colors rounded active:scale-[0.98] ${
-                          isActive
-                            ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                            : "text-dark hover:bg-accent/10 hover:text-accent"
-                        }`
-                      }
-                    >
-                      <div className="w-5 flex items-center justify-center shrink-0">
-                        <i className="fas fa-clock"></i>
-                      </div>
-                      <span>نوبت‌های آینده</span>
-                    </NavLink>
+           
                     <NavLink
                       to="/dashboard/messages"
                       onClick={handleLinkClick}

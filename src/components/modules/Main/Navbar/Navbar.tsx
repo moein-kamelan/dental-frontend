@@ -271,20 +271,7 @@ function Navbar() {
                           <i className="fas fa-calendar-alt w-5 text-center"></i>
                           <span>نوبت‌ها</span>
                         </NavLink>
-                        <NavLink
-                          to="/dashboard/upcoming-meeting"
-                          onClick={() => setIsDropdownOpen(false)}
-                          className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
-                              isActive
-                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                                : "text-dark hover:bg-accent/10 hover:text-accent"
-                            }`
-                          }
-                        >
-                          <i className="fas fa-clock w-5 text-center"></i>
-                          <span>نوبت‌های آینده</span>
-                        </NavLink>
+           
                         <NavLink
                           to="/dashboard/messages"
                           onClick={() => setIsDropdownOpen(false)}

@@ -132,7 +132,7 @@ function Dashboard() {
                   {user?.firstName} {user?.lastName}
                 </h4>
                 <p className="text-paragray font-estedad-light ">
-                  آیدی بیمار: {user?.phoneNumber}+
+                  شماره کاربر: {user?.phoneNumber}+
                 </p>
               </div>
 
@@ -171,34 +171,8 @@ function Dashboard() {
                     </NavLink>
                   </li>
 
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <NavLink
-                      to={"/dashboard/meeting-history"}
-                      className={({ isActive }) =>
-                        ` ${
-                          isActive &&
-                          "text-white bg-primary hover:bg-primary hover:text-white"
-                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`
-                      }
-                    >
-                      <span>تاریخچه نوبت ها</span>
-                      <i className="fas fa-angle-left"></i>
-                    </NavLink>
-                  </li>
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <NavLink
-                      to={"/dashboard/upcoming-meeting"}
-                      className={({ isActive }) =>
-                        ` ${
-                          isActive &&
-                          "text-white bg-primary hover:bg-primary hover:text-white"
-                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`
-                      }
-                    >
-                      <span>نوبت های آینده</span>
-                      <i className="fas fa-angle-left"></i>
-                    </NavLink>
-                  </li>
+                
+      
                   <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
                     <NavLink
                       to={"/dashboard/messages"}

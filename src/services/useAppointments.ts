@@ -131,3 +131,32 @@ export const useGetAppointmentsStats = () => {
     refetchOnMount: "always", // همیشه هنگام mount شدن کامپوننت داده‌ها را بروزرسانی کن
   });
 };
+
+interface GetMyAppointmentsParams {
+  page?: number;
+  limit?: number;
+  status?: string;
+}
+
+export const useGetMyAppointments = (params: GetMyAppointmentsParams = {}) => {
+  const { page = 1, limit = 10, status } = params;
+
+  return useQuery({
+    queryKey: ["myAppointments", page, limit, status],
+    queryFn: async () => {
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+      });
+
+      if (status) queryParams.append("status", status);
+
+      const response = await axiosInstance.get(
+        `/appointments/my?${queryParams.toString()}`
+      );
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnMount: "always",
+  });
+};
