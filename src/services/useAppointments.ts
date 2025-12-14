@@ -55,6 +55,7 @@ export const useGetAllAppointments = (params: GetAppointmentsParams = {}) => {
       return response.data;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnMount: "always", // همیشه هنگام mount شدن کامپوننت داده‌ها را بروزرسانی کن
   });
 };
 
@@ -127,5 +128,6 @@ export const useGetAppointmentsStats = () => {
       return response.data;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnMount: "always", // همیشه هنگام mount شدن کامپوننت داده‌ها را بروزرسانی کن
   });
 };

@@ -175,7 +175,7 @@ function AppointmentsManagementTable({
                     </td>
                     <td className="text-dark font-estedad-light">
                       {appointment.doctor ? (
-                        <span>
+                        <span className="text-nowrap">
                           دکتر {appointment.doctor.firstName}{" "}
                           {appointment.doctor.lastName}
                         </span>

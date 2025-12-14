@@ -96,6 +96,12 @@ function AppointmentsManagement() {
     };
   }, [setHeaderConfig]);
 
+  // بروزرسانی خودکار داده‌ها هنگام ورود به صفحه
+  useEffect(() => {
+    refetchAppointments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // مدیریت loading state برای جستجو
   useEffect(() => {
     if (searchInput.trim()) {
