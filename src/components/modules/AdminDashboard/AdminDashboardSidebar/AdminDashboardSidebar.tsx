@@ -8,6 +8,13 @@ function AdminDashboardSidebar() {
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
   };
+
+  // تابع برای بستن سایدبار هنگام کلیک روی لینک (فقط در موبایل)
+  const handleLinkClick = () => {
+    if (window.innerWidth < 768 && isSidebarOpen) {
+      toggleSidebar();
+    }
+  };
   return (
     <aside
       id="sidebar"
@@ -61,36 +68,43 @@ function AdminDashboardSidebar() {
           icon="fas fa-home"
           title="داشبورد"
           end={true}
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/appointments-management"}
           icon="fas fa-calendar-alt"
           title="نوبت بیماران"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/users-management"}
           icon="fas fa-users"
           title="کاربران"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/doctors-management"}
           icon="fas fa-user-md"
           title="پزشکان"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/clinics-management"}
           icon="fas fa-hospital"
           title="کلینیک ها"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/articles-management"}
           icon="fas fa-newspaper"
           title="مقالات"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/services-management"}
           icon="fas fa-handshake"
           title="خدمات"
+          onClick={handleLinkClick}
         />
 
         <button
@@ -129,11 +143,13 @@ function AdminDashboardSidebar() {
                 to={"/admin/articles-category-management"}
                 icon="fas fa-newspaper"
                 title="دسته بندی مقالات"
+                onClick={handleLinkClick}
               />
               <AdminDashboardSidebarLink
                 to={"/admin/services-category-management"}
                 icon="fas fa-handshake"
                 title="دسته بندی خدمات"
+                onClick={handleLinkClick}
               />
             </div>
           </div>
@@ -143,42 +159,50 @@ function AdminDashboardSidebar() {
           to={"/admin/comments-management"}
           icon="fas fa-comments"
           title="نظرات"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/reviews-management"}
           icon="fas fa-star"
           title="دیدگاه کاربران"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/faqs-management"}
           icon="fas fa-question-circle"
           title="سوالات متداول"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/gallery-management"}
           icon="fas fa-images"
           title="گالری"
+          onClick={handleLinkClick}
         />
 
         <AdminDashboardSidebarLink
           to={"/admin/insurance-management"}
           icon="fas fa-shield-alt"
           title="سازمان های بیمه"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/banner-management"}
           icon="fas fa-layer-group"
           title="بنر"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/contact-us-management"}
           icon="fas fa-envelope"
           title="پیام های تماس با ما"
+          onClick={handleLinkClick}
         />
         <AdminDashboardSidebarLink
           to={"/admin/doctor-applications-management"}
           icon="fas fa-user-plus"
           title="درخواست عضویت پزشکان"
+          onClick={handleLinkClick}
         />
       </nav>
     </aside>
