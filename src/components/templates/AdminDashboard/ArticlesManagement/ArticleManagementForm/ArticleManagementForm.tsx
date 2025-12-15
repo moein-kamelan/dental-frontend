@@ -15,6 +15,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type { OptionType, Category, Article } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
@@ -358,7 +359,7 @@ function ArticleManagementForm({ article }: { article?: Article }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${article.coverImage}`}
+                      src={getImageUrl(article.coverImage)}
                       alt={article.title || "تصویر کاور"}
                       className="w-12 h-12 rounded-lg object-cover"
                     />

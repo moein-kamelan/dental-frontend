@@ -10,6 +10,7 @@ import LoadingState from "../../../components/modules/Main/LoadingState/LoadingS
 import BlogDetailsHeader from "../../../components/templates/BlogDetails/BlogDetailsHeader/BlogDetailsHeader";
 import BlogDetailsTagsAndShare from "../../../components/templates/BlogDetails/BlogDetailsTagsAndShare/BlogDetailsTagsAndShare";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
+import { getImageUrl } from "../../../utils/helpers";
 
 function BlogDetails() {
   const { slug } = useParams();
@@ -32,7 +33,7 @@ function BlogDetails() {
                   <img
                     src={
                       article?.data?.article?.coverImage
-                        ? `${article?.data?.article?.coverImage}`
+                        ? getImageUrl(article.data.article.coverImage)
                         : "/images/blog-1.jpg"
                     }
                     alt={article?.data?.article?.title}

@@ -12,6 +12,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface Insurance {
@@ -314,7 +315,7 @@ function InsuranceManagementForm({ insurance }: { insurance?: Insurance }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${insurance.logo}`}
+                      src={getImageUrl(insurance.logo)}
                       alt={insurance.name || "لوگو سازمان بیمه"}
                       className="w-12 h-12 rounded-lg object-cover"
                     />

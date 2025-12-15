@@ -1,6 +1,10 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
+import {
+  formatJalali,
+  stripHtmlTags,
+  getImageUrl,
+} from "../../../../../utils/helpers";
 import type { Article } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -76,7 +80,7 @@ function ArticleManagementTable({
                     <div className="flex items-center gap-3 min-w-[240px] ">
                       {article.coverImage ? (
                         <img
-                          src={`${article.coverImage}`}
+                          src={getImageUrl(article.coverImage)}
                           alt={article.title}
                           className="w-12 h-12 rounded-lg object-cover shrink-0"
                         />

@@ -1,6 +1,10 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
+import {
+  formatJalali,
+  stripHtmlTags,
+  getImageUrl,
+} from "../../../../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 
 interface Insurance {
@@ -90,7 +94,7 @@ function InsuranceManagementTable({
                     <div className="flex items-center gap-3">
                       {insurance.logo ? (
                         <img
-                          src={`${insurance.logo}`}
+                          src={getImageUrl(insurance.logo)}
                           alt={insurance.name}
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />
@@ -99,7 +103,9 @@ function InsuranceManagementTable({
                           <i className="far fa-building text-gray-400"></i>
                         </div>
                       )}
-                      <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{insurance.name}</p>
+                      <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">
+                        {insurance.name}
+                      </p>
                     </div>
                   </td>
                   <td className="text-dark font-estedad-light">

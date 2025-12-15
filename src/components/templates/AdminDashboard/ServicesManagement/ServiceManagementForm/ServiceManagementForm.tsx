@@ -15,6 +15,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type {
   OptionType,
   ServiceCategory,
@@ -348,7 +349,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${service.coverImage}`}
+                      src={getImageUrl(service.coverImage)}
                       alt="Cover"
                       className="w-12 h-12 rounded-lg object-cover"
                     />

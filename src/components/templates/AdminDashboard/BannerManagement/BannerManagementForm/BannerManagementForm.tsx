@@ -11,6 +11,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type { HeroSlider } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
@@ -287,7 +288,7 @@ function BannerManagementForm({ banner }: { banner?: HeroSlider }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center">
                     <img
-                      src={`${banner.image}`}
+                      src={getImageUrl(banner.image)}
                       alt="Banner"
                       className="w-32 h-20 rounded-lg object-cover"
                     />

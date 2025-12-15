@@ -3,6 +3,7 @@ import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
 import { formatJalali } from "../../../../../utils/helpers";
 import type { HeroSlider } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
+import { getImageUrl } from "../../../../../utils/helpers";
 
 interface BannerManagementTableProps {
   banners: HeroSlider[];
@@ -76,8 +77,8 @@ function BannerManagementTable({
                   </td>
                   <td className="">
                     {banner.image ? (
-                      <img
-                        src={`${banner.image}`}
+                      <img 
+                        src={getImageUrl(banner.image)}
                         alt={banner.title || "Banner"}
                         className="w-16 h-16 rounded-lg object-cover shrink-0"
                       />

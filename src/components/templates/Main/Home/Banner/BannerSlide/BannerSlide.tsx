@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import type { HeroSlider } from "../../../../../../types/types";
+import { getImageUrl } from "../../../../../../utils/helpers";
 
 interface BannerSlideProps {
   banner: HeroSlider;
@@ -7,15 +8,11 @@ interface BannerSlideProps {
 }
 
 function BannerSlide({ banner, isActive }: BannerSlideProps) {
-  const imageUrl = banner.image
-    ? `${banner.image}`
-    : "images/banner_img.png";
-
   return (
     <div className="relative w-full h-full flex items-end justify-center">
       <img
-        src={imageUrl}
-        alt={banner.title || "banner"}
+        src={getImageUrl(banner.image) || "images/banner_img.png"}
+        alt={banner.title || "Banner"}
         className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
       />
       <motion.div

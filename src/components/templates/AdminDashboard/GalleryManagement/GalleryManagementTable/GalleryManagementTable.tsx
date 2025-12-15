@@ -1,6 +1,10 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
+import {
+  formatJalali,
+  stripHtmlTags,
+  getImageUrl,
+} from "../../../../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import type { Gallery } from "../../../../../types/types";
 
@@ -77,7 +81,7 @@ function GalleryManagementTable({
                     <div className="flex items-center ">
                       {image.image ? (
                         <img
-                          src={`${image.image}`}
+                          src={getImageUrl(image.image)}
                           alt={image.title || "تصویر گالری"}
                           className="w-16 h-16 rounded-lg object-cover shrink-0"
                         />
@@ -89,12 +93,14 @@ function GalleryManagementTable({
                     </div>
                   </td>
                   <td className="">
-                    <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">{image.title || "-"}</p>
+                    <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">
+                      {image.title || "-"}
+                    </p>
                   </td>
                   <td className="text-dark font-estedad-light">
                     {image.description ? (
                       <span className="line-clamp-2 max-w-[300px] min-w-[220px]">
-                    {stripHtmlTags(image.description)}
+                        {stripHtmlTags(image.description)}
                       </span>
                     ) : (
                       <span className="text-paragray">-</span>

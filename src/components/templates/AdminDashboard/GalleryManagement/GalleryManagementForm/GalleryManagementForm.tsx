@@ -12,6 +12,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
+import { getImageUrl } from "../../../../../utils/helpers";
 import type { Gallery } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -257,7 +258,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                 {shouldShowCurrentImage && (
                   <div className="flex items-center gap-2 flex-wrap justify-center ">
                     <img
-                      src={`${image.image}`}
+                      src={getImageUrl(image.image)}
                       alt={image.title || "تصویر گالری"}
                       className="w-12 h-12 rounded-lg object-cover"
                     />

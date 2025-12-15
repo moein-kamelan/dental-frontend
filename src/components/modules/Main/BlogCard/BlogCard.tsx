@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Article } from "../../../../types/types";
+import { getImageUrl } from "../../../../utils/helpers";
 
 interface BlogCardProps {
   article?: Article;
@@ -36,7 +37,7 @@ function BlogCard({ article }: BlogCardProps) {
       <div className="relative h-64">
         {article?.coverImage ? (
           <img
-            src={`${article.coverImage}`}
+            src={getImageUrl(article.coverImage)}
             alt={article.title}
             className="w-full h-full group-hover/card:scale-105 transition-all duration-800 object-cover"
           />
@@ -48,7 +49,9 @@ function BlogCard({ article }: BlogCardProps) {
                   <i className="fas fa-image text-gray-400 text-xl sm:text-2xl"></i>
                 </div>
               </div>
-              <p className="text-gray-400 text-xs sm:text-sm font-estedad-light">تصویر مقاله</p>
+              <p className="text-gray-400 text-xs sm:text-sm font-estedad-light">
+                تصویر مقاله
+              </p>
             </div>
           </div>
         )}

@@ -655,7 +655,7 @@ function SettingsForm() {
                     !removeAboutUsImage && (
                       <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <img
-                          src={`${settings.aboutUsImage}`}
+                          src={getImageUrl(settings.aboutUsImage)}
                           alt="تصویر درباره ما"
                           className="w-12 h-12 rounded-lg object-cover"
                         />
@@ -763,7 +763,7 @@ function SettingsForm() {
                     !removeContactUsImage && (
                       <div className="flex items-center gap-2 flex-wrap justify-center ">
                         <img
-                          src={`${settings.contactUsImage}`}
+                          src={getImageUrl(settings.contactUsImage)}
                           alt="تصویر تماس با ما"
                           className="w-12 h-12 rounded-lg object-cover"
                         />

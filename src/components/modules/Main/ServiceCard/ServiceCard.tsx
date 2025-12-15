@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Service } from "../../../../types/types";
-import { stripHtmlTags } from "../../../../utils/helpers";
+import { stripHtmlTags, getImageUrl } from "../../../../utils/helpers";
 
 function ServiceCard({ service }: { service: Service }) {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function ServiceCard({ service }: { service: Service }) {
       <div className="relative h-64">
         {service?.coverImage ? (
           <img
-            src={`${service.coverImage}`}
+            src={getImageUrl(service.coverImage)}
             alt={service.title}
             className="w-full h-full rounded-[5px] group-hover:scale-105 transition-all duration-500 object-cover"
           />
@@ -40,7 +40,9 @@ function ServiceCard({ service }: { service: Service }) {
                   <i className="fas fa-image text-gray-400 text-xl sm:text-2xl"></i>
                 </div>
               </div>
-              <p className="text-gray-400 text-xs sm:text-sm font-estedad-light">تصویر خدمات</p>
+              <p className="text-gray-400 text-xs sm:text-sm font-estedad-light">
+                تصویر خدمات
+              </p>
             </div>
           </div>
         )}

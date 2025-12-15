@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { useGetSettings } from "../../../../services/useSettings";
+import { getImageUrl } from "../../../../utils/helpers";
 
 function AboutUsSection() {
   const { data: settingsData } = useGetSettings();
@@ -40,7 +41,7 @@ function AboutUsSection() {
               {aboutUsImage ? (
                 <div className=" shrink-0 rounded-2xl lg:w-8/10 ">
                   <img
-                    src={aboutUsImage}
+                    src={getImageUrl(aboutUsImage)}
                     alt="درباره ما"
                     className="w-full h-auto object-cover"
                   />

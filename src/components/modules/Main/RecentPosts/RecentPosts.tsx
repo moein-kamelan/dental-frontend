@@ -1,10 +1,16 @@
 import React from "react";
-import { formatJalali } from "../../../../utils/helpers";
+import { formatJalali, getImageUrl } from "../../../../utils/helpers";
 import type { Article, Service } from "../../../../types/types";
 import { Link } from "react-router-dom";
 
-function RecentPosts({ articles, services }: { articles?: Article[], services?: Service[] }) {
-  const recentPosts = [...articles || [], ...services || []].slice(0, 3);
+function RecentPosts({
+  articles,
+  services,
+}: {
+  articles?: Article[];
+  services?: Service[];
+}) {
+  const recentPosts = [...(articles || []), ...(services || [])].slice(0, 3);
   return (
     <div className="section-border  p-6">
       <h5 className="main-header mb-4">پست‌های جدید</h5>
@@ -12,7 +18,7 @@ function RecentPosts({ articles, services }: { articles?: Article[], services?: 
         {recentPosts.map((recentPost: Article | Service) => (
           <Link to={`/blog/${recentPost.slug}`} className="flex gap-3  group">
             <img
-              src={`${recentPost.coverImage}`}
+              src={getImageUrl(recentPost.coverImage)}
               alt="post"
               className="size-20 rounded-lg  shrink-0"
             />

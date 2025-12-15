@@ -1,6 +1,10 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, stripHtmlTags } from "../../../../../utils/helpers";
+import {
+  formatJalali,
+  stripHtmlTags,
+  getImageUrl,
+} from "../../../../../utils/helpers";
 import type { Service } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -77,7 +81,7 @@ function ServiceManagementTable({
                     <div className="flex items-center gap-3">
                       {service.coverImage ? (
                         <img
-                          src={`${service.coverImage}`}
+                          src={getImageUrl(service.coverImage)}
                           alt={service.title}
                           className="w-12 h-12 rounded-lg object-cover shrink-0"
                         />
