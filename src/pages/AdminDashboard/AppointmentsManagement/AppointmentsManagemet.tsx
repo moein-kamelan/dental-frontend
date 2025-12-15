@@ -238,6 +238,22 @@ function AppointmentsManagement() {
     }
   };
 
+  // تولید لیست زمان‌های 10 دقیقه‌ای (از 00:00 تا 23:50)
+  const generateTimeOptions = (): string[] => {
+    const times: string[] = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 10) {
+        const timeString = `${String(hour).padStart(2, "0")}:${String(
+          minute
+        ).padStart(2, "0")}`;
+        times.push(timeString);
+      }
+    }
+    return times;
+  };
+
+  const timeOptions = generateTimeOptions();
+
   const appointments = appointmentsData?.data?.appointments || [];
   const meta = appointmentsData?.meta;
 
@@ -270,7 +286,7 @@ function AppointmentsManagement() {
               )}
             </div>
 
-            <div className="max-w-xs">
+            <div className="">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 فیلتر وضعیت
               </label>
@@ -291,7 +307,7 @@ function AppointmentsManagement() {
             </div>
 
             {!isSecretary && (
-              <div className="max-w-xs">
+              <div className="">
                 <label className="block text-sm font-estedad-medium text-dark mb-2">
                   فیلتر کلینیک
                 </label>
@@ -315,8 +331,8 @@ function AppointmentsManagement() {
           </div>
 
           {/* Date and Time Filters */}
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
-            <div className="md:max-w-xs grow">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <div className=" ">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 از تاریخ
               </label>
@@ -327,26 +343,32 @@ function AppointmentsManagement() {
                   setFromDate(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+                className="w-full h-[54px] px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
               />
             </div>
 
-            <div className="md:max-w-xs grow">
+            <div className=" ">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 از ساعت
               </label>
-              <input
-                type="time"
+              <select
                 value={fromTime}
                 onChange={(e) => {
                   setFromTime(e.target.value);
                   setPage(1);
                 }}
                 className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
-              />
+              >
+                <option value="">انتخاب ساعت</option>
+                {timeOptions.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            <div className="md:max-w-xs grow">
+            <div className=" ">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 تا تاریخ
               </label>
@@ -357,27 +379,33 @@ function AppointmentsManagement() {
                   setToDate(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+                className="w-full h-[54px] px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
               />
             </div>
 
-            <div className="md:max-w-xs grow">
+            <div className=" ">
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 تا ساعت
               </label>
-              <input
-                type="time"
+              <select
                 value={toTime}
                 onChange={(e) => {
                   setToTime(e.target.value);
                   setPage(1);
                 }}
                 className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
-              />
+              >
+                <option value="">انتخاب ساعت</option>
+                {timeOptions.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {(fromDate || toDate || fromTime || toTime) && (
-              <div className="flex items-end justify-end">
+              <div className="flex items-end justify-end col-span-1 sm:col-span-2 lg:col-span-1  ">
                 <button
                   onClick={() => {
                     setFromDate("");
@@ -386,7 +414,7 @@ function AppointmentsManagement() {
                     setToTime("");
                     setPage(1);
                   }}
-                  className="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-dark rounded-lg font-estedad-medium transition-colors text-nowrap"
+                  className="px-4 h-[54px] py-2.5 bg-gray-200 hover:bg-gray-300 text-dark rounded-lg font-estedad-medium transition-colors text-nowrap"
                 >
                   پاک کردن فیلتر تاریخ
                 </button>
