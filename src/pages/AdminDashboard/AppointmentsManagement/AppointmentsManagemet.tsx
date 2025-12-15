@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useAdminDashboardHeader } from "../../../contexts";
+import { useAppSelector } from "../../../redux/typedHooks";
 import {
   useGetAllAppointments,
   useApproveAppointment,
   useCancelAppointment,
   useDeleteAppointment,
 } from "../../../services/useAppointments";
+import { useGetAllClinics } from "../../../services/useClinics";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import AdminPagination from "../../../components/modules/AdminDashboard/AdminPagination/AdminPagination";
@@ -49,9 +51,12 @@ interface Appointment {
 
 function AppointmentsManagement() {
   const { setHeaderConfig } = useAdminDashboardHeader();
+  const { data: user } = useAppSelector((state) => state.user);
+  const isSecretary = user?.role === "SECRETARY";
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("");
+  const [clinicFilter, setClinicFilter] = useState<string>("");
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
   const [fromTime, setFromTime] = useState<string>("");
@@ -80,10 +85,13 @@ function AppointmentsManagement() {
   const { mutateAsync: deleteAppointment } = useDeleteAppointment();
   const { mutateAsync: approveAppointment } = useApproveAppointment();
   const { mutateAsync: cancelAppointment } = useCancelAppointment();
-  
 
   const finalFromDate = combineDateAndTime(fromDate, fromTime, false);
   const finalToDate = combineDateAndTime(toDate, toTime, true);
+
+  // دریافت لیست کلینیک‌ها برای فیلتر (فقط برای ادمین‌ها)
+  const { data: clinicsData } = useGetAllClinics(1, 100); // منشی‌ها نیازی به دریافت لیست کلینیک‌ها ندارند اما برای جلوگیری از خطا، دریافت می‌کنیم
+  const clinics = clinicsData?.data?.clinics || [];
 
   const {
     data: appointmentsData,
@@ -96,6 +104,7 @@ function AppointmentsManagement() {
     limit: 10,
     search: debouncedSearch,
     status: statusFilter || undefined,
+    clinicId: isSecretary ? undefined : clinicFilter || undefined, // منشی‌ها نمی‌توانند فیلتر کلینیک بزنند
     fromDate: finalFromDate,
     toDate: finalToDate,
   });
@@ -280,6 +289,29 @@ function AppointmentsManagement() {
                 <option value="CANCELED">لغو شده</option>
               </select>
             </div>
+
+            {!isSecretary && (
+              <div className="max-w-xs">
+                <label className="block text-sm font-estedad-medium text-dark mb-2">
+                  فیلتر کلینیک
+                </label>
+                <select
+                  value={clinicFilter}
+                  onChange={(e) => {
+                    setClinicFilter(e.target.value);
+                    setPage(1);
+                  }}
+                  className="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+                >
+                  <option value="">همه کلینیک‌ها</option>
+                  {clinics.map((clinic: AppointmentClinic) => (
+                    <option key={clinic.id} value={clinic.id}>
+                      {clinic.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           {/* Date and Time Filters */}
