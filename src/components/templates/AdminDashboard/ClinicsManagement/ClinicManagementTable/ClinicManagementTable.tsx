@@ -74,8 +74,37 @@ function ClinicManagementTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td>
+                    {/* #region agent log */}
+                    {(() => {
+                      fetch(
+                        "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+                        {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            location: "ClinicManagementTable.tsx:77",
+                            message: "Rendering clinic image",
+                            data: {
+                              clinicId: clinic.id,
+                              clinicName: clinic.name,
+                              clinicImage: clinic.image,
+                              clinicImageNull: clinic.image === null,
+                              clinicImageUndefined: clinic.image === undefined,
+                              clinicImageTruthy: !!clinic.image,
+                            },
+                            timestamp: Date.now(),
+                            sessionId: "debug-session",
+                            runId: "run1",
+                            hypothesisId: "E",
+                          }),
+                        }
+                      ).catch(() => {});
+                      return null;
+                    })()}
+                    {/* #endregion */}
                     {clinic.image ? (
                       <img
+                        key={`${clinic.id}-${clinic.image || "no-image"}`}
                         src={getImageUrl(clinic.image)}
                         alt={clinic.name}
                         className="w-16 h-16 rounded-lg object-cover"

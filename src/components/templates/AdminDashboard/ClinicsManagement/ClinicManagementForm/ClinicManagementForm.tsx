@@ -40,7 +40,6 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!clinic?.id;
-  const shouldShowCurrentImage = isEditMode && clinic?.image && !removeImage;
 
   const validationSchema = Yup.object({
     name: Yup.string().required("نام کلینیک الزامی است"),
@@ -119,16 +118,186 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       // Handle image upload
       if (values.image instanceof File) {
         formData.append("image", values.image);
-      } else if (removeImage && isEditMode) {
-        // If removing image in edit mode, we need to handle it on backend
-        // For now, we'll just not send the image field
+      }
+      // #region agent log
+      fetch(
+        "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            location: "ClinicManagementForm.tsx:122",
+            message: "Before adding removeImage to FormData",
+            data: {
+              removeImage,
+              isEditMode,
+              hasImageFile: values.image instanceof File,
+            },
+            timestamp: Date.now(),
+            sessionId: "debug-session",
+            runId: "run1",
+            hypothesisId: "B",
+          }),
+        }
+      ).catch(() => {});
+      // #endregion
+      if (removeImage && isEditMode) {
+        formData.append("removeImage", "true");
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location: "ClinicManagementForm.tsx:125",
+              message: "removeImage added to FormData",
+              data: { removeImage, isEditMode },
+              timestamp: Date.now(),
+              sessionId: "debug-session",
+              runId: "run1",
+              hypothesisId: "B",
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
       }
 
       if (isEditMode && clinic?.id) {
-        await updateClinic({ id: clinic.id, data: formData });
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location: "ClinicManagementForm.tsx:127",
+              message: "Before updateClinic call",
+              data: {
+                clinicId: clinic.id,
+                removeImage,
+                hasImageFile: formData.has("image"),
+                hasRemoveImage: formData.has("removeImage"),
+              },
+              timestamp: Date.now(),
+              sessionId: "debug-session",
+              runId: "run1",
+              hypothesisId: "B",
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
+        let response;
+        try {
+          response = await updateClinic({ id: clinic.id, data: formData });
+          // #region agent log
+          fetch(
+            "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                location: "ClinicManagementForm.tsx:130",
+                message: "After updateClinic response - SUCCESS",
+                data: {
+                  clinicId: clinic.id,
+                  responseImage: response?.data?.clinic?.image,
+                  responseImageNull: response?.data?.clinic?.image === null,
+                  responseImageUndefined:
+                    response?.data?.clinic?.image === undefined,
+                  fullResponse: JSON.stringify(response),
+                },
+                timestamp: Date.now(),
+                sessionId: "debug-session",
+                runId: "run1",
+                hypothesisId: "D",
+              }),
+            }
+          ).catch(() => {});
+          // #endregion
+        } catch (error) {
+          // #region agent log
+          fetch(
+            "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                location: "ClinicManagementForm.tsx:155",
+                message: "After updateClinic response - ERROR",
+                data: {
+                  clinicId: clinic.id,
+                  error: error?.message,
+                  errorResponse: error?.response?.data,
+                },
+                timestamp: Date.now(),
+                sessionId: "debug-session",
+                runId: "run1",
+                hypothesisId: "D",
+              }),
+            }
+          ).catch(() => {});
+          // #endregion
+          throw error;
+        }
         showSuccessToast("کلینیک با موفقیت ویرایش شد");
-        queryClient.invalidateQueries({ queryKey: ["clinics"] });
-        queryClient.invalidateQueries({ queryKey: ["clinic"] });
+        setRemoveImage(false);
+        // Update cache immediately with the response data
+        if (response?.data?.clinic) {
+          queryClient.setQueryData(["clinic", clinic.id], response);
+          // #region agent log
+          fetch(
+            "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                location: "ClinicManagementForm.tsx:135",
+                message: "Cache updated with response",
+                data: {
+                  clinicId: clinic.id,
+                  cachedImage: response?.data?.clinic?.image,
+                },
+                timestamp: Date.now(),
+                sessionId: "debug-session",
+                runId: "run1",
+                hypothesisId: "E",
+              }),
+            }
+          ).catch(() => {});
+          // #endregion
+        }
+        // Invalidate and refetch queries to ensure all data is fresh
+        await queryClient.invalidateQueries({
+          queryKey: ["clinics"],
+          refetchType: "active",
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["clinic", clinic.id],
+          refetchType: "active",
+        });
+        // Force refetch all clinics queries immediately
+        await queryClient.refetchQueries({
+          queryKey: ["clinics"],
+        });
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location: "ClinicManagementForm.tsx:139",
+              message: "Queries invalidated",
+              data: { clinicId: clinic.id },
+              timestamp: Date.now(),
+              sessionId: "debug-session",
+              runId: "run1",
+              hypothesisId: "E",
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
         navigate("/admin/clinics-management");
       } else {
         await createClinic(formData);
@@ -236,6 +405,9 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       }}
     >
       {(formik) => {
+        const shouldShowCurrentImage =
+          clinic?.image && !formik.values.image && !removeImage;
+
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
@@ -336,11 +508,53 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                     <button
                       type="button"
                       onClick={() => {
+                        // #region agent log
+                        fetch(
+                          "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+                          {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              location: "ClinicManagementForm.tsx:347",
+                              message: "Remove image button clicked",
+                              data: {
+                                removeImageBefore: removeImage,
+                                clinicId: clinic?.id,
+                              },
+                              timestamp: Date.now(),
+                              sessionId: "debug-session",
+                              runId: "run1",
+                              hypothesisId: "A",
+                            }),
+                          }
+                        ).catch(() => {});
+                        // #endregion
                         setRemoveImage(true);
                         formik.setFieldValue("image", null);
                         if (fileInputRef.current) {
                           fileInputRef.current.value = "";
                         }
+                        // #region agent log
+                        fetch(
+                          "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
+                          {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              location: "ClinicManagementForm.tsx:354",
+                              message: "Remove image state set",
+                              data: {
+                                removeImageAfter: true,
+                                imageValue: formik.values.image,
+                              },
+                              timestamp: Date.now(),
+                              sessionId: "debug-session",
+                              runId: "run1",
+                              hypothesisId: "A",
+                            }),
+                          }
+                        ).catch(() => {});
+                        // #endregion
                       }}
                       className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
                     >

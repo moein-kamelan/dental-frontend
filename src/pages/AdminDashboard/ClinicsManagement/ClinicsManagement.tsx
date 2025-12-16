@@ -31,6 +31,32 @@ function ClinicsManagement() {
     isFetching: isFetchingClinics,
   } = useGetAllClinics(page, 5);
 
+  // #region agent log
+  useEffect(() => {
+    fetch("http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        location: "ClinicsManagement.tsx:33",
+        message: "ClinicsManagement mounted, checking clinics data",
+        data: {
+          clinicsCount: clinicsData?.data?.clinics?.length || 0,
+          clinicsWithImages:
+            clinicsData?.data?.clinics?.filter((c: any) => c.image).length || 0,
+          clinicsWithoutImages:
+            clinicsData?.data?.clinics?.filter((c: any) => !c.image).length ||
+            0,
+          firstClinicImage: clinicsData?.data?.clinics?.[0]?.image || null,
+        },
+        timestamp: Date.now(),
+        sessionId: "debug-session",
+        runId: "run1",
+        hypothesisId: "E",
+      }),
+    }).catch(() => {});
+  }, [clinicsData]);
+  // #endregion
+
   useEffect(() => {
     setHeaderConfig({ title: "مدیریت کلینیک‌ها" });
     return () => {
