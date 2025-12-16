@@ -9,6 +9,7 @@ import MobileMenu from "./MobileMenu";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
+import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 import { getImageUrl } from "../../../../utils/helpers";
 
 function Navbar() {
@@ -22,6 +23,7 @@ function Navbar() {
   const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
+  const { openModal: openAppointmentModal } = useAppointmentModal();
 
   // Close dropdown when user logs out
   useEffect(() => {
@@ -81,7 +83,7 @@ function Navbar() {
                 src={
                   settings?.data?.settings?.logo
                     ? getImageUrl(settings.data.settings.logo)
-                    : "/images/Logo_1.png"
+                    : "/images/main-logo.png"
                 }
                 alt="logo"
                 className="h-full w-full object-contain"
@@ -174,9 +176,7 @@ function Navbar() {
                 <i className="fa fa-search"></i>
               </NavLink>
               <button
-                onClick={() => {
-                  showSuccessToast("دریافت نوبت به زودی فعال خواهد شد");
-                }}
+                onClick={openAppointmentModal}
                 className="main-btn lg:text-xs xl:text-sm text-nowrap"
               >
                 دریافت نوبت
@@ -271,7 +271,7 @@ function Navbar() {
                           <i className="fas fa-calendar-alt w-5 text-center"></i>
                           <span>نوبت‌ها</span>
                         </NavLink>
-           
+
                         <NavLink
                           to="/dashboard/messages"
                           onClick={() => setIsDropdownOpen(false)}
@@ -286,7 +286,6 @@ function Navbar() {
                           <i className="fas fa-envelope w-5 text-center"></i>
                           <span>پیام‌ها</span>
                         </NavLink>
-         
                       </nav>
 
                       <div className="border-t border-gray-100 pt-2">

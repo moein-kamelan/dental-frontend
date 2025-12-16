@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali } from "../../../../../utils/helpers";
+import { formatJalali, getImageUrl } from "../../../../../utils/helpers";
 import type { Clinic } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -46,6 +46,7 @@ function ClinicManagementTable({
           <thead className="border-b border-main-border-color ">
             <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
+              <th>تصویر</th>
               <th>نام کلینیک</th>
               <th>آدرس</th>
               <th>شماره تماس</th>
@@ -56,10 +57,10 @@ function ClinicManagementTable({
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingClinics ? (
-              <TableSkeleton rows={5} columns={7} />
+              <TableSkeleton rows={5} columns={8} />
             ) : clinics.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center p-8 font-estedad-light">
+                <td colSpan={8} className="text-center p-8 font-estedad-light">
                   کلینیکی یافت نشد
                 </td>
               </tr>
@@ -71,6 +72,19 @@ function ClinicManagementTable({
                 >
                   <td className="font-estedad-light text-center">
                     {(page - 1) * 5 + index + 1}
+                  </td>
+                  <td>
+                    {clinic.image ? (
+                      <img
+                        src={getImageUrl(clinic.image)}
+                        alt={clinic.name}
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                        <i className="fas fa-image text-gray-400"></i>
+                      </div>
+                    )}
                   </td>
                   <td className="min-w-[200px]">
                     <div>
@@ -87,7 +101,7 @@ function ClinicManagementTable({
                   <td className="text-dark font-estedad-light min-w-[260px] max-w-[260px]">
                     <span className="line-clamp-2">{clinic.address}</span>
                   </td>
-                  <td className="text-dark font-estedad-light">
+                  <td className="text-dark text-nowrap font-estedad-light">
                     {clinic.phoneNumber || "-"}
                   </td>
                   <td className="text-dark font-estedad-light text-center">

@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { useGetSettings } from "../../../../services/useSettings";
 import { useLogout } from "../../../../services/useAuth";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
+import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 import { getImageUrl } from "../../../../utils/helpers";
 
 interface MobileMenuProps {
@@ -24,6 +25,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
+  const { openModal: openAppointmentModal } = useAppointmentModal();
 
   // Close user menu dropdown when user logs out
   useEffect(() => {
@@ -209,7 +211,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       </div>
                       <span>نوبت‌ها</span>
                     </NavLink>
-           
+
                     <NavLink
                       to="/dashboard/messages"
                       onClick={handleLinkClick}
@@ -226,7 +228,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       </div>
                       <span>پیام‌ها</span>
                     </NavLink>
-        
 
                     <div className="border-t border-gray-200 pt-2 mt-2">
                       <button
@@ -386,13 +387,15 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     جستجو
                   </span>
                 </NavLink>
-                <NavLink
-                  to=""
-                  onClick={handleLinkClick}
+                <button
+                  onClick={() => {
+                    openAppointmentModal();
+                    onClose();
+                  }}
                   className="main-btn block text-center w-full text-sm sm:text-base py-2.5 sm:py-3 active:scale-[0.98]"
                 >
                   دریافت نوبت
-                </NavLink>
+                </button>
               </div>
             </div>
           </motion.div>

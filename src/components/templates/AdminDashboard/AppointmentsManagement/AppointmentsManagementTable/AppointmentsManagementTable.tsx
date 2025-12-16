@@ -26,6 +26,7 @@ interface Appointment {
   id: string;
   appointmentDate: string;
   patientName?: string | null;
+  nationalCode?: string | null;
   status: "PENDING" | "APPROVED_BY_USER" | "FINAL_APPROVED" | "CANCELED";
   notes?: string | null;
   createdAt: string;
@@ -119,6 +120,7 @@ function AppointmentsManagementTable({
             <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>مراجع</th>
+              <th>کد ملی</th>
               <th>کلینیک</th>
               <th>پزشک</th>
               <th>تاریخ و ساعت</th>
@@ -129,10 +131,10 @@ function AppointmentsManagementTable({
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingAppointments ? (
-              <TableSkeleton rows={5} columns={8} />
+              <TableSkeleton rows={5} columns={9} />
             ) : appointments.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center p-8 font-estedad-light">
+                <td colSpan={9} className="text-center p-8 font-estedad-light">
                   نوبتی یافت نشد
                 </td>
               </tr>
@@ -173,6 +175,15 @@ function AppointmentsManagementTable({
                           {appointment.user.phoneNumber}
                         </p>
                       </div>
+                    </td>
+                    <td className="text-dark font-estedad-light">
+                      {appointment.nationalCode ? (
+                        <span className="font-estedad-light text-nowrap">
+                          {appointment.nationalCode}
+                        </span>
+                      ) : (
+                        <span className="text-paragray">-</span>
+                      )}
                     </td>
                     <td className="text-dark font-estedad-light">
                       <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary text-nowrap">

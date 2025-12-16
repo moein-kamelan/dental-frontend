@@ -171,7 +171,7 @@ function Turns() {
                       </span>
                     </td>
                     <td className="">
-                      {appointment.status !== "CANCELED" && (
+                      {appointment.status !== "CANCELED" ? (
                         <button
                           onClick={() => handleCancel(appointment.id)}
                           disabled={cancelAppointmentMutation.isPending}
@@ -180,6 +180,10 @@ function Turns() {
                         >
                           <i className="fas fa-times"></i>
                         </button>
+                      ) : (
+                        <span className=" mx-auto flex items-center justify-center">
+                          -
+                        </span>
                       )}
                     </td>
                   </tr>

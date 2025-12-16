@@ -31,15 +31,12 @@ export const useGetClinicById = (id: string) => {
 
 export const useCreateClinic = () => {
   return useMutation({
-    mutationFn: async (data: {
-      name: string;
-      address: string;
-      phoneNumber: string;
-      description?: string;
-      latitude?: number | null;
-      longitude?: number | null;
-    }) => {
-      const response = await axiosInstance.post("/clinics", data);
+    mutationFn: async (data: FormData) => {
+      const response = await axiosInstance.post("/clinics", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response.data;
     },
   });
@@ -47,21 +44,12 @@ export const useCreateClinic = () => {
 
 export const useUpdateClinic = () => {
   return useMutation({
-    mutationFn: async ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: {
-        name?: string;
-        address?: string;
-        phoneNumber?: string;
-        description?: string;
-        latitude?: number | null;
-        longitude?: number | null;
-      };
-    }) => {
-      const response = await axiosInstance.patch(`/clinics/${id}`, data);
+    mutationFn: async ({ id, data }: { id: string; data: FormData }) => {
+      const response = await axiosInstance.patch(`/clinics/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response.data;
     },
   });

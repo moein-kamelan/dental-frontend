@@ -10,6 +10,7 @@ import { useGetSettings } from "../../../../../services/useSettings";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { showSuccessToast } from "../../../../../utils/toastify";
+import { useAppointmentModal } from "../../../../../contexts/useAppointmentModal";
 import { useGetAllHeroSliders } from "../../../../../services/useHeroSliders";
 import type { HeroSlider } from "../../../../../types/types";
 import BannerSlide from "./BannerSlide/BannerSlide";
@@ -24,6 +25,7 @@ function Banner() {
   const { data: settings } = useGetSettings();
   const { data: bannersData, isLoading: isBannersLoading } =
     useGetAllHeroSliders(1, 20, "true");
+  const { openModal: openAppointmentModal } = useAppointmentModal();
 
   // Get banners array or use empty array as fallback (only published banners)
   const banners: HeroSlider[] = bannersData?.data?.sliders || [];
@@ -73,9 +75,7 @@ function Banner() {
               {settings?.data?.settings?.description ?? ""}
             </p>
             <button
-              onClick={() => {
-                showSuccessToast("دریافت نوبت به زودی فعال خواهد شد");
-              }}
+              onClick={openAppointmentModal}
               className="inline-block main-btn"
             >
               درخواست نوبت مشاوره

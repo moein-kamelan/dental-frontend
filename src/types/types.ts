@@ -10,6 +10,7 @@ export interface Clinic {
   address: string;
   phoneNumber: string;
   description?: string;
+  image?: string | null;
   latitude?: number | null;
   longitude?: number | null;
   workingHours?: Record<string, string | null>;

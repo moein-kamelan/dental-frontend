@@ -4,6 +4,7 @@ import Topbar from "../../modules/Main/Topbar/Topbar";
 import Navbar from "../../modules/Main/Navbar/Navbar";
 import Footer from "../../modules/Main/Footer/Footer";
 import AuthModal from "../../modules/Main/AuthModal/AuthModal";
+import AppointmentModal from "../../modules/Main/AppointmentModal/AppointmentModal";
 
 function MainLayout() {
   return (
@@ -22,6 +23,7 @@ function MainLayout() {
       </div>
 
       <AuthModal />
+      <AppointmentModal />
     </div>
   );
 }

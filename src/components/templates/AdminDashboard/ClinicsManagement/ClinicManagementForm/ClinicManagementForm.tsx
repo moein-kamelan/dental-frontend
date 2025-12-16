@@ -1,6 +1,7 @@
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import {
@@ -13,6 +14,7 @@ import {
 } from "../../../../../utils/toastify";
 import type { Clinic } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
+import { getImageUrl } from "../../../../../utils/helpers";
 
 const daysOfWeek = [
   { value: "saturday", label: "شنبه" },
@@ -34,8 +36,11 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const queryClient = useQueryClient();
   const { mutateAsync: createClinic } = useCreateClinic();
   const { mutateAsync: updateClinic } = useUpdateClinic();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!clinic?.id;
+  const shouldShowCurrentImage = isEditMode && clinic?.image && !removeImage;
 
   const validationSchema = Yup.object({
     name: Yup.string().required("نام کلینیک الزامی است"),
@@ -62,34 +67,36 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       latitude: number | null;
       longitude: number | null;
       workingHours: Record<string, TimeRange[]>;
+      image: File | null;
     },
     resetForm: () => void
   ) => {
     try {
-      const data: {
-        name: string;
-        address: string;
-        phoneNumber: string;
-        description?: string;
-        latitude?: number | null;
-        longitude?: number | null;
-        workingHours?: Record<string, string | null>;
-      } = {
-        name: values.name,
-        address: values.address,
-        phoneNumber: values.phoneNumber,
-      };
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("address", values.address);
+      formData.append("phoneNumber", values.phoneNumber);
 
       if (values.description) {
-        data.description = values.description;
+        formData.append("description", values.description);
       }
 
-      if (values.latitude !== null && values.latitude !== undefined) {
-        data.latitude = values.latitude;
+      // Only append latitude if it has a valid value
+      if (
+        values.latitude !== null &&
+        values.latitude !== undefined &&
+        !isNaN(values.latitude)
+      ) {
+        formData.append("latitude", values.latitude.toString());
       }
 
-      if (values.longitude !== null && values.longitude !== undefined) {
-        data.longitude = values.longitude;
+      // Only append longitude if it has a valid value
+      if (
+        values.longitude !== null &&
+        values.longitude !== undefined &&
+        !isNaN(values.longitude)
+      ) {
+        formData.append("longitude", values.longitude.toString());
       }
 
       if (values.workingHours) {
@@ -106,19 +113,30 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
             formattedWorkingHours[day.value] = null;
           }
         });
-        data.workingHours = formattedWorkingHours;
+        formData.append("workingHours", JSON.stringify(formattedWorkingHours));
+      }
+
+      // Handle image upload
+      if (values.image instanceof File) {
+        formData.append("image", values.image);
+      } else if (removeImage && isEditMode) {
+        // If removing image in edit mode, we need to handle it on backend
+        // For now, we'll just not send the image field
       }
 
       if (isEditMode && clinic?.id) {
-        await updateClinic({ id: clinic.id, data });
+        await updateClinic({ id: clinic.id, data: formData });
         showSuccessToast("کلینیک با موفقیت ویرایش شد");
         queryClient.invalidateQueries({ queryKey: ["clinics"] });
         queryClient.invalidateQueries({ queryKey: ["clinic"] });
         navigate("/admin/clinics-management");
       } else {
-        await createClinic(data);
+        await createClinic(formData);
         showSuccessToast("کلینیک با موفقیت ایجاد شد");
         resetForm();
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
         queryClient.invalidateQueries({ queryKey: ["clinics"] });
         queryClient.invalidateQueries({ queryKey: ["clinic"] });
         // اسکرول به بالای container اصلی
@@ -147,6 +165,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         address: clinic?.address || "",
         phoneNumber: clinic?.phoneNumber || "",
         description: clinic?.description || "",
+        image: null as File | null,
         latitude: clinic?.latitude ?? null,
         longitude: clinic?.longitude ?? null,
         workingHours: (() => {
@@ -201,6 +220,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
             address: values.address,
             phoneNumber: values.phoneNumber,
             description: values.description,
+            image: values.image,
             latitude:
               values.latitude === null || values.latitude === undefined
                 ? null
@@ -273,6 +293,68 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                   : null
               }
             />
+
+            <div>
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                تصویر کلینیک
+              </label>
+              <div className="flex items-center gap-4 flex-wrap">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    formik.setFieldValue("image", file);
+                    setRemoveImage(false);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                    setRemoveImage(false);
+                  }}
+                  className="px-8 py-3 rounded-lg font-estedad-medium bg-purple-500/60 text-white hover:bg-purple-600/60 transition-colors"
+                >
+                  انتخاب فایل
+                </button>
+                {formik.values.image instanceof File && (
+                  <span className="text-sm text-dark font-estedad-light">
+                    {formik.values.image.name}
+                  </span>
+                )}
+                {shouldShowCurrentImage && (
+                  <div className="flex items-center gap-2 flex-wrap justify-center">
+                    <img
+                      src={getImageUrl(clinic.image)}
+                      alt={clinic.name || "تصویر کلینیک"}
+                      className="w-24 h-24 rounded-lg object-cover"
+                    />
+                    <span className="text-sm text-paragray">تصویر فعلی</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRemoveImage(true);
+                        formik.setFieldValue("image", null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="px-4 py-1.5 text-sm rounded-lg font-estedad-medium bg-red-500/60 text-white hover:bg-red-600/60 transition-colors"
+                    >
+                      حذف عکس
+                    </button>
+                  </div>
+                )}
+                {removeImage && (
+                  <span className="text-sm text-red-500 font-estedad-light">
+                    عکس در حال حذف است
+                  </span>
+                )}
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
               <CustomInput

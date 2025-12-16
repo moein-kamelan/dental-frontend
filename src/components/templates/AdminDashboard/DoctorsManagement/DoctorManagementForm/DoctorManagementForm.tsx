@@ -17,6 +17,7 @@ import {
 import type { OptionType, Clinic, Doctor } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
+import { getImageUrl } from "../../../../../utils/helpers";
 
 const daysOfWeek = [
   { value: "saturday", label: "شنبه" },

@@ -6,6 +6,7 @@ import { useAppDispatch } from "./redux/typedHooks";
 import { fetchUser } from "./redux/slices/userSlice";
 import { useCsrfToken } from "./services/useCsrfToken";
 import { AuthModalProvider } from "./contexts/AuthModalContext";
+import { AppointmentModalProvider } from "./contexts/AppointmentModalContext";
 
 // Loading component for Suspense fallback
 const LoadingFallback = () => (
@@ -32,20 +33,22 @@ function App() {
 
   return (
     <AuthModalProvider>
-      <ToastContainer
-        stacked
-        position="top-left"
-        autoClose={5000}
-        closeOnClick={true}
-        pauseOnHover={false}
-        draggable={true}
-        closeButton={false}
-        progressClassName={"bg-"}
-      />
+      <AppointmentModalProvider>
+        <ToastContainer
+          stacked
+          position="top-left"
+          autoClose={5000}
+          closeOnClick={true}
+          pauseOnHover={false}
+          draggable={true}
+          closeButton={false}
+          progressClassName={"bg-"}
+        />
 
-      <Suspense fallback={<LoadingFallback />}>
-        <RouterProvider router={routes} />
-      </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <RouterProvider router={routes} />
+        </Suspense>
+      </AppointmentModalProvider>
     </AuthModalProvider>
   );
 }

@@ -23,6 +23,22 @@ export const useGetAllDoctors = (
   });
 };
 
+export const useGetDoctorsByClinic = (clinicId: string | null) => {
+  return useQuery({
+    queryKey: ["doctors", "clinic", clinicId],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (clinicId) {
+        params.append("clinicId", clinicId);
+      }
+      const response = await axiosInstance.get(`/doctors?${params.toString()}`);
+      return response.data;
+    },
+    enabled: !!clinicId,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
 export const useGetDoctorByIdentifier = (identifier: string) => {
   return useQuery({
     queryKey: ["doctor", identifier],

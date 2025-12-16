@@ -6,7 +6,7 @@ function AppointmentsStats() {
   const stats = statsData?.data?.stats || {
     total: 0,
     pending: 0,
-    approvedByUser: 0,
+    awaitingApproval: 0,
     finalApproved: 0,
     canceled: 0,
     todayAppointments: 0,
@@ -23,7 +23,7 @@ function AppointmentsStats() {
     },
     {
       title: "در انتظار تأیید منشی",
-      value: stats.approvedByUser,
+      value: stats.awaitingApproval ,
       icon: "far fa-clock",
       bgColor: "bg-yellow-100",
       iconColor: "text-yellow-600",
@@ -71,7 +71,7 @@ function AppointmentsStats() {
                 <div className="mt-2 h-8 w-20 bg-gray-200 rounded animate-pulse"></div>
               ) : (
                 <h3 className="text-xl font-estedad-semibold mt-2">
-                  {card.value.toLocaleString("fa-IR")}
+                  {card.value?.toLocaleString("fa-IR")}
                 </h3>
               )}
             </div>
