@@ -37,6 +37,9 @@ function AppointmentModal() {
   const [currentStep, setCurrentStep] = useState<Step>("clinic");
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+  const [wantsSpecificDoctor, setWantsSpecificDoctor] = useState<
+    "yes" | "no" | null
+  >(null);
 
   const { data: clinicsData, isLoading: isClinicsLoading } = useGetAllClinics(
     1,
@@ -72,6 +75,7 @@ function AppointmentModal() {
       setCurrentStep("clinic");
       setSelectedClinic(null);
       setSelectedDoctor(null);
+      setWantsSpecificDoctor(null);
     }
   }, [isOpen]);
 
@@ -89,6 +93,7 @@ function AppointmentModal() {
     if (currentStep === "doctor") {
       setCurrentStep("clinic");
       setSelectedDoctor(null);
+      setWantsSpecificDoctor(null);
     } else {
       handleClose();
     }
@@ -172,7 +177,7 @@ function AppointmentModal() {
             </motion.button>
 
             {/* محتوای مدال */}
-            <div className="flex h-full flex-col p-6 pt-16">
+            <div className="flex h-full flex-col p-6 pt-16 ">
               {/* دکمه بازگشت */}
               {currentStep !== "clinic" && (
                 <button
@@ -323,8 +328,8 @@ function AppointmentModal() {
                                   </div>
                                 </div>
                                 {clinic._count?.doctors ? (
-                                  <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-medium text-gray-700 shadow-sm">
-                                    <i className="fas fa-user-md text-[10px] text-accent" />
+                                  <span className="inline-flex items-center gap-2 rounded-full bg-white/90 px-2 py-0.5 text-[12px] font-medium text-gray-700 shadow-sm">
+                                    <i className="fas fa-user-md text-[12px] text-accent" />
                                     <span>{clinic._count.doctors} پزشک</span>
                                   </span>
                                 ) : null}
@@ -390,92 +395,107 @@ function AppointmentModal() {
                       </p>
                     )}
 
-                    <div className="mb-4">
-                      <button
-                        onClick={() => handleDoctorSelect(null)}
-                        className={`w-full p-4 bg-white rounded-lg border-2 transition-all text-right hover:shadow-md active:scale-[0.98] ${
-                          selectedDoctor === null
-                            ? "border-accent bg-accent/10"
-                            : "border-gray-200 hover:border-accent"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h3 className="font-iran-sans-bold text-dark text-lg">
-                              هر پزشکی
-                            </h3>
-                            <p className="text-sm text-gray-600 mt-1">
-                              انتخاب نکنید تا تمام زمان‌های کلینیک را ببینید
-                            </p>
+                    {/* سوال: آیا برای پزشک خاصی نوبت می‌خواهید؟ */}
+                    <div className="mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                      <p className="text-sm font-estedad-medium text-dark">
+                        آیا برای پزشک خاصی نوبت می‌خواهید؟
+                      </p>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setWantsSpecificDoctor("yes")}
+                          className={`px-5 py-2 rounded-full text-sm font-estedad-medium transition-all ${
+                            wantsSpecificDoctor === "yes"
+                              ? "bg-accent text-white shadow-md"
+                              : "bg-white text-dark border border-gray-300 hover:border-accent"
+                          }`}
+                        >
+                          بله
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setWantsSpecificDoctor("no");
+                            handleDoctorSelect(null);
+                            handleContinue();
+                          }}
+                          className={`px-5 py-2 rounded-full text-sm font-estedad-medium transition-all ${
+                            wantsSpecificDoctor === "no"
+                              ? "bg-accent text-white shadow-md"
+                              : "bg-white text-dark border border-gray-300 hover:border-accent"
+                          }`}
+                        >
+                          خیر
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* در صورت انتخاب بله، نمایش لیست پزشکان کلینیک */}
+                    {wantsSpecificDoctor === "yes" && (
+                      <>
+                        {isDoctorsLoading ? (
+                          <div className="space-y-4">
+                            {[1, 2, 3].map((i) => (
+                              <div
+                                key={i}
+                                className="h-24 bg-gray-200 animate-pulse rounded-lg"
+                              />
+                            ))}
                           </div>
-                          {selectedDoctor === null && (
-                            <i className="fas fa-check-circle text-accent text-xl"></i>
-                          )}
-                        </div>
-                      </button>
-                    </div>
+                        ) : doctors.length === 0 ? (
+                          <div className="text-center py-8 text-gray-500">
+                            پزشکی در این کلینیک یافت نشد
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            {doctors.map((doctor) => (
+                              <button
+                                key={doctor.id}
+                                onClick={() => handleDoctorSelect(doctor)}
+                                className={`w-full p-4 bg-white rounded-lg border-2 transition-all text-right hover:shadow-md active:scale-[0.98] ${
+                                  selectedDoctor?.id === doctor.id
+                                    ? "border-accent bg-accent/10"
+                                    : "border-gray-200 hover:border-accent"
+                                }`}
+                              >
+                                <div className="flex items-center gap-4">
+                                  <div className="flex-1">
+                                    <h3 className="font-iran-sans-bold text-dark text-lg mb-1">
+                                      دکتر {doctor.firstName} {doctor.lastName}
+                                    </h3>
+                                    {doctor.shortDescription && (
+                                      <p className="text-sm text-gray-600">
+                                        {doctor.shortDescription}
+                                      </p>
+                                    )}
+                                  </div>
+                                  {doctor.profileImage && (
+                                    <img
+                                      src={getImageUrl(doctor.profileImage)}
+                                      alt={`${doctor.firstName} ${doctor.lastName}`}
+                                      className="w-16 h-16 rounded-full object-cover shrink-0"
+                                    />
+                                  )}
+                                  {selectedDoctor?.id === doctor.id && (
+                                    <i className="fas fa-check-circle text-accent text-xl shrink-0"></i>
+                                  )}
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
 
-                    {isDoctorsLoading ? (
-                      <div className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                          <div
-                            key={i}
-                            className="h-24 bg-gray-200 animate-pulse rounded-lg"
-                          />
-                        ))}
-                      </div>
-                    ) : doctors.length === 0 ? (
-                      <div className="text-center py-8 text-gray-500">
-                        پزشکی در این کلینیک یافت نشد
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {doctors.map((doctor) => (
+                        {/* دکمه ادامه */}
+                        <div className="mt-6">
                           <button
-                            key={doctor.id}
-                            onClick={() => handleDoctorSelect(doctor)}
-                            className={`w-full p-4 bg-white rounded-lg border-2 transition-all text-right hover:shadow-md active:scale-[0.98] ${
-                              selectedDoctor?.id === doctor.id
-                                ? "border-accent bg-accent/10"
-                                : "border-gray-200 hover:border-accent"
-                            }`}
+                            onClick={handleContinue}
+                            className="main-btn w-full"
                           >
-                            <div className="flex items-center gap-4">
-                              <div className="flex-1">
-                                <h3 className="font-iran-sans-bold text-dark text-lg mb-1">
-                                  دکتر {doctor.firstName} {doctor.lastName}
-                                </h3>
-                                {doctor.shortDescription && (
-                                  <p className="text-sm text-gray-600">
-                                    {doctor.shortDescription}
-                                  </p>
-                                )}
-                              </div>
-                              {doctor.profileImage && (
-                                <img
-                                  src={getImageUrl(doctor.profileImage)}
-                                  alt={`${doctor.firstName} ${doctor.lastName}`}
-                                  className="w-16 h-16 rounded-full object-cover shrink-0"
-                                />
-                              )}
-                              {selectedDoctor?.id === doctor.id && (
-                                <i className="fas fa-check-circle text-accent text-xl shrink-0"></i>
-                              )}
-                            </div>
+                            ادامه
                           </button>
-                        ))}
-                      </div>
+                        </div>
+                      </>
                     )}
-
-                    {/* دکمه ادامه */}
-                    <div className="mt-6">
-                      <button
-                        onClick={handleContinue}
-                        className="main-btn w-full"
-                      >
-                        ادامه
-                      </button>
-                    </div>
                   </motion.div>
                 )}
               </div>
