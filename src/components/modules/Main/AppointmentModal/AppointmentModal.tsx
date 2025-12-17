@@ -120,7 +120,7 @@ function AppointmentModal() {
     APPOINTMENT_STEPS[currentStepIndex] ?? APPOINTMENT_STEPS[0];
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync">
       {isOpen && (
         <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -129,8 +129,8 @@ function AppointmentModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            duration: 0.3,
-            ease: [0.4, 0, 0.2, 1],
+            duration: 0.15,
+            ease: "easeOut",
           }}
         >
           {/* Overlay با backdrop blur */}
@@ -140,22 +140,22 @@ function AppointmentModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 0.3,
-              ease: [0.4, 0, 0.2, 1],
+              duration: 0.15,
+              ease: "easeOut",
             }}
           />
 
           {/* مدال */}
           <motion.div
             className="relative z-10 w-full max-w-6xl bg-gray-100 ring-2 border-dark rounded-3xl shadow-2xl h-[94vh] overflow-y-auto auth-modal-scrollbar scroll-smooth"
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{
               type: "spring",
-              stiffness: 300,
+              stiffness: 500,
               damping: 30,
-              duration: 0.3,
+              duration: 0.8,
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -164,9 +164,9 @@ function AppointmentModal() {
               onClick={handleClose}
               className="absolute top-4 right-6 z-20 flex items-center justify-center rounded-full size-10 bg-accent hover:bg-secondary transition-colors"
               aria-label="بستن"
-              initial={{ opacity: 0, rotate: -90 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.1 }}
             >
               <i className="fas fa-times text-2xl text-white"></i>
             </motion.button>
@@ -265,10 +265,10 @@ function AppointmentModal() {
                 {currentStep === "clinic" && (
                   <motion.div
                     className="flex h-full flex-col"
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.3 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                   >
                     <h2 className="mb-5 text-center text-xl font-iran-sans-bold text-dark">
                       انتخاب کلینیک
@@ -376,10 +376,10 @@ function AppointmentModal() {
                 {currentStep === "doctor" && (
                   <motion.div
                     className="flex h-full flex-col"
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.3 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                   >
                     <h2 className="text-2xl font-iran-sans-bold text-dark mb-2 text-center">
                       انتخاب پزشک
