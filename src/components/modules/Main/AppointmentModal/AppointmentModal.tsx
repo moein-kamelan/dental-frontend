@@ -27,6 +27,7 @@ function AppointmentModal() {
   const [patientLastName, setPatientLastName] = useState<string>("");
   const [patientNationalId, setPatientNationalId] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [errors, setErrors] = useState<{
     firstName?: string;
     lastName?: string;
@@ -73,6 +74,7 @@ function AppointmentModal() {
       setPatientLastName("");
       setPatientNationalId("");
       setNotes("");
+      setSelectedDate(null);
       setErrors({});
     }
   }, [isOpen]);
@@ -98,6 +100,7 @@ function AppointmentModal() {
       setPatientLastName("");
       setPatientNationalId("");
       setNotes("");
+      setSelectedDate(null);
       setErrors({});
       // Reset انتخاب پزشک و گزینه wantsSpecificDoctor
       setSelectedDoctor(null);
@@ -166,9 +169,12 @@ function AppointmentModal() {
         setCurrentStep("datetime");
       }
     } else if (currentStep === "datetime") {
-      // در اینجا به مرحله بعدی می‌رویم (تایید نهایی)
-      // فعلاً فقط می‌بندیم
-      handleClose();
+      // در اینجا به مرحله بعدی می‌رویم (انتخاب ساعت)
+      // فعلاً فقط می‌بندیم - بعداً مرحله انتخاب ساعت اضافه می‌شود
+      if (selectedDate) {
+        // handleClose();
+        // بعداً به مرحله انتخاب ساعت می‌رویم
+      }
     } else {
       handleClose();
     }
@@ -211,6 +217,10 @@ function AppointmentModal() {
 
   const handleNotesChange = (value: string) => {
     setNotes(value);
+  };
+
+  const handleDateSelect = (date: string) => {
+    setSelectedDate(date);
   };
 
   return (
@@ -337,7 +347,11 @@ function AppointmentModal() {
 
                 {/* مرحله انتخاب تاریخ و زمان */}
                 {currentStep === "datetime" && (
-                  <DateTimeSelectionStep onContinue={handleContinue} />
+                  <DateTimeSelectionStep
+                    selectedDate={selectedDate}
+                    onDateSelect={handleDateSelect}
+                    onContinue={handleContinue}
+                  />
                 )}
               </div>
             </div>
