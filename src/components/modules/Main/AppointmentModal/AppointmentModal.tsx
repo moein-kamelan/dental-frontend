@@ -152,7 +152,7 @@ function AppointmentModal() {
 
           {/* مدال */}
           <motion.div
-            className="relative z-10 w-full max-w-6xl bg-gray-100 ring-2 border-dark rounded-3xl shadow-2xl h-[94vh] overflow-y-auto auth-modal-scrollbar scroll-smooth"
+            className="relative z-10 w-full max-w-6xl ring-2 border-dark rounded-3xl shadow-2xl h-[94vh] overflow-y-auto auth-modal-scrollbar scroll-smooth bg-white"
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -164,6 +164,15 @@ function AppointmentModal() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Soft Yellow Glow */}
+            <div
+              className="absolute inset-0 z-0 rounded-3xl"
+              style={{
+                backgroundImage: `radial-gradient(circle at center, #FFF991 0%, transparent 70%)`,
+                opacity: 0.6,
+                mixBlendMode: "multiply",
+              }}
+            />
             {/* دکمه بستن */}
             <motion.button
               onClick={handleClose}
@@ -177,7 +186,7 @@ function AppointmentModal() {
             </motion.button>
 
             {/* محتوای مدال */}
-            <div className="flex h-full flex-col p-6 pt-16 ">
+            <div className="relative z-10 flex h-full flex-col p-6 pt-16 ">
               {/* دکمه بازگشت */}
               {currentStep !== "clinic" && (
                 <button
@@ -301,7 +310,7 @@ function AppointmentModal() {
                             className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border-2 border-gray-200 bg-white/90 text-right shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:scale-[0.98]"
                           >
                             {/* تصویر کلینیک */}
-                            <div className="relative h-60 w-full overflow-hidden">
+                            <div className="relative h-56 w-full overflow-hidden">
                               {clinic.image ? (
                                 <>
                                   <img
@@ -396,22 +405,57 @@ function AppointmentModal() {
                     )}
 
                     {/* سوال: آیا برای پزشک خاصی نوبت می‌خواهید؟ */}
-                    <div className="mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                      <p className="text-sm font-estedad-medium text-dark">
+                    <div className="mb-6 flex flex-col items-center gap-6">
+                      <p className="text-3xl font-estedad-medium text-dark text-center">
                         آیا برای پزشک خاصی نوبت می‌خواهید؟
                       </p>
-                      <div className="flex gap-2">
+
+                      {/* دکمه‌ها */}
+                      <div className="flex flex-col sm:flex-row gap-4 items-center">
+                        {/* گزینه بله - طراحی جذاب و ترغیب‌کننده */}
                         <button
                           type="button"
                           onClick={() => setWantsSpecificDoctor("yes")}
-                          className={`px-5 py-2 rounded-full text-sm font-estedad-medium transition-all ${
+                          className={`group relative px-8 py-3 rounded-full text-lg font-estedad-bold transition-all duration-300 transform hover:scale-105 active:scale-95 ${
                             wantsSpecificDoctor === "yes"
-                              ? "bg-accent text-white shadow-md"
-                              : "bg-white text-dark border border-gray-300 hover:border-accent"
+                              ? "text-white shadow-lg scale-105"
+                              : "text-white shadow-md hover:shadow-lg border-2"
                           }`}
+                          style={{
+                            background:
+                              wantsSpecificDoctor === "yes"
+                                ? "linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%)"
+                                : "linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%)",
+                            boxShadow:
+                              wantsSpecificDoctor === "yes"
+                                ? "0 10px 25px rgba(255, 107, 107, 0.4), 0 0 20px rgba(255, 142, 83, 0.3)"
+                                : "0 4px 15px rgba(255, 107, 107, 0.3)",
+                            borderColor:
+                              wantsSpecificDoctor === "yes"
+                                ? "transparent"
+                                : "rgba(255, 107, 107, 0.3)",
+                          }}
                         >
-                          بله
+                          {/* افکت درخشان */}
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/30 via-transparent to-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="relative flex items-center gap-2">
+                            <i className="fas fa-user-md text-lg"></i>
+                            <span>بله</span>
+                            {wantsSpecificDoctor === "yes" && (
+                              <motion.i
+                                className="fas fa-check-circle ml-1"
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 500,
+                                }}
+                              />
+                            )}
+                          </div>
                         </button>
+
+                        {/* گزینه خیر - طراحی ساده‌تر */}
                         <button
                           type="button"
                           onClick={() => {
@@ -419,26 +463,75 @@ function AppointmentModal() {
                             handleDoctorSelect(null);
                             handleContinue();
                           }}
-                          className={`px-5 py-2 rounded-full text-sm font-estedad-medium transition-all ${
+                          className={`px-8 py-3 rounded-full text-lg font-estedad-medium transition-all duration-300 ${
                             wantsSpecificDoctor === "no"
                               ? "bg-accent text-white shadow-md"
-                              : "bg-white text-dark border border-gray-300 hover:border-accent"
+                              : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
                           }`}
                         >
                           خیر
                         </button>
                       </div>
+
+                      {/* بخش توضیحات - فقط زمانی نمایش داده می‌شود که هیچ گزینه‌ای انتخاب نشده باشد */}
+                      {wantsSpecificDoctor === null && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.3 }}
+                          className="w-full max-w-4xl mx-auto"
+                        >
+                          <div className="bg-gradient-to-br from-accent/10 via-secondary/10 to-primary/10 rounded-2xl p-6 border-2 border-accent/20 shadow-lg">
+                            <div className="grid md:grid-cols-2 gap-6">
+                              {/* توضیحات دکمه بله */}
+                              <div className="flex items-start gap-4">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-[#FF6B6B] to-[#FF8E53] flex items-center justify-center shadow-md">
+                                  <i className="fas fa-user-md text-white text-lg"></i>
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-estedad-bold text-dark mb-2 text-lg">
+                                    انتخاب پزشک خاص
+                                  </h4>
+                                  <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
+                                    با انتخاب گزینه بله ، دندانپزشکان کلینیک به
+                                    شما نمایش داده می‌شود و می‌توانید پزشک مد
+                                    نظر خود را انتخاب کنید
+                                  </p>
+                                </div>
+                              </div>
+
+                              {/* توضیحات دکمه خیر */}
+                              <div className="flex items-start gap-4">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center shadow-md">
+                                  <i className="fas fa-calendar-check text-white text-lg"></i>
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-estedad-bold text-dark mb-2 text-lg">
+                                    انتخاب خودکار
+                                  </h4>
+                                  <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
+                                    با انتخاب گزینه خیر ، تمام نوبت‌های خالی به
+                                    شما نمایش داده می‌شود و یکی از پزشکان مجرب
+                                    کلینیک برای شما انتخاب می‌شود
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
                     </div>
 
                     {/* در صورت انتخاب بله، نمایش لیست پزشکان کلینیک */}
                     {wantsSpecificDoctor === "yes" && (
                       <>
                         {isDoctorsLoading ? (
-                          <div className="space-y-4">
-                            {[1, 2, 3].map((i) => (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                               <div
                                 key={i}
-                                className="h-24 bg-gray-200 animate-pulse rounded-lg"
+                                className="h-80 rounded-2xl bg-gray-200/70 animate-pulse"
                               />
                             ))}
                           </div>
@@ -447,37 +540,71 @@ function AppointmentModal() {
                             پزشکی در این کلینیک یافت نشد
                           </div>
                         ) : (
-                          <div className="space-y-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {doctors.map((doctor) => (
                               <button
                                 key={doctor.id}
                                 onClick={() => handleDoctorSelect(doctor)}
-                                className={`w-full p-4 bg-white rounded-lg border-2 transition-all text-right hover:shadow-md active:scale-[0.98] ${
+                                className={`group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border-2 text-right shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:scale-[0.98] ${
                                   selectedDoctor?.id === doctor.id
-                                    ? "border-accent bg-accent/10"
-                                    : "border-gray-200 hover:border-accent"
+                                    ? "border-accent bg-white/90"
+                                    : "border-gray-200 bg-white/90 hover:border-accent"
                                 }`}
                               >
-                                <div className="flex items-center gap-4">
-                                  <div className="flex-1">
-                                    <h3 className="font-iran-sans-bold text-dark text-lg mb-1">
-                                      دکتر {doctor.firstName} {doctor.lastName}
-                                    </h3>
-                                    {doctor.shortDescription && (
-                                      <p className="text-sm text-gray-600">
-                                        {doctor.shortDescription}
-                                      </p>
+                                {/* تصویر پزشک */}
+                                <div className="relative h-70 w-full overflow-hidden">
+                                  {doctor.profileImage ? (
+                                    <>
+                                      <img
+                                        src={getImageUrl(doctor.profileImage)}
+                                        alt={`دکتر ${doctor.firstName} ${doctor.lastName}`}
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                      />
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                                      <div
+                                        className={`absolute inset-0 transition-opacity duration-300 ${
+                                          selectedDoctor?.id === doctor.id
+                                            ? "bg-accent/40 opacity-100 mix-blend-multiply"
+                                            : "bg-accent/40 opacity-0 mix-blend-multiply group-hover:opacity-100"
+                                        }`}
+                                      />
+                                    </>
+                                  ) : (
+                                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent/10 via-secondary/10 to-primary/10 text-accent">
+                                      <i className="fas fa-user-md text-4xl" />
+                                    </div>
+                                  )}
+
+                                  {/* نام پزشک در پایین تصویر */}
+                                  <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
+                                    <div className="max-w-[85%]">
+                                      <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-l from-accent via-secondary to-primary px-3 py-1 text-white shadow-lg shadow-black/40">
+                                        <i className="fas fa-user-md text-sm" />
+                                        <span className="max-w-[120px] truncate font-estedad-medium text-sm">
+                                          دکتر {doctor.firstName}{" "}
+                                          {doctor.lastName}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    {selectedDoctor?.id === doctor.id && (
+                                      <span className="inline-flex items-center justify-center rounded-full bg-white/90 p-1.5 shadow-sm">
+                                        <i className="fas fa-check-circle text-accent text-lg" />
+                                      </span>
                                     )}
                                   </div>
-                                  {doctor.profileImage && (
-                                    <img
-                                      src={getImageUrl(doctor.profileImage)}
-                                      alt={`${doctor.firstName} ${doctor.lastName}`}
-                                      className="w-16 h-16 rounded-full object-cover shrink-0"
-                                    />
+                                </div>
+
+                                {/* اطلاعات پزشک */}
+                                <div className="flex flex-1 flex-col gap-1 bg-gradient-to-b from-accent/10 via-accent/5 to-accent/10 px-4 py-3 text-dark transition-colors duration-300 group-hover:from-accent/20 group-hover:via-accent/10 group-hover:to-accent/20">
+                                  {doctor.shortDescription && (
+                                    <p className="line-clamp-2 leading-relaxed text-gray-700 font-iran-sans-bold text-sm">
+                                      {doctor.shortDescription}
+                                    </p>
                                   )}
-                                  {selectedDoctor?.id === doctor.id && (
-                                    <i className="fas fa-check-circle text-accent text-xl shrink-0"></i>
+                                  {!doctor.shortDescription && (
+                                    <p className="text-sm text-gray-500 font-estedad-medium">
+                                      متخصص دندانپزشکی
+                                    </p>
                                   )}
                                 </div>
                               </button>
@@ -486,10 +613,10 @@ function AppointmentModal() {
                         )}
 
                         {/* دکمه ادامه */}
-                        <div className="mt-6">
+                        <div className="mt-auto grow flex items-end">
                           <button
                             onClick={handleContinue}
-                            className="main-btn w-full"
+                            className="main-btn w-full "
                           >
                             ادامه
                           </button>

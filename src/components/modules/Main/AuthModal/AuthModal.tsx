@@ -39,9 +39,9 @@ function AuthModal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ 
-            duration: 0.15, 
-            ease: "easeOut" // Custom cubic-bezier for smoother animation
+          transition={{
+            duration: 0.15,
+            ease: "easeOut", // Custom cubic-bezier for smoother animation
           }}
         >
           {/* Overlay با backdrop blur */}
@@ -50,15 +50,15 @@ function AuthModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ 
-              duration: 0.15, 
-              ease: "easeOut" // Custom cubic-bezier for smoother animation
+            transition={{
+              duration: 0.15,
+              ease: "easeOut", // Custom cubic-bezier for smoother animation
             }}
           />
 
           {/* مدال */}
           <motion.div
-            className="relative z-10 w-full max-w-md bg-gray-100 ring-2 border-dark rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto auth-modal-scrollbar scroll-smooth"
+            className="relative z-10 w-full max-w-md ring-2 border-dark rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto auth-modal-scrollbar scroll-smooth bg-white"
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -69,6 +69,15 @@ function AuthModal() {
               duration: 0.8,
             }}
           >
+            {/* Soft Yellow Glow */}
+            <div
+              className="absolute inset-0 z-0 rounded-3xl"
+              style={{
+                backgroundImage: `radial-gradient(circle at center, #FFF991 0%, transparent 70%)`,
+                opacity: 0.6,
+                mixBlendMode: "multiply",
+              }}
+            />
             {/* دکمه بستن */}
             <motion.button
               onClick={closeModal}
@@ -82,7 +91,9 @@ function AuthModal() {
             </motion.button>
 
             {/* محتوای فرم */}
-            <Signin onClose={closeModal} />
+            <div className="relative z-10">
+              <Signin onClose={closeModal} />
+            </div>
           </motion.div>
         </motion.div>
       )}
