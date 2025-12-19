@@ -81,7 +81,7 @@ function AuthModal() {
             {/* دکمه بستن */}
             <motion.button
               onClick={closeModal}
-              className="absolute top-4 right-6 z-20 flex items-center justify-center rounded-full size-10 bg-accent hover:bg-secondary transition-colors"
+              className="absolute top-4 left-6 z-20 flex items-center justify-center rounded-full size-10 bg-accent hover:bg-secondary transition-colors"
               aria-label="بستن"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

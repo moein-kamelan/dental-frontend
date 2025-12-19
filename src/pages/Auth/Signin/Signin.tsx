@@ -223,9 +223,9 @@ function Signin({ onClose }: SigninProps = {}) {
                   );
                 }
               }}
-              className="absolute top-4 left-6 flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary"
+              className="absolute top-4 right-6 flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary"
             >
-              <i className="	fas fa-arrow-left text-2xl text-white absolute"></i>
+              <i className="fas fa-arrow-right text-2xl text-white absolute"></i>
             </button>
           )}
           <h2 className="text-3xl font-iran-yekan-bold text-center mb-8 max-sm:mt-9">
