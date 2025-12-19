@@ -28,6 +28,7 @@ function AppointmentModal() {
   const [patientNationalId, setPatientNationalId] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [errors, setErrors] = useState<{
     firstName?: string;
     lastName?: string;
@@ -75,6 +76,7 @@ function AppointmentModal() {
       setPatientNationalId("");
       setNotes("");
       setSelectedDate(null);
+      setSelectedTime(null);
       setErrors({});
     }
   }, [isOpen]);
@@ -101,6 +103,7 @@ function AppointmentModal() {
       setPatientNationalId("");
       setNotes("");
       setSelectedDate(null);
+      setSelectedTime(null);
       setErrors({});
       // Reset انتخاب پزشک و گزینه wantsSpecificDoctor
       setSelectedDoctor(null);
@@ -221,6 +224,11 @@ function AppointmentModal() {
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
+    setSelectedTime(null); // Reset زمان هنگام تغییر تاریخ
+  };
+
+  const handleTimeSelect = (time: string) => {
+    setSelectedTime(time);
   };
 
   return (
@@ -350,6 +358,7 @@ function AppointmentModal() {
                   <DateTimeSelectionStep
                     selectedDate={selectedDate}
                     onDateSelect={handleDateSelect}
+                    onTimeSelect={handleTimeSelect}
                     onContinue={handleContinue}
                   />
                 )}
