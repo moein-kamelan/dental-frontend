@@ -291,7 +291,7 @@ function AppointmentModal() {
                 <div className="absolute top-4 right-6 flex items-center gap-3">
                   <button
                     onClick={handleBack}
-                    className="flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary"
+                    className="flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary transition-colors"
                   >
                     <i className="fas fa-arrow-right text-2xl text-white absolute"></i>
                   </button>

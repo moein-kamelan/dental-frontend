@@ -48,7 +48,7 @@ export function ClinicSelectionStep({
               className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border-2 border-gray-200 bg-white/90 text-right shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:scale-[0.98]"
             >
               {/* تصویر کلینیک */}
-              <div className="relative h-56 w-full overflow-hidden">
+              <div className="relative h-54 w-full overflow-hidden">
                 {clinic.image ? (
                   <>
                     <img

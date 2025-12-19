@@ -134,6 +134,10 @@ export function DateTimeSelectionStep({
   const handleDateClick = (date: Date) => {
     const dateString = formatDateToString(date);
     onDateSelect(dateString);
+    // بلافاصله بعد از انتخاب تاریخ به مرحله بعد می‌رویم
+    setTimeout(() => {
+      onContinue();
+    }, 200); // یک تاخیر کوتاه برای نمایش انیمیشن انتخاب
   };
 
   return (
@@ -144,19 +148,19 @@ export function DateTimeSelectionStep({
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
     >
-      <div className="flex items-center justify-center gap-2 my-6">
+      <div className="flex items-center justify-center gap-2 my-4">
         <h2 className="text-2xl font-iran-sans-bold text-dark text-center">
           انتخاب تاریخ نوبت
         </h2>
       </div>
 
       {/* لیست روزهای قابل انتخاب */}
-      <div className="flex-1 flex flex-col gap-6">
+      <div className="flex-1 flex flex-col items-center justify-center gap-6">
         <p className="text-lg font-estedad-semibold text-dark text-center">
           لطفاً تاریخ مورد نظر خود را انتخاب کنید
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="md:mt-8 lg:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
           {availableDates.map((availableDate, index) => {
             const dateString = formatDateToString(availableDate.date);
             const isSelected = selectedDate === dateString;
@@ -166,10 +170,10 @@ export function DateTimeSelectionStep({
                 key={index}
                 type="button"
                 onClick={() => handleDateClick(availableDate.date)}
-                className={`group relative flex flex-col items-center justify-center gap-3 p-6 rounded-3xl border-2 overflow-hidden transition-all duration-300 ${
+                className={`group relative flex flex-col items-center justify-center gap-4 p-8 min-h-[180px] rounded-3xl border-2 overflow-hidden transition-all duration-300 ${
                   isSelected
                     ? "bg-gradient-to-br from-accent via-accent to-secondary text-white border-accent shadow-2xl shadow-accent/50"
-                    : "bg-white text-dark border-gray-200 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/20"
+                    : "bg-white text-dark border-gray-200 hover:bg-gradient-to-br hover:from-accent hover:via-accent hover:to-secondary hover:text-white hover:border-accent hover:shadow-2xl hover:shadow-accent/50"
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -189,29 +193,26 @@ export function DateTimeSelectionStep({
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {/* افکت پس‌زمینه انیمیشن دار برای هاور */}
-                {!isSelected && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-accent/10 via-secondary/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    whileHover={{ scale: 1.1, opacity: 1 }}
-                  />
-                )}
-
-                {/* افکت درخشان برای حالت انتخاب شده */}
-                {isSelected && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent"
-                    animate={{
-                      backgroundPosition: ["0% 0%", "100% 100%"],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                    }}
-                  />
-                )}
+                {/* افکت درخشان برای حالت انتخاب شده و هاور */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  animate={
+                    isSelected
+                      ? {
+                          backgroundPosition: ["0% 0%", "100% 100%"],
+                        }
+                      : {}
+                  }
+                  transition={
+                    isSelected
+                      ? {
+                          duration: 3,
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                        }
+                      : { duration: 0.3 }
+                  }
+                />
 
                 {/* برچسب امروز */}
                 {availableDate.isToday && (
@@ -230,34 +231,36 @@ export function DateTimeSelectionStep({
                   </motion.span>
                 )}
 
-                {/* آیکون تیک برای حالت انتخاب شده */}
-                {isSelected && (
-                  <motion.div
-                    className="absolute top-3 right-3 z-10"
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 500,
-                      damping: 15,
-                    }}
-                  >
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-white/30 rounded-full blur-md animate-pulse" />
-                      <i className="fas fa-check-circle text-2xl text-white relative z-10 drop-shadow-lg" />
-                    </div>
-                  </motion.div>
-                )}
+                {/* آیکون تیک برای حالت انتخاب شده و هاور */}
+                <motion.div
+                  className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  initial={isSelected ? { scale: 0, rotate: -180 } : false}
+                  animate={isSelected ? { scale: 1, rotate: 0 } : {}}
+                  transition={
+                    isSelected
+                      ? {
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 15,
+                        }
+                      : {}
+                  }
+                >
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-white/30 rounded-full blur-md animate-pulse" />
+                    <i className="fas fa-check-circle text-2xl text-white relative z-10 drop-shadow-lg" />
+                  </div>
+                </motion.div>
 
                 {/* محتوای کارت */}
-                <div className="relative z-10 flex flex-col items-center gap-2">
+                <div className="relative z-10 flex flex-col items-center gap-3">
                   {/* نام روز */}
                   <motion.span
-                    className={`text-sm font-estedad-semibold tracking-wide ${
+                    className={`text-base font-estedad-semibold tracking-wide transition-colors duration-300 ${
                       isSelected
                         ? "text-white/95"
-                        : "text-gray-500 group-hover:text-accent"
-                    } transition-colors duration-300`}
+                        : "text-gray-500 group-hover:text-white/95"
+                    }`}
                     whileHover={{ scale: 1.1 }}
                   >
                     {availableDate.dayName}
@@ -265,66 +268,47 @@ export function DateTimeSelectionStep({
 
                   {/* شماره روز */}
                   <motion.div
-                    className={`relative ${
+                    className={`relative transition-colors duration-300 ${
                       isSelected
                         ? "text-white"
-                        : "text-dark group-hover:text-accent"
-                    } transition-colors duration-300`}
+                        : "text-dark group-hover:text-white"
+                    }`}
                     whileHover={{ scale: 1.15 }}
                   >
-                    {!isSelected && (
-                      <motion.div
-                        className="absolute inset-0 bg-accent/10 rounded-full blur-xl"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        whileHover={{ scale: 1.2, opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    )}
-                    <span className="relative text-4xl font-estedad-bold leading-none">
+                    <motion.div
+                      className="absolute inset-0 bg-white/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      initial={{ scale: 0.8 }}
+                      whileHover={{ scale: 1.2 }}
+                    />
+                    <span className="relative text-5xl font-estedad-bold leading-none">
                       {availableDate.dayNumber}
                     </span>
                   </motion.div>
 
                   {/* نام ماه */}
                   <motion.span
-                    className={`text-sm font-estedad-medium ${
+                    className={`text-base font-estedad-medium transition-colors duration-300 ${
                       isSelected
                         ? "text-white/90"
-                        : "text-gray-600 group-hover:text-dark"
-                    } transition-colors duration-300`}
+                        : "text-gray-600 group-hover:text-white/90"
+                    }`}
                     whileHover={{ scale: 1.05 }}
                   >
                     {availableDate.monthName}
                   </motion.span>
                 </div>
 
-                {/* خط تزئینی پایین برای حالت انتخاب شده */}
-                {isSelected && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                )}
+                {/* خط تزئینی پایین برای حالت انتخاب شده و هاور */}
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  initial={isSelected ? { scaleX: 0 } : false}
+                  animate={isSelected ? { scaleX: 1 } : {}}
+                  transition={isSelected ? { duration: 0.5 } : {}}
+                />
               </motion.button>
             );
           })}
         </div>
-
-        {/* دکمه ادامه - فقط زمانی نمایش داده می‌شود که تاریخ انتخاب شده باشد */}
-        {selectedDate && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mt-auto"
-          >
-            <button onClick={onContinue} className="main-btn w-full">
-              ادامه
-            </button>
-          </motion.div>
-        )}
       </div>
     </motion.div>
   );
