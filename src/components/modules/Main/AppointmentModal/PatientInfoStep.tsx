@@ -78,7 +78,7 @@ export function PatientInfoStep({
             }`}
           >
             <i className="fas fa-user-friends mr-2"></i>
-            <span>برای کسی دیگر</span>
+            <span>برای شخصی دیگر</span>
           </button>
         </div>
       </div>

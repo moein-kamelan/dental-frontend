@@ -87,15 +87,22 @@ function AppointmentModal() {
   const handleBack = () => {
     if (currentStep === "patient-info") {
       setCurrentStep("doctor");
+      // Reset تمام state های مربوط به مرحله patient-info
       setIsForSelf(null);
       setPatientFirstName("");
       setPatientLastName("");
       setPatientNationalId("");
       setErrors({});
-    } else if (currentStep === "doctor") {
-      setCurrentStep("clinic");
+      // Reset انتخاب پزشک و گزینه wantsSpecificDoctor
       setSelectedDoctor(null);
       setWantsSpecificDoctor(null);
+    } else if (currentStep === "doctor") {
+      setCurrentStep("clinic");
+      // Reset تمام state های مربوط به مرحله doctor
+      setSelectedDoctor(null);
+      setWantsSpecificDoctor(null);
+      // Reset انتخاب کلینیک
+      setSelectedClinic(null);
     } else {
       handleClose();
     }
