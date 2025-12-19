@@ -8,8 +8,9 @@ import { AppointmentStepper } from "./AppointmentStepper";
 import { ClinicSelectionStep } from "./ClinicSelectionStep";
 import { DoctorSelectionStep } from "./DoctorSelectionStep";
 import { PatientInfoStep } from "./PatientInfoStep";
+import { DateTimeSelectionStep } from "./DateTimeSelectionStep";
 
-type Step = "clinic" | "doctor" | "patient-info";
+type Step = "clinic" | "doctor" | "patient-info" | "datetime";
 
 function AppointmentModal() {
   const { isOpen, closeModal } = useAppointmentModal();
@@ -25,6 +26,7 @@ function AppointmentModal() {
   const [patientFirstName, setPatientFirstName] = useState<string>("");
   const [patientLastName, setPatientLastName] = useState<string>("");
   const [patientNationalId, setPatientNationalId] = useState<string>("");
+  const [notes, setNotes] = useState<string>("");
   const [errors, setErrors] = useState<{
     firstName?: string;
     lastName?: string;
@@ -70,6 +72,7 @@ function AppointmentModal() {
       setPatientFirstName("");
       setPatientLastName("");
       setPatientNationalId("");
+      setNotes("");
       setErrors({});
     }
   }, [isOpen]);
@@ -85,13 +88,16 @@ function AppointmentModal() {
   };
 
   const handleBack = () => {
-    if (currentStep === "patient-info") {
+    if (currentStep === "datetime") {
+      setCurrentStep("patient-info");
+    } else if (currentStep === "patient-info") {
       setCurrentStep("doctor");
       // Reset تمام state های مربوط به مرحله patient-info
       setIsForSelf(null);
       setPatientFirstName("");
       setPatientLastName("");
       setPatientNationalId("");
+      setNotes("");
       setErrors({});
       // Reset انتخاب پزشک و گزینه wantsSpecificDoctor
       setSelectedDoctor(null);
@@ -157,9 +163,12 @@ function AppointmentModal() {
       // اعتبارسنجی اطلاعات بیمار
       if (validatePatientInfo()) {
         // در اینجا به مرحله بعدی می‌رویم (تاریخ و زمان)
-        // فعلاً فقط می‌بندیم
-        handleClose();
+        setCurrentStep("datetime");
       }
+    } else if (currentStep === "datetime") {
+      // در اینجا به مرحله بعدی می‌رویم (تایید نهایی)
+      // فعلاً فقط می‌بندیم
+      handleClose();
     } else {
       handleClose();
     }
@@ -198,6 +207,10 @@ function AppointmentModal() {
   const handleIsForSelfChange = (value: boolean | null) => {
     setIsForSelf(value);
     setErrors({});
+  };
+
+  const handleNotesChange = (value: string) => {
+    setNotes(value);
   };
 
   return (
@@ -311,13 +324,20 @@ function AppointmentModal() {
                     patientFirstName={patientFirstName}
                     patientLastName={patientLastName}
                     patientNationalId={patientNationalId}
+                    notes={notes}
                     errors={errors}
                     onIsForSelfChange={handleIsForSelfChange}
                     onFirstNameChange={handleFirstNameChange}
                     onLastNameChange={handleLastNameChange}
                     onNationalIdChange={handleNationalIdChange}
+                    onNotesChange={handleNotesChange}
                     onContinue={handleContinue}
                   />
+                )}
+
+                {/* مرحله انتخاب تاریخ و زمان */}
+                {currentStep === "datetime" && (
+                  <DateTimeSelectionStep onContinue={handleContinue} />
                 )}
               </div>
             </div>

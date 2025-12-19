@@ -6,6 +6,7 @@ interface PatientInfoStepProps {
   patientFirstName: string;
   patientLastName: string;
   patientNationalId: string;
+  notes: string;
   errors: {
     firstName?: string;
     lastName?: string;
@@ -15,6 +16,7 @@ interface PatientInfoStepProps {
   onFirstNameChange: (value: string) => void;
   onLastNameChange: (value: string) => void;
   onNationalIdChange: (value: string) => void;
+  onNotesChange: (value: string) => void;
   onContinue: () => void;
 }
 
@@ -23,11 +25,13 @@ export function PatientInfoStep({
   patientFirstName,
   patientLastName,
   patientNationalId,
+  notes,
   errors,
   onIsForSelfChange,
   onFirstNameChange,
   onLastNameChange,
   onNationalIdChange,
+  onNotesChange,
   onContinue,
 }: PatientInfoStepProps) {
   const handleIsForSelfClick = (value: boolean) => {
@@ -46,39 +50,35 @@ export function PatientInfoStep({
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
     >
-      <h2 className="text-2xl font-iran-sans-bold text-dark mb-6 text-center">
-        مشخصات مراجعه‌کننده
-      </h2>
-
       {/* گزینه انتخاب: برای خودم یا برای کسی دیگر */}
-      <div className="mb-8">
+      <div className="mb-8 mt-12">
         <p className="text-lg font-estedad-semibold text-dark mb-4 text-center">
           نوبت برای چه کسی رزرو می‌شود؟
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-row flex-wrap gap-4 justify-center">
           <button
             type="button"
             onClick={() => handleIsForSelfClick(true)}
-            className={`px-8 py-4 rounded-2xl text-lg font-estedad-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+            className={`px-4 sm:px-8 py-4 rounded-2xl  font-estedad-semibold transition-all duration-300 flex items-center justify-center gap-2  max-sm:min-w-[174px] sm:w-[236px] border-2 border-gray-300 hover:border-accent hover:shadow-md ${
               isForSelf === true
                 ? "bg-accent text-white shadow-lg "
-                : "bg-white text-dark border-2 border-gray-300 hover:border-accent hover:shadow-md"
+                : "bg-white text-dark "
             }`}
           >
-            <i className="fas fa-user mr-2"></i>
-            <span>برای خودم</span>
+            <i className="fas fa-user mr-2 sm:text-lg"></i>
+            <span className="max-sm:text-sm text-nowrap">برای خودم</span>
           </button>
           <button
             type="button"
             onClick={() => handleIsForSelfClick(false)}
-            className={`px-8 py-4 rounded-2xl text-lg font-estedad-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+            className={`px-4 sm:px-8 py-4 rounded-2xl  font-estedad-semibold transition-all duration-300 flex items-center justify-center gap-2  max-sm:min-w-[174px] sm:w-[236px] border-2 border-gray-300 hover:border-accent hover:shadow-md ${
               isForSelf === false
                 ? "bg-accent text-white shadow-lg "
-                : "bg-white text-dark border-2 border-gray-300 hover:border-accent hover:shadow-md"
+                : "bg-white text-dark "
             }`}
           >
-            <i className="fas fa-user-friends mr-2"></i>
-            <span>برای شخصی دیگر</span>
+            <i className="fas fa-user-friends mr-2 sm:text-lg"></i>
+            <span className="max-sm:text-sm text-nowrap">برای شخصی دیگر</span>
           </button>
         </div>
       </div>
@@ -254,6 +254,20 @@ export function PatientInfoStep({
                 )}
               </AnimatePresence>
             </div>
+          </div>
+
+          {/* فیلد یادداشت (اختیاری) */}
+          <div>
+            <label className="block text-sm font-estedad-semibold text-dark mb-2">
+              یادداشت (اختیاری)
+            </label>
+            <textarea
+              value={notes}
+              onChange={(e) => onNotesChange(e.target.value)}
+              placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
+              rows={4}
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none"
+            />
           </div>
 
           {/* دکمه ادامه */}

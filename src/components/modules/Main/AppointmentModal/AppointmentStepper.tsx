@@ -7,7 +7,7 @@ type StepperStepId =
   | "datetime"
   | "confirm";
 
-type Step = "clinic" | "doctor" | "patient-info";
+type Step = "clinic" | "doctor" | "patient-info" | "datetime";
 
 const APPOINTMENT_STEPS: { id: StepperStepId; label: string; icon: string }[] =
   [
