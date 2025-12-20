@@ -9,8 +9,9 @@ import { ClinicSelectionStep } from "./ClinicSelectionStep";
 import { DoctorSelectionStep } from "./DoctorSelectionStep";
 import { PatientInfoStep } from "./PatientInfoStep";
 import { DateTimeSelectionStep } from "./DateTimeSelectionStep";
+import { ConfirmationStep } from "./ConfirmationStep";
 
-type Step = "clinic" | "doctor" | "patient-info" | "datetime";
+type Step = "clinic" | "doctor" | "patient-info" | "datetime" | "confirmation";
 
 function AppointmentModal() {
   const { isOpen, closeModal } = useAppointmentModal();
@@ -28,7 +29,6 @@ function AppointmentModal() {
   const [patientNationalId, setPatientNationalId] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [errors, setErrors] = useState<{
     firstName?: string;
@@ -93,7 +93,9 @@ function AppointmentModal() {
   };
 
   const handleBack = () => {
-    if (currentStep === "datetime") {
+    if (currentStep === "confirmation") {
+      setCurrentStep("datetime");
+    } else if (currentStep === "datetime") {
       setCurrentStep("patient-info");
     } else if (currentStep === "patient-info") {
       setCurrentStep("doctor");
@@ -162,7 +164,7 @@ function AppointmentModal() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleContinue = () => {
+  const handleContinue = (time?: string) => {
     if (currentStep === "doctor") {
       // از مرحله انتخاب پزشک به مرحله مشخصات بیمار می‌رویم
       setCurrentStep("patient-info");
@@ -173,11 +175,13 @@ function AppointmentModal() {
         setCurrentStep("datetime");
       }
     } else if (currentStep === "datetime") {
-      // در اینجا به مرحله بعدی می‌رویم (انتخاب ساعت)
-      // فعلاً فقط می‌بندیم - بعداً مرحله انتخاب ساعت اضافه می‌شود
-      if (selectedDate) {
-        // handleClose();
-        // بعداً به مرحله انتخاب ساعت می‌رویم
+      // از مرحله datetime به مرحله confirmation می‌رویم
+      // اگر time به عنوان پارامتر آمده است، آن را set می‌کنیم
+      if (time) {
+        setSelectedTime(time);
+      }
+      if (selectedDate && (selectedTime || time)) {
+        setCurrentStep("confirmation");
       }
     } else {
       handleClose();
@@ -359,8 +363,32 @@ function AppointmentModal() {
                   <DateTimeSelectionStep
                     selectedDate={selectedDate}
                     selectedClinic={selectedClinic}
+                    selectedDoctor={selectedDoctor}
+                    isForSelf={isForSelf}
+                    patientFirstName={patientFirstName}
+                    patientLastName={patientLastName}
+                    patientNationalId={patientNationalId}
+                    notes={notes}
                     onDateSelect={handleDateSelect}
                     onTimeSelect={handleTimeSelect}
+                    onContinue={handleContinue}
+                  />
+                )}
+
+                {/* مرحله تایید نهایی */}
+                {currentStep === "confirmation" && (
+                  <ConfirmationStep
+                    selectedClinic={selectedClinic}
+                    selectedDoctor={selectedDoctor}
+                    selectedDate={selectedDate}
+                    selectedTime={selectedTime}
+                    isForSelf={isForSelf}
+                    patientFirstName={patientFirstName}
+                    patientLastName={patientLastName}
+                    patientNationalId={patientNationalId}
+                    notes={notes}
+                    onBack={handleBack}
+                    onClose={handleClose}
                   />
                 )}
               </div>

@@ -7,7 +7,7 @@ type StepperStepId =
   | "datetime"
   | "confirm";
 
-type Step = "clinic" | "doctor" | "patient-info" | "datetime";
+type Step = "clinic" | "doctor" | "patient-info" | "datetime" | "confirmation";
 
 const APPOINTMENT_STEPS: { id: StepperStepId; label: string; icon: string }[] =
   [
@@ -31,8 +31,10 @@ interface AppointmentStepperProps {
 }
 
 export function AppointmentStepper({ currentStep }: AppointmentStepperProps) {
+  // تبدیل confirmation به confirm برای تطابق با stepper
+  const stepForStepper = currentStep === "confirmation" ? "confirm" : currentStep;
   const currentStepIndex = Math.max(
-    APPOINTMENT_STEPS.findIndex((step) => step.id === currentStep),
+    APPOINTMENT_STEPS.findIndex((step) => step.id === stepForStepper),
     0
   );
 

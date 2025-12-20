@@ -1,13 +1,19 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
-import type { Clinic } from "../../../../types/types";
+import type { Clinic, Doctor } from "../../../../types/types";
 
 interface DateTimeSelectionStepProps {
   selectedDate: string | null;
   selectedClinic: Clinic | null;
+  selectedDoctor: Doctor | null;
+  isForSelf: boolean | null;
+  patientFirstName: string;
+  patientLastName: string;
+  patientNationalId: string;
+  notes: string;
   onDateSelect: (date: string) => void;
   onTimeSelect: (time: string) => void;
-  onContinue: () => void;
+  onContinue: (time: string) => void;
 }
 
 interface AvailableDate {
@@ -110,8 +116,20 @@ export function DateTimeSelectionStep({
   selectedClinic,
   onDateSelect,
   onTimeSelect,
-}: Omit<DateTimeSelectionStepProps, "onContinue">) {
+  onContinue,
+}: DateTimeSelectionStepProps) {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [isWaiting, setIsWaiting] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
   // تولید لیست روزهای قابل انتخاب (امروز تا 3 روز بعد، شامل جمعه)
   const availableDates = useMemo<AvailableDate[]>(() => {
     const dates: AvailableDate[] = [];
@@ -287,8 +305,29 @@ export function DateTimeSelectionStep({
   };
 
   const handleTimeClick = (time: string) => {
-    setSelectedTime(time);
+    if (!selectedDate || !selectedClinic || isWaiting) return;
+
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+      setIsWaiting(false);
+    }
+
+    // ابتدا time را set کن تا state به‌روز شود
     onTimeSelect(time);
+    setSelectedTime(time);
+    setIsWaiting(true);
+
+    // صبر یک ثانیه قبل از رفتن به مرحله بعد
+    timeoutRef.current = window.setTimeout(() => {
+      setIsWaiting(false);
+      timeoutRef.current = null;
+      // time را به onContinue پاس می‌دهیم تا مطمئن شویم state به‌روز شده است
+      if (onContinue) {
+        onContinue(time);
+      }
+    }, 1000);
   };
 
   return (
@@ -311,7 +350,25 @@ export function DateTimeSelectionStep({
           لطفاً تاریخ مورد نظر خود را انتخاب کنید
         </p>
 
-        <div className="md:mt-8 lg:mt-20 grid grid-cols-2 min-[360px]:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full max-w-5xl">
+        {/* پیام هشدار */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="w-full max-w-5xl"
+        >
+          <div className="bg-sky-100 border border-sky-300 rounded-xl p-4 flex items-start gap-3">
+            <div className="flex-shrink-0 mt-0.5">
+              <i className="fas fa-exclamation-circle text-sky-600 text-xl"></i>
+            </div>
+            <p className="text-sm sm:text-base text-sky-800 font-estedad-medium leading-relaxed">
+              مراجع گرامی , ساعت نوبت دهی زمان تقریبی حضور شما در مطب است؛
+              بنابراین ممکن است جهت ویزیت مدتی در مطب منتظر بمانید.
+            </p>
+          </div>
+        </motion.div>
+
+        <div className=" grid grid-cols-2 min-[360px]:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full max-w-5xl">
           {availableDates.map((availableDate, index) => {
             const dateString = formatDateToString(availableDate.date);
             const isSelected = selectedDate === dateString;
@@ -532,7 +589,7 @@ export function DateTimeSelectionStep({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="w-full max-w-5xl mt-8"
+          className="w-full max-w-5xl mt-2"
         >
           <div className="bg-white rounded-2xl border-2 border-gray-200 p-6">
             <h3 className="text-lg font-estedad-semibold text-dark mb-4 text-center">
@@ -544,15 +601,21 @@ export function DateTimeSelectionStep({
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 mt-4">
                     {availableTimes.map((time, index) => {
                       const isSelected = selectedTime === time;
+                      const isCurrentTimeWaiting = isSelected && isWaiting;
                       return (
                         <motion.button
                           key={index}
                           type="button"
                           onClick={() => handleTimeClick(time)}
+                          disabled={isWaiting}
                           className={`group relative px-4 py-3 rounded-xl border-2 transition-all duration-300 text-center ${
                             isSelected
-                              ? "bg-accent text-white border-accent shadow-lg"
-                              : "bg-white text-dark border-green-500 hover:border-accent hover:shadow-md"
+                              ? "bg-gradient-to-br from-accent via-accent to-secondary text-white border-accent shadow-xl shadow-accent/50"
+                              : "bg-white text-dark border-gray-200 hover:bg-gradient-to-br hover:from-accent hover:via-accent hover:to-secondary hover:text-white hover:border-accent hover:shadow-xl hover:shadow-accent/50"
+                          } ${
+                            isWaiting && !isSelected
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
                           }`}
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -560,12 +623,23 @@ export function DateTimeSelectionStep({
                             duration: 0.2,
                             delay: index * 0.02,
                           }}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                          whileHover={!isWaiting ? { scale: 1.05 } : {}}
+                          whileTap={!isWaiting ? { scale: 0.95 } : {}}
                         >
-                          {isSelected && (
+                          {isCurrentTimeWaiting && (
                             <motion.i
-                              className="fas fa-check-circle absolute top-1 right-1 text-sm"
+                              className="fas fa-spinner fa-spin absolute top-1 left-1 text-sm"
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 500,
+                              }}
+                            />
+                          )}
+                          {isSelected && !isCurrentTimeWaiting && (
+                            <motion.i
+                              className="fas fa-check-circle absolute top-1 left-1 text-sm"
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
                               transition={{

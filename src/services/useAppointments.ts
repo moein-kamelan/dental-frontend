@@ -160,3 +160,21 @@ export const useGetMyAppointments = (params: GetMyAppointmentsParams = {}) => {
     refetchOnMount: "always",
   });
 };
+
+interface CreateAppointmentData {
+  clinicId: string;
+  doctorId?: string | null;
+  appointmentDate: string; // ISO DateTime string
+  patientName?: string | null;
+  nationalCode?: string | null;
+  notes?: string | null;
+}
+
+export const useCreateAppointment = () => {
+  return useMutation({
+    mutationFn: async (data: CreateAppointmentData) => {
+      const response = await axiosInstance.post("/appointments", data);
+      return response.data;
+    },
+  });
+};
