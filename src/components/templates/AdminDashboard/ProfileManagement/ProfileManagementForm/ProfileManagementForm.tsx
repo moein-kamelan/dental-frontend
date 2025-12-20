@@ -17,6 +17,7 @@ import {
   useAppDispatch,
 } from "../../../../../redux/typedHooks";
 import { setUser } from "../../../../../redux/slices/userSlice";
+import { validateNationalCode } from "../../../../../validators/nationalCodeValidator";
 
 const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
   return (
@@ -64,7 +65,17 @@ function ProfileManagementForm() {
           .required("نام خانوادگی الزامی است")
           .min(2, "نام خانوادگی باید حداقل ۲ کاراکتر باشد")
           .max(50, "نام خانوادگی باید حداکثر ۵۰ کاراکتر باشد"),
-        nationalCode: Yup.string().nullable(),
+        nationalCode: Yup.string()
+          .test(
+            "is-valid-national-code",
+            "کد ملی نامعتبر است",
+            (value) => {
+              if (!value || value.length === 0) return true; // اختیاری
+              if (value.length !== 10) return false;
+              return validateNationalCode(value);
+            }
+          )
+          .nullable(),
         address: Yup.string().max(500, "آدرس نباید بیشتر از ۵۰۰ کاراکتر باشد"),
         gender: Yup.string()
           .oneOf(["MALE", "FEMALE", "OTHER"], "جنسیت نامعتبر است")

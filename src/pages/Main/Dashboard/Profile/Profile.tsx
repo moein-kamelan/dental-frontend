@@ -46,6 +46,22 @@ function Profile() {
               {user?.firstName } {user?.lastName}
             </span>
           </div>
+          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
+            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
+              کد ملی:
+            </span>
+            <span className=" text-paragray mr-3 max-sm:text-sm">
+              {user?.nationalCode || <span className="text-gray-400">ثبت نشده</span>}
+            </span>
+          </div>
+          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
+            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
+              جنسیت:
+            </span>
+            <span className=" text-paragray mr-3 max-sm:text-sm">
+              {user?.gender === "MALE" ? "مرد" : user?.gender === "FEMALE" ? "زن" : <span className="text-gray-400">ثبت نشده</span>}
+            </span>
+          </div>
           {/* <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
             <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
               موبایل:

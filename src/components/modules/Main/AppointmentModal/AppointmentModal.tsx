@@ -10,11 +10,15 @@ import { DoctorSelectionStep } from "./DoctorSelectionStep";
 import { PatientInfoStep } from "./PatientInfoStep";
 import { DateTimeSelectionStep } from "./DateTimeSelectionStep";
 import { ConfirmationStep } from "./ConfirmationStep";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { validateNationalCode } from "../../../../validators/nationalCodeValidator";
 
 type Step = "clinic" | "doctor" | "patient-info" | "datetime" | "confirmation";
 
 function AppointmentModal() {
   const { isOpen, closeModal } = useAppointmentModal();
+  const user = useSelector((state: RootState) => state.user.data);
   const [currentStep, setCurrentStep] = useState<Step>("clinic");
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
@@ -35,6 +39,9 @@ function AppointmentModal() {
     lastName?: string;
     nationalId?: string;
   }>({});
+
+  // کد ملی کاربر از قبل ثبت شده باشد
+  const userHasNationalCode = Boolean(user?.nationalCode);
 
   const { data: clinicsData, isLoading: isClinicsLoading } = useGetAllClinics(
     1,
@@ -148,6 +155,8 @@ function AppointmentModal() {
       newErrors.nationalId = "کد ملی الزامی است";
     } else if (patientNationalId.trim().length !== 10) {
       newErrors.nationalId = "کد ملی باید 10 رقم باشد";
+    } else if (!validateNationalCode(patientNationalId.trim())) {
+      newErrors.nationalId = "کد ملی نامعتبر است";
     }
 
     // اگر برای کسی دیگر است، نام و نام خانوادگی اجباری است
@@ -221,6 +230,13 @@ function AppointmentModal() {
   const handleIsForSelfChange = (value: boolean | null) => {
     setIsForSelf(value);
     setErrors({});
+    // اگر "برای خودم" انتخاب شد و کاربر کد ملی ثبت شده دارد، آن را پر کن
+    if (value === true && user?.nationalCode) {
+      setPatientNationalId(user.nationalCode);
+    } else if (value === false) {
+      // اگر "برای شخصی دیگر" انتخاب شد، کد ملی را پاک کن
+      setPatientNationalId("");
+    }
   };
 
   const handleNotesChange = (value: string) => {
@@ -349,6 +365,7 @@ function AppointmentModal() {
                     patientNationalId={patientNationalId}
                     notes={notes}
                     errors={errors}
+                    userHasNationalCode={userHasNationalCode}
                     onIsForSelfChange={handleIsForSelfChange}
                     onFirstNameChange={handleFirstNameChange}
                     onLastNameChange={handleLastNameChange}

@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import CustomInput from "../../../../components/modules/CustomInput/CustomInput";
 import { useAppDispatch, useAppSelector } from "../../../../redux/typedHooks";
 import { formatPhoneNumber } from "../../../../validators/phoneNumberValidator";
+import { validateNationalCode } from "../../../../validators/nationalCodeValidator";
 import { useUpdateProfile } from "../../../../services/useAuth";
 import { showSuccessToast } from "../../../../utils/toastify";
 import { setUser } from "../../../../redux/slices/userSlice";
@@ -44,6 +45,8 @@ function ProfileEdit() {
           firstName: user?.firstName || "",
           lastName: user?.lastName || "",
           phoneNumber: user?.phoneNumber || "",
+          nationalCode: user?.nationalCode || "",
+          gender: user?.gender || "",
         }}
         onSubmit={handleSubmit}
         validationSchema={Yup.object({
@@ -68,6 +71,17 @@ function ProfileEdit() {
               }
             }
           ),
+          nationalCode: Yup.string()
+            .test(
+              "is-valid-national-code",
+              "کد ملی نامعتبر است",
+              (value) => {
+                if (!value || value.length === 0) return true; // اختیاری
+                if (value.length !== 10) return false;
+                return validateNationalCode(value);
+              }
+            )
+            .nullable(),
         })}
       >
         {(formik) => {
@@ -113,6 +127,57 @@ function ProfileEdit() {
                       : null
                   }
                 />
+                <CustomInput
+                  labelText="کد ملی"
+                  placeholder="کد ملی خود را وارد کنید"
+                  maxLength={10}
+                  value={formik.values.nationalCode}
+                  onChange={(e) => {
+                    // فقط اعداد مجاز
+                    const value = e.target.value.replace(/\D/g, "");
+                    if (value.length <= 10) {
+                      formik.setFieldValue("nationalCode", value);
+                    }
+                  }}
+                  onBlur={formik.handleBlur}
+                  name="nationalCode"
+                  errorMessage={
+                    formik.touched.nationalCode && formik.errors.nationalCode
+                      ? typeof formik.errors.nationalCode === "string"
+                        ? formik.errors.nationalCode
+                        : "کد ملی نامعتبر است"
+                      : null
+                  }
+                />
+                <div>
+                  <label className="block text-dark font-semibold mb-2">
+                    جنسیت
+                  </label>
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => formik.setFieldValue("gender", "MALE")}
+                      className={`flex-1 px-6 py-4 border rounded-full transition font-semibold ${
+                        formik.values.gender === "MALE"
+                          ? "bg-primary text-white border-primary"
+                          : "border-gray-200 text-dark hover:border-primary"
+                      }`}
+                    >
+                      مرد
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => formik.setFieldValue("gender", "FEMALE")}
+                      className={`flex-1 px-6 py-4 border rounded-full transition font-semibold ${
+                        formik.values.gender === "FEMALE"
+                          ? "bg-primary text-white border-primary"
+                          : "border-gray-200 text-dark hover:border-primary"
+                      }`}
+                    >
+                      زن
+                    </button>
+                  </div>
+                </div>
 
                 {/* <div>
             <label className="block text-dark font-semibold mb-2"

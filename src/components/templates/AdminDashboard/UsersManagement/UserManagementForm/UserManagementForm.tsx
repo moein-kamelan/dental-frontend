@@ -16,6 +16,7 @@ import { getImageUrl } from "../../../../../utils/helpers";
 import type { OptionType, Clinic, User } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatPhoneNumber } from "../../../../../validators/phoneNumberValidator";
+import { validateNationalCode } from "../../../../../validators/nationalCodeValidator";
 
 const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
   return (
@@ -100,7 +101,17 @@ function UserManagementForm({ user }: { user?: User }) {
         role: Yup.string()
           .oneOf(["ADMIN", "SECRETARY", "PATIENT"], "نقش نامعتبر است")
           .required("نقش الزامی است"),
-        nationalCode: Yup.string().nullable(),
+        nationalCode: Yup.string()
+          .test(
+            "is-valid-national-code",
+            "کد ملی نامعتبر است",
+            (value) => {
+              if (!value || value.length === 0) return true; // اختیاری
+              if (value.length !== 10) return false;
+              return validateNationalCode(value);
+            }
+          )
+          .nullable(),
         address: Yup.string().max(500, "آدرس نباید بیشتر از ۵۰۰ کاراکتر باشد"),
         gender: Yup.string()
           .oneOf(["MALE", "FEMALE", "OTHER"], "جنسیت نامعتبر است")

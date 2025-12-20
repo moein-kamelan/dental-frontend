@@ -52,7 +52,7 @@ export function DoctorSelectionStep({
       {/* سوال: آیا برای پزشک خاصی نوبت می‌خواهید؟ */}
       <div className="mb-6 flex flex-col items-center gap-6">
         <p className="text-3xl font-estedad-medium text-dark text-center leading-relaxed">
-          معاینه تخصصی یا چکاپ عمومی دندان ؟
+          لطفا نوع نوبت را مشخص کنید
         </p>
 
         {/* دکمه‌ها */}

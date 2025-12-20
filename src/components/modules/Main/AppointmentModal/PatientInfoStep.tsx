@@ -12,6 +12,7 @@ interface PatientInfoStepProps {
     lastName?: string;
     nationalId?: string;
   };
+  userHasNationalCode?: boolean;
   onIsForSelfChange: (value: boolean | null) => void;
   onFirstNameChange: (value: string) => void;
   onLastNameChange: (value: string) => void;
@@ -27,6 +28,7 @@ export function PatientInfoStep({
   patientNationalId,
   notes,
   errors,
+  userHasNationalCode = false,
   onIsForSelfChange,
   onFirstNameChange,
   onLastNameChange,
@@ -34,6 +36,8 @@ export function PatientInfoStep({
   onNotesChange,
   onContinue,
 }: PatientInfoStepProps) {
+  // آیا فیلد کد ملی باید غیرفعال باشد (وقتی "برای خودم" و کاربر کد ملی دارد)
+  const isNationalIdDisabled = isForSelf === true && userHasNationalCode;
   const handleIsForSelfClick = (value: boolean) => {
     onIsForSelfChange(value);
     if (value === true) {
@@ -225,6 +229,7 @@ export function PatientInfoStep({
                   onNationalIdChange(value);
                 }
               }}
+              disabled={isNationalIdDisabled}
               placeholder={
                 isForSelf === true
                   ? "کد ملی خود را وارد کنید"
@@ -236,12 +241,25 @@ export function PatientInfoStep({
               className={`w-full px-4 py-3 rounded-xl border-2 transition-all ${
                 errors.nationalId
                   ? "border-red-500 focus:border-red-500"
+                  : isNationalIdDisabled
+                  ? "border-green-400 bg-green-50 text-gray-700 cursor-not-allowed"
                   : "border-gray-300 focus:border-accent"
               } focus:outline-none focus:ring-2 focus:ring-accent/20`}
             />
             <div className="min-h-[20px] mt-1">
               <AnimatePresence mode="wait">
-                {errors.nationalId && (
+                {isNationalIdDisabled ? (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-green-600 text-xs flex items-center gap-1"
+                  >
+                    <i className="fas fa-check-circle"></i>
+                    کد ملی از پروفایل شما دریافت شد
+                  </motion.p>
+                ) : errors.nationalId ? (
                   <motion.p
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -251,7 +269,7 @@ export function PatientInfoStep({
                   >
                     {errors.nationalId}
                   </motion.p>
-                )}
+                ) : null}
               </AnimatePresence>
             </div>
           </div>
