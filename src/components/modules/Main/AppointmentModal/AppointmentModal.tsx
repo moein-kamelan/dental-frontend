@@ -28,6 +28,7 @@ function AppointmentModal() {
   const [patientNationalId, setPatientNationalId] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [errors, setErrors] = useState<{
     firstName?: string;
@@ -357,9 +358,9 @@ function AppointmentModal() {
                 {currentStep === "datetime" && (
                   <DateTimeSelectionStep
                     selectedDate={selectedDate}
+                    selectedClinic={selectedClinic}
                     onDateSelect={handleDateSelect}
                     onTimeSelect={handleTimeSelect}
-                    onContinue={handleContinue}
                   />
                 )}
               </div>

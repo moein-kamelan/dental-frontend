@@ -51,8 +51,8 @@ export function DoctorSelectionStep({
 
       {/* سوال: آیا برای پزشک خاصی نوبت می‌خواهید؟ */}
       <div className="mb-6 flex flex-col items-center gap-6">
-        <p className="text-3xl font-estedad-medium text-dark text-center">
-          آیا برای پزشک خاصی نوبت می‌خواهید؟
+        <p className="text-3xl font-estedad-medium text-dark text-center leading-relaxed">
+          معاینه تخصصی یا چکاپ عمومی دندان ؟
         </p>
 
         {/* دکمه‌ها */}
@@ -68,7 +68,7 @@ export function DoctorSelectionStep({
             }`}
           >
             <i className="fas fa-user-md text-lg"></i>
-            <span>بله</span>
+            <span>معاینه تخصصی</span>
             {wantsSpecificDoctor === "yes" && (
               <motion.i
                 className="fas fa-check-circle"
@@ -92,7 +92,7 @@ export function DoctorSelectionStep({
                 : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
             }`}
           >
-            خیر
+            چکاپ عمومی
           </button>
         </div>
 
@@ -114,10 +114,10 @@ export function DoctorSelectionStep({
                   </div>
                   <div className="flex-1">
                     <h4 className="font-estedad-bold text-dark mb-2 text-lg">
-                      انتخاب پزشک خاص
+                      معاینه تخصصی
                     </h4>
                     <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
-                      با انتخاب گزینه بله ، دندانپزشکان کلینیک به شما نمایش داده
+                      با انتخاب گزینه معاینه تخصصی ، دندانپزشکان کلینیک به شما نمایش داده
                       می‌شود و می‌توانید پزشک مد نظر خود را انتخاب کنید
                     </p>
                   </div>
@@ -130,10 +130,10 @@ export function DoctorSelectionStep({
                   </div>
                   <div className="flex-1">
                     <h4 className="font-estedad-bold text-dark mb-2 text-lg">
-                      انتخاب خودکار
+                      چکاپ عمومی
                     </h4>
                     <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
-                      با انتخاب گزینه خیر ، تمام نوبت‌های خالی به شما نمایش داده
+                      با انتخاب گزینه چکاپ عمومی ، تمام نوبت‌های خالی به شما نمایش داده
                       می‌شود و یکی از پزشکان مجرب کلینیک برای شما انتخاب می‌شود
                     </p>
                   </div>

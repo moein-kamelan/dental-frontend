@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "motion/react";
+import type { Clinic } from "../../../../types/types";
 
 interface DateTimeSelectionStepProps {
   selectedDate: string | null;
+  selectedClinic: Clinic | null;
   onDateSelect: (date: string) => void;
   onTimeSelect: (time: string) => void;
   onContinue: () => void;
@@ -72,6 +74,20 @@ function getDayName(dayOfWeek: number): string {
   return dayNames[dayOfWeek] || "";
 }
 
+// تابع کمکی برای تبدیل روز هفته شمسی به کلید انگلیسی
+function getEnglishDayKey(dayOfWeek: number): string {
+  const dayKeys: Record<number, string> = {
+    0: "saturday",
+    1: "sunday",
+    2: "monday",
+    3: "tuesday",
+    4: "wednesday",
+    5: "thursday",
+    6: "friday",
+  };
+  return dayKeys[dayOfWeek] || "";
+}
+
 // تابع کمکی برای فرمت تاریخ به YYYY-MM-DD
 function formatDateToString(date: Date): string {
   const year = date.getFullYear();
@@ -91,6 +107,7 @@ function isSameDay(date1: Date, date2: Date): boolean {
 
 export function DateTimeSelectionStep({
   selectedDate,
+  selectedClinic,
   onDateSelect,
   onTimeSelect,
 }: Omit<DateTimeSelectionStepProps, "onContinue">) {
@@ -146,7 +163,7 @@ export function DateTimeSelectionStep({
 
   // تولید زمان‌های رزرو (10 دقیقه‌ای)
   const availableTimes = useMemo(() => {
-    if (!selectedDate) return [];
+    if (!selectedDate || !selectedClinic) return [];
 
     const times: string[] = [];
     const selectedDateObj = new Date(selectedDate);
@@ -154,43 +171,113 @@ export function DateTimeSelectionStep({
     today.setHours(0, 0, 0, 0);
     const isToday = isSameDay(selectedDateObj, today);
 
-    // اگر امروز است، از یک ساعت بعد شروع می‌کنیم
-    let startHour = 8; // ساعت شروع کار (8 صبح)
-    let startMinute = 0;
+    // دریافت روز هفته شمسی
+    const jalaliDayOfWeek = getJalaliDayOfWeek(selectedDateObj);
+    const englishDayKey = getEnglishDayKey(jalaliDayOfWeek);
 
-    if (isToday) {
-      const now = new Date();
-      const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000); // یک ساعت بعد
-      startHour = oneHourLater.getHours();
-      startMinute = Math.ceil(oneHourLater.getMinutes() / 10) * 10; // گرد کردن به بالا به مضرب 10
+    // دریافت ساعت کاری کلینیک برای این روز
+    if (
+      !selectedClinic?.workingHours ||
+      !selectedClinic.workingHours[englishDayKey]
+    ) {
+      return []; // اگر کلینیک در این روز ساعت کاری ندارد، هیچ زمانی نمایش نمی‌دهیم
+    }
 
-      // اگر دقیقه 60 شد، ساعت را افزایش می‌دهیم
-      if (startMinute >= 60) {
-        startHour += 1;
-        startMinute = 0;
+    const workingHoursString = selectedClinic.workingHours[englishDayKey];
+    if (!workingHoursString || typeof workingHoursString !== "string") {
+      return [];
+    }
+
+    // تقسیم بازه‌های زمانی با & (ممکن است چند بازه داشته باشد)
+    const timeRanges = workingHoursString
+      .split("&")
+      .map((range) => range.trim());
+
+    // پردازش هر بازه زمانی
+    for (const timeRange of timeRanges) {
+      if (!timeRange.includes("-")) continue;
+
+      const [start, end] = timeRange.split("-").map((t) => t.trim());
+      const [startHour, startMin] = start.split(":").map(Number);
+      const [endHour, endMin] = end.split(":").map(Number);
+
+      // بررسی صحت مقادیر
+      if (
+        isNaN(startHour) ||
+        isNaN(startMin) ||
+        isNaN(endHour) ||
+        isNaN(endMin)
+      ) {
+        continue;
+      }
+
+      let rangeStartHour = startHour;
+      let rangeStartMinute = startMin;
+
+      // اگر امروز است، از یک ساعت بعد یا ساعت شروع کاری (هر کدام بزرگتر است) شروع می‌کنیم
+      if (isToday) {
+        const now = new Date();
+        const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000); // یک ساعت بعد
+        const laterHour = oneHourLater.getHours();
+        const laterMinute = Math.ceil(oneHourLater.getMinutes() / 10) * 10; // گرد کردن به بالا به مضرب 10
+
+        // اگر زمان یک ساعت بعد، بعد از ساعت شروع کاری است، از همان استفاده می‌کنیم
+        if (
+          laterHour > rangeStartHour ||
+          (laterHour === rangeStartHour && laterMinute >= rangeStartMinute)
+        ) {
+          rangeStartHour = laterHour;
+          rangeStartMinute = laterMinute;
+
+          // اگر دقیقه 60 شد، ساعت را افزایش می‌دهیم
+          if (rangeStartMinute >= 60) {
+            rangeStartHour += 1;
+            rangeStartMinute = 0;
+          }
+        }
+      }
+
+      // اگر ساعت شروع بعد از ساعت پایان است، این بازه را نادیده می‌گیریم
+      if (
+        rangeStartHour > endHour ||
+        (rangeStartHour === endHour && rangeStartMinute >= endMin)
+      ) {
+        continue; // به بازه بعدی برو
+      }
+
+      // تولید زمان‌ها از ساعت شروع تا ساعت پایان این بازه
+      let currentHour = rangeStartHour;
+      let currentMinute = rangeStartMinute;
+
+      while (
+        currentHour < endHour ||
+        (currentHour === endHour && currentMinute <= endMin)
+      ) {
+        const timeString = `${String(currentHour).padStart(2, "0")}:${String(
+          currentMinute
+        ).padStart(2, "0")}`;
+        times.push(timeString);
+
+        // افزایش 10 دقیقه
+        currentMinute += 10;
+        if (currentMinute >= 60) {
+          currentHour += 1;
+          currentMinute = 0;
+        }
+
+        // اگر از ساعت پایان گذشته‌ایم، متوقف می‌شویم
+        if (
+          currentHour > endHour ||
+          (currentHour === endHour && currentMinute > endMin)
+        ) {
+          break;
+        }
       }
     }
 
-    // تولید زمان‌ها از ساعت شروع تا 20:00 (8 شب)
-    let currentHour = startHour;
-    let currentMinute = startMinute;
-
-    while (currentHour < 20 || (currentHour === 20 && currentMinute === 0)) {
-      const timeString = `${String(currentHour).padStart(2, "0")}:${String(
-        currentMinute
-      ).padStart(2, "0")}`;
-      times.push(timeString);
-
-      // افزایش 10 دقیقه
-      currentMinute += 10;
-      if (currentMinute >= 60) {
-        currentHour += 1;
-        currentMinute = 0;
-      }
-    }
-
-    return times;
-  }, [selectedDate]);
+    // حذف زمان‌های تکراری و مرتب‌سازی
+    return Array.from(new Set(times)).sort();
+  }, [selectedDate, selectedClinic]);
 
   // فرمت زمان برای نمایش (تبدیل به فارسی)
   const formatTimeForDisplay = (time: string): string => {
@@ -224,7 +311,7 @@ export function DateTimeSelectionStep({
           لطفاً تاریخ مورد نظر خود را انتخاب کنید
         </p>
 
-        <div className="md:mt-8 lg:mt-20 grid max-xs:max-w-[260px]  grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
+        <div className="md:mt-8 lg:mt-20 grid grid-cols-2 min-[360px]:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full max-w-5xl">
           {availableDates.map((availableDate, index) => {
             const dateString = formatDateToString(availableDate.date);
             const isSelected = selectedDate === dateString;
@@ -238,7 +325,7 @@ export function DateTimeSelectionStep({
                   !isDisabled && handleDateClick(availableDate.date)
                 }
                 disabled={isDisabled}
-                className={`group relative flex flex-col items-center justify-center gap-2 py-8 px-4 min-h-[110px] rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
+                className={`group relative  flex flex-col items-center justify-center gap-1 sm:gap-2   px-2 py-8 sm:py-10 md:py-8 sm:px-3 md:px-4  min-h-[90px] sm:min-h-[100px] md:min-h-[110px] rounded-xl sm:rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
                   isDisabled
                     ? "bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed opacity-60"
                     : isSelected
@@ -293,7 +380,7 @@ export function DateTimeSelectionStep({
                 {/* برچسب امروز */}
                 {availableDate.isToday && (
                   <motion.span
-                    className="absolute top-2 right-2 text-[10px] font-estedad-bold bg-secondary text-white px-2 py-1 rounded-full shadow-md z-10"
+                    className="absolute top-1 right-1 sm:top-2 sm:right-2 text-[9px] sm:text-xs font-estedad-bold bg-secondary text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full shadow-md z-10"
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{
@@ -309,7 +396,7 @@ export function DateTimeSelectionStep({
                 {/* برچسب فردا */}
                 {availableDate.isTomorrow && (
                   <motion.span
-                    className="absolute top-2 right-2 text-[10px] font-estedad-bold bg-secondary text-white px-2 py-1 rounded-full shadow-md z-10"
+                    className="absolute top-1 right-1 sm:top-2 sm:right-2 text-[9px] sm:text-xs font-estedad-bold bg-secondary text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full shadow-md z-10"
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{
@@ -325,7 +412,7 @@ export function DateTimeSelectionStep({
                 {/* برچسب پسفردا */}
                 {availableDate.isDayAfterTomorrow && (
                   <motion.span
-                    className="absolute top-2 right-2 text-[10px] font-estedad-bold bg-secondary text-white px-2 py-1 rounded-full shadow-md z-10"
+                    className="absolute top-1 right-1 sm:top-2 sm:right-2 text-[9px] sm:text-xs font-estedad-bold bg-secondary text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full shadow-md z-10"
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{
@@ -338,25 +425,21 @@ export function DateTimeSelectionStep({
                   </motion.span>
                 )}
 
-                {/* آیکون تیک برای حالت انتخاب شده و هاور - فقط برای روزهای غیر تعطیل */}
-                {!isDisabled && (
+                {/* آیکون تیک برای حالت انتخاب شده - فقط برای روزهای غیر تعطیل */}
+                {!isDisabled && isSelected && (
                   <motion.div
-                    className="absolute top-3 left-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={isSelected ? { scale: 0, rotate: -180 } : false}
-                    animate={isSelected ? { scale: 1, rotate: 0 } : {}}
-                    transition={
-                      isSelected
-                        ? {
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 15,
-                          }
-                        : {}
-                    }
+                    className="absolute top-1.5 left-1.5 sm:top-2 md:top-3 sm:left-2 md:left-3 z-10 opacity-100 transition-opacity duration-300"
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 15,
+                    }}
                   >
                     <div className="relative">
                       <div className="absolute inset-0 bg-white/30 rounded-full blur-md animate-pulse" />
-                      <i className="fas fa-check-circle text-2xl text-white relative z-10 drop-shadow-lg" />
+                      <i className="fas fa-check-circle text-lg sm:text-xl md:text-2xl text-white relative z-10 drop-shadow-lg" />
                     </div>
                   </motion.div>
                 )}
@@ -369,8 +452,8 @@ export function DateTimeSelectionStep({
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="bg-red-500 text-white px-3 py-1.5 rounded-b-2xl shadow-lg text-[10px] font-estedad-semibold text-center w-full">
-                      <i className="fas fa-exclamation-circle ml-1 text-[10px]"></i>
+                    <div className="bg-red-500 text-white px-1.5 py-0.5 sm:px-2 md:px-3 sm:py-1 md:py-1.5 rounded-b-xl sm:rounded-b-2xl shadow-lg text-[8px] sm:text-[9px] md:text-[10px] font-estedad-semibold text-center w-full">
+                      <i className="fas fa-exclamation-circle ml-0.5 sm:ml-1 text-[8px] sm:text-[9px] md:text-[10px]"></i>
                       کلینیک تعطیل می‌باشد
                     </div>
                   </motion.div>
@@ -380,7 +463,7 @@ export function DateTimeSelectionStep({
                 <div className="relative z-10 flex flex-col items-center gap-1.5">
                   {/* نام روز */}
                   <motion.span
-                    className={` font-estedad-semibold tracking-wide transition-colors duration-300 ${
+                    className={`text-xs sm:text-sm font-estedad-semibold tracking-wide transition-colors duration-300 ${
                       isDisabled
                         ? "text-gray-400"
                         : isSelected
@@ -410,14 +493,14 @@ export function DateTimeSelectionStep({
                         whileHover={{ scale: 1.2 }}
                       />
                     )}
-                    <span className="relative text-3xl font-estedad-bold leading-none">
+                    <span className="relative text-xl sm:text-2xl md:text-3xl font-estedad-bold leading-none">
                       {availableDate.dayNumber}
                     </span>
                   </motion.div>
 
                   {/* نام ماه */}
                   <motion.span
-                    className={` font-estedad-medium transition-colors duration-300 ${
+                    className={`text-xs md:text-sm font-estedad-medium transition-colors duration-300 ${
                       isDisabled
                         ? "text-gray-400"
                         : isSelected
