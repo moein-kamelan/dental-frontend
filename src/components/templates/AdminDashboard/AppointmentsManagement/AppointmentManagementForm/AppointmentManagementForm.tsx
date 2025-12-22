@@ -499,16 +499,16 @@ function AppointmentManagementForm({
                           }
                         }}
                         disabled={isApproving || isSubmitting}
-                        className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition disabled:opacity-50 flex items-center gap-2 font-estedad-medium"
+                        className="purple-btn"
                       >
                         {isApproving ? (
                           <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                            <i className="fas fa-spinner fa-spin ml-2"></i>
                             <span>در حال تایید...</span>
                           </>
                         ) : (
                           <>
-                            <i className="fas fa-check"></i>
+                            <i className="fas fa-check ml-2"></i>
                             <span>تایید نهایی</span>
                           </>
                         )}

@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAdminDashboardHeader } from "../../../contexts";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
-import { axiosInstance } from "../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
 import type { AxiosError } from "axios";
-
-interface NotificationSettings {
-  method: "SMS" | "EITAA" | "BOTH";
-  hasEitaaToken: boolean;
-}
+import {
+  useGetNotificationSettings,
+  useUpdateNotificationSettings,
+  useTestEitaaConnection,
+} from "../../../services/useSettings";
 
 function NotificationSettings() {
   const { setHeaderConfig } = useAdminDashboardHeader();
-  const [settings, setSettings] = useState<NotificationSettings | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isTesting, setIsTesting] = useState(false);
+  const queryClient = useQueryClient();
+  
+  const { data, isLoading, error } = useGetNotificationSettings();
+  const updateMutation = useUpdateNotificationSettings();
+  const testMutation = useTestEitaaConnection();
 
   // Form state
   const [method, setMethod] = useState<"SMS" | "EITAA" | "BOTH">("SMS");
@@ -26,6 +27,8 @@ function NotificationSettings() {
   const [testToken, setTestToken] = useState("");
   const [testChatId, setTestChatId] = useState("");
 
+  const settings = data?.data?.notificationSettings;
+
   useEffect(() => {
     setHeaderConfig({ title: "تنظیمات نوتیفیکیشن" });
     return () => {
@@ -34,23 +37,16 @@ function NotificationSettings() {
   }, [setHeaderConfig]);
 
   useEffect(() => {
-    fetchSettings();
-  }, []);
-
-  const fetchSettings = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axiosInstance.get("/settings/notifications");
-      const data = response.data.data.notificationSettings;
-      setSettings(data);
-      setMethod(data.method);
-    } catch (error) {
-      console.error("Error fetching notification settings:", error);
-      showErrorToast("خطا در دریافت تنظیمات");
-    } finally {
-      setIsLoading(false);
+    if (settings) {
+      setMethod(settings.method);
     }
-  };
+  }, [settings]);
+
+  useEffect(() => {
+    if (error) {
+      showErrorToast("خطا در دریافت تنظیمات");
+    }
+  }, [error]);
 
   const handleSave = async () => {
     // اگر method ایتا یا هر دو است، توکن الزامی است
@@ -60,19 +56,16 @@ function NotificationSettings() {
     }
 
     try {
-      setIsSaving(true);
-      const response = await axiosInstance.patch("/settings/notifications", {
+      await updateMutation.mutateAsync({
         method,
         eitaaApiToken: eitaaToken.trim() || null,
       });
-      setSettings(response.data.data.notificationSettings);
+      queryClient.invalidateQueries({ queryKey: ["notificationSettings"] });
       setEitaaToken(""); // Clear after save
       showSuccessToast("تنظیمات با موفقیت ذخیره شد");
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
       showErrorToast(err.response?.data?.message || "خطا در ذخیره تنظیمات");
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -83,8 +76,7 @@ function NotificationSettings() {
     }
 
     try {
-      setIsTesting(true);
-      await axiosInstance.post("/settings/notifications/test-eitaa", {
+      await testMutation.mutateAsync({
         token: testToken.trim(),
         chatId: testChatId.trim(),
       });
@@ -94,8 +86,6 @@ function NotificationSettings() {
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
       showErrorToast(err.response?.data?.message || "خطا در تست اتصال");
-    } finally {
-      setIsTesting(false);
     }
   };
 
@@ -285,10 +275,10 @@ function NotificationSettings() {
 
                   <button
                     onClick={handleTestConnection}
-                    disabled={isTesting}
+                    disabled={testMutation.isPending}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
                   >
-                    {isTesting ? (
+                    {testMutation.isPending ? (
                       <>
                         <i className="fas fa-spinner fa-spin ml-2"></i>
                         در حال تست...
@@ -366,10 +356,10 @@ function NotificationSettings() {
           <div className="flex justify-end">
             <button
               onClick={handleSave}
-              disabled={isSaving}
-              className="px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 font-estedad-medium"
+              disabled={updateMutation.isPending}
+              className="purple-btn"
             >
-              {isSaving ? (
+              {updateMutation.isPending ? (
                 <>
                   <i className="fas fa-spinner fa-spin ml-2"></i>
                   در حال ذخیره...

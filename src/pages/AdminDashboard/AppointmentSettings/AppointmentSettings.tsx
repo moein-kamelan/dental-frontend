@@ -1,38 +1,32 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAdminDashboardHeader } from "../../../contexts";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
-import { axiosInstance } from "../../../utils/axios";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastify";
-import type { AxiosError } from "axios";
-
-interface Clinic {
-  id: string;
-  name: string;
-}
-
-interface SyncApiKey {
-  id: string;
-  name: string;
-  apiKey?: string; // فقط هنگام ایجاد
-  clinicId: string | null;
-  clinic: Clinic | null;
-  isActive: boolean;
-  lastUsedAt: string | null;
-  createdAt: string;
-}
-
-interface AppointmentSettings {
-  mode: "SIMPLE" | "ADVANCED";
-  maxAppointmentsPerHour: number;
-  syncApiKeys: SyncApiKey[];
-}
+import {
+  useGetAppointmentSettings,
+  useUpdateAppointmentSettings,
+  useCreateSyncApiKey,
+  useDeleteSyncApiKey,
+  useToggleSyncApiKey,
+  type Clinic,
+  type SyncApiKey,
+} from "../../../services/useSettings";
+import { useGetAllClinics } from "../../../services/useClinics";
 
 function AppointmentSettings() {
   const { setHeaderConfig } = useAdminDashboardHeader();
-  const [settings, setSettings] = useState<AppointmentSettings | null>(null);
-  const [clinics, setClinics] = useState<Clinic[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const queryClient = useQueryClient();
+  
+  const { data, isLoading, error } = useGetAppointmentSettings();
+  const { data: clinicsData } = useGetAllClinics(1, 100);
+  const updateMutation = useUpdateAppointmentSettings();
+  const createKeyMutation = useCreateSyncApiKey();
+  const deleteKeyMutation = useDeleteSyncApiKey();
+  const toggleKeyMutation = useToggleSyncApiKey();
+
+  const settings = data?.data?.appointmentSettings;
+  const clinics: Clinic[] = clinicsData?.data?.clinics || [];
 
   // Form state
   const [mode, setMode] = useState<"SIMPLE" | "ADVANCED">("SIMPLE");
@@ -53,34 +47,17 @@ function AppointmentSettings() {
   }, [setHeaderConfig]);
 
   useEffect(() => {
-    fetchSettings();
-    fetchClinics();
-  }, []);
+    if (settings) {
+      setMode(settings.mode);
+      setMaxPerHour(settings.maxAppointmentsPerHour);
+    }
+  }, [settings]);
 
-  const fetchSettings = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axiosInstance.get("/settings/appointments");
-      const data = response.data.data.appointmentSettings;
-      setSettings(data);
-      setMode(data.mode);
-      setMaxPerHour(data.maxAppointmentsPerHour);
-    } catch (error) {
-      console.error("Error fetching appointment settings:", error);
+  useEffect(() => {
+    if (error) {
       showErrorToast("خطا در دریافت تنظیمات");
-    } finally {
-      setIsLoading(false);
     }
-  };
-
-  const fetchClinics = async () => {
-    try {
-      const response = await axiosInstance.get("/clinics");
-      setClinics(response.data.data.clinics || []);
-    } catch (error) {
-      console.error("Error fetching clinics:", error);
-    }
-  };
+  }, [error]);
 
   const handleSave = async () => {
     // جلوگیری از ذخیره حالت پیشرفته
@@ -91,27 +68,14 @@ function AppointmentSettings() {
     }
 
     try {
-      setIsSaving(true);
-      const response = await axiosInstance.patch("/settings/appointments", {
+      await updateMutation.mutateAsync({
         appointmentMode: "SIMPLE", // همیشه SIMPLE ذخیره می‌شود
         maxAppointmentsPerHour: maxPerHour,
       });
-      setSettings((prev) =>
-        prev
-          ? {
-              ...prev,
-              mode: response.data.data.appointmentSettings.mode,
-              maxAppointmentsPerHour:
-                response.data.data.appointmentSettings.maxAppointmentsPerHour,
-            }
-          : null
-      );
+      queryClient.invalidateQueries({ queryKey: ["appointmentSettings"] });
       showSuccessToast("تنظیمات با موفقیت ذخیره شد");
-    } catch (error) {
-      const err = error as AxiosError<{ message?: string }>;
-      showErrorToast(err.response?.data?.message || "خطا در ذخیره تنظیمات");
-    } finally {
-      setIsSaving(false);
+    } catch (error: any) {
+      showErrorToast(error?.response?.data?.message || "خطا در ذخیره تنظیمات");
     }
   };
 
@@ -122,40 +86,22 @@ function AppointmentSettings() {
     }
 
     try {
-      setIsSaving(true);
-      const response = await axiosInstance.post(
-        "/settings/appointments/api-keys",
-        {
-          name: newKeyName.trim(),
-          clinicId: newKeyClinicId || null,
-        }
-      );
+      const response = await createKeyMutation.mutateAsync({
+        name: newKeyName.trim(),
+        clinicId: newKeyClinicId || null,
+      });
 
-      const newKey = response.data.data.syncApiKey;
+      const newKey = response.data.syncApiKey;
       setNewlyCreatedKey(newKey.apiKey);
       setShowNewKey(false);
 
-      // Add to list (without apiKey)
-      setSettings((prev) =>
-        prev
-          ? {
-              ...prev,
-              syncApiKeys: [
-                { ...newKey, apiKey: undefined },
-                ...prev.syncApiKeys,
-              ],
-            }
-          : null
-      );
+      queryClient.invalidateQueries({ queryKey: ["appointmentSettings"] });
 
       setNewKeyName("");
       setNewKeyClinicId("");
       showSuccessToast("کلید API ایجاد شد. آن را کپی کنید!");
-    } catch (error) {
-      const err = error as AxiosError<{ message?: string }>;
-      showErrorToast(err.response?.data?.message || "خطا در ایجاد کلید API");
-    } finally {
-      setIsSaving(false);
+    } catch (error: any) {
+      showErrorToast(error?.response?.data?.message || "خطا در ایجاد کلید API");
     }
   };
 
@@ -165,44 +111,22 @@ function AppointmentSettings() {
     }
 
     try {
-      await axiosInstance.delete(`/settings/appointments/api-keys/${id}`);
-      setSettings((prev) =>
-        prev
-          ? {
-              ...prev,
-              syncApiKeys: prev.syncApiKeys.filter((k) => k.id !== id),
-            }
-          : null
-      );
+      await deleteKeyMutation.mutateAsync(id);
+      queryClient.invalidateQueries({ queryKey: ["appointmentSettings"] });
       showSuccessToast("کلید API حذف شد");
-    } catch (error) {
-      const err = error as AxiosError<{ message?: string }>;
-      showErrorToast(err.response?.data?.message || "خطا در حذف کلید API");
+    } catch (error: any) {
+      showErrorToast(error?.response?.data?.message || "خطا در حذف کلید API");
     }
   };
 
   const handleToggleApiKey = async (id: string) => {
     try {
-      const response = await axiosInstance.patch(
-        `/settings/appointments/api-keys/${id}/toggle`
-      );
-      const updated = response.data.data.syncApiKey;
-
-      setSettings((prev) =>
-        prev
-          ? {
-              ...prev,
-              syncApiKeys: prev.syncApiKeys.map((k) =>
-                k.id === id ? { ...k, isActive: updated.isActive } : k
-              ),
-            }
-          : null
-      );
-      showSuccessToast(response.data.message);
-    } catch (error) {
-      const err = error as AxiosError<{ message?: string }>;
+      const response = await toggleKeyMutation.mutateAsync(id);
+      queryClient.invalidateQueries({ queryKey: ["appointmentSettings"] });
+      showSuccessToast(response.message);
+    } catch (error: any) {
       showErrorToast(
-        err.response?.data?.message || "خطا در تغییر وضعیت کلید API"
+        error?.response?.data?.message || "خطا در تغییر وضعیت کلید API"
       );
     }
   };
@@ -410,10 +334,10 @@ function AppointmentSettings() {
                   <div className="flex gap-2">
                     <button
                       onClick={handleCreateApiKey}
-                      disabled={isSaving}
+                      disabled={createKeyMutation.isPending}
                       className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50"
                     >
-                      {isSaving ? "در حال ایجاد..." : "ایجاد کلید"}
+                      {createKeyMutation.isPending ? "در حال ایجاد..." : "ایجاد کلید"}
                     </button>
                     <button
                       onClick={() => {
@@ -590,10 +514,10 @@ function AppointmentSettings() {
           <div className="flex justify-end">
             <button
               onClick={handleSave}
-              disabled={isSaving}
-              className="px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 font-estedad-medium"
+              disabled={updateMutation.isPending}
+              className="purple-btn"
             >
-              {isSaving ? (
+              {updateMutation.isPending ? (
                 <>
                   <i className="fas fa-spinner fa-spin ml-2"></i>
                   در حال ذخیره...
