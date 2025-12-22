@@ -204,6 +204,34 @@ function AdminDashboardSidebar() {
           title="درخواست عضویت پزشکان"
           onClick={handleLinkClick}
         />
+
+        {/* بخش تنظیمات */}
+        <div className="border-t border-white/20 pt-2 mt-2">
+          <AdminDashboardSidebarLink
+            to={"/admin/settings"}
+            icon="fas fa-cog"
+            title="تنظیمات سایت"
+            onClick={handleLinkClick}
+          />
+          <AdminDashboardSidebarLink
+            to={"/admin/appointment-settings"}
+            icon="fas fa-calendar-check"
+            title="تنظیمات نوبت‌دهی"
+            onClick={handleLinkClick}
+          />
+          <AdminDashboardSidebarLink
+            to={"/admin/notification-settings"}
+            icon="fas fa-bell"
+            title="تنظیمات نوتیفیکیشن"
+            onClick={handleLinkClick}
+          />
+          <AdminDashboardSidebarLink
+            to={"/admin/profile-management"}
+            icon="fas fa-user-cog"
+            title="پروفایل من"
+            onClick={handleLinkClick}
+          />
+        </div>
       </nav>
     </aside>
   );

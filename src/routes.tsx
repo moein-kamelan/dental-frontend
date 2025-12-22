@@ -174,6 +174,14 @@ const BannerManagementEdit = lazy(
     import("./pages/AdminDashboard/BannerManagementEdit/BannerManagementEdit")
 );
 const Settings = lazy(() => import("./pages/AdminDashboard/Settings/Settings"));
+const AppointmentSettings = lazy(
+  () =>
+    import("./pages/AdminDashboard/AppointmentSettings/AppointmentSettings")
+);
+const NotificationSettings = lazy(
+  () =>
+    import("./pages/AdminDashboard/NotificationSettings/NotificationSettings")
+);
 
 const routes = createBrowserRouter([
   {
@@ -313,6 +321,14 @@ const routes = createBrowserRouter([
       {
         path: "settings",
         element: <Settings />,
+      },
+      {
+        path: "appointment-settings",
+        element: <AppointmentSettings />,
+      },
+      {
+        path: "notification-settings",
+        element: <NotificationSettings />,
       },
     ],
   },

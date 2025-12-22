@@ -178,3 +178,69 @@ export const useCreateAppointment = () => {
     },
   });
 };
+
+// ==================== Appointment Settings ====================
+
+interface AppointmentSettingsResponse {
+  success: boolean;
+  data: {
+    mode: "SIMPLE" | "ADVANCED";
+    maxAppointmentsPerHour: number;
+  };
+}
+
+export const useGetAppointmentSettings = () => {
+  return useQuery({
+    queryKey: ["appointmentSettings"],
+    queryFn: async (): Promise<AppointmentSettingsResponse> => {
+      const response = await axiosInstance.get("/appointments/settings");
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 10, // 10 minutes
+  });
+};
+
+interface OccupiedSlot {
+  startTime: string;
+  endTime: string;
+  startHour: number;
+  startMinute: number;
+  durationMinutes: number;
+  type: "CONSULTATION" | "OPERATION";
+  doctorId: string | null;
+}
+
+interface OccupiedSlotsResponse {
+  success: boolean;
+  data: {
+    mode: "SIMPLE" | "ADVANCED";
+    occupiedSlots: OccupiedSlot[];
+    hourlyNoDoctorCounts: {
+      counts: Record<number, number>;
+      maxPerHour: number;
+    };
+  };
+}
+
+export const useGetOccupiedSlots = (
+  clinicId: string | undefined,
+  doctorId: string | null | undefined,
+  date: string | null
+) => {
+  return useQuery({
+    queryKey: ["occupiedSlots", clinicId, doctorId, date],
+    queryFn: async (): Promise<OccupiedSlotsResponse> => {
+      const params = new URLSearchParams();
+      if (clinicId) params.append("clinicId", clinicId);
+      if (doctorId) params.append("doctorId", doctorId);
+      if (date) params.append("date", date);
+
+      const response = await axiosInstance.get(
+        `/appointments/occupied-slots?${params.toString()}`
+      );
+      return response.data;
+    },
+    enabled: !!clinicId && !!date,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+  });
+};

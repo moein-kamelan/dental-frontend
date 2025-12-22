@@ -26,13 +26,15 @@ interface Appointment {
   id: string;
   appointmentDate: string;
   patientName?: string | null;
+  patientPhone?: string | null;
   nationalCode?: string | null;
   status: "PENDING" | "APPROVED_BY_USER" | "FINAL_APPROVED" | "CANCELED";
   notes?: string | null;
   createdAt: string;
-  user: AppointmentUser;
+  user?: AppointmentUser | null; // Optional - ممکنه برای نوبت‌های سینک شده null باشه
   clinic: AppointmentClinic;
   doctor?: AppointmentDoctor | null;
+  source?: string; // برای تشخیص نوبت‌های سینک شده
 }
 
 interface AppointmentsManagementTableProps {
@@ -147,7 +149,9 @@ function AppointmentsManagementTable({
                   statusConfig[appointment.status] || statusConfig.PENDING;
                 const patientName =
                   appointment.patientName ||
-                  `${appointment.user.firstName} ${appointment.user.lastName}`;
+                  (appointment.user
+                    ? `${appointment.user.firstName} ${appointment.user.lastName}`
+                    : "نامشخص");
 
                 return (
                   <tr
@@ -164,16 +168,24 @@ function AppointmentsManagementTable({
                         <p className="font-estedad-light text-nowrap">
                           {patientName}
                         </p>
-                        {appointment.patientName && (
+                        {appointment.patientName && appointment.user && (
                           <p className="text-xs text-paragray text-nowrap">
                             رزرو کننده: {appointment.user.firstName}{" "}
                             {appointment.user.lastName}
                           </p>
                         )}
+                        {(appointment.patientPhone || appointment.user?.phoneNumber) && (
                         <p className="text-xs text-paragray mt-1">
                           <i className="fas fa-phone ml-1"></i>
-                          {appointment.user.phoneNumber}
+                            {appointment.patientPhone || appointment.user?.phoneNumber}
                         </p>
+                        )}
+                        {appointment.source === "OFFLINE_SOFTWARE" && (
+                          <p className="text-xs text-blue-600 mt-1">
+                            <i className="fas fa-sync ml-1"></i>
+                            سینک شده از نرم‌افزار آفلاین
+                          </p>
+                        )}
                       </div>
                     </td>
                     <td className="text-dark font-estedad-light">

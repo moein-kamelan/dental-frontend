@@ -128,11 +128,6 @@ export function ConfirmationStep({
       // در صورت موفقیت
       setSubmitStatus("success");
       setIsSubmitting(false);
-
-      // بعد از 2 ثانیه modal را ببند
-      setTimeout(() => {
-        onClose();
-      }, 2000);
     } catch (error: unknown) {
       console.error("خطا در ثبت نوبت:", error);
       setSubmitStatus("error");
@@ -358,10 +353,18 @@ export function ConfirmationStep({
             <h3 className="text-2xl font-estedad-bold text-green-800 mb-2">
               نوبت با موفقیت ثبت شد!
             </h3>
-            <p className="text-base font-estedad-medium text-green-700">
+            <p className="text-base font-estedad-medium text-green-700 mb-6">
               نوبت شما در سیستم ثبت شد و در دست بررسی می‌باشد. لطفاً تا تأیید
               نهایی صبر کنید.
             </p>
+            <motion.button
+              onClick={onClose}
+              className="px-8 py-3 rounded-xl bg-green-500 text-white font-estedad-bold hover:bg-green-600 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              بستن
+            </motion.button>
           </motion.div>
         )}
 

@@ -14,6 +14,7 @@ export interface Clinic {
   latitude?: number | null;
   longitude?: number | null;
   workingHours?: Record<string, string | null>;
+  eitaaChatId?: string | null;
   _count?: {
     doctors: number;
   };

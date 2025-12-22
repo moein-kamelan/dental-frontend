@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import type { Clinic, Doctor } from "../../../../types/types";
+import { useGetOccupiedSlots, useGetAppointmentSettings } from "../../../../services/useAppointments";
 
 interface DateTimeSelectionStepProps {
   selectedDate: string | null;
@@ -114,6 +115,7 @@ function isSameDay(date1: Date, date2: Date): boolean {
 export function DateTimeSelectionStep({
   selectedDate,
   selectedClinic,
+  selectedDoctor,
   onDateSelect,
   onTimeSelect,
   onContinue,
@@ -121,6 +123,17 @@ export function DateTimeSelectionStep({
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [isWaiting, setIsWaiting] = useState(false);
   const timeoutRef = useRef<number | null>(null);
+
+  // دریافت تنظیمات نوبت‌دهی
+  const { data: settingsData } = useGetAppointmentSettings();
+  const appointmentMode = settingsData?.data?.mode || "SIMPLE";
+
+  // دریافت ساعات اشغال شده (فقط در حالت پیشرفته)
+  const { data: occupiedData, isLoading: isLoadingOccupied } = useGetOccupiedSlots(
+    selectedClinic?.id,
+    selectedDoctor?.id || null,
+    selectedDate
+  );
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -297,6 +310,99 @@ export function DateTimeSelectionStep({
     return Array.from(new Set(times)).sort();
   }, [selectedDate, selectedClinic]);
 
+  // بررسی اینکه آیا یک ساعت اشغال شده است
+  const isTimeOccupied = (time: string): { occupied: boolean; reason?: string } => {
+    // در حالت ساده: فقط اگر دکتر انتخاب شده، نوبت‌های تأیید شده را غیرفعال کن
+    if (appointmentMode === "SIMPLE") {
+      // اگر دکتر انتخاب نشده، همه زمان‌ها قابل انتخاب هستند
+      if (!selectedDoctor?.id || !occupiedData?.data) {
+        return { occupied: false };
+      }
+
+      // اگر دکتر انتخاب شده، فقط نوبت‌های تأیید شده (FINAL_APPROVED) را بررسی کن
+      const [hour, minute] = time.split(":").map(Number);
+      const slots = occupiedData.data.occupiedSlots || [];
+      
+      // ساخت زمان انتخابی (شروع slot)
+      const selectedDateObj = new Date(selectedDate!);
+      selectedDateObj.setHours(hour, minute, 0, 0);
+      const selectedEnd = new Date(selectedDateObj.getTime() + 10 * 60 * 1000); // 10 دقیقه
+      
+      // بررسی تداخل با نوبت‌های تأیید شده همان دکتر
+      for (const slot of slots) {
+        // فقط نوبت‌های همان دکتر را بررسی کن
+        if (slot.doctorId !== selectedDoctor.id) {
+          continue;
+        }
+        
+        const slotStart = new Date(slot.startTime);
+        const slotEnd = new Date(slot.endTime);
+        
+        // بررسی تداخل: اگر slot انتخابی با بازه اشغال شده تداخل داشته باشه
+        if (selectedDateObj < slotEnd && selectedEnd > slotStart) {
+          return { 
+            occupied: true, 
+            reason: "این ساعت قبلاً رزرو شده است" 
+          };
+        }
+      }
+      
+      return { occupied: false };
+    }
+
+    // حالت پیشرفته (در حال توسعه - فعلاً استفاده نمی‌شود)
+    if (!occupiedData?.data) {
+      return { occupied: false };
+    }
+
+    const [hour, minute] = time.split(":").map(Number);
+    const slots = occupiedData.data.occupiedSlots || [];
+    
+    // ساخت زمان انتخابی (شروع slot)
+    const selectedDateObj = new Date(selectedDate!);
+    selectedDateObj.setHours(hour, minute, 0, 0);
+    const selectedEnd = new Date(selectedDateObj.getTime() + 10 * 60 * 1000); // 10 دقیقه (مدت زمان slot)
+    
+    // بررسی تداخل با نوبت‌های موجود
+    for (const slot of slots) {
+      const slotStart = new Date(slot.startTime);
+      const slotEnd = new Date(slot.endTime);
+      
+      // اگر دکتر انتخاب شده، فقط نوبت‌های همان دکتر را بررسی کن
+      if (selectedDoctor?.id && slot.doctorId && slot.doctorId !== selectedDoctor.id) {
+        continue;
+      }
+      
+      // بررسی تداخل: اگر slot انتخابی با بازه اشغال شده تداخل داشته باشه
+      // تداخل زمانی: (start1 < end2) AND (end1 > start2)
+      if (selectedDateObj < slotEnd && selectedEnd > slotStart) {
+        const typeText = slot.type === "OPERATION" ? "عمل" : "مشاوره";
+        const durationText = slot.durationMinutes >= 60 
+          ? `${Math.floor(slot.durationMinutes / 60)} ساعت`
+          : `${slot.durationMinutes} دقیقه`;
+        return { 
+          occupied: true, 
+          reason: `نوبت ${typeText} (${durationText}) در این بازه وجود دارد` 
+        };
+      }
+    }
+    
+    // بررسی ظرفیت کلینیک (برای نوبت‌های بدون دکتر)
+    if (!selectedDoctor?.id && occupiedData.data.hourlyNoDoctorCounts) {
+      const counts = occupiedData.data.hourlyNoDoctorCounts.counts || {};
+      const maxPerHour = occupiedData.data.hourlyNoDoctorCounts.maxPerHour || 10;
+      
+      if ((counts[hour] || 0) >= maxPerHour) {
+        return { 
+          occupied: true, 
+          reason: `ظرفیت این ساعت پر شده (${counts[hour]}/${maxPerHour})` 
+        };
+      }
+    }
+    
+    return { occupied: false };
+  };
+
   // فرمت زمان برای نمایش (تبدیل به فارسی)
   const formatTimeForDisplay = (time: string): string => {
     // تبدیل اعداد انگلیسی به فارسی
@@ -306,6 +412,12 @@ export function DateTimeSelectionStep({
 
   const handleTimeClick = (time: string) => {
     if (!selectedDate || !selectedClinic || isWaiting) return;
+    
+    // بررسی اشغال بودن ساعت
+    const occupiedCheck = isTimeOccupied(time);
+    if (occupiedCheck.occupied) {
+      return; // ساعت اشغال است، کلیک نادیده گرفته می‌شود
+    }
 
     // Clear any existing timeout
     if (timeoutRef.current) {
@@ -597,23 +709,34 @@ export function DateTimeSelectionStep({
             </h3>
             {selectedDate ? (
               <>
-                {availableTimes.length > 0 ? (
+                {isLoadingOccupied && appointmentMode === "ADVANCED" ? (
+                  <div className="flex justify-center items-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
+                    <span className="mr-2 text-sm text-gray-500">در حال بررسی ساعات...</span>
+                  </div>
+                ) : availableTimes.length > 0 ? (
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 mt-4">
                     {availableTimes.map((time, index) => {
                       const isSelected = selectedTime === time;
                       const isCurrentTimeWaiting = isSelected && isWaiting;
+                      const occupiedCheck = isTimeOccupied(time);
+                      const isOccupied = occupiedCheck.occupied;
+                      
                       return (
                         <motion.button
                           key={index}
                           type="button"
                           onClick={() => handleTimeClick(time)}
-                          disabled={isWaiting}
+                          disabled={isWaiting || isOccupied}
+                          title={isOccupied ? occupiedCheck.reason : undefined}
                           className={`group relative px-4 py-3 rounded-xl border-2 transition-all duration-300 text-center ${
-                            isSelected
+                            isOccupied
+                              ? "bg-red-50 text-red-400 border-red-200 cursor-not-allowed opacity-60"
+                              : isSelected
                               ? "bg-gradient-to-br from-accent via-accent to-secondary text-white border-accent shadow-xl shadow-accent/50"
                               : "bg-white text-dark border-gray-200 hover:bg-gradient-to-br hover:from-accent hover:via-accent hover:to-secondary hover:text-white hover:border-accent hover:shadow-xl hover:shadow-accent/50"
                           } ${
-                            isWaiting && !isSelected
+                            isWaiting && !isSelected && !isOccupied
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
@@ -623,9 +746,20 @@ export function DateTimeSelectionStep({
                             duration: 0.2,
                             delay: index * 0.02,
                           }}
-                          whileHover={!isWaiting ? { scale: 1.05 } : {}}
-                          whileTap={!isWaiting ? { scale: 0.95 } : {}}
+                          whileHover={!isWaiting && !isOccupied ? { scale: 1.05 } : {}}
+                          whileTap={!isWaiting && !isOccupied ? { scale: 0.95 } : {}}
                         >
+                          {isOccupied && (
+                            <motion.i
+                              className="fas fa-ban absolute top-1 left-1 text-xs text-red-400"
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 500,
+                              }}
+                            />
+                          )}
                           {isCurrentTimeWaiting && (
                             <motion.i
                               className="fas fa-spinner fa-spin absolute top-1 left-1 text-sm"
@@ -637,7 +771,7 @@ export function DateTimeSelectionStep({
                               }}
                             />
                           )}
-                          {isSelected && !isCurrentTimeWaiting && (
+                          {isSelected && !isCurrentTimeWaiting && !isOccupied && (
                             <motion.i
                               className="fas fa-check-circle absolute top-1 left-1 text-sm"
                               initial={{ scale: 0 }}
@@ -648,7 +782,7 @@ export function DateTimeSelectionStep({
                               }}
                             />
                           )}
-                          <span className="text-sm font-estedad-semibold">
+                          <span className={`text-sm font-estedad-semibold ${isOccupied ? "line-through" : ""}`}>
                             {formatTimeForDisplay(time)}
                           </span>
                         </motion.button>

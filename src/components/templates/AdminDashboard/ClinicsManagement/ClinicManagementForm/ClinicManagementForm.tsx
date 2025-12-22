@@ -55,6 +55,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       .min(-180, "طول جغرافیایی باید بین -180 تا 180 باشد")
       .max(180, "طول جغرافیایی باید بین -180 تا 180 باشد"),
     workingHours: Yup.object(),
+    eitaaChatId: Yup.string().nullable(),
   });
 
   const handleSubmit = async (
@@ -67,6 +68,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       longitude: number | null;
       workingHours: Record<string, TimeRange[]>;
       image: File | null;
+      eitaaChatId: string | null;
     },
     resetForm: () => void
   ) => {
@@ -114,6 +116,21 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         });
         formData.append("workingHours", JSON.stringify(formattedWorkingHours));
       }
+
+      // Always append eitaaChatId (mandatory) - send empty string if null/undefined to allow clearing
+      const eitaaChatIdValue = values.eitaaChatId || "";
+      console.log('=== FRONTEND DEBUG - eitaaChatId ===');
+      console.log('values.eitaaChatId:', values.eitaaChatId);
+      console.log('eitaaChatIdValue to send:', eitaaChatIdValue);
+      console.log('isEditMode:', isEditMode);
+      formData.append("eitaaChatId", eitaaChatIdValue);
+      
+      // Debug: Log all FormData entries
+      console.log('=== FormData entries ===');
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      console.log('========================');
 
       // Handle image upload
       if (values.image instanceof File) {
@@ -337,6 +354,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         image: null as File | null,
         latitude: clinic?.latitude ?? null,
         longitude: clinic?.longitude ?? null,
+        eitaaChatId: clinic?.eitaaChatId || null,
         workingHours: (() => {
           const workingHoursData = clinic?.workingHours;
           if (workingHoursData) {
@@ -399,6 +417,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                 ? null
                 : Number(values.longitude),
             workingHours: values.workingHours,
+            eitaaChatId: values.eitaaChatId || null,
           },
           resetForm
         );
@@ -465,6 +484,29 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                   : null
               }
             />
+
+            {/* تنظیمات ایتا */}
+            <div className="bg-blue-50 rounded-lg border border-blue-200 p-4">
+              <h6 className="text-md font-estedad-semibold text-dark mb-3">
+                <i className="fas fa-paper-plane ml-2"></i>
+                تنظیمات ایتا
+              </h6>
+              <p className="text-xs text-gray-600 mb-3 font-estedad-light">
+                شناسه کانال/گروه ایتا برای ارسال نوتیفیکیشن نوبت‌های این کلینیک
+              </p>
+              <CustomInput
+                labelText="شناسه کانال/گروه ایتا"
+                placeholder="مثال: 1404 یا eitaayar"
+                optional
+                className="bg-white"
+                {...formik.getFieldProps("eitaaChatId")}
+                errorMessage={
+                  formik.touched.eitaaChatId && formik.errors.eitaaChatId
+                    ? formik.errors.eitaaChatId
+                    : null
+                }
+              />
+            </div>
 
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">

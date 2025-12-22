@@ -42,11 +42,13 @@ interface Appointment {
   id: string;
   appointmentDate: string;
   patientName?: string | null;
+  patientPhone?: string | null;
   status: string;
   notes?: string | null;
-  user: AppointmentUser;
+  user?: AppointmentUser | null; // Optional - ممکنه برای نوبت‌های سینک شده null باشه
   clinic: AppointmentClinic;
   doctor?: AppointmentDoctor | null;
+  source?: string; // برای تشخیص نوبت‌های سینک شده
 }
 
 function AppointmentsManagement() {

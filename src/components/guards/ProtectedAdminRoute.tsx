@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../redux/typedHooks";
 import React from "react";
 
@@ -8,6 +8,7 @@ export function ProtectedAdminRoute({
   children: React.ReactNode;
 }) {
   const { data: user, loading } = useAppSelector((state) => state.user);
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -21,7 +22,9 @@ export function ProtectedAdminRoute({
   }
 
   if (!user || (user.role !== "ADMIN" && user.role !== "SECRETARY")) {
-    return <Navigate to="/admin-login" replace />;
+    // ذخیره URL فعلی برای redirect بعد از لاگین
+    const redirectTo = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/admin-login?redirect=${redirectTo}`} replace />;
   }
   
 

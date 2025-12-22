@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useAdminLogin } from "../../../services/useAuth";
@@ -31,6 +31,7 @@ const AdminDashboardLogin = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const loginMutation = useAdminLogin();
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (values: {
     phoneNumber: string;
@@ -46,8 +47,16 @@ const AdminDashboardLogin = () => {
         showSuccessToast("ورود موفقیت‌آمیز بود");
         // دریافت اطلاعات کاربر برای update کردن state
         await dispatch(fetchUser());
-        // هدایت به داشبورد ادمین
-        navigate("/admin");
+        
+        // بررسی وجود redirect URL
+        const redirectTo = searchParams.get("redirect");
+        if (redirectTo) {
+          // هدایت به URL ذخیره شده
+          navigate(decodeURIComponent(redirectTo), { replace: true });
+        } else {
+          // هدایت به داشبورد ادمین (پیش‌فرض)
+          navigate("/admin", { replace: true });
+        }
       }
     } catch (error) {
       // خطا در mutation handle می‌شود
