@@ -105,7 +105,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       skills: string[];
       medicalLicenseNo: string;
       clinicIds: string[];
-      workingDays: Record<string, TimeRange[]>;
+      workingDays: Record<string, Record<string, TimeRange[]>>; // { clinicId: { day: TimeRange[] } }
       profileImage: File | null;
     },
     resetForm: () => void
@@ -129,22 +129,30 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         formData.append("clinicIds", JSON.stringify(values.clinicIds));
       }
 
-      if (values.workingDays) {
-        // تبدیل به فرمت موردنظر: {"saturday": "14:00-15:00 & 15:00-16:00", "sunday": null, ...}
-        const formattedWorkingDays: Record<string, string | null> = {};
+      if (values.workingDays && values.clinicIds.length > 0) {
+        // تبدیل به فرمت موردنظر: {"clinicId": {"saturday": "14:00-15:00 & 15:00-16:00", "sunday": null, ...}}
+        const formattedWorkingDays: Record<string, Record<string, string | null>> = {};
 
-        daysOfWeek.forEach((day) => {
-          const timeRanges = values.workingDays[day.value] || [];
-          if (timeRanges.length > 0) {
-            // تبدیل هر بازه به "start-end" و اتصال با " & "
-            const timeStrings = timeRanges
-              .filter((range) => range.start && range.end)
-              .map((range) => `${range.start}-${range.end}`);
-            formattedWorkingDays[day.value] =
-              timeStrings.length > 0 ? timeStrings.join(" & ") : null;
-          } else {
-            formattedWorkingDays[day.value] = null;
-          }
+        // برای هر کلینیک
+        values.clinicIds.forEach((clinicId) => {
+          const clinicWorkingDays = values.workingDays[clinicId] || {};
+          const formattedClinicDays: Record<string, string | null> = {};
+
+          daysOfWeek.forEach((day) => {
+            const timeRanges = clinicWorkingDays[day.value] || [];
+            if (timeRanges.length > 0) {
+              // تبدیل هر بازه به "start-end" و اتصال با " & "
+              const timeStrings = timeRanges
+                .filter((range) => range.start && range.end)
+                .map((range) => `${range.start}-${range.end}`);
+              formattedClinicDays[day.value] =
+                timeStrings.length > 0 ? timeStrings.join(" & ") : null;
+            } else {
+              formattedClinicDays[day.value] = null;
+            }
+          });
+
+          formattedWorkingDays[clinicId] = formattedClinicDays;
         });
 
         formData.append("workingDays", JSON.stringify(formattedWorkingDays));
@@ -213,53 +221,70 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
           doctor?.clinics?.map((clinic) => clinic.clinic.id) ||
           ([] as string[]),
         workingDays: (() => {
-          // تبدیل داده‌های ورودی به ساختار جدید
+          // تبدیل داده‌های ورودی به ساختار جدید: { clinicId: { day: TimeRange[] } }
           const workingDaysData = doctor?.workingDays;
-          if (workingDaysData) {
-            const converted: Record<string, TimeRange[]> = {};
+          const clinicIds = doctor?.clinics?.map((c) => c.clinic.id) || [];
+          
+          if (workingDaysData && clinicIds.length > 0) {
+            const converted: Record<string, Record<string, TimeRange[]>> = {};
 
-            // برای هر روز از هفته
-            daysOfWeek.forEach((day) => {
-              const value = workingDaysData[day.value];
-
-              if (value === null || value === undefined) {
-                converted[day.value] = [];
-              } else if (typeof value === "string" && value.trim()) {
-                // اگر string است و شامل " & " باشد، چندین بازه زمانی دارد
-                if (value.includes(" & ")) {
-                  // تقسیم به بازه‌های جداگانه: "14:00-15:00 & 15:00-16:00"
-                  const timeRanges = value.split(" & ").map((range) => {
-                    const [start, end] = range.trim().split("-");
-                    return { start: start || "", end: end || "" };
-                  });
-                  converted[day.value] = timeRanges.filter(
-                    (range) => range.start && range.end
-                  );
-                } else {
-                  // یک بازه زمانی ساده: "14:00-15:00"
-                  const [start, end] = value.split("-");
-                  converted[day.value] =
-                    start && end
-                      ? [{ start: start.trim(), end: end.trim() }]
-                      : [];
-                }
-              } else if (Array.isArray(value)) {
-                // اگر array است (فرمت قدیمی)
-                converted[day.value] = value.map((item) => {
-                  if (typeof item === "string") {
-                    const [start, end] = item.split("-");
-                    return { start: start || "", end: end || "" };
-                  }
-                  return item as TimeRange;
+            // برای هر کلینیک
+            clinicIds.forEach((clinicId) => {
+              const clinicWorkingDays = workingDaysData[clinicId];
+              if (!clinicWorkingDays || typeof clinicWorkingDays !== "object") {
+                // اگر برای این کلینیک داده‌ای نیست، یک object خالی می‌سازیم
+                converted[clinicId] = {};
+                daysOfWeek.forEach((day) => {
+                  converted[clinicId][day.value] = [];
                 });
-              } else {
-                converted[day.value] = [];
+                return;
               }
+
+              converted[clinicId] = {};
+
+              // برای هر روز از هفته
+              daysOfWeek.forEach((day) => {
+                const value = clinicWorkingDays[day.value];
+
+                if (value === null || value === undefined) {
+                  converted[clinicId][day.value] = [];
+                } else if (typeof value === "string" && value.trim()) {
+                  // اگر string است و شامل " & " باشد، چندین بازه زمانی دارد
+                  if (value.includes(" & ")) {
+                    // تقسیم به بازه‌های جداگانه: "14:00-15:00 & 15:00-16:00"
+                    const timeRanges = value.split(" & ").map((range) => {
+                      const [start, end] = range.trim().split("-");
+                      return { start: start || "", end: end || "" };
+                    });
+                    converted[clinicId][day.value] = timeRanges.filter(
+                      (range) => range.start && range.end
+                    );
+                  } else {
+                    // یک بازه زمانی ساده: "14:00-15:00"
+                    const [start, end] = value.split("-");
+                    converted[clinicId][day.value] =
+                      start && end
+                        ? [{ start: start.trim(), end: end.trim() }]
+                        : [];
+                  }
+                } else if (Array.isArray(value)) {
+                  // اگر array است (فرمت قدیمی)
+                  converted[clinicId][day.value] = value.map((item) => {
+                    if (typeof item === "string") {
+                      const [start, end] = item.split("-");
+                      return { start: start || "", end: end || "" };
+                    }
+                    return item as TimeRange;
+                  });
+                } else {
+                  converted[clinicId][day.value] = [];
+                }
+              });
             });
 
             return converted;
           }
-          return {} as Record<string, TimeRange[]>;
+          return {} as Record<string, Record<string, TimeRange[]>>;
         })(),
         profileImage: null as File | null,
         skillInput: "",
@@ -463,162 +488,202 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
               </div>
             </div>
 
-            <div>
-              <label className="block text-dark font-estedad-lightbold mb-4 mr-4">
-                روزهای کاری
-              </label>
-              <div className="grid grid-cols-1 xl:grid-cols-2  gap-4 ">
-                {daysOfWeek.map((day) => {
-                  const timeRanges = formik.values.workingDays[day.value] || [];
+            {/* روزهای کاری به تفکیک کلینیک */}
+            {formik.values.clinicIds.length > 0 && (
+              <div>
+                <label className="block text-dark font-estedad-lightbold mb-4 mr-4">
+                  ساعت‌های کاری (به تفکیک کلینیک)
+                </label>
+                <div className="space-y-6">
+                  {formik.values.clinicIds.map((clinicId) => {
+                    const clinic = clinicOptions.find((opt) => opt.value === clinicId);
+                    const clinicWorkingDays = formik.values.workingDays[clinicId] || {};
 
-                  const addTimeRange = () => {
-                    const newRanges = [
-                      ...timeRanges,
-                      { start: "08:00", end: "12:00" },
-                    ];
-                    const newWorkingDays = {
-                      ...formik.values.workingDays,
-                      [day.value]: newRanges,
-                    };
-                    formik.setFieldValue("workingDays", newWorkingDays);
-                  };
+                    // Initialize empty working days for this clinic if not exists
+                    if (!formik.values.workingDays[clinicId]) {
+                      const newWorkingDays = { ...formik.values.workingDays };
+                      newWorkingDays[clinicId] = {};
+                      daysOfWeek.forEach((day) => {
+                        newWorkingDays[clinicId][day.value] = [];
+                      });
+                      formik.setFieldValue("workingDays", newWorkingDays);
+                    }
 
-                  const updateTimeRange = (
-                    index: number,
-                    field: "start" | "end",
-                    value: string
-                  ) => {
-                    const newRanges = [...timeRanges];
-                    newRanges[index] = {
-                      ...newRanges[index],
-                      [field]: value,
-                    };
-                    const newWorkingDays = {
-                      ...formik.values.workingDays,
-                      [day.value]: newRanges,
-                    };
-                    formik.setFieldValue("workingDays", newWorkingDays);
-                  };
+                    return (
+                      <div
+                        key={clinicId}
+                        className="border-2 border-primary/20 rounded-xl p-6 bg-gradient-to-br from-primary/5 to-purple-50"
+                      >
+                        <h6 className="text-lg font-estedad-semibold text-dark mb-4 flex items-center gap-2">
+                          <i className="fas fa-hospital text-primary"></i>
+                          {clinic?.label || "کلینیک"}
+                        </h6>
+                        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                          {daysOfWeek.map((day) => {
+                            const timeRanges = clinicWorkingDays[day.value] || [];
 
-                  const removeTimeRange = (index: number) => {
-                    const newRanges = timeRanges.filter((_, i) => i !== index);
-                    const newWorkingDays = {
-                      ...formik.values.workingDays,
-                      [day.value]: newRanges,
-                    };
-                    formik.setFieldValue("workingDays", newWorkingDays);
-                  };
+                            const addTimeRange = () => {
+                              const newRanges = [
+                                ...timeRanges,
+                                { start: "08:00", end: "12:00" },
+                              ];
+                              const newWorkingDays = {
+                                ...formik.values.workingDays,
+                                [clinicId]: {
+                                  ...clinicWorkingDays,
+                                  [day.value]: newRanges,
+                                },
+                              };
+                              formik.setFieldValue("workingDays", newWorkingDays);
+                            };
 
-                  return (
-                    <div
-                      key={day.value}
-                      className="space-y-3 p-4 border-2 border-main-border-color rounded-lg bg-white"
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <label className="block text-sm font-medium text-dark">
-                          {day.label}
-                        </label>
-                        <button
-                          type="button"
-                          onClick={addTimeRange}
-                          className="text-primary hover:text-primary/80 text-xs font-estedad-lightbold flex items-center gap-1"
-                        >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M8 3V13M3 8H13"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                          افزودن بازه
-                        </button>
-                      </div>
+                            const updateTimeRange = (
+                              index: number,
+                              field: "start" | "end",
+                              value: string
+                            ) => {
+                              const newRanges = [...timeRanges];
+                              newRanges[index] = {
+                                ...newRanges[index],
+                                [field]: value,
+                              };
+                              const newWorkingDays = {
+                                ...formik.values.workingDays,
+                                [clinicId]: {
+                                  ...clinicWorkingDays,
+                                  [day.value]: newRanges,
+                                },
+                              };
+                              formik.setFieldValue("workingDays", newWorkingDays);
+                            };
 
-                      {timeRanges.length === 0 ? (
-                        <div className="text-center py-4 text-paragray text-sm">
-                          بازه زمانی انتخاب نشده است
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {timeRanges.map((range, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-main-border-color"
-                            >
-                              <div className="flex-1 flex flex-wrap items-center gap-2">
-                                <div className="flex-1">
-                                  <label className="block text-xs text-paragray mb-1">
-                                    از
-                                  </label>
-                                  <input
-                                    type="time"
-                                    value={range.start}
-                                    onChange={(e) =>
-                                      updateTimeRange(
-                                        index,
-                                        "start",
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                  />
-                                </div>
-                                <div className="flex-1">
-                                  <label className="block text-xs text-paragray mb-1">
-                                    تا
-                                  </label>
-                                  <input
-                                    type="time"
-                                    value={range.end}
-                                    onChange={(e) =>
-                                      updateTimeRange(
-                                        index,
-                                        "end",
-                                        e.target.value
-                                      )
-                                    }
-                                    min={range.start}
-                                    className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                  />
-                                </div>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => removeTimeRange(index)}
-                                className="text-red-500 hover:text-red-700 p-2 transition-colors"
-                                title="حذف"
+                            const removeTimeRange = (index: number) => {
+                              const newRanges = timeRanges.filter((_, i) => i !== index);
+                              const newWorkingDays = {
+                                ...formik.values.workingDays,
+                                [clinicId]: {
+                                  ...clinicWorkingDays,
+                                  [day.value]: newRanges,
+                                },
+                              };
+                              formik.setFieldValue("workingDays", newWorkingDays);
+                            };
+
+                            return (
+                              <div
+                                key={day.value}
+                                className="space-y-3 p-4 border-2 border-main-border-color rounded-lg bg-white"
                               >
-                                <svg
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 20 20"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M5 5L15 15M15 5L5 15"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                  />
-                                </svg>
-                              </button>
-                            </div>
-                          ))}
+                                <div className="flex items-center justify-between mb-3">
+                                  <label className="block text-sm font-medium text-dark">
+                                    {day.label}
+                                  </label>
+                                  <button
+                                    type="button"
+                                    onClick={addTimeRange}
+                                    className="text-primary hover:text-primary/80 text-xs font-estedad-lightbold flex items-center gap-1"
+                                  >
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 16 16"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M8 3V13M3 8H13"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                      />
+                                    </svg>
+                                    افزودن بازه
+                                  </button>
+                                </div>
+
+                                {timeRanges.length === 0 ? (
+                                  <div className="text-center py-4 text-paragray text-sm">
+                                    بازه زمانی انتخاب نشده است
+                                  </div>
+                                ) : (
+                                  <div className="space-y-3">
+                                    {timeRanges.map((range, index) => (
+                                      <div
+                                        key={index}
+                                        className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-main-border-color"
+                                      >
+                                        <div className="flex-1 flex flex-wrap items-center gap-2">
+                                          <div className="flex-1">
+                                            <label className="block text-xs text-paragray mb-1">
+                                              از
+                                            </label>
+                                            <input
+                                              type="time"
+                                              value={range.start}
+                                              onChange={(e) =>
+                                                updateTimeRange(
+                                                  index,
+                                                  "start",
+                                                  e.target.value
+                                                )
+                                              }
+                                              className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            />
+                                          </div>
+                                          <div className="flex-1">
+                                            <label className="block text-xs text-paragray mb-1">
+                                              تا
+                                            </label>
+                                            <input
+                                              type="time"
+                                              value={range.end}
+                                              onChange={(e) =>
+                                                updateTimeRange(
+                                                  index,
+                                                  "end",
+                                                  e.target.value
+                                                )
+                                              }
+                                              min={range.start}
+                                              className="w-full px-3 py-2 border-2 border-main-border-color rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            />
+                                          </div>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          onClick={() => removeTimeRange(index)}
+                                          className="text-red-500 hover:text-red-700 p-2 transition-colors"
+                                          title="حذف"
+                                        >
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 20 20"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M5 5L15 15M15 5L5 15"
+                                              stroke="currentColor"
+                                              strokeWidth="2"
+                                              strokeLinecap="round"
+                                            />
+                                          </svg>
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">

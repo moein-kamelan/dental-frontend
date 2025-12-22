@@ -36,7 +36,7 @@ export interface Doctor {
   clinics?: {
     clinic: Clinic;
   }[];
-  workingDays?: Record<string, string | null>;
+  workingDays?: Record<string, Record<string, string | null>>; // { clinicId: { day: "14:00-18:00" | null } }
   _count?: {
     comments: number;
   };

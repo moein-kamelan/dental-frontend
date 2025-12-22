@@ -206,17 +206,26 @@ export function DateTimeSelectionStep({
     const jalaliDayOfWeek = getJalaliDayOfWeek(selectedDateObj);
     const englishDayKey = getEnglishDayKey(jalaliDayOfWeek);
 
-    // دریافت ساعت کاری کلینیک برای این روز
-    if (
-      !selectedClinic?.workingHours ||
-      !selectedClinic.workingHours[englishDayKey]
-    ) {
-      return []; // اگر کلینیک در این روز ساعت کاری ندارد، هیچ زمانی نمایش نمی‌دهیم
+    // دریافت ساعت کاری: اگر پزشک انتخاب شده، از workingDays[clinicId] استفاده کن، وگرنه از workingHours کلینیک
+    let workingHoursString: string | null = null;
+    
+    if (selectedDoctor?.id && selectedDoctor?.workingDays && selectedClinic?.id) {
+      // اگر پزشک انتخاب شده، از workingDays[clinicId] استفاده کن
+      const clinicWorkingDays = selectedDoctor.workingDays[selectedClinic.id];
+      if (clinicWorkingDays && typeof clinicWorkingDays === "object") {
+        workingHoursString = clinicWorkingDays[englishDayKey] || null;
+      }
+      // اگر برای این کلینیک ساعت کاری تعریف نشده، از workingHours کلینیک استفاده کن
+      if (!workingHoursString && selectedClinic?.workingHours) {
+        workingHoursString = selectedClinic.workingHours[englishDayKey] || null;
+      }
+    } else if (selectedClinic?.workingHours) {
+      // اگر پزشک انتخاب نشده، از workingHours کلینیک استفاده کن
+      workingHoursString = selectedClinic.workingHours[englishDayKey] || null;
     }
 
-    const workingHoursString = selectedClinic.workingHours[englishDayKey];
     if (!workingHoursString || typeof workingHoursString !== "string") {
-      return [];
+      return []; // اگر ساعت کاری برای این روز وجود ندارد، هیچ زمانی نمایش نمی‌دهیم
     }
 
     // تقسیم بازه‌های زمانی با & (ممکن است چند بازه داشته باشد)
@@ -308,7 +317,7 @@ export function DateTimeSelectionStep({
 
     // حذف زمان‌های تکراری و مرتب‌سازی
     return Array.from(new Set(times)).sort();
-  }, [selectedDate, selectedClinic]);
+  }, [selectedDate, selectedClinic, selectedDoctor]);
 
   // بررسی اینکه آیا یک ساعت اشغال شده است
   const isTimeOccupied = (time: string): { occupied: boolean; reason?: string } => {
