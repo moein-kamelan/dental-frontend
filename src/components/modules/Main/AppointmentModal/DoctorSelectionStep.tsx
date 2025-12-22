@@ -38,7 +38,7 @@ export function DoctorSelectionStep({
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
     >
-      <div className="flex  items-center justify-center gap-2 my-6">
+      <div className="flex flex-wrap items-center justify-center gap-2 my-6">
         <h2 className="text-2xl font-iran-sans-bold text-dark  text-center">
           انتخاب پزشک
         </h2>
@@ -50,18 +50,18 @@ export function DoctorSelectionStep({
       </div>
 
       {/* سوال: آیا برای پزشک خاصی نوبت می‌خواهید؟ */}
-      <div className="mb-6 flex flex-col items-center gap-6">
-        <p className="text-3xl font-estedad-medium text-dark text-center leading-relaxed">
+      <div className="mb-6 flex flex-col items-center gap-4">
+        <p className="text-2xl font-estedad-medium text-dark text-center leading-relaxed">
           لطفا نوع نوبت را مشخص کنید
         </p>
 
         {/* دکمه‌ها */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
+        <div className="flex max-sm:gap-6 gap-4 max-md:justify-between items-center flex-wrap max-sm:w-full ">
           {/* گزینه بله */}
           <button
             type="button"
             onClick={() => onWantsSpecificDoctorChange("yes")}
-            className={`px-8 py-3 rounded-full text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 ${
+            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center ${
               wantsSpecificDoctor === "yes"
                 ? "bg-accent text-white shadow-md"
                 : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
@@ -71,7 +71,7 @@ export function DoctorSelectionStep({
             <span>معاینه تخصصی</span>
             {wantsSpecificDoctor === "yes" && (
               <motion.i
-                className="fas fa-check-circle"
+                className="fas fa-check-circle text-sm sm:text-lg"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{
@@ -86,7 +86,7 @@ export function DoctorSelectionStep({
           <button
             type="button"
             onClick={handleNoClick}
-            className={`px-8 py-3 rounded-full text-lg font-estedad-medium transition-all duration-300 ${
+            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 grow ${
               wantsSpecificDoctor === "no"
                 ? "bg-accent text-white shadow-md"
                 : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"

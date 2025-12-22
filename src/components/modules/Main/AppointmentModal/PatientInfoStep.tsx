@@ -59,7 +59,7 @@ export function PatientInfoStep({
         <p className="text-lg font-estedad-semibold text-dark mb-4 text-center">
           نوبت برای چه کسی رزرو می‌شود؟
         </p>
-        <div className="flex flex-row flex-wrap gap-4 justify-center">
+        <div className="flex flex-row flex-wrap gap-4 justify-center" >
           <button
             type="button"
             onClick={() => handleIsForSelfClick(true)}
@@ -70,7 +70,7 @@ export function PatientInfoStep({
             }`}
           >
             <i className="fas fa-user mr-2 sm:text-lg"></i>
-            <span className="max-sm:text-sm text-nowrap">برای خودم</span>
+            <span className="max-sm:text-sm text-nowrap ">برای خودم</span>
           </button>
           <button
             type="button"
