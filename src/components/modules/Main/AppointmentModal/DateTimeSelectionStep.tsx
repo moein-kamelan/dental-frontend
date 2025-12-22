@@ -48,7 +48,7 @@ function getJalaliDayOfWeek(date: Date): number {
   return jalaliDayMap[gregorianDay] ?? 0;
 }
 
-// تابع کمکی برای فرمت تاریخ شمسی
+// تابع کمکی برای فرمت تاریخ شمسی (برای نمایش - اعداد فارسی)
 function formatJalaliDate(date: Date): {
   day: string;
   month: string;
@@ -67,6 +67,45 @@ function formatJalaliDate(date: Date): {
   const year = parts.find((p) => p.type === "year")?.value || "";
 
   return { day, month, year };
+}
+
+// تابع کمکی برای تبدیل اعداد فارسی به انگلیسی
+function persianToEnglish(str: string): string {
+  const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+  const englishDigits = "0123456789";
+  return str
+    .split("")
+    .map((char) => {
+      const index = persianDigits.indexOf(char);
+      return index !== -1 ? englishDigits[index] : char;
+    })
+    .join("");
+}
+
+// تابع کمکی برای تبدیل تاریخ میلادی به اعداد شمسی (انگلیسی - برای API)
+function getJalaliDateNumbers(date: Date): {
+  year: number;
+  month: number;
+  day: number;
+} {
+  // استفاده از Intl.DateTimeFormat با calendar persian
+  const formatter = new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
+
+  const parts = formatter.formatToParts(date);
+  const yearPart = parts.find((p) => p.type === "year");
+  const monthPart = parts.find((p) => p.type === "month");
+  const dayPart = parts.find((p) => p.type === "day");
+
+  // تبدیل اعداد فارسی به انگلیسی و سپس parse
+  const year = yearPart ? parseInt(persianToEnglish(yearPart.value), 10) : 0;
+  const month = monthPart ? parseInt(persianToEnglish(monthPart.value), 10) : 0;
+  const day = dayPart ? parseInt(persianToEnglish(dayPart.value), 10) : 0;
+
+  return { year, month, day };
 }
 
 // تابع کمکی برای گرفتن نام روز هفته
@@ -155,14 +194,10 @@ export function DateTimeSelectionStep({
 
     // تا زمانی که 4 روز پیدا کنیم (شامل جمعه)
     while (dates.length < 4) {
-      const jalaliDate = formatJalaliDate(currentDate);
+      const jalaliDate = getJalaliDateNumbers(currentDate);
       dates.push({
         date: new Date(currentDate),
-        jalaliDate: {
-          year: parseInt(jalaliDate.year),
-          month: parseInt(jalaliDate.month),
-          day: parseInt(jalaliDate.day),
-        },
+        jalaliDate,
       });
       currentDate = new Date(currentDate);
       currentDate.setDate(currentDate.getDate() + 1);
@@ -203,12 +238,15 @@ export function DateTimeSelectionStep({
       const jalaliKey = `${item.jalaliDate.year}/${item.jalaliDate.month}/${item.jalaliDate.day}`;
       const isHoliday = holidayMap.get(jalaliKey) || false;
 
+      // برای نمایش از formatJalaliDate استفاده می‌کنیم (اعداد فارسی)
+      const jalaliDateDisplay = formatJalaliDate(item.date);
+
       return {
         date: item.date,
         jalaliDate: jalaliKey,
         dayName: getDayName(dayOfWeek),
-        dayNumber: item.jalaliDate.day.toString(),
-        monthName: item.jalaliDate.month.toString(),
+        dayNumber: jalaliDateDisplay.day, // عدد فارسی
+        monthName: jalaliDateDisplay.month, // نام ماه فارسی
         isToday,
         isTomorrow,
         isDayAfterTomorrow,
