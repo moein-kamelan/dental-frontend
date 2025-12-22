@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import Select, { components } from "react-select";
 import type { OptionType } from "../../../../types/types";
+import JalaliDatePicker from "../../JalaliDatePicker/JalaliDatePicker";
 const options: OptionType[] = [
   { value: "20s", label: "کند: 20 ثانیه" },
   { value: "10s", label: "متعادل: 10 ثانیه" },
@@ -10,6 +11,7 @@ const options: OptionType[] = [
 
 function Appointment() {
   const [doctorValue, setDoctorValue] = useState<OptionType | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>("");
   return (
     <section className="py-20 md:py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
@@ -98,11 +100,13 @@ function Appointment() {
                       placeholder: () => `!text-dark`,
                     }}
                   />
-                  <input
-                    type="date"
-                    placeholder="تاریخ را وارد نماید"
-                    className="placeholder:text-paragray w-full py-3.5 px-5  bg-white  rounded-full text-dark  focus:outline-none "
-                  />
+                  <div className="[&_.rmdp-container]:w-full [&_.rmdp-input]:!rounded-full [&_.rmdp-input]:!py-3.5 [&_.rmdp-input]:!px-5 [&_.rmdp-input]:!bg-white [&_.rmdp-input]:!border-none [&_.rmdp-input]:!text-dark [&_.rmdp-input]:!placeholder:text-paragray">
+                    <JalaliDatePicker
+                      value={selectedDate}
+                      onChange={(value) => setSelectedDate(value)}
+                      placeholder="تاریخ را انتخاب کنید"
+                    />
+                  </div>
 
                   <Select<OptionType, false>
                     options={options}

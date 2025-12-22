@@ -17,7 +17,8 @@ import { useDebounce } from "use-debounce";
 import DeleteModal from "../../../components/modules/AdminDashboard/DeleteModal/DeleteModal";
 import CustomInput from "../../../components/modules/CustomInput/CustomInput";
 import SectionContainer from "../../../components/modules/AdminDashboard/SectionContainer/SectionContainer";
-import { combineDateAndTime } from "../../../utils/helpers";
+import { combineDateAndTime, jalaliToGregorian } from "../../../utils/helpers";
+import JalaliDatePicker from "../../../components/modules/JalaliDatePicker/JalaliDatePicker";
 
 interface AppointmentUser {
   id: string;
@@ -88,8 +89,11 @@ function AppointmentsManagement() {
   const { mutateAsync: approveAppointment } = useApproveAppointment();
   const { mutateAsync: cancelAppointment } = useCancelAppointment();
 
-  const finalFromDate = combineDateAndTime(fromDate, fromTime, false);
-  const finalToDate = combineDateAndTime(toDate, toTime, true);
+  // تبدیل تاریخ‌های شمسی به میلادی برای API
+  const gregorianFromDate = fromDate ? jalaliToGregorian(fromDate) : "";
+  const gregorianToDate = toDate ? jalaliToGregorian(toDate) : "";
+  const finalFromDate = combineDateAndTime(gregorianFromDate, fromTime, false);
+  const finalToDate = combineDateAndTime(gregorianToDate, toTime, true);
 
   // دریافت لیست کلینیک‌ها برای فیلتر (فقط برای ادمین‌ها)
   const { data: clinicsData } = useGetAllClinics(1, 100); // منشی‌ها نیازی به دریافت لیست کلینیک‌ها ندارند اما برای جلوگیری از خطا، دریافت می‌کنیم
@@ -338,14 +342,13 @@ function AppointmentsManagement() {
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 از تاریخ
               </label>
-              <input
-                type="date"
+              <JalaliDatePicker
                 value={fromDate}
-                onChange={(e) => {
-                  setFromDate(e.target.value);
+                onChange={(value) => {
+                  setFromDate(value);
                   setPage(1);
                 }}
-                className="w-full h-[54px] px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+                placeholder="از تاریخ را انتخاب کنید"
               />
             </div>
 
@@ -374,14 +377,14 @@ function AppointmentsManagement() {
               <label className="block text-sm font-estedad-medium text-dark mb-2">
                 تا تاریخ
               </label>
-              <input
-                type="date"
+              <JalaliDatePicker
                 value={toDate}
-                onChange={(e) => {
-                  setToDate(e.target.value);
+                onChange={(value) => {
+                  setToDate(value);
                   setPage(1);
                 }}
-                className="w-full h-[54px] px-4 py-2.5 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary text-dark font-estedad-light"
+                placeholder="تا تاریخ را انتخاب کنید"
+                minDate={fromDate || undefined}
               />
             </div>
 

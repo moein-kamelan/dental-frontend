@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "../../../../modules/CustomInput/CustomInput";
 import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
+import JalaliDatePicker from "../../../../modules/JalaliDatePicker/JalaliDatePicker";
 import Select, { components } from "react-select";
 import type { DropdownIndicatorProps } from "react-select";
 import {
@@ -393,24 +394,24 @@ function AppointmentManagementForm({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* تاریخ شمسی */}
                 <div>
-                  <CustomInput
-                    labelText="تاریخ نوبت (شمسی)"
-                    type="text"
-                    name="jalaliDate"
+                  <label className="block text-sm font-estedad-medium text-dark mb-2">
+                    تاریخ نوبت (شمسی) <span className="text-red-500">*</span>
+                  </label>
+                  <JalaliDatePicker
                     value={values.jalaliDate}
-                    onChange={handleChange}
+                    onChange={(value) => {
+                      setFieldValue("jalaliDate", value);
+                    }}
                     onBlur={handleBlur}
-                    errorMessage={
-                      touched.jalaliDate && errors.jalaliDate
-                        ? errors.jalaliDate
-                        : undefined
-                    }
-                    placeholder="مثال: 1403/10/15"
+                    placeholder="تاریخ را انتخاب کنید"
+                    name="jalaliDate"
                     required
                   />
-                  <p className="text-xs text-gray-500 mt-1 font-estedad-light">
-                    فرمت: سال/ماه/روز (مثال: 1403/10/15)
-                  </p>
+                  {touched.jalaliDate && errors.jalaliDate && (
+                    <p className="text-xs text-red-500 mt-1 font-estedad-light">
+                      {errors.jalaliDate}
+                    </p>
+                  )}
                 </div>
 
                 {/* ساعت */}

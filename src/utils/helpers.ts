@@ -1,3 +1,6 @@
+// @ts-expect-error - moment-jalaali doesn't have types
+import moment from "moment-jalaali";
+
 export function formatJalali(dateString: Date) {
   const date = new Date(dateString);
 
@@ -151,4 +154,35 @@ export function getApiUrl(endpoint: string): string {
 
   // در غیر این صورت، endpoint نسبی را برگردان
   return endpoint;
+}
+
+/**
+ * تبدیل تاریخ شمسی به میلادی
+ * @param jalaliDate - تاریخ شمسی به فرمت YYYY/MM/DD
+ * @returns تاریخ میلادی به فرمت YYYY-MM-DD
+ */
+export function jalaliToGregorian(jalaliDate: string): string {
+  if (!jalaliDate) return "";
+  
+  const parts = jalaliDate.split("/");
+  if (parts.length !== 3) return "";
+  
+  const [year, month, day] = parts.map(Number);
+  if (isNaN(year) || isNaN(month) || isNaN(day)) return "";
+  
+  const jMoment = moment(`${year}/${month}/${day}`, "jYYYY/jMM/jDD");
+  return jMoment.format("YYYY-MM-DD");
+}
+
+/**
+ * تبدیل تاریخ میلادی به شمسی
+ * @param gregorianDate - تاریخ میلادی به فرمت YYYY-MM-DD
+ * @returns تاریخ شمسی به فرمت YYYY/MM/DD
+ */
+export function gregorianToJalali(gregorianDate: string): string {
+  if (!gregorianDate) return "";
+  
+  const date = new Date(gregorianDate);
+  const jMoment = moment(date);
+  return jMoment.format("jYYYY/jMM/jDD");
 }
