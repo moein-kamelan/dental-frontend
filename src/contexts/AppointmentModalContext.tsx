@@ -10,21 +10,24 @@ export function AppointmentModalProvider({
   children: ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [preselectedDoctorId, setPreselectedDoctorId] = useState<string | null>(null);
   const user = useAppSelector((state) => state.user.data);
   const { openModal: openAuthModal } = useAuthModal();
 
-  const openModal = () => {
+  const openModal = (doctorId?: string) => {
     // اگر کاربر لاگین نشده باشد، مودال لاگین را باز کن
     if (!user) {
       openAuthModal();
       showErrorToast("لطفا ابتدا وارد شوید");
       return;
     }
+    setPreselectedDoctorId(doctorId || null);
     setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsOpen(false);
+    setPreselectedDoctorId(null);
   };
 
   return (
@@ -33,6 +36,7 @@ export function AppointmentModalProvider({
         isOpen,
         openModal,
         closeModal,
+        preselectedDoctorId,
       }}
     >
       {children}

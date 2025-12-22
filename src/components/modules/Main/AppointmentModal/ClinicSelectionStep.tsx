@@ -3,17 +3,27 @@ import { motion } from "motion/react";
 import type { Clinic } from "../../../../types/types";
 import { getImageUrl } from "../../../../utils/helpers";
 
+import type { Doctor } from "../../../../types/types";
+
 interface ClinicSelectionStepProps {
   clinics: Clinic[];
   isLoading: boolean;
   onSelectClinic: (clinic: Clinic) => void;
+  preselectedDoctor?: Doctor | null;
 }
 
 export function ClinicSelectionStep({
   clinics,
   isLoading,
   onSelectClinic,
+  preselectedDoctor,
 }: ClinicSelectionStepProps) {
+  // اگر یک دکتر از قبل انتخاب شده باشد، فقط کلینیک‌هایی که این دکتر در آنها کار می‌کند فعال هستند
+  const getIsClinicEnabled = (clinic: Clinic): boolean => {
+    if (!preselectedDoctor) return true;
+    const doctorClinics = preselectedDoctor.clinics?.map((dc) => dc.clinic.id) || [];
+    return doctorClinics.includes(clinic.id);
+  };
   return (
     <motion.div
       className="flex h-full flex-col"
@@ -41,11 +51,18 @@ export function ClinicSelectionStep({
         </div>
       ) : (
         <div className="grid h-full grid-cols-1 sm:grid-cols-2 gap-4">
-          {clinics.map((clinic) => (
+          {clinics.map((clinic) => {
+            const isEnabled = getIsClinicEnabled(clinic);
+            return (
             <button
               key={clinic.id}
-              onClick={() => onSelectClinic(clinic)}
-              className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border-2 border-gray-200 bg-white/90 text-right shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 active:scale-[0.98]"
+              onClick={() => isEnabled && onSelectClinic(clinic)}
+              disabled={!isEnabled}
+              className={`group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border-2 text-right shadow-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 ${
+                isEnabled
+                  ? "border-gray-200 bg-white/90 hover:-translate-y-0.5 hover:border-accent hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                  : "border-gray-300 bg-gray-100/50 opacity-60 cursor-not-allowed"
+              }`}
             >
               {/* تصویر کلینیک */}
               <div className="relative h-54 w-full overflow-hidden">
@@ -117,8 +134,16 @@ export function ClinicSelectionStep({
                   )}
                 </div>
               </div>
+              {!isEnabled && preselectedDoctor && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-500/20 backdrop-blur-sm z-10">
+                  <span className="text-sm font-estedad-medium text-gray-600 bg-white/90 px-3 py-1 rounded-full">
+                    این پزشک در این کلینیک فعال نیست
+                  </span>
+                </div>
+              )}
             </button>
-          ))}
+          );
+          })}
         </div>
       )}
     </motion.div>

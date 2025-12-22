@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 import { AnimatePresence, motion } from "motion/react";
 import { useGetAllClinics } from "../../../../services/useClinics";
-import { useGetDoctorsByClinic } from "../../../../services/useDoctors";
+import { useGetDoctorsByClinic, useGetDoctorByIdentifier } from "../../../../services/useDoctors";
 import type { Clinic, Doctor } from "../../../../types/types";
 import { AppointmentStepper } from "./AppointmentStepper";
 import { ClinicSelectionStep } from "./ClinicSelectionStep";
@@ -17,7 +17,7 @@ import { validateNationalCode } from "../../../../validators/nationalCodeValidat
 type Step = "clinic" | "doctor" | "patient-info" | "datetime" | "confirmation";
 
 function AppointmentModal() {
-  const { isOpen, closeModal } = useAppointmentModal();
+  const { isOpen, closeModal, preselectedDoctorId } = useAppointmentModal();
   const user = useSelector((state: RootState) => state.user.data);
   const [currentStep, setCurrentStep] = useState<Step>("clinic");
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
@@ -49,9 +49,17 @@ function AppointmentModal() {
   );
   const { data: doctorsData, isLoading: isDoctorsLoading } =
     useGetDoctorsByClinic(selectedClinic?.id || null);
+  
+  // Fetch preselected doctor if doctorId is provided
+  const { data: preselectedDoctorData, isLoading: isPreselectedDoctorLoading } =
+    useGetDoctorByIdentifier(
+      preselectedDoctorId && typeof preselectedDoctorId === "string" ? preselectedDoctorId : "",
+      !!preselectedDoctorId && typeof preselectedDoctorId === "string"
+    );
 
   const clinics: Clinic[] = clinicsData?.data?.clinics || [];
   const doctors: Doctor[] = doctorsData?.data?.doctors || [];
+  const preselectedDoctor: Doctor | null = preselectedDoctorData?.data?.doctor || null;
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -86,8 +94,12 @@ function AppointmentModal() {
       setSelectedDate(null);
       setSelectedTime(null);
       setErrors({});
+    } else if (isOpen && preselectedDoctorId) {
+      // اگر preselectedDoctorId وجود دارد، ابتدا به مرحله clinic برو
+      setCurrentStep("clinic");
     }
-  }, [isOpen]);
+  }, [isOpen, preselectedDoctorId]);
+
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -105,7 +117,12 @@ function AppointmentModal() {
     } else if (currentStep === "datetime") {
       setCurrentStep("patient-info");
     } else if (currentStep === "patient-info") {
-      setCurrentStep("doctor");
+      // اگر preselectedDoctorId وجود دارد، به clinic برگرد (doctor step را اسکیپ کن)
+      if (preselectedDoctorId) {
+        setCurrentStep("clinic");
+      } else {
+        setCurrentStep("doctor");
+      }
       // Reset تمام state های مربوط به مرحله patient-info
       setIsForSelf(null);
       setPatientFirstName("");
@@ -115,9 +132,11 @@ function AppointmentModal() {
       setSelectedDate(null);
       setSelectedTime(null);
       setErrors({});
-      // Reset انتخاب پزشک و گزینه wantsSpecificDoctor
-      setSelectedDoctor(null);
-      setWantsSpecificDoctor(null);
+      // اگر preselectedDoctorId وجود ندارد، انتخاب پزشک را reset کن
+      if (!preselectedDoctorId) {
+        setSelectedDoctor(null);
+        setWantsSpecificDoctor(null);
+      }
     } else if (currentStep === "doctor") {
       setCurrentStep("clinic");
       // Reset تمام state های مربوط به مرحله doctor
@@ -132,7 +151,25 @@ function AppointmentModal() {
 
   const handleClinicSelect = (clinic: Clinic) => {
     setSelectedClinic(clinic);
-    setCurrentStep("doctor");
+    // اگر preselectedDoctorId وجود دارد، مرحله doctor را اسکیپ کن و مستقیماً به patient-info برو
+    if (preselectedDoctorId && preselectedDoctorData?.data?.doctor) {
+      const doctor = preselectedDoctorData.data.doctor;
+      // بررسی کن که آیا این پزشک در کلینیک انتخاب شده کار می‌کند
+      const doctorWorksInClinic = doctor.clinics?.some(
+        (dc) => dc.clinic.id === clinic.id
+      );
+
+      if (doctorWorksInClinic) {
+        setSelectedDoctor(doctor);
+        setWantsSpecificDoctor("yes");
+        setCurrentStep("patient-info");
+      } else {
+        // اگر پزشک در این کلینیک کار نمی‌کند، به مرحله doctor برو
+        setCurrentStep("doctor");
+      }
+    } else {
+      setCurrentStep("doctor");
+    }
   };
 
   const handleDoctorSelect = (doctor: Doctor | null) => {
@@ -339,6 +376,7 @@ function AppointmentModal() {
                     clinics={clinics}
                     isLoading={isClinicsLoading}
                     onSelectClinic={handleClinicSelect}
+                    preselectedDoctor={preselectedDoctor}
                   />
                 )}
 

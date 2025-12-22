@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { Doctor } from "../../../../types/types";
 import { stripHtmlTags, getImageUrl } from "../../../../utils/helpers";
+import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 
 interface DoctorCardProps {
   doctor?: Doctor;
@@ -9,6 +10,7 @@ interface DoctorCardProps {
 
 function DoctorCard({ doctor }: DoctorCardProps) {
   const navigate = useNavigate();
+  const { openModal } = useAppointmentModal();
 
   const handleCardClick = () => {
     if (doctor) {
@@ -18,6 +20,13 @@ function DoctorCard({ doctor }: DoctorCardProps) {
 
   const handleSocialClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  const handleBookAppointment = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (doctor?.id && doctor?.isAppointmentEnabled) {
+      openModal(doctor.id);
+    }
   };
 
   // اگر doctor وجود نداشته باشد، چیزی نمایش نده
@@ -58,6 +67,15 @@ function DoctorCard({ doctor }: DoctorCardProps) {
               MBBS, FCPS, FRCS
             </span>
           </div>
+          {doctor.isAppointmentEnabled && (
+            <button
+              onClick={handleBookAppointment}
+              className="mt-3 main-btn w-full flex items-center justify-center gap-2 text-sm py-2"
+            >
+              <i className="fas fa-calendar-check"></i>
+              رزرو نوبت
+            </button>
+          )}
         </div>
         <div className="flex shrink-0 my-auto  items-center justify-center size-9 bg-white rounded-full">
           <i className="fa fa-plus text-primary"></i>

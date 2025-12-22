@@ -11,7 +11,7 @@ function BannerSlide({ banner, isActive }: BannerSlideProps) {
   return (
     <div className="relative w-full h-full flex items-end justify-center">
       <img
-        src={getImageUrl(banner.image) || "images/banner_img.png"}
+        src={getImageUrl(banner.image) || "images/doctor_banner.png"}
         alt={banner.title || "Banner"}
         className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
       />

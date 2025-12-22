@@ -1,75 +1,75 @@
 @font-face {
   font-family: "iran-yekan-bold";
-  src: url(../../public/fonts/IRANYekanBlack.ttf);
+  src: url(/fonts/IRANYekanBlack.ttf);
 }
 
 @font-face {
   font-family: "iran-yekan-thin";
-  src: url(../../public/fonts/IRANYekanThin.ttf);
+  src: url(/fonts/IRANYekanThin.ttf);
 }
 
 @font-face {
   font-family: "iran-yekan-medium";
-  src: url(../../public/fonts/IRANYekanMedium.ttf);
+  src: url(/fonts/IRANYekanMedium.ttf);
 }
 
 @font-face {
   font-family: "iran-normal";
-  src: url(../../public/fonts/IRANSansWeb_Medium.woff);
+  src: url(/fonts/IRANSansWeb_Medium.woff);
 }
 
 @font-face {
   font-family: "iran-light";
-  src: url(../../public/fonts/IRANSansWeb_Light.woff);
+  src: url(/fonts/IRANSansWeb_Light.woff);
 }
 
 @font-face {
   font-family: "iran-bold";
-  src: url(../../public/fonts/IRANSansWeb_Bold.woff);
+  src: url(/fonts/IRANSansWeb_Bold.woff);
 }
 
 @font-face {
   font-family: "iran-ultralight";
-  src: url(../../public/fonts/IRANSansWeb_UltraLight.woff);
+  src: url(/fonts/IRANSansWeb_UltraLight.woff);
 }
 
 /*estedad fonts*/
 @font-face {
   font-family: "estedad-thin";
-  src: url(../../public/fonts/Estedad-Thin.woff2);
+  src: url(/fonts/Estedad-Thin.woff2);
 }
 
 @font-face {
   font-family: "estedad-verybold";
-  src: url(../../public/fonts/Estedad-ExtraBold.woff2);
+  src: url(/fonts/Estedad-ExtraBold.woff2);
 }
 
 @font-face {
   font-family: "estedad-lightbold";
-  src: url(../../public/fonts/Estedad-Bold.woff2);
+  src: url(/fonts/Estedad-Bold.woff2);
 }
 
 @font-face {
   font-family: "estedad-light";
-  src: url(../../public/fonts/Estedad-Light.woff2);
+  src: url(/fonts/Estedad-Light.woff2);
 }
 
 @font-face {
   font-family: "estedad-extralight";
-  src: url(../../public/fonts/Estedad-ExtraLight.woff2);
+  src: url(/fonts/Estedad-ExtraLight.woff2);
 }
 
 @font-face {
   font-family: "estedad-medium";
-  src: url(../../public/fonts/Estedad-Medium.woff2);
+  src: url(/fonts/Estedad-Medium.woff2);
 }
 
 @font-face {
   font-family: "estedad-semibold";
-  src: url(../../public/fonts/Estedad-SemiBold.woff2);
+  src: url(/fonts/Estedad-SemiBold.woff2);
 }
 
 @font-face {
   font-family: "estedad";
-  src: url(../../public/fonts/Estedad-Regular.woff2);
+  src: url(/fonts/Estedad-Regular.woff2);
 }

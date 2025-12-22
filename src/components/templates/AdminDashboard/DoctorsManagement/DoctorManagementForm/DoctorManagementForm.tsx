@@ -107,6 +107,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       clinicIds: string[];
       workingDays: Record<string, Record<string, TimeRange[]>>; // { clinicId: { day: TimeRange[] } }
       profileImage: File | null;
+      isAppointmentEnabled: boolean;
     },
     resetForm: () => void
   ) => {
@@ -165,6 +166,8 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         formData.append("removeProfileImage", "true");
       }
 
+      formData.append("isAppointmentEnabled", values.isAppointmentEnabled ? "true" : "false");
+
       if (isEditMode && doctor?.id) {
         const response = await updateDoctor({ id: doctor.id, data: formData });
         showSuccessToast("پزشک با موفقیت ویرایش شد");
@@ -220,6 +223,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         clinicIds:
           doctor?.clinics?.map((clinic) => clinic.clinic.id) ||
           ([] as string[]),
+        isAppointmentEnabled: doctor?.isAppointmentEnabled ?? false,
         workingDays: (() => {
           // تبدیل داده‌های ورودی به ساختار جدید: { clinicId: { day: TimeRange[] } }
           const workingDaysData = doctor?.workingDays;
@@ -302,6 +306,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
             clinicIds: values.clinicIds,
             workingDays: values.workingDays,
             profileImage: values.profileImage,
+            isAppointmentEnabled: values.isAppointmentEnabled,
           },
           resetForm
         );
@@ -486,6 +491,25 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                     )}
                 </div>
               </div>
+            </div>
+
+            {/* فعال بودن نوبت‌گیری */}
+            <div className="flex items-center gap-3 mr-4">
+              <input
+                type="checkbox"
+                id="isAppointmentEnabled"
+                checked={formik.values.isAppointmentEnabled}
+                onChange={(e) => {
+                  formik.setFieldValue("isAppointmentEnabled", e.target.checked);
+                }}
+                className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary cursor-pointer"
+              />
+              <label
+                htmlFor="isAppointmentEnabled"
+                className="text-dark font-estedad-lightbold cursor-pointer"
+              >
+                فعال بودن امکان نوبت‌گیری برای این پزشک
+              </label>
             </div>
 
             {/* روزهای کاری به تفکیک کلینیک */}

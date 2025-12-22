@@ -39,13 +39,20 @@ export const useGetDoctorsByClinic = (clinicId: string | null) => {
   });
 };
 
-export const useGetDoctorByIdentifier = (identifier: string) => {
+export const useGetDoctorByIdentifier = (identifier: string, enabled: boolean = true) => {
+  // Ensure identifier is a string to avoid cyclic object issues
+  const safeIdentifier = typeof identifier === "string" ? identifier : "";
+  
   return useQuery({
-    queryKey: ["doctor", identifier],
+    queryKey: ["doctor", safeIdentifier],
     queryFn: async () => {
-      const response = await axiosInstance.get(`/doctors/${identifier}`);
+      if (!safeIdentifier) {
+        throw new Error("Doctor identifier is required");
+      }
+      const response = await axiosInstance.get(`/doctors/${safeIdentifier}`);
       return response.data;
     },
+    enabled: enabled && !!safeIdentifier,
     staleTime: 1000 * 60 * 5,
   });
 };

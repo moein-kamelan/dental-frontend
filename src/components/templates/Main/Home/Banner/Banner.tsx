@@ -156,7 +156,7 @@ function Banner() {
                   <SwiperSlide className="relative flex items-end justify-center">
                     <div className="relative w-full h-full flex items-end justify-center">
                       <img
-                        src="images/banner_img.png"
+                        src="images/doctor_banner.png"
                         alt="banner"
                         className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
                       />

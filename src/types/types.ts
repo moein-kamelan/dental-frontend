@@ -37,6 +37,7 @@ export interface Doctor {
     clinic: Clinic;
   }[];
   workingDays?: Record<string, Record<string, string | null>>; // { clinicId: { day: "14:00-18:00" | null } }
+  isAppointmentEnabled?: boolean; // آیا امکان نوبت‌گیری برای این پزشک فعال است
   _count?: {
     comments: number;
   };

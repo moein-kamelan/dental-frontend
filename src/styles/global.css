@@ -1,9 +1,9 @@
+/* ckeditor styles - must be first */
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 @import "./fonts.css";
 @import "swiper/css";
 @import "swiper/css/navigation";
-/* ckeditor styles */
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 @media print {
   body {
