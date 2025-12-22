@@ -352,6 +352,8 @@ figure img {
   --color-semantic-red: #f7588d;
   --color-semantic-yellow: #d4af37;
   --color-main-border-color: #5e5b5b17;
+  --color-background: #fafafa;
+  --color-background-warm: #f8f9fa;
 
   --breakpoint-xs: 480px;
 
@@ -382,6 +384,11 @@ body {
   position: relative;
   font-family: var(--font-estedad-medium), sans-serif;
   @apply text-dark;
+  background-color: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(42, 122, 122, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 /* Prevent overflow during animations */

@@ -5,232 +5,221 @@ import { getImageUrl } from "../../../../utils/helpers";
 
 function Footer() {
   const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
+
+  const socialLinks = [
+    {
+      name: "Facebook",
+      icon: "fab fa-facebook-f",
+      url: settings?.data?.settings?.facebook,
+      color: "hover:bg-blue-600",
+    },
+    {
+      name: "Twitter",
+      icon: "fab fa-twitter",
+      url: settings?.data?.settings?.twitter,
+      color: "hover:bg-blue-400",
+    },
+    {
+      name: "Instagram",
+      icon: "fab fa-instagram",
+      url: settings?.data?.settings?.instagram,
+      color: "hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600",
+    },
+    {
+      name: "LinkedIn",
+      icon: "fab fa-linkedin-in",
+      url: settings?.data?.settings?.linkedin,
+      color: "hover:bg-blue-700",
+    },
+    {
+      name: "Telegram",
+      icon: "fab fa-telegram-plane",
+      url: settings?.data?.settings?.telegram,
+      color: "hover:bg-blue-500",
+    },
+    {
+      name: "YouTube",
+      icon: "fab fa-youtube",
+      url: settings?.data?.settings?.youtube,
+      color: "hover:bg-red-600",
+    },
+  ].filter((link) => link.url);
+
   return (
-    <footer className="bg-[url('/images/footer_bg.jpg')] bg-no-repeat bg-cover text-white  mt-30 max-sm:mt-42 relative">
-      <div className="absolute left-0 right-0 top-0 -translate-y-1/2 w-full">
-        <div className="flex items-center justify-end gap-3 sm:gap-4 md:gap-6 py-6 sm:py-8 md:py-10 px-4 md:px-8 lg:px-12">
-          <div className="h-px bg-linear-to-l from-accent via-accent/80 to-transparent flex-1"></div>
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-accent/20 flex items-center justify-center">
-              <div className="text-accent">
-                <i className="fas fa-tooth text-sm sm:text-base md:text-lg"></i>
-              </div>
-            </div>
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-secondary/20 flex items-center justify-center">
-              <div className="text-secondary">
-                <i className="fas fa-smile text-sm sm:text-base md:text-lg"></i>
-              </div>
-            </div>
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-accent/20 flex items-center justify-center">
-              <div className="text-accent">
-                <i className="fas fa-tooth text-sm sm:text-base md:text-lg"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+    <footer className="relative bg-gradient-to-br from-primary via-primary/95 to-accent text-white mt-20 md:mt-30 overflow-hidden">
+      {/* Background Pattern Overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        ></div>
       </div>
-      <div className="container mx-auto px-4 pt-8 sm:pt-10 md:pt-12 relative ">
-        <div className="grid  xs:grid-cols-2  md:grid-cols-4 lg:grid-cols-[3fr_1fr_2fr_3fr] gap-8 mb-12 items-start">
-          <div className=" max-lg:col-span-4">
+
+      <div className="container mx-auto px-4 pt-16 md:pt-20 pb-8 relative z-10">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+          {/* About Section */}
+          <motion.div
+            className="lg:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             {isSettingsLoading ? (
-              <div className="mb-6 w-48 h-20 bg-gray-600 animate-pulse rounded" />
+              <div className="mb-6 w-48 h-20 bg-white/10 animate-pulse rounded-lg" />
             ) : (
-              <img
+              <motion.img
                 src={
                   settings?.data?.settings?.logo
                     ? getImageUrl(settings.data.settings.logo)
                     : "/images/Logo_1.png"
                 }
                 alt="logo"
-                className="mb-6 w-48 h-20 object-contain"
+                className="mb-6 w-48 h-20 object-contain filter brightness-0 invert"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
               />
             )}
-            <p className="text-paragray font-estedad-light mb-4 ">
+            <p className="text-white/80 font-estedad-light mb-6 leading-relaxed text-base">
               {settings?.data?.settings?.description ||
                 "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ"}
             </p>
 
-            <div className="mb-4 flex items-center gap-5 ">
-              <span className="text-dark font-estedad-light text-nowrap">
-                ما را دنبال کنید :{" "}
-              </span>
-              <div className="flex flex-wrap gap-3 text-xl">
-                {settings?.data?.settings?.facebook && (
-                  <Link
-                    to={settings.data.settings.facebook}
+            {/* Social Media Links */}
+            <div>
+              <h6 className="text-white font-estedad-semibold mb-4 flex items-center gap-2">
+                <i className="fas fa-share-alt text-accent"></i>
+                ما را دنبال کنید
+              </h6>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
+                    className="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-primary transition-all duration-300 shadow-md"
+                    whileHover={{ scale: 1.1, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label={social.name}
                   >
-                    <i className="text-sm md:text-base fab fa-facebook-f"></i>
-                  </Link>
-                )}
-                {settings?.data?.settings?.twitter && (
-                  <Link
-                    to={settings.data.settings.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <i className="text-sm md:text-base fab fa-twitter"></i>
-                  </Link>
-                )}
-                {settings?.data?.settings?.instagram && (
-                  <Link
-                    to={settings.data.settings.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <i className="text-sm md:text-base fab fa-instagram"></i>
-                  </Link>
-                )}
-                {settings?.data?.settings?.linkedin && (
-                  <Link
-                    to={settings.data.settings.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <i className="text-sm md:text-base fab fa-linkedin-in"></i>
-                  </Link>
-                )}
-                {settings?.data?.settings?.telegram && (
-                  <Link
-                    to={settings.data.settings.telegram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <i className="text-sm md:text-base fab fa-telegram-plane"></i>
-                  </Link>
-                )}
-                {settings?.data?.settings?.youtube && (
-                  <Link
-                    to={settings.data.settings.youtube}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" size-7.5 rounded-full bg-accent text-white  hover:bg-secondary transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <i className="text-sm md:text-base fab fa-youtube"></i>
-                  </Link>
-                )}
+                    <i className={`${social.icon} text-lg`}></i>
+                  </motion.a>
+                ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div>
-            <h5 className="font-estedad-verybold  text-xl text-dark  mb-4 ">
-              شرکت
+          {/* Quick Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <h5 className="font-estedad-bold text-xl text-white mb-6 flex items-center gap-2">
+              <i className="fas fa-link text-accent"></i>
+              لینک‌های سریع
             </h5>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <Link
-                  to={"/"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  خانه
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/about-us"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  درباره ما
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/services"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  خدمات ما
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/contact"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  تماس با ما
-                </Link>
-              </li>
+            <ul className="space-y-3">
+              {[
+                { to: "/", label: "خانه", icon: "fas fa-home" },
+                { to: "/about-us", label: "درباره ما", icon: "fas fa-info-circle" },
+                { to: "/services", label: "خدمات ما", icon: "fas fa-tooth" },
+                { to: "/doctors", label: "پزشکان", icon: "fas fa-user-md" },
+                { to: "/contact", label: "تماس با ما", icon: "fas fa-envelope" },
+              ].map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    className="text-white/80 font-estedad-medium hover:text-accent transition-colors duration-300 flex items-center gap-2 group"
+                  >
+                    <i className={`${link.icon} text-xs text-accent group-hover:translate-x-1 transition-transform duration-300`}></i>
+                    <span>{link.label}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </motion.div>
 
-          <div>
-            <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">
-              لینک‌های مهم
+          {/* Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h5 className="font-estedad-bold text-xl text-white mb-6 flex items-center gap-2">
+              <i className="fas fa-phone text-accent"></i>
+              تماس با ما
             </h5>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <Link
-                  to={"/gallery"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  گالری
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/appointment"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  نوبت دهی
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/faq"}
-                  className="text-paragray font-estedad-semibold hover:text-tertiary"
-                >
-                  سوالات متداول
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="max-sm:col-span-4 max-lg:col-span-2">
-            <h5 className="font-estedad-verybold  text-xl text-dark mb-4 ">
-              با ما در تماس باشید
-            </h5>
-            <div className="space-y-3 text-gray-400">
+            <div className="space-y-4">
               {settings?.data?.settings?.address && (
-                <p className=" flex items-center gap-4 font-estedad-light">
-                  <i className="fas fa-map-marker-alt mr-2 text-accent text-base"></i>
-                  {settings.data.settings.address}
-                </p>
+                <motion.div
+                  className="flex items-start gap-3 text-white/80"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center mt-0.5">
+                    <i className="fas fa-map-marker-alt text-accent"></i>
+                  </div>
+                  <p className="font-estedad-light leading-relaxed">
+                    {settings.data.settings.address}
+                  </p>
+                </motion.div>
               )}
               {settings?.data?.settings?.email && (
-                <Link
-                  to={`mailto:${settings.data.settings.email}`}
-                  className=" hover:text-accent flex items-center gap-2"
+                <motion.a
+                  href={`mailto:${settings.data.settings.email}`}
+                  className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors duration-300 group"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <i className="fas fa-envelope mr-2 text-accent text-base"></i>
-                  {settings.data.settings.email}
-                </Link>
+                  <div className="flex-shrink-0 w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-envelope text-accent"></i>
+                  </div>
+                  <span className="font-estedad-medium">{settings.data.settings.email}</span>
+                </motion.a>
               )}
               {settings?.data?.settings?.phoneNumber && (
-                <Link
-                  to={`tel:${settings.data.settings.phoneNumber}`}
-                  className=" hover:text-accent flex items-center gap-2"
+                <motion.a
+                  href={`tel:${settings.data.settings.phoneNumber}`}
+                  className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors duration-300 group"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <i className="fas fa-phone-alt mr-2 text-accent text-base"></i>
-                  {settings.data.settings.phoneNumber}
-                </Link>
+                  <div className="flex-shrink-0 w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-phone-alt text-accent"></i>
+                  </div>
+                  <span className="font-estedad-medium">{settings.data.settings.phoneNumber}</span>
+                </motion.a>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="border-t border-[#ddd] py-5 flex flex-col md:flex-row justify-between items-center gap-4 text-paragray">
-          <p className="font-estedad-light">
-            تمامی حقوق متعلق به کلینیک دندان پزشکی طاهابی می‌باشد
+        {/* Bottom Copyright Bar */}
+        <motion.div
+          className="border-t border-white/20 pt-6 pb-4 flex flex-col md:flex-row justify-between items-center gap-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-white/70 font-estedad-light text-sm md:text-base text-center md:text-right">
+            تمامی حقوق متعلق به کلینیک دندان پزشکی طاهابی می‌باشد © {new Date().getFullYear()}
           </p>
-          <p className="font-estedad-light">ساخته شده توسط</p>
-        </div>
+          <p className="text-white/70 font-estedad-light text-sm md:text-base text-center md:text-left">
+            ساخته شده با <i className="fas fa-heart text-accent mx-1"></i> برای شما
+          </p>
+        </motion.div>
       </div>
+
+      {/* Decorative Bottom Gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
     </footer>
   );
 }

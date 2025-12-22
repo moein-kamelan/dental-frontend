@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import type { Doctor } from "../../../../types/types";
 import { stripHtmlTags, getImageUrl } from "../../../../utils/helpers";
 import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
@@ -34,54 +35,130 @@ function DoctorCard({ doctor }: DoctorCardProps) {
     return null;
   }
 
+  const biography = stripHtmlTags(doctor.biography || "");
+  const skills = doctor.skills?.slice(0, 2).join("، ") || "";
+
   return (
-    <div
+    <motion.div
       onClick={handleCardClick}
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20 flex flex-col h-full"
+      className="group/card bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-accent/30 flex flex-col h-full relative"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.4 }}
+      whileHover={{ y: -8 }}
     >
-      <div className="relative overflow-hidden shrink-0">
-        <img
+      {/* Image Container with Gradient Overlay */}
+      <div className="relative overflow-hidden shrink-0 h-72">
+        <motion.img
           src={
             doctor?.profileImage
               ? getImageUrl(doctor.profileImage)
               : "/images/team-1.jpg"
           }
           alt={`${doctor.firstName} ${doctor.lastName}`}
-          className="w-full h-80 object-cover"
+          className="w-full h-full object-cover"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         />
+        
+        {/* Gradient Overlay on Hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+        
+        {/* Badge for Appointment Status */}
+        {doctor.isAppointmentEnabled && (
+          <div className="absolute top-4 left-4 bg-accent text-white px-3 py-1.5 rounded-full text-xs font-estedad-semibold shadow-lg flex items-center gap-1.5">
+            <i className="fas fa-check-circle text-xs"></i>
+            <span>قابل رزرو</span>
+          </div>
+        )}
 
-        <div className=" absolute inset-0 flex items-center justify-center transition-all duration-500 group-hover/card:bg-primary/50 scale-90 group-hover/card:scale-100 origin-center"></div>
+        {/* View Details Button (appears on hover) */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"
+          initial={false}
+        >
+          <motion.button
+            onClick={handleCardClick}
+            className="bg-white text-primary px-6 py-3 rounded-full font-estedad-semibold shadow-xl flex items-center gap-2 hover:bg-accent hover:text-white transition-colors duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <i className="fas fa-eye"></i>
+            <span>مشاهده پروفایل</span>
+          </motion.button>
+        </motion.div>
       </div>
 
-      <div className="grow  shrink-0 px-6 py-4 bg-primary text-white group-hover/card:bg-secondary transition-all duration-500 flex  justify-between gap-x-4">
-        <div className="flex flex-col grow justify-between  gap-y-2">
-          <h6 className="text-xl font-estedad-semibold line-clamp-2">
-            {doctor.firstName} {doctor.lastName}
-          </h6>
-          <p className="text-sm line-clamp-2">
-            {stripHtmlTags(doctor.biography || "")}
-          </p>
-          <div className="flex mt-auto items-center  gap-3">
-            <i className="	fas fa-graduation-cap"></i>
-            <span className="text-sm block  font-estedad-light">
-              MBBS, FCPS, FRCS
+      {/* Content Section */}
+      <div className="flex-1 flex flex-col px-6 py-5 bg-gradient-to-b from-white to-gray-50/50">
+        {/* Doctor Name */}
+        <motion.h3
+          className="text-xl font-estedad-bold text-dark mb-2 line-clamp-1 group-hover/card:text-accent transition-colors duration-300"
+          layout
+        >
+          دکتر {doctor.firstName} {doctor.lastName}
+        </motion.h3>
+
+        {/* Skills/Qualifications */}
+        {skills && (
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <i className="fas fa-graduation-cap text-accent text-sm"></i>
+            <span className="text-sm text-paragray font-estedad-medium line-clamp-1">
+              {skills}
             </span>
           </div>
-          {doctor.isAppointmentEnabled && (
-            <button
+        )}
+
+        {/* Biography Preview */}
+        {biography && (
+          <p className="text-sm text-paragray font-estedad-light leading-relaxed line-clamp-3 mb-4 flex-1">
+            {biography}
+          </p>
+        )}
+
+        {/* University */}
+        {doctor.university && (
+          <div className="flex items-center gap-2 mb-4 text-xs text-paragray">
+            <i className="fas fa-university text-accent/70"></i>
+            <span className="font-estedad-medium">{doctor.university}</span>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="mt-auto space-y-2 pt-3 border-t border-gray-100">
+          {doctor.isAppointmentEnabled ? (
+            <motion.button
               onClick={handleBookAppointment}
-              className="mt-3 main-btn w-full flex items-center justify-center gap-2 text-sm py-2"
+              className="w-full bg-gradient-to-r from-accent to-primary text-white py-3 px-4 rounded-xl font-estedad-semibold hover:from-secondary hover:to-accent transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <i className="fas fa-calendar-check"></i>
-              رزرو نوبت
-            </button>
+              <span>رزرو نوبت</span>
+            </motion.button>
+          ) : (
+            <div className="w-full bg-gray-100 text-paragray py-3 px-4 rounded-xl font-estedad-semibold text-center cursor-not-allowed">
+              <i className="fas fa-calendar-times ml-2"></i>
+              <span>در حال حاضر غیرفعال</span>
+            </div>
           )}
-        </div>
-        <div className="flex shrink-0 my-auto  items-center justify-center size-9 bg-white rounded-full">
-          <i className="fa fa-plus text-primary"></i>
+          
+          <motion.button
+            onClick={handleCardClick}
+            className="w-full border-2 border-accent text-accent py-2.5 px-4 rounded-xl font-estedad-semibold hover:bg-accent hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <i className="fas fa-user-md"></i>
+            <span>مشاهده جزئیات</span>
+          </motion.button>
         </div>
       </div>
-    </div>
+
+      {/* Decorative Corner Element */}
+      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent/10 to-transparent rounded-bl-3xl pointer-events-none"></div>
+    </motion.div>
   );
 }
 
