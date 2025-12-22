@@ -2,6 +2,7 @@ import React, { useMemo, useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import type { Clinic, Doctor } from "../../../../types/types";
 import { useGetOccupiedSlots, useGetAppointmentSettings } from "../../../../services/useAppointments";
+import { useCheckMultipleHolidays } from "../../../../services/useHolidays";
 
 interface DateTimeSelectionStepProps {
   selectedDate: string | null;
@@ -27,6 +28,7 @@ interface AvailableDate {
   isTomorrow: boolean;
   isDayAfterTomorrow: boolean;
   isFriday: boolean;
+  isHoliday?: boolean;
 }
 
 // تابع کمکی برای گرفتن روز هفته شمسی (0 = شنبه، 6 = جمعه)
@@ -143,48 +145,78 @@ export function DateTimeSelectionStep({
       }
     };
   }, []);
+
   // تولید لیست روزهای قابل انتخاب (امروز تا 3 روز بعد، شامل جمعه)
-  const availableDates = useMemo<AvailableDate[]>(() => {
-    const dates: AvailableDate[] = [];
+  const datesList = useMemo(() => {
+    const dates: Array<{ date: Date; jalaliDate: { year: number; month: number; day: number } }> = [];
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // تنظیم ساعت به ابتدای روز
+    today.setHours(0, 0, 0, 0);
     let currentDate = new Date(today);
 
     // تا زمانی که 4 روز پیدا کنیم (شامل جمعه)
     while (dates.length < 4) {
-      const dayOfWeek = getJalaliDayOfWeek(currentDate);
-      const isFriday = dayOfWeek === 6;
-
-      const isToday = isSameDay(currentDate, today);
-      // بررسی اینکه آیا فردا است
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const isTomorrow = isSameDay(currentDate, tomorrow);
-      // بررسی اینکه آیا پسفردا است
-      const dayAfterTomorrow = new Date(today);
-      dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-      const isDayAfterTomorrow = isSameDay(currentDate, dayAfterTomorrow);
       const jalaliDate = formatJalaliDate(currentDate);
-
       dates.push({
         date: new Date(currentDate),
-        jalaliDate: `${jalaliDate.year}/${jalaliDate.month}/${jalaliDate.day}`,
-        dayName: getDayName(dayOfWeek),
-        dayNumber: jalaliDate.day,
-        monthName: jalaliDate.month,
-        isToday,
-        isTomorrow,
-        isDayAfterTomorrow,
-        isFriday,
+        jalaliDate: {
+          year: parseInt(jalaliDate.year),
+          month: parseInt(jalaliDate.month),
+          day: parseInt(jalaliDate.day),
+        },
       });
-
-      // رفتن به روز بعد
       currentDate = new Date(currentDate);
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
     return dates;
   }, []);
+
+  // بررسی تعطیل بودن روزها
+  const holidayDates = datesList.map((d) => d.jalaliDate);
+  const { data: holidaysData } = useCheckMultipleHolidays(holidayDates);
+
+  // تولید لیست نهایی با اطلاعات تعطیلات
+  const availableDates = useMemo<AvailableDate[]>(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // ایجاد map برای تعطیلات
+    const holidayMap = new Map<string, boolean>();
+    if (holidaysData) {
+      holidaysData.forEach((result) => {
+        const key = `${result.date.year}/${result.date.month}/${result.date.day}`;
+        holidayMap.set(key, result.is_holiday);
+      });
+    }
+
+    return datesList.map((item) => {
+      const dayOfWeek = getJalaliDayOfWeek(item.date);
+      const isFriday = dayOfWeek === 6;
+      const isToday = isSameDay(item.date, today);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const isTomorrow = isSameDay(item.date, tomorrow);
+      const dayAfterTomorrow = new Date(today);
+      dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+      const isDayAfterTomorrow = isSameDay(item.date, dayAfterTomorrow);
+      
+      const jalaliKey = `${item.jalaliDate.year}/${item.jalaliDate.month}/${item.jalaliDate.day}`;
+      const isHoliday = holidayMap.get(jalaliKey) || false;
+
+      return {
+        date: item.date,
+        jalaliDate: jalaliKey,
+        dayName: getDayName(dayOfWeek),
+        dayNumber: item.jalaliDate.day.toString(),
+        monthName: item.jalaliDate.month.toString(),
+        isToday,
+        isTomorrow,
+        isDayAfterTomorrow,
+        isFriday,
+        isHoliday: isHoliday || isFriday, // جمعه هم تعطیل است
+      };
+    });
+  }, [datesList, holidaysData]);
 
   const handleDateClick = (date: Date) => {
     const dateString = formatDateToString(date);
@@ -493,7 +525,7 @@ export function DateTimeSelectionStep({
           {availableDates.map((availableDate, index) => {
             const dateString = formatDateToString(availableDate.date);
             const isSelected = selectedDate === dateString;
-            const isDisabled = availableDate.isFriday;
+            const isDisabled = availableDate.isHoliday || false; // تعطیلات رسمی یا جمعه
 
             return (
               <motion.button
@@ -622,7 +654,7 @@ export function DateTimeSelectionStep({
                   </motion.div>
                 )}
 
-                {/* پیام تعطیل بودن کلینیک - همیشه نمایش داده می‌شود برای روزهای تعطیل در پایین کارت */}
+                {/* پیام تعطیل بودن - همیشه نمایش داده می‌شود برای روزهای تعطیل در پایین کارت */}
                 {isDisabled && (
                   <motion.div
                     className="absolute bottom-0 left-0 right-0 z-20 w-full opacity-100"
@@ -631,8 +663,8 @@ export function DateTimeSelectionStep({
                     transition={{ duration: 0.3 }}
                   >
                     <div className="bg-red-500 text-white px-1.5 py-0.5 sm:px-2 md:px-3 sm:py-1 md:py-1.5 rounded-b-xl sm:rounded-b-2xl shadow-lg text-[8px] sm:text-[9px] md:text-[10px] font-estedad-semibold text-center w-full">
-                      <i className="fas fa-exclamation-circle ml-0.5 sm:ml-1 text-[8px] sm:text-[9px] md:text-[10px]"></i>
-                      کلینیک تعطیل می‌باشد
+                      <i className="fas fa-calendar-times ml-0.5 sm:ml-1 text-[8px] sm:text-[9px] md:text-[10px]"></i>
+                      {availableDate.isFriday ? "جمعه" : "تعطیل رسمی"}
                     </div>
                   </motion.div>
                 )}
