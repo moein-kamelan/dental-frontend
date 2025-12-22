@@ -105,7 +105,7 @@ function Appointment() {
                       value={selectedDate}
                       onChange={(value) => setSelectedDate(value)}
                       placeholder="تاریخ را انتخاب کنید"
-                    />
+                  />
                   </div>
 
                   <Select<OptionType, false>

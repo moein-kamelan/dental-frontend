@@ -31,8 +31,7 @@ function Doctors() {
 
   return (
     <>
-      <Breadcrumb />
-      <SearchForm doctors={doctors} />
+      <Breadcrumb searchForm={<SearchForm doctors={doctors} />} />
 
       <section className="py-20">
         <div className="container mx-auto px-4">

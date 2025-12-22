@@ -18,16 +18,12 @@ function SearchForm({services, doctors, articles}: {services?: {data: {services:
         }
     }
     return (
-        <section className="mb-1">
-            <div className="container mx-auto px-4">
-                <form onSubmit={handleSearch} className=" p-6 md:max-w-2xl ">
-                    <div className="relative">
-                        <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="جستجو.." className="w-full pl-16 pr-6 py-3  border-main-border-color border-2 rounded-full focus:outline-none focus:border-primary "/>
-                        <button  type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-primary bg-primary  rounded-full p-2 size-9 hover:bg-deepblue transition-all duration-300 shrink-0 *:cursor-pointer"><i className="fa fa-search text-white"></i></button>
-                    </div>
-                </form>
+        <form onSubmit={handleSearch} className="w-full lg:w-auto">
+            <div className="relative">
+                <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="جستجو.." className="w-full lg:w-64 xl:w-80 pl-16 pr-6 py-3 border-main-border-color border-2 rounded-full focus:outline-none focus:border-primary bg-white/80 backdrop-blur-sm shadow-sm"/>
+                <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-primary bg-primary rounded-full p-2 size-9 hover:bg-deepblue transition-all duration-300 shrink-0 cursor-pointer"><i className="fa fa-search text-white"></i></button>
             </div>
-        </section>
+        </form>
     )
 }
 

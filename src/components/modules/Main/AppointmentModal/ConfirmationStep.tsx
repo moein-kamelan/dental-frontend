@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import type { Clinic, Doctor } from "../../../../types/types";
 import { useCreateAppointment } from "../../../../services/useAppointments";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
 
 interface ConfirmationStepProps {
   selectedClinic: Clinic | null;
@@ -91,6 +93,7 @@ export function ConfirmationStep({
   >("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { mutateAsync: createAppointment } = useCreateAppointment();
+  const user = useSelector((state: RootState) => state.user.data);
 
   const handleConfirm = async () => {
     if (!selectedDate || !selectedTime || !selectedClinic || isSubmitting) {
@@ -213,7 +216,7 @@ export function ConfirmationStep({
                     className="flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
                   >
                     <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-500/20 to-blue-400/10 rounded-lg flex items-center justify-center">
-                      <i className="fas fa-user-doctor text-blue-500 text-lg"></i>
+                      <i className="fas fa-user-md text-blue-500 text-lg"></i>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-estedad-medium text-gray-400 mb-0.5">
@@ -235,7 +238,7 @@ export function ConfirmationStep({
                   className="flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500/20 to-purple-400/10 rounded-lg flex items-center justify-center">
-                    <i className="fas fa-calendar-clock text-purple-500 text-lg"></i>
+                    <i className="fas fa-calendar-alt text-purple-500 text-lg"></i>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-estedad-medium text-gray-400 mb-0.5">
@@ -267,6 +270,8 @@ export function ConfirmationStep({
                       patientFirstName &&
                       patientLastName
                         ? `${patientFirstName} ${patientLastName}`
+                        : user?.firstName && user?.lastName
+                        ? `${user.firstName} ${user.lastName}`
                         : "خودم"}
                     </p>
                     {patientNationalId && (

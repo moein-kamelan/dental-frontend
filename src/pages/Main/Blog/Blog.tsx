@@ -41,8 +41,7 @@ function Blog() {
 
   return (
     <>
-      <Breadcrumb />
-      <SearchForm articles={articles} />
+      <Breadcrumb searchForm={<SearchForm articles={articles} />} />
 
       <section className="py-20">
         <div className="container mx-auto px-4">

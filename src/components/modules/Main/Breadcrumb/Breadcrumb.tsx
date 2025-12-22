@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
+import { ReactNode } from "react";
 
 interface BreadcrumbItem {
   label: string;
@@ -9,6 +10,7 @@ interface BreadcrumbItem {
 interface BreadcrumbProps {
   title?: string;
   items?: BreadcrumbItem[];
+  searchForm?: ReactNode;
 }
 
 // Persian labels mapping for routes
@@ -35,7 +37,7 @@ const routeLabels: Record<string, string> = {
   "blog/:slug": "جزئیات وبلاگ",
 };
 
-function Breadcrumb({ title, items }: BreadcrumbProps) {
+function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
   const location = useLocation();
 
   // Default breadcrumb based on current path if items not provided
@@ -119,81 +121,103 @@ function Breadcrumb({ title, items }: BreadcrumbProps) {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          className="flex flex-col gap-4 md:gap-5"
+          className="flex flex-col lg:flex-row gap-4 md:gap-5 items-start lg:items-center justify-between"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          {/* Page Title with Icon */}
-          <div className="flex items-center gap-3 md:gap-4">
+          {/* Right side - Title and Breadcrumb */}
+          <div className="flex-1 w-full lg:w-auto order-1 lg:order-1">
             <motion.div
-              className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl bg-linear-to-br from-accent to-primary shadow-lg"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, type: "spring" }}
+              className="flex flex-col gap-4 md:gap-5"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <i className="fas fa-home text-white text-lg md:text-xl"></i>
-            </motion.div>
-            <div className="flex-1">
-              <motion.h1
-                className="text-2xl md:text-3xl lg:text-4xl font-estedad-verybold text-dark mb-1"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+              {/* Page Title with Icon */}
+              <div className="flex items-center gap-3 md:gap-4">
+                <motion.div
+                  className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl bg-linear-to-br from-accent to-primary shadow-lg"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2, type: "spring" }}
+                >
+                  <i className="fas fa-home text-white text-lg md:text-xl"></i>
+                </motion.div>
+                <div className="flex-1">
+                  <motion.h1
+                    className="text-2xl md:text-3xl lg:text-4xl font-estedad-verybold text-dark mb-1"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    {pageTitle}
+                  </motion.h1>
+                  <div className="h-1 w-20 bg-linear-to-r from-accent via-secondary/50 to-primary rounded-full mt-2"></div>
+                </div>
+              </div>
+
+              {/* Breadcrumb Navigation with Beautiful Pills */}
+              <nav
+                className="flex items-center gap-2 flex-wrap"
+                aria-label="Breadcrumb"
               >
-                {pageTitle}
-              </motion.h1>
-              <div className="h-1 w-20 bg-linear-to-r from-accent via-secondary/50 to-primary rounded-full mt-2"></div>
-            </div>
+                <ol className="flex items-center gap-2 md:gap-3 flex-wrap">
+                  {breadcrumbItems.map((item, index) => (
+                    <motion.li
+                      key={index}
+                      className="flex items-center gap-2 md:gap-3"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                    >
+                      {index > 0 && (
+                        <motion.i
+                          className="fas fa-chevron-left text-accent/60 text-xs md:text-sm"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.5 + index * 0.1 }}
+                        ></motion.i>
+                      )}
+                      {item.path ? (
+                        <NavLink
+                          to={item.path}
+                          className="group relative px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-primary/20 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 font-iran-sans-medium text-sm md:text-base text-paragray hover:text-accent"
+                        >
+                          <span className="relative z-10 flex items-center gap-2">
+                            {index === 0 && <i className="fas fa-home text-xs"></i>}
+                            {item.label}
+                          </span>
+                          <div className="absolute inset-0 rounded-full bg-linear-to-r from-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </NavLink>
+                      ) : (
+                        <motion.span
+                          className="px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-linear-to-r from-accent to-primary text-white font-iran-sans-bold text-sm md:text-base shadow-lg flex items-center gap-2"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <i className="fas fa-map-marker-alt text-xs"></i>
+                          {item.label}
+                        </motion.span>
+                      )}
+                    </motion.li>
+                  ))}
+                </ol>
+              </nav>
+            </motion.div>
           </div>
 
-          {/* Breadcrumb Navigation with Beautiful Pills */}
-          <nav
-            className="flex items-center gap-2 flex-wrap"
-            aria-label="Breadcrumb"
-          >
-            <ol className="flex items-center gap-2 md:gap-3 flex-wrap">
-              {breadcrumbItems.map((item, index) => (
-                <motion.li
-                  key={index}
-                  className="flex items-center gap-2 md:gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                >
-                  {index > 0 && (
-                    <motion.i
-                      className="fas fa-chevron-left text-accent/60 text-xs md:text-sm"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
-                    ></motion.i>
-                  )}
-                  {item.path ? (
-                    <NavLink
-                      to={item.path}
-                      className="group relative px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-primary/20 hover:border-accent/40 hover:bg-accent/10 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 font-iran-sans-medium text-sm md:text-base text-paragray hover:text-accent"
-                    >
-                      <span className="relative z-10 flex items-center gap-2">
-                        {index === 0 && <i className="fas fa-home text-xs"></i>}
-                        {item.label}
-                      </span>
-                      <div className="absolute inset-0 rounded-full bg-linear-to-r from-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </NavLink>
-                  ) : (
-                    <motion.span
-                      className="px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-linear-to-r from-accent to-primary text-white font-iran-sans-bold text-sm md:text-base shadow-lg flex items-center gap-2"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 400 }}
-                    >
-                      <i className="fas fa-map-marker-alt text-xs"></i>
-                      {item.label}
-                    </motion.span>
-                  )}
-                </motion.li>
-              ))}
-            </ol>
-          </nav>
+          {/* Left side - Search Form */}
+          {searchForm && (
+            <motion.div
+              className="w-full lg:w-auto lg:flex-shrink-0 order-2 lg:order-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {searchForm}
+            </motion.div>
+          )}
         </motion.div>
       </div>
 
