@@ -162,6 +162,27 @@ function AboutUsSection() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Goftino Chat Link */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              viewport={{ once: true }}
+              className="mt-6"
+            >
+              <a
+                href="https://goftino.com/c/bpADrN"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-gradient-to-r from-accent to-primary text-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                style={{ fontFamily: 'var(--font-vazir)' }}
+              >
+                <i className="fas fa-comments text-xl"></i>
+                <span className="font-estedad-semibold text-base">ارتباط با ما از طریق گفتینو</span>
+                <i className="fas fa-external-link-alt text-sm"></i>
+              </a>
+            </motion.div>
             </motion.div>
           </div>
         </div>

@@ -41,6 +41,11 @@ export interface Doctor {
   _count?: {
     comments: number;
   };
+  stats?: {
+    averageRating: number | null;
+    totalReviews: number;
+    successfulAppointments: number;
+  };
   createdAt?: string;
   updatedAt?: string;
 }
