@@ -570,7 +570,7 @@ export function DateTimeSelectionStep({
               <i className="fas fa-exclamation-circle text-sky-600 text-xl"></i>
             </div>
             <p className="text-sm sm:text-base text-sky-800 font-estedad-medium leading-relaxed">
-              مراجع گرامی , ساعت نوبت دهی زمان تقریبی حضور شما در مطب است؛
+              کاربر گرامی، ساعت نوبت دهی زمان تقریبی حضور شما در مطب است؛
               بنابراین ممکن است جهت ویزیت مدتی در مطب منتظر بمانید.
             </p>
           </div>

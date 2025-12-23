@@ -22,7 +22,7 @@ function Topbar() {
 
   // Use clinic data if provided, otherwise fallback to settings or default values
   const phoneNumber = activeClinic?.phoneNumber || settings?.phoneNumber || '123456789'
-  const email = settings?.email || 'support@gmail.com'
+  const email = settings?.email // Only use email from settings, no fallback
   const address = activeClinic?.address || settings?.address || 'شیراز. خیابان نیایش. ساختمان پزشکان'
   
   // Social media links from settings

@@ -67,7 +67,7 @@ function Profile() {
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-gray-50 to-white px-4 py-2.5 border-b border-gray-100">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <h3 className="text-base font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
               <i className="fas fa-user-circle text-accent text-sm"></i>
               <span>اطلاعات پروفایل</span>

@@ -40,7 +40,7 @@ function AboutUsSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            مرکز پزشکی ما
+            کلینیک‌های ما
           </motion.h2>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-primary rounded-full mx-auto"></div>
           </motion.div>

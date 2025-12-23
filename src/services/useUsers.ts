@@ -73,3 +73,15 @@ export const useDeleteUser = () => {
     },
   });
 };
+
+export const useGetAdminDashboardStats = () => {
+  return useQuery({
+    queryKey: ["adminDashboardStats"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/users/admin/dashboard-stats");
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    refetchOnMount: "always",
+  });
+};

@@ -111,7 +111,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       src={
                         settings?.data?.settings?.logo
                           ? getImageUrl(settings.data.settings.logo)
-                          : "/images/Logo_1.png"
+                          : "/images/main-logo.png"
                       }
                       alt="logo"
                       className="w-full object-contain"

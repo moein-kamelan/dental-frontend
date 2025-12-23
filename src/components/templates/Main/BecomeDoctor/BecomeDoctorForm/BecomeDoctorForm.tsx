@@ -154,7 +154,7 @@ function BecomeDoctorForm() {
               onSubmit={formik.handleSubmit}
               className="section-border p-6 md:p-8"
             >
-              <h2 className="main-header ">ثبت نام دکتر</h2>
+              <h2 className="main-header ">ارسال اطلاعات</h2>
 
               <CustomInput
                 labelText="نام"
