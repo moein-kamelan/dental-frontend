@@ -3,20 +3,19 @@ import { motion } from "motion/react";
 import StatItem from "../../../../components/templates/Main/Dashboard/Profile/StatItem/StatItem";
 import { useAppSelector } from "../../../../redux/typedHooks";
 import { Link } from "react-router-dom";
-import { useGetMyAppointments } from "../../../../services/useAppointments";
+import { useGetMyAppointmentsStats } from "../../../../services/useAppointments";
 import { getImageUrl } from "../../../../utils/helpers";
 
 function Profile() {
   const user = useAppSelector((state) => state.user.data);
   
-  // Get all appointments to calculate stats
-  const { data: allAppointmentsData, isLoading: isLoadingStats } = useGetMyAppointments({ page: 1, limit: 1000 });
-  const appointments = allAppointmentsData?.data?.appointments || [];
-  
-  // Calculate stats
-  const approvedCount = appointments.filter((apt: any) => apt.status === "FINAL_APPROVED").length;
-  const pendingCount = appointments.filter((apt: any) => apt.status === "APPROVED_BY_USER").length;
-  const canceledCount = appointments.filter((apt: any) => apt.status === "CANCELED").length;
+  // Get appointment statistics
+  const { data: statsData, isLoading: isLoadingStats } = useGetMyAppointmentsStats();
+  const stats = statsData?.data?.stats || {
+    approved: 0,
+    pending: 0,
+    canceled: 0,
+  };
   
   return (
     <div className="space-y-6">
@@ -32,7 +31,7 @@ function Profile() {
         <div className="grid md:grid-cols-3 gap-4">
           <StatItem 
             title="تأیید شده"
-            value={isLoadingStats ? 0 : approvedCount}
+            value={isLoadingStats ? 0 : stats.approved}
             icon="far fa-check-circle"
             gradient={{
               from: "var(--color-accent)",
@@ -41,7 +40,7 @@ function Profile() {
           />
           <StatItem 
             title="در انتظار تأیید"
-            value={isLoadingStats ? 0 : pendingCount}
+            value={isLoadingStats ? 0 : stats.pending}
             icon="far fa-clock"
             gradient={{
               from: "var(--color-secondary)",
@@ -50,7 +49,7 @@ function Profile() {
           />
           <StatItem 
             title="لغو شده"
-            value={isLoadingStats ? 0 : canceledCount}
+            value={isLoadingStats ? 0 : stats.canceled}
             icon="far fa-times-circle"
             gradient={{
               from: "var(--color-semantic-red)",

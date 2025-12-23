@@ -9,54 +9,62 @@ import {
 import { useGetSettings } from "../../../../../services/useSettings";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { showSuccessToast } from "../../../../../utils/toastify";
 import { useAppointmentModal } from "../../../../../contexts/useAppointmentModal";
 import { useGetAllHeroSliders } from "../../../../../services/useHeroSliders";
+import { useGetAllDoctors } from "../../../../../services/useDoctors";
 import type { HeroSlider } from "../../../../../types/types";
 import BannerSlide from "./BannerSlide/BannerSlide";
 function Banner() {
-  const [displayPatientsRecoverdCount, setDisplayPatientsRecoverdCount] =
-    useState(0);
-  const [displaySusseccfullVisitsCount, setDisplaySusseccfullVisitsCount] =
-    useState(0);
-  const [displayPopularDoctorsCount, setDisplayPopularDoctorsCount] =
-    useState(0);
+  const [displayYearsExperience, setDisplayYearsExperience] = useState(0);
+  const [displayTotalDoctors, setDisplayTotalDoctors] = useState(0);
+  const [displayActiveClinics, setDisplayActiveClinics] = useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const { data: settings } = useGetSettings();
   const { data: bannersData, isLoading: isBannersLoading } =
     useGetAllHeroSliders(1, 20, "true");
+  const { data: doctorsData } = useGetAllDoctors(1, 1, "");
   const { openModal: openAppointmentModal } = useAppointmentModal();
 
   // Get banners array or use empty array as fallback (only published banners)
   const banners: HeroSlider[] = bannersData?.data?.sliders || [];
 
-  const patientsRecoverdCount = useMotionValue(0);
-  const susseccfulVisitsCount = useMotionValue(0);
-  const popularDoctorsCount = useMotionValue(0);
+  // Calculate years of experience (starting from 2013)
+  const baseYear = 2013;
+  const currentYear = new Date().getFullYear();
+  const yearsOfExperience = currentYear - baseYear;
 
-  useMotionValueEvent(patientsRecoverdCount, "change", (latest) => {
-    setDisplayPatientsRecoverdCount(Math.round(latest));
+  // Get doctors and clinics counts
+  const totalDoctors = doctorsData?.meta?.total || 0;
+  const activeClinics = 2; // As requested by user
+
+  const yearsExperienceCount = useMotionValue(0);
+  const totalDoctorsCount = useMotionValue(0);
+  const activeClinicsCount = useMotionValue(0);
+
+  useMotionValueEvent(yearsExperienceCount, "change", (latest) => {
+    setDisplayYearsExperience(Math.round(latest));
   });
-  useMotionValueEvent(susseccfulVisitsCount, "change", (latest) => {
-    setDisplaySusseccfullVisitsCount(Math.round(latest));
+  useMotionValueEvent(totalDoctorsCount, "change", (latest) => {
+    setDisplayTotalDoctors(Math.round(latest));
   });
-  useMotionValueEvent(popularDoctorsCount, "change", (latest) => {
-    setDisplayPopularDoctorsCount(Math.round(latest));
+  useMotionValueEvent(activeClinicsCount, "change", (latest) => {
+    setDisplayActiveClinics(Math.round(latest));
   });
 
   useEffect(() => {
-    const controls1 = animate(patientsRecoverdCount, 100, { duration: 2 });
-    const controls2 = animate(susseccfulVisitsCount, 280, { duration: 2 });
-    const controls3 = animate(popularDoctorsCount, 120, { duration: 2 });
+    const controls1 = animate(yearsExperienceCount, yearsOfExperience, { duration: 2 });
+    const controls2 = animate(totalDoctorsCount, totalDoctors, { duration: 2 });
+    const controls3 = animate(activeClinicsCount, activeClinics, { duration: 2 });
     return () => {
       controls1.stop();
       controls2.stop();
       controls3.stop();
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [yearsOfExperience, totalDoctors, activeClinics]);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[600px] md:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)] pt-5 overflow-hidden">
+    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[600px] md:h-[calc(100vh-116px)] pt-5 overflow-hidden">
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
@@ -75,7 +83,7 @@ function Banner() {
               {settings?.data?.settings?.description ?? ""}
             </p>
             <button
-              onClick={openAppointmentModal}
+              onClick={() => openAppointmentModal()}
               className="inline-block main-btn"
             >
               دریافت نوبت
@@ -84,29 +92,27 @@ function Banner() {
             <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
               <div>
                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
-                  {displayPatientsRecoverdCount}
                   <span className="text-2xl">+</span>
+                  {displayYearsExperience}
                 </motion.h3>
                 <p className="text-paragray md:text-lg font-estedad-light ">
-                  بیماران بهبود یافته
+                  تجربه کاری
                 </p>
               </div>
               <div>
                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
-                  {displaySusseccfullVisitsCount}
-                  <span className="text-2xl">%</span>
+                  {displayTotalDoctors}
                 </motion.h3>
                 <p className="text-paragray md:text-lg font-estedad-light ">
-                  بازدید موفق
+                  پزشک فعال
                 </p>
               </div>
               <div>
                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
-                  {displayPopularDoctorsCount}
-                  <span className="text-2xl">+</span>
+                  {displayActiveClinics}
                 </motion.h3>
                 <p className="text-paragray md:text-lg font-estedad-light ">
-                  دکترهای محبوب
+                  کلینیک فعال
                 </p>
               </div>
             </div>

@@ -161,6 +161,18 @@ export const useGetMyAppointments = (params: GetMyAppointmentsParams = {}) => {
   });
 };
 
+export const useGetMyAppointmentsStats = () => {
+  return useQuery({
+    queryKey: ["myAppointmentsStats"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/appointments/my/stats");
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnMount: "always",
+  });
+};
+
 interface CreateAppointmentData {
   clinicId: string;
   doctorId?: string | null;
