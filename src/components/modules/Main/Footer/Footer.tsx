@@ -1,10 +1,13 @@
 import { motion } from "motion/react";
+import { useState } from "react";
 import { useGetSettings } from "../../../../services/useSettings";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../../../../utils/helpers";
+import DevelopersModal from "./DevelopersModal";
 
 function Footer() {
   const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
+  const [isDevelopersModalOpen, setIsDevelopersModalOpen] = useState(false);
 
   const socialLinks = [
     {
@@ -147,19 +150,19 @@ function Footer() {
               تماس با ما
             </h5>
             <div className="space-y-3">
-              {/* Online Consultation Button */}
+              {/* Online Consultation */}
               <motion.a
                 href="https://goftino.com/c/bpADrN"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-lg p-3 hover:bg-white hover:text-primary transition-all duration-300 shadow-md mb-4"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                style={{ fontFamily: 'var(--font-vazir)' }}
+                className="flex items-center gap-2 text-white/80 hover:text-accent transition-colors duration-300 group"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.3 }}
               >
-                <i className="fas fa-comments text-accent"></i>
-                <span className="font-estedad-semibold text-sm">دریافت مشاوره آنلاین</span>
-                <i className="fas fa-external-link-alt text-xs"></i>
+                <div className="flex-shrink-0 w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+                  <i className="fas fa-comments text-accent text-xs"></i>
+                </div>
+                <span className="font-estedad-medium text-sm">دریافت مشاوره آنلاین</span>
               </motion.a>
               
               {settings?.data?.settings?.address && (
@@ -218,13 +221,25 @@ function Footer() {
             تمامی حقوق متعلق به کلینیک دندان پزشکی طاها می‌باشد © {new Date().getFullYear()}
           </p>
           <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-left">
-            ساخته شده با <i className="fas fa-heart text-accent mx-1"></i> برای شما
+            ساخته شده با <i className="fas fa-heart text-accent mx-1"></i>{" "}
+            <button
+              onClick={() => setIsDevelopersModalOpen(true)}
+              className="underline hover:text-accent transition-colors cursor-pointer"
+            >
+              مشاهده توسعه دهندگان
+            </button>
           </p>
         </motion.div>
       </div>
 
       {/* Decorative Bottom Gradient */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+
+      {/* Developers Modal */}
+      <DevelopersModal
+        isOpen={isDevelopersModalOpen}
+        onClose={() => setIsDevelopersModalOpen(false)}
+      />
     </footer>
   );
 }
