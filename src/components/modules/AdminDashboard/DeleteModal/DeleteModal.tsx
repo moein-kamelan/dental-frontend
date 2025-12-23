@@ -143,13 +143,13 @@ function DeleteModal({
                   </h3>
                 </div>
                 {!isLoading && (
-                  <button
+                  <motion.button
                     onClick={onClose}
-                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+                    className="w-9 h-9 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 hover:border-white/40 flex items-center justify-center transition-all duration-200 group"
                     aria-label="بستن"
                   >
-                    <i className="fa fa-times text-white"></i>
-                  </button>
+                    <i className="fa fa-times text-sm text-white/90 group-hover:text-white transition-colors"></i>
+                  </motion.button>
                 )}
               </div>
             </div>

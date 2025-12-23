@@ -78,7 +78,7 @@ function Banner() {
               onClick={openAppointmentModal}
               className="inline-block main-btn"
             >
-              درخواست نوبت مشاوره
+              دریافت نوبت
             </button>
 
             <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">

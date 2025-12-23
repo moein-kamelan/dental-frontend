@@ -87,7 +87,11 @@ const [showPassword, setShowPassword] = useState(false);
             maxLength={maxLength}
             onChange={handleChange}
             onKeyDown={(e) => onKeyDown?.(e, index)}
-            className={`w-full  px-10 py-3 border-2 border-main-border-color rounded-full focus:outline-none focus:border-[#00A6FB] placeholder:text-paragray placeholder:font-estedad-light ${className}`}
+            className={`w-full px-10 py-3 border-2 rounded-full focus:outline-none focus:ring-2 transition-all duration-200 placeholder:text-paragray placeholder:font-estedad-light ${
+              errorMessage
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                : "border-accent/30 focus:border-accent focus:ring-accent/20"
+            } ${className}`}
             {...inputProps}
           />
    </div>

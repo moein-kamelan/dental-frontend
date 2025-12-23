@@ -1,18 +1,30 @@
-function WarnToast({message}:any) {
+function WarnToast({ message }: { message: string }) {
   return (
-    <div className='bg-[#D4E8E8] text-semantic-warning  rounded-md text-sm/6  font-iran-sans-normal pt-4 pb-6 pl-6 pr-1.5  flex items-center gap-3 w-full text-justify '>
-<svg className="shrink-0" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path opacity="0.4" d="M38.08 27.86L26.88 7.7C25.375 4.9875 23.2925 3.5 21 3.5C18.7075 3.5 16.625 4.9875 15.12 7.7L3.92 27.86C2.5025 30.4325 2.345 32.9 3.4825 34.8425C4.62 36.785 6.86 37.8525 9.8 37.8525H32.2C35.14 37.8525 37.38 36.785 38.5175 34.8425C39.655 32.9 39.4975 30.415 38.08 27.86Z" fill="#2a7a7a"/>
-<path d="M21 25.8125C20.2825 25.8125 19.6875 25.2175 19.6875 24.5V15.75C19.6875 15.0325 20.2825 14.4375 21 14.4375C21.7175 14.4375 22.3125 15.0325 22.3125 15.75V24.5C22.3125 25.2175 21.7175 25.8125 21 25.8125Z" fill="#2a7a7a"/>
-<path d="M21 31.5C20.895 31.5 20.7725 31.4825 20.65 31.465C20.545 31.4475 20.44 31.4125 20.335 31.36C20.23 31.325 20.125 31.2725 20.02 31.2025C19.9325 31.1325 19.845 31.0625 19.7575 30.9925C19.4425 30.66 19.25 30.205 19.25 29.75C19.25 29.295 19.4425 28.84 19.7575 28.5075C19.845 28.4375 19.9325 28.3675 20.02 28.2975C20.125 28.2275 20.23 28.175 20.335 28.14C20.44 28.0875 20.545 28.0525 20.65 28.035C20.8775 27.9825 21.1225 27.9825 21.3325 28.035C21.455 28.0525 21.56 28.0875 21.665 28.14C21.77 28.175 21.875 28.2275 21.98 28.2975C22.0675 28.3675 22.155 28.4375 22.2425 28.5075C22.5575 28.84 22.75 29.295 22.75 29.75C22.75 30.205 22.5575 30.66 22.2425 30.9925C22.155 31.0625 22.0675 31.1325 21.98 31.2025C21.875 31.2725 21.77 31.325 21.665 31.36C21.56 31.4125 21.455 31.4475 21.3325 31.465C21.2275 31.4825 21.105 31.5 21 31.5Z" fill="#2a7a7a"/>
+    <div className="bg-white/95 backdrop-blur-md border border-amber-200/50 rounded-xl shadow-lg px-4 py-3.5 flex items-center gap-3 min-w-[320px] max-w-md group hover:shadow-xl transition-all duration-300">
+      {/* Icon Container */}
+      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center border border-amber-100">
+        <svg
+          className="w-5 h-5 text-amber-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
 </svg>
+      </div>
 
-
-
+      {/* Message */}
+      <p className="flex-1 text-sm font-estedad-medium text-gray-800 leading-relaxed">
 {message}
-
+      </p>
     </div>
-  )
+  );
 }
 
-export default WarnToast
+export default WarnToast;

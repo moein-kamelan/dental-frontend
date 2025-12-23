@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "motion/react";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import type { Clinic } from "../../../types/types";
 import StickyBox from "react-sticky-box";
@@ -16,6 +16,7 @@ function DoctorDetails() {
   const { data: doctor, isLoading } = useGetDoctorByIdentifier(slug as string);
   const { openModal } = useAppointmentModal();
   const doctorData = doctor?.data?.doctor;
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   const handleBookAppointment = () => {
     if (doctorData?.id) {
@@ -23,78 +24,101 @@ function DoctorDetails() {
     }
   };
 
+  // Detect footer visibility with Intersection Observer
+  useEffect(() => {
+    if (!doctorData?.isAppointmentEnabled) return;
+
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // اگر فوتر در viewport است، دکمه را مخفی کن
+          setIsButtonVisible(!entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.1, // وقتی 10% فوتر در viewport باشد
+        rootMargin: "0px",
+      }
+    );
+
+    observer.observe(footer);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [doctorData?.isAppointmentEnabled]);
+
   if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات دکتر..." />;
 
   return (
     <>
       <Breadcrumb />
 
-      <section className="pt-3 pb-6 md:pt-4 md:pb-8 bg-white">
+      <section className="pt-6 pb-24 md:pt-8 md:pb-16 bg-white lg:pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid lg:grid-cols-3 gap-4 items-start max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-6 md:gap-8 items-start max-w-6xl mx-auto">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-5">
-              {/* Doctor Header Card - Compact */}
+            <div className="lg:col-span-2 space-y-6 md:space-y-8">
+              {/* Doctor Header Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 className="bg-white rounded-xl shadow-sm border border-gray-100"
               >
-                <div className="p-4">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    {/* Profile Image - Compact */}
+                <div className="p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row gap-6">
+                    {/* Profile Image */}
                     <div className="flex justify-center sm:justify-start shrink-0">
                       <div className="relative">
-                        <motion.img
-                      src={
-                        doctor?.data?.doctor?.profileImage
-                          ? getImageUrl(doctor.data.doctor.profileImage)
-                          : "/images/user_img.png"
-                      }
-                      alt={
-                        doctor?.data?.doctor?.firstName +
-                        " " +
-                        doctor?.data?.doctor?.lastName
-                      }
-                          className="rounded-xl w-28 h-28 sm:w-36 sm:h-36 object-cover border-2 border-gray-100"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                        {doctorData?.isAppointmentEnabled && (
-                          <div className="absolute bottom-2 left-2 bg-white/95 backdrop-blur-sm text-accent px-2 py-0.5 rounded-full text-[9px] font-semibold shadow-sm flex items-center gap-1">
-                            <i className="fas fa-check-circle text-[8px]"></i>
-                            <span>قابل رزرو</span>
+                        {doctor?.data?.doctor?.profileImage ? (
+                          <motion.img
+                            src={getImageUrl(doctor.data.doctor.profileImage)}
+                            alt={
+                              doctor?.data?.doctor?.firstName +
+                              " " +
+                              doctor?.data?.doctor?.lastName
+                            }
+                            className="rounded-xl w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 object-cover border-2 border-gray-100"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        ) : (
+                          <div className="rounded-xl w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-gray-200 flex items-center justify-center">
+                            <i className="fas fa-user-md text-4xl sm:text-5xl md:text-6xl text-gray-400"></i>
                           </div>
                         )}
                       </div>
                   </div>
 
-                    {/* Doctor Info - Compact */}
-                    <div className="flex-1 space-y-3">
+                    {/* Doctor Info */}
+                    <div className="flex-1 space-y-4">
                       <div>
-                        <h1 className="text-xl sm:text-2xl font-bold text-dark mb-1.5" style={{ fontFamily: 'var(--font-vazir)' }}>
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark mb-3" style={{ fontFamily: 'var(--font-vazir)' }}>
                           دکتر {doctor?.data?.doctor?.firstName}{" "}
                       {doctor?.data?.doctor?.lastName}
                         </h1>
                         {doctor?.data?.doctor?.university && (
-                          <div className="flex items-center gap-1.5 text-gray-600 mb-2">
-                            <i className="fas fa-university text-accent text-xs"></i>
-                            <span className="text-xs" style={{ fontFamily: 'var(--font-vazir)' }}>
+                          <div className="flex items-center gap-2 text-gray-600 mb-3">
+                            <i className="fas fa-university text-accent text-sm"></i>
+                            <span className="text-sm md:text-base" style={{ fontFamily: 'var(--font-vazir)' }}>
                               {doctor.data.doctor.university}
                             </span>
                           </div>
                         )}
                       </div>
 
-                      {/* Skills - Compact Tags */}
+                      {/* Skills - Tags */}
                       {doctor?.data?.doctor?.skills &&
                         doctor.data.doctor.skills.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5">
-                            {doctor.data.doctor.skills.map((skill, index) => (
+                          <div className="flex flex-wrap gap-2">
+                            {doctor.data.doctor.skills.map((skill: string, index: number) => (
                               <span
                                 key={index}
-                                className="px-2 py-0.5 bg-gray-50 text-gray-700 rounded-md text-[10px] border border-gray-200"
+                                className="px-3 py-1.5 bg-gray-50 text-gray-700 rounded-lg text-sm border border-gray-200"
                                 style={{ fontFamily: 'var(--font-vazir)' }}
                               >
                                 {skill}
@@ -103,17 +127,17 @@ function DoctorDetails() {
                           </div>
                         )}
 
-                      {/* Additional Info - Compact */}
+                      {/* Additional Info */}
                       {doctor?.data?.doctor?.medicalLicenseNo && (
-                        <div className="flex items-center gap-2 text-gray-600 pt-1">
-                          <div className="flex items-center justify-center w-7 h-7 bg-gray-50 rounded-lg shrink-0">
-                            <i className="fas fa-id-card text-accent text-[10px]"></i>
+                        <div className="flex items-center gap-3 text-gray-600 pt-2">
+                          <div className="flex items-center justify-center w-10 h-10 bg-gray-50 rounded-lg shrink-0">
+                            <i className="fas fa-id-card text-accent text-sm"></i>
                           </div>
                           <div>
-                            <span className="text-[9px] text-gray-400 block leading-tight" style={{ fontFamily: 'var(--font-vazir)' }}>
+                            <span className="text-xs text-gray-400 block leading-tight mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
                               شماره نظام پزشکی
                             </span>
-                            <span className="text-xs font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                            <span className="text-sm md:text-base font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
                               {doctor.data.doctor.medicalLicenseNo}
                             </span>
                           </div>
@@ -124,25 +148,113 @@ function DoctorDetails() {
                 </div>
               </motion.div>
 
-              {/* Biography Section - Compact */}
+              {/* Biography Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
                 className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
               >
-                <div className="bg-gray-50 px-4 py-2.5 border-b border-gray-100">
-                  <h2 className="text-base font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    <i className="fas fa-user-md text-accent text-xs"></i>
+                <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
+                  <h2 className="text-lg md:text-xl font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    <i className="fas fa-user-md text-accent text-base"></i>
                     <span>بیوگرافی</span>
                   </h2>
                   </div>
                   <div
-                  className="p-4 article-content text-sm leading-relaxed"
+                  className="p-6 md:p-8 article-content text-base md:text-lg leading-relaxed"
                     dangerouslySetInnerHTML={{
                       __html: doctor?.data?.doctor?.biography || "",
                     }}
                   ></div>
+              </motion.div>
+
+              {/* Working Hours Card - Mobile Only */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="lg:hidden bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+              >
+                <div className="bg-gray-50 px-5 py-4 border-b border-gray-100">
+                  <h3 className="text-base md:text-lg font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    <div className="flex items-center justify-center w-8 h-8 bg-accent/10 rounded-lg shrink-0">
+                      <i className="fas fa-clock text-accent text-sm"></i>
+                    </div>
+                    <span>روزهای کاری</span>
+                  </h3>
+                </div>
+                <div className="p-5">
+                  {(() => {
+                    const workingDays = doctor?.data?.doctor?.workingDays;
+                    const clinics = doctor?.data?.doctor?.clinics || [];
+                    
+                    if (
+                      !workingDays ||
+                      Object.keys(workingDays).length === 0
+                    ) {
+                      return (
+                        <div className="text-center py-6">
+                          <div className="flex items-center justify-center w-12 h-12 bg-gray-50 rounded-full mx-auto mb-3">
+                            <i className="fas fa-calendar-times text-gray-400 text-base"></i>
+                          </div>
+                          <p className="text-gray-500 text-sm" style={{ fontFamily: 'var(--font-vazir)' }}>
+                            ساعات کاری تعریف نشده است
+                          </p>
+                        </div>
+                      );
+                    }
+
+                    return clinics.map((dc: { clinic: Clinic }) => {
+                      const clinicId = dc.clinic.id;
+                      const clinicWorkingDays = workingDays[clinicId];
+                      
+                      if (
+                        !clinicWorkingDays ||
+                        typeof clinicWorkingDays !== "object"
+                      ) {
+                        return null;
+                      }
+
+                      const daysWithHours = Object.keys(
+                        clinicWorkingDays
+                      ).filter(
+                        (day: string) =>
+                          clinicWorkingDays[day] !== null &&
+                          clinicWorkingDays[day] !== ""
+                      );
+
+                      if (daysWithHours.length === 0) {
+                        return null;
+                      }
+
+                      return (
+                        <div key={clinicId} className="mb-5 last:mb-0">
+                          <h6 className="text-sm md:text-base font-semibold text-dark mb-3 pb-2 border-b border-gray-100 flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                            <i className="fas fa-hospital text-accent text-sm"></i>
+                            {dc.clinic.name}
+                          </h6>
+                          <ul className="space-y-2">
+                            {daysWithHours.map((day: string) => (
+                              <li
+                                key={day}
+                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-150"
+                              >
+                                <span className="text-dark text-sm flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                                  <i className="fas fa-calendar-day text-accent text-xs"></i>
+                                  {translateDayName(day)}
+                                </span>
+                                <span className="text-accent font-semibold text-sm" style={{ fontFamily: 'var(--font-vazir)' }}>
+                                  {clinicWorkingDays[day]}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
               </motion.div>
 
               {/* Comments Section - Compact */}
@@ -164,56 +276,56 @@ function DoctorDetails() {
               className="max-lg:!static"
             >
               <div className="space-y-4">
-                {/* Appointment Card - Compact */}
+                {/* Appointment Card - Hidden on mobile */}
                 {doctorData?.isAppointmentEnabled && (
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, delay: 0.1 }}
-                    className="bg-gradient-to-br from-primary via-primary/95 to-accent rounded-xl shadow-sm overflow-hidden border border-primary/20"
+                    className="hidden lg:block bg-gradient-to-br from-primary via-primary/95 to-accent rounded-xl shadow-sm overflow-hidden border border-primary/20"
                   >
-                    <div className="p-3.5">
-                      <div className="text-center mb-3">
-                        <div className="inline-flex items-center justify-center w-9 h-9 bg-white/10 backdrop-blur-sm rounded-full mb-1.5">
-                          <i className="fas fa-calendar-check text-white text-xs"></i>
+                    <div className="p-6">
+                      <div className="text-center mb-4">
+                        <div className="inline-flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full mb-3">
+                          <i className="fas fa-calendar-check text-white text-lg"></i>
                         </div>
-                        <h3 className="font-bold text-white text-sm mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    درخواست نوبت
+                        <h3 className="font-bold text-white text-lg md:text-xl mb-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    دریافت نوبت
                         </h3>
-                        <p className="text-white/80 text-[9px] leading-tight" style={{ fontFamily: 'var(--font-vazir)' }}>
+                        <p className="text-white/80 text-sm leading-relaxed" style={{ fontFamily: 'var(--font-vazir)' }}>
                           برای دریافت نوبت اینجا کلیک کنید
                         </p>
                       </div>
                       <motion.button
                       onClick={handleBookAppointment}
-                        className="w-full bg-white text-primary py-2 px-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200 flex items-center justify-center gap-1.5 text-[10px] shadow-sm"
+                        className="w-full bg-white text-primary py-3 px-4 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200 flex items-center justify-center gap-2 text-base shadow-sm"
                         style={{ fontFamily: 'var(--font-vazir)' }}
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                     >
-                        <i className="fas fa-calendar-check text-[9px]"></i>
+                        <i className="fas fa-calendar-check text-sm"></i>
                         <span>دریافت نوبت</span>
                       </motion.button>
                 </div>
                   </motion.div>
                 )}
 
-                {/* Working Hours Card - Compact */}
+                {/* Working Hours Card - Desktop Only */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-20"
+                  className="hidden lg:block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-20"
                 >
-                  <div className="bg-gray-50 px-3.5 py-2.5 border-b border-gray-100">
-                    <h3 className="text-sm font-bold text-dark flex items-center gap-1.5" style={{ fontFamily: 'var(--font-vazir)' }}>
-                      <div className="flex items-center justify-center w-6 h-6 bg-accent/10 rounded-lg shrink-0">
-                        <i className="fas fa-clock text-accent text-[10px]"></i>
+                  <div className="bg-gray-50 px-5 py-4 border-b border-gray-100">
+                    <h3 className="text-base md:text-lg font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                      <div className="flex items-center justify-center w-8 h-8 bg-accent/10 rounded-lg shrink-0">
+                        <i className="fas fa-clock text-accent text-sm"></i>
                       </div>
                       <span>روزهای کاری</span>
                     </h3>
                   </div>
-                  <div className="p-3.5">
+                  <div className="p-5">
                   {(() => {
                     const workingDays = doctor?.data?.doctor?.workingDays;
                     const clinics = doctor?.data?.doctor?.clinics || [];
@@ -224,11 +336,11 @@ function DoctorDetails() {
                         Object.keys(workingDays).length === 0
                       ) {
                       return (
-                          <div className="text-center py-4">
-                            <div className="flex items-center justify-center w-10 h-10 bg-gray-50 rounded-full mx-auto mb-2">
-                              <i className="fas fa-calendar-times text-gray-400 text-xs"></i>
+                          <div className="text-center py-6">
+                            <div className="flex items-center justify-center w-12 h-12 bg-gray-50 rounded-full mx-auto mb-3">
+                              <i className="fas fa-calendar-times text-gray-400 text-base"></i>
                             </div>
-                            <p className="text-gray-500 text-xs" style={{ fontFamily: 'var(--font-vazir)' }}>
+                            <p className="text-gray-500 text-sm" style={{ fontFamily: 'var(--font-vazir)' }}>
                           ساعات کاری تعریف نشده است
                         </p>
                           </div>
@@ -260,22 +372,22 @@ function DoctorDetails() {
                       }
 
                       return (
-                          <div key={clinicId} className="mb-4 last:mb-0">
-                            <h6 className="text-xs font-semibold text-dark mb-2.5 pb-1.5 border-b border-gray-100 flex items-center gap-1.5" style={{ fontFamily: 'var(--font-vazir)' }}>
-                              <i className="fas fa-hospital text-accent text-[10px]"></i>
+                          <div key={clinicId} className="mb-5 last:mb-0">
+                            <h6 className="text-sm md:text-base font-semibold text-dark mb-3 pb-2 border-b border-gray-100 flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                              <i className="fas fa-hospital text-accent text-sm"></i>
                               {dc.clinic.name}
                             </h6>
-                            <ul className="space-y-1">
+                            <ul className="space-y-2">
                             {daysWithHours.map((day: string) => (
                         <li
                           key={day}
-                                  className="flex items-center justify-between p-2 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-150"
+                                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-150"
                         >
-                                  <span className="text-dark text-[10px] flex items-center gap-1" style={{ fontFamily: 'var(--font-vazir)' }}>
-                                    <i className="fas fa-calendar-day text-accent text-[9px]"></i>
+                                  <span className="text-dark text-sm flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                                    <i className="fas fa-calendar-day text-accent text-xs"></i>
                             {translateDayName(day)}
                           </span>
-                                  <span className="text-accent font-semibold text-[10px]" style={{ fontFamily: 'var(--font-vazir)' }}>
+                                  <span className="text-accent font-semibold text-sm" style={{ fontFamily: 'var(--font-vazir)' }}>
                                   {clinicWorkingDays[day]}
                           </span>
                         </li>
@@ -292,6 +404,34 @@ function DoctorDetails() {
           </div>
         </div>
       </section>
+
+      {/* Fixed Mobile Appointment Button */}
+      {doctorData?.isAppointmentEnabled && (
+        <AnimatePresence>
+          {isButtonVisible && (
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 100 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden fixed bottom-0 left-0 right-0 z-50 pointer-events-none"
+            >
+              <div className="container mx-auto px-4 py-3">
+                <motion.button
+                  onClick={handleBookAppointment}
+                  className="w-full bg-gradient-to-r from-primary via-primary/95 to-accent text-white py-3.5 px-4 rounded-lg font-semibold hover:opacity-90 transition-all duration-200 flex items-center justify-center gap-2 text-base shadow-2xl pointer-events-auto"
+                  style={{ fontFamily: 'var(--font-vazir)' }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <i className="fas fa-calendar-check text-lg"></i>
+                  <span>دریافت نوبت</span>
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </>
   );
 }

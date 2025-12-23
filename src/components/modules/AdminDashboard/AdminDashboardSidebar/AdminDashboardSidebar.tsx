@@ -1,9 +1,12 @@
 import { useState } from "react";
 import AdminDashboardSidebarLink from "../AdminDashboardSidebarLink/AdminDashboardSidebarLink";
 import { useAdminDashboardHeader } from "../../../../contexts/useAdminDashboardHeader";
+import { useAppSelector } from "../../../../redux/typedHooks";
 
 function AdminDashboardSidebar() {
   const { isSidebarOpen, toggleSidebar } = useAdminDashboardHeader();
+  const { data: user } = useAppSelector((state) => state.user);
+  const isAdmin = user?.role === "ADMIN";
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
@@ -192,18 +195,22 @@ function AdminDashboardSidebar() {
           title="بنر"
           onClick={handleLinkClick}
         />
+        {isAdmin && (
         <AdminDashboardSidebarLink
           to={"/admin/contact-us-management"}
           icon="fas fa-envelope"
           title="پیام های تماس با ما"
           onClick={handleLinkClick}
         />
+        )}
+        {isAdmin && (
         <AdminDashboardSidebarLink
           to={"/admin/doctor-applications-management"}
           icon="fas fa-user-plus"
           title="درخواست عضویت پزشکان"
           onClick={handleLinkClick}
         />
+        )}
 
         {/* بخش تنظیمات */}
         <div className="border-t border-white/20 pt-2 mt-2">

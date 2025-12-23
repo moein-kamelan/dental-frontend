@@ -317,7 +317,7 @@ function AppointmentModal() {
 
           {/* مدال */}
           <motion.div
-            className="relative z-10 w-full max-w-6xl ring-2 border-dark rounded-3xl shadow-2xl h-[94vh] overflow-y-auto auth-modal-scrollbar scroll-smooth bg-white"
+            className="relative z-10 w-full max-w-6xl rounded-3xl shadow-2xl h-[94vh] overflow-y-auto auth-modal-scrollbar scroll-smooth bg-white"
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -341,30 +341,33 @@ function AppointmentModal() {
             {/* دکمه بستن */}
             <motion.button
               onClick={handleClose}
-              className="absolute top-4 left-6 z-20 flex items-center justify-center rounded-full size-10 bg-accent hover:bg-secondary transition-colors"
+              className="absolute top-5 left-5 z-20 flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 backdrop-blur-md border border-gray-200/50 hover:bg-white hover:border-gray-300 hover:shadow-lg transition-all duration-200 group"
               aria-label="بستن"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
-              <i className="fas fa-times text-2xl text-white"></i>
+              <i className="fas fa-times text-sm text-gray-600 group-hover:text-gray-800 transition-colors"></i>
             </motion.button>
 
             {/* محتوای مدال */}
             <div className="relative z-10 flex  flex-col p-6 pt-16 ">
               {/* دکمه بازگشت */}
               {currentStep !== "clinic" && (
-                <div className="absolute top-4 right-6 flex items-center gap-3">
-                  <button
+                <motion.button
                     onClick={handleBack}
-                    className="flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary transition-colors"
+                  className="absolute top-5 right-5 z-20 flex items-center justify-center gap-2 w-auto h-9 px-4 rounded-lg bg-white/80 backdrop-blur-md border border-gray-200/50 hover:bg-white hover:border-gray-300 hover:shadow-lg transition-all duration-200 group"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.2 }}
                   >
-                    <i className="fas fa-arrow-right text-2xl text-white absolute"></i>
-                  </button>
-                  <span className="text-sm font-estedad-medium text-dark">
-                    مرحله قبلی
+                  <i className="fas fa-arrow-right text-xs text-gray-600 group-hover:text-gray-800 transition-colors"></i>
+                  <span className="text-xs font-estedad-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+                    بازگشت
                   </span>
-                </div>
+                </motion.button>
               )}
 
               <AppointmentStepper currentStep={currentStep} />

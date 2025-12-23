@@ -38,7 +38,7 @@ function CommentsBox({
     <div className="section-border p-4 md:p-7.5">
       <div></div>
       <h2 className="text-2xl font-estedad-semibold ">
-        مجموع دیدگاه ({totalComments})
+        دیدگاه‌ها ({totalComments})
       </h2>
 
       {allComments.length === 0 ? (

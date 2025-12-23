@@ -7,14 +7,16 @@ import * as yup from "yup";
 import { formatPhoneNumber } from "../../../validators/phoneNumberValidator";
 import { AnimatePresence, motion } from "motion/react";
 import { showSuccessToast } from "../../../utils/toastify";
-import { useAppDispatch } from "../../../redux/typedHooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/typedHooks";
 import { fetchUser } from "../../../redux/slices/userSlice";
+import { formatPersianNameForGreeting } from "../../../utils/helpers";
 
 interface SigninProps {
   onClose?: () => void;
+  onWideChange?: (isWide: boolean) => void;
 }
 
-function Signin({ onClose }: SigninProps = {}) {
+function Signin({ onClose, onWideChange }: SigninProps = {}) {
   const phoneNumber = useRef<string>("");
   const [codeExpireTime, setCodeExpireTime] = useState<number>(20);
   const [authStep, setAuthStep] = useState<number>(1);
@@ -24,6 +26,7 @@ function Signin({ onClose }: SigninProps = {}) {
   const dispatch = useAppDispatch();
   const { mutateAsync: requestOtp } = usePostOtpRequest();
   const { mutateAsync: verifyOtp } = usePostOtpVerify();
+  const { data: existingUser } = useAppSelector((state) => state.user);
 
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
   const [artificialLoading, setArtificialLoading] = useState<boolean>(false);
@@ -36,6 +39,7 @@ function Signin({ onClose }: SigninProps = {}) {
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
+        timerRef.current = null;
       }
     };
   }, []);
@@ -60,10 +64,6 @@ function Signin({ onClose }: SigninProps = {}) {
     if (value && index < length - 1) {
       inputsRef.current[index + 1].focus();
     }
-
-    // if (newOtp.every((v) => v !== "")) {
-    //   handleSubmitVerifyForm(newOtp.join(""));
-    // }
   };
 
   const handleKeyDown = (
@@ -90,18 +90,13 @@ function Signin({ onClose }: SigninProps = {}) {
     e.preventDefault();
     const pastedData = e.clipboardData.getData("text").trim();
 
-    // Check if pasted content is exactly 5 characters
     if (pastedData.length === 5) {
-      // Only accept numeric characters
       if (/^\d+$/.test(pastedData)) {
         formik.setFieldValue("code", pastedData);
-        // If code is complete (5 digits), set touched after a small delay
-        // to allow validation to run first and prevent error from showing
         setTimeout(() => {
           formik.setFieldTouched("code", true);
         }, 10);
 
-        // Focus on the last input after pasting
         if (inputsRef.current[length - 1]) {
           inputsRef.current[length - 1].focus();
         }
@@ -110,13 +105,11 @@ function Signin({ onClose }: SigninProps = {}) {
   };
 
   const handleSubmitRequestForm = async (value?: FormikValues | string) => {
-    // Clear previous timer if exists
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
 
-    // Get phone number from parameter or ref
     const phoneToUse =
       typeof value === "string"
         ? value
@@ -131,17 +124,19 @@ function Signin({ onClose }: SigninProps = {}) {
       return;
     }
 
-    // تایمر مصنوعی برای تست UI (2 ثانیه)
     setArtificialLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     try {
       const response = await requestOtp(phoneToUse);
-      console.log("response:", response);
       phoneNumber.current = phoneToUse;
       setIsNewUser(response.data?.isNewUser || false);
       setAuthStep(2);
       setCodeExpireTime(20);
+      // اطلاع به مودال برای تغییر اندازه
+      if (onWideChange) {
+        onWideChange(response.data?.isNewUser || false);
+      }
       setArtificialLoading(false);
 
       timerRef.current = setInterval(() => {
@@ -163,7 +158,6 @@ function Signin({ onClose }: SigninProps = {}) {
   };
 
   const handleSubmitVerifyForm = async (values: FormikValues) => {
-    // تایمر مصنوعی برای تست UI (3 ثانیه)
     setArtificialLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -178,21 +172,15 @@ function Signin({ onClose }: SigninProps = {}) {
           gender: values.gender,
         });
       } else {
-        console.log(values);
-
-        console.log(phoneNumber.current);
-
         response = await verifyOtp({
           code: values.code,
           phoneNumber: phoneNumber.current || "",
         });
       }
 
-      // دریافت اطلاعات کامل کاربر از سرور (شامل profileImage و سایر فیلدها)
       await dispatch(fetchUser());
 
       setArtificialLoading(false);
-      // بستن مودال اگر از طریق مودال باز شده باشد
       if (onClose) {
         onClose();
       }
@@ -205,47 +193,89 @@ function Signin({ onClose }: SigninProps = {}) {
 
   return (
     <div className={onClose ? "" : "py-20"}>
-      <div className={onClose ? "" : "container mx-auto px-4 max-w-md"}>
-        <div
-          className={
-            onClose
-              ? "relative p-8 md:p-12"
-              : "relative bg-gray-100 ring-2 inset- border-dark rounded-3xl shadow-2xl p-8 md:p-12"
-          }
-        >
+      <div className={onClose ? "" : `container mx-auto px-4 ${isNewUser && authStep === 2 ? "max-w-4xl" : "max-w-md"}`}>
+        <div className={onClose ? `relative p-6 md:p-8 ${isNewUser && authStep === 2 ? "md:p-8" : ""}` : "relative bg-white rounded-3xl shadow-2xl p-6 md:p-8"}>
+          {/* دکمه بازگشت */}
           {authStep === 2 && (
-            <button
+            <motion.button
               onClick={() => {
                 setAuthStep(1);
+                // بازگرداندن سایز مودال به حالت قبلی
+                if (onWideChange) {
+                  onWideChange(false);
+                }
                 if (codeExpireTime) {
                   showSuccessToast(
                     `از کد قبلی تا ${codeExpireTime} ثانیه دیگر میتوانید استفاده کنید`
                   );
                 }
               }}
-              className="absolute top-4 right-6 flex items-center justify-center rounded-full p-5 bg-accent hover:bg-secondary"
+              className="absolute top-6 right-6 z-20 flex items-center justify-center gap-2 w-auto h-9 px-4 rounded-lg bg-white/80 backdrop-blur-md border border-gray-200/50 hover:bg-white hover:border-gray-300 hover:shadow-lg transition-all duration-200 group"
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2 }}
             >
-              <i className="fas fa-arrow-right text-2xl text-white absolute"></i>
-            </button>
+              <i className="fas fa-arrow-right text-xs text-gray-600 group-hover:text-gray-800 transition-colors"></i>
+              <span className="text-xs font-estedad-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+                بازگشت
+              </span>
+            </motion.button>
           )}
-          <h2 className="text-3xl font-iran-yekan-bold text-center mb-8 max-sm:mt-9">
-            خوش آمدید
-          </h2>
-          <p className="text-center text-paragray mb-8 ">
+
+          {/* Header Section */}
+          <div className="text-center mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10 mb-4"
+            >
+              <i className="fas fa-user-circle text-2xl text-primary"></i>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="text-2xl md:text-3xl font-estedad-bold text-dark mb-2"
+            >
+              {authStep === 2 && !isNewUser && existingUser?.firstName
+                ? `${formatPersianNameForGreeting(existingUser.firstName)} عزیز!`
+                : authStep === 2 && isNewUser
+                ? "لطفاً اطلاعات خود را تکمیل کنید"
+                : "خوش آمدید"}
+            </motion.h2>
+            {authStep === 1 && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="text-gray-600 text-sm font-estedad-medium"
+              >
             برای ادامه به حساب کاربری خود وارد شوید
-          </p>
+              </motion.p>
+            )}
+            {authStep === 2 && !isNewUser && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="text-gray-600 text-sm font-estedad-medium"
+              >
+                کد تایید ارسال شده را وارد کنید
+              </motion.p>
+            )}
+          </div>
 
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={authStep}
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -100, opacity: 0 }}
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
               transition={{
-                duration: 0.15,
-                ease: [0.25, 0.8, 0.25, 1],
+                duration: 0.25,
+                ease: [0.4, 0, 0.2, 1],
               }}
-              className=""
             >
               {authStep === 1 ? (
                 <Formik
@@ -265,8 +295,6 @@ function Signin({ onClose }: SigninProps = {}) {
                             formatPhoneNumber(value);
                             return true;
                           } catch (error) {
-                            console.log(error);
-
                             return false;
                           }
                         }
@@ -275,11 +303,16 @@ function Signin({ onClose }: SigninProps = {}) {
                 >
                   {(formik) => {
                     return (
-                      <form onSubmit={formik.handleSubmit} className="">
+                      <form onSubmit={formik.handleSubmit} className="space-y-6">
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 }}
+                        >
                         <CustomInput
                           inputType="phone"
                           labelText="شماره موبایل"
-                          placeholder="شماره موبایل خود را وارد کنید *"
+                          placeholder="شماره موبایل خود را وارد کنید"
                           errorMessage={
                             formik.touched.phoneNumber &&
                             formik.errors.phoneNumber
@@ -287,30 +320,34 @@ function Signin({ onClose }: SigninProps = {}) {
                               : null
                           }
                           {...formik.getFieldProps("phoneNumber")}
-                          className={`${
-                            formik.touched.phoneNumber &&
-                            formik.errors.phoneNumber
-                              ? "border-red-500"
-                              : ""
-                          }`}
                           maxLength={12}
                         />
+                        </motion.div>
 
-                        <button
+                        <motion.button
                           type="submit"
                           disabled={formik.isSubmitting || artificialLoading}
-                          className={`w-full mt-4 main-btn flex items-center justify-center min-h-[48px] ${
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 }}
+                          className={`w-full h-14 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                             formik.isSubmitting || artificialLoading
                               ? "opacity-70 cursor-not-allowed"
-                              : ""
+                              : "hover:scale-[1.02] active:scale-[0.98]"
                           }`}
                         >
                           {formik.isSubmitting || artificialLoading ? (
-                            <div className="btn-loader"></div>
+                            <>
+                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                              <span>در حال ارسال...</span>
+                            </>
                           ) : (
-                            "ادامه"
+                            <>
+                              <span>ادامه</span>
+                              <i className="fas fa-arrow-left text-sm"></i>
+                            </>
                           )}
-                        </button>
+                        </motion.button>
                       </form>
                     );
                   }}
@@ -349,175 +386,209 @@ function Signin({ onClose }: SigninProps = {}) {
                 >
                   {(formik) => {
                     return (
-                      <form onSubmit={formik.handleSubmit}>
-                        <div className="mb-6">
-                          <CustomInput
-                            inputType="text"
-                            labelText="نام"
-                            placeholder="لطفا نام خود را وارد کنید"
-                            {...formik.getFieldProps("firstName")}
-                            className={`${
-                              formik.touched.firstName &&
-                              formik.errors.firstName
-                                ? "border-red-500"
-                                : ""
-                            }`}
-                            errorMessage={
-                              formik.touched.firstName &&
-                              formik.errors.firstName
-                                ? formik.errors.firstName
-                                : null
-                            }
-                            maxLength={20}
-                          />
-                          <CustomInput
-                            inputType="text"
-                            labelText="نام خانوادگی"
-                            placeholder="لطفا نام خانوادگی خود را وارد کنید"
-                            {...formik.getFieldProps("lastName")}
-                            className={`${
-                              formik.touched.lastName && formik.errors.lastName
-                                ? "border-red-500"
-                                : ""
-                            }`}
-                            errorMessage={
-                              formik.touched.lastName && formik.errors.lastName
-                                ? formik.errors.lastName
-                                : null
-                            }
-                            maxLength={30}
-                          />
-                        </div>
-                        <div className="mb-6">
-                          <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
-                            جنسیت <span className="text-red-500">*</span>
-                          </label>
-                          <div className="flex gap-4 mr-4">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                formik.setFieldValue("gender", "MALE");
-                              }}
-                              className={`flex-1 py-3 px-6 rounded-full border-2 transition-all duration-300 font-estedad-lightbold text-center ${
-                                formik.values.gender === "MALE"
-                                  ? "bg-accent text-white border-accent shadow-md"
-                                  : "bg-white text-dark border-main-border-color hover:border-accent hover:text-accent"
-                              }`}
+                      <form onSubmit={formik.handleSubmit} className="space-y-4">
+                        {/* Layout دو ردیفی */}
+                        <div className="space-y-4">
+                          {/* ردیف بالا: نام و نام خانوادگی */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <motion.div
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.1 }}
                             >
-                              <div className="flex items-center justify-center gap-2">
-                                <i
-                                  className={`fas ${
+                              <CustomInput
+                                inputType="text"
+                                labelText="نام"
+                                placeholder="نام خود را وارد کنید"
+                                {...formik.getFieldProps("firstName")}
+                                errorMessage={
+                                  formik.touched.firstName &&
+                                  formik.errors.firstName
+                                    ? formik.errors.firstName
+                                    : null
+                                }
+                                maxLength={20}
+                              />
+                            </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.15 }}
+                            >
+                              <CustomInput
+                                inputType="text"
+                                labelText="نام خانوادگی"
+                                placeholder="نام خانوادگی خود را وارد کنید"
+                                {...formik.getFieldProps("lastName")}
+                                errorMessage={
+                                  formik.touched.lastName && formik.errors.lastName
+                                    ? formik.errors.lastName
+                                    : null
+                                }
+                                maxLength={30}
+                              />
+                            </motion.div>
+                          </div>
+
+                          {/* ردیف پایین: جنسیت و کد تایید */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {/* جنسیت */}
+                            <motion.div
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.2 }}
+                            >
+                              <label className="block text-dark font-estedad-semibold mb-2 text-sm">
+                                جنسیت <span className="text-red-500">*</span>
+                              </label>
+                              <div className="grid grid-cols-2 gap-2">
+                                <motion.button
+                                  type="button"
+                                  onClick={() => {
+                                    formik.setFieldValue("gender", "MALE");
+                                  }}
+                                  className={`h-11 rounded-lg border-2 transition-all duration-300 font-estedad-semibold flex items-center justify-center gap-2 text-sm ${
                                     formik.values.gender === "MALE"
-                                      ? "fa-check-circle"
-                                      : "fa-circle"
+                                      ? "bg-gradient-to-r from-primary to-accent text-white border-transparent shadow-lg"
+                                      : "bg-white text-gray-700 border-gray-200 hover:border-primary/50 hover:bg-gray-50"
                                   }`}
-                                ></i>
-                                <span>مرد</span>
-                              </div>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                formik.setFieldValue("gender", "FEMALE");
-                              }}
-                              className={`flex-1 py-3 px-6 rounded-full border-2 transition-all duration-300 font-estedad-lightbold text-center ${
-                                formik.values.gender === "FEMALE"
-                                  ? "bg-accent text-white border-accent shadow-md"
-                                  : "bg-white text-dark border-main-border-color hover:border-accent hover:text-accent"
-                              }`}
-                            >
-                              <div className="flex items-center justify-center gap-2">
-                                <i
-                                  className={`fas ${
+                                  whileHover={{ scale: 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <i
+                                    className={`fas ${
+                                      formik.values.gender === "MALE"
+                                        ? "fa-check-circle"
+                                        : "fa-circle"
+                                    } text-xs`}
+                                  ></i>
+                                  <span>مرد</span>
+                                </motion.button>
+                                <motion.button
+                                  type="button"
+                                  onClick={() => {
+                                    formik.setFieldValue("gender", "FEMALE");
+                                  }}
+                                  className={`h-11 rounded-lg border-2 transition-all duration-300 font-estedad-semibold flex items-center justify-center gap-2 text-sm ${
                                     formik.values.gender === "FEMALE"
-                                      ? "fa-check-circle"
-                                      : "fa-circle"
+                                      ? "bg-gradient-to-r from-primary to-accent text-white border-transparent shadow-lg"
+                                      : "bg-white text-gray-700 border-gray-200 hover:border-primary/50 hover:bg-gray-50"
                                   }`}
-                                ></i>
-                                <span>زن</span>
+                                  whileHover={{ scale: 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <i
+                                    className={`fas ${
+                                      formik.values.gender === "FEMALE"
+                                        ? "fa-check-circle"
+                                        : "fa-circle"
+                                    } text-xs`}
+                                  ></i>
+                                  <span>زن</span>
+                                </motion.button>
                               </div>
-                            </button>
+                              {formik.touched.gender &&
+                                formik.errors.gender &&
+                                !formik.values.gender && (
+                                  <p className="text-red-500 text-xs mt-2 text-right">
+                                    {formik.errors.gender}
+                                  </p>
+                                )}
+                            </motion.div>
+
+                            {/* کد تایید */}
+                            <motion.div
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.25 }}
+                            >
+                              <label className="block text-dark font-estedad-semibold mb-2 text-sm">
+                                لطفا کد ارسال شده به <span className="font-estedad-bold">{phoneNumber.current}</span> را وارد کنید
+                              </label>
+
+                              <div className="flex flex-row-reverse items-center justify-center gap-2">
+                                {Array.from({ length }).map((_, i) => (
+                                  <motion.input
+                                    key={i}
+                                    ref={(el) => {
+                                      inputsRef.current[i] = el!;
+                                    }}
+                                    type="number"
+                                    maxLength={1}
+                                    value={formik.values.code[i] || ""}
+                                    onChange={(e) => handleChange(e.target.value, i, formik)}
+                                    onKeyDown={(e) => handleKeyDown(e, i, formik)}
+                                    onPaste={(e) => handlePaste(e, i, formik)}
+                                    className="w-12 h-12 md:w-14 md:h-14 rounded-lg border-2 border-accent/30 text-center text-lg font-estedad-bold text-dark focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-200 bg-white"
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.3 + i * 0.05 }}
+                                  />
+                                ))}
+                              </div>
+                              {formik.touched.code &&
+                                formik.errors.code &&
+                                formik.values.code.length < 5 && (
+                                  <p className="text-red-500 text-xs mt-2 text-right">
+                                    {formik.errors.code}
+                                  </p>
+                                )}
+                            </motion.div>
                           </div>
-                          <div className="h-5 mt-1">
-                            {formik.touched.gender &&
-                              formik.errors.gender &&
-                              !formik.values.gender && (
-                                <p className="text-red-500 text-xs text-right pr-6 text-[10px]">
-                                  {formik.errors.gender}
-                                </p>
-                              )}
-                          </div>
-                        </div>
-                        <p className="text-center mb-2 font-iran-sans-bold">
-                          کد تایید برای {phoneNumber.current} ارسال شد
-                        </p>
-                        <div className="flex flex-row-reverse items-center justify-center gap-2 ">
-                          {Array.from({ length }).map((_, i) => (
-                            <CustomInput
-                              key={i}
-                              ref={(el) => {
-                                inputsRef.current[i] = el!;
-                              }}
-                              inputType="number"
-                              maxLength={1}
-                              manualValue={formik.values.code[i] || ""}
-                              manualOnChange={(e) => handleChange(e, i, formik)}
-                              onKeyDown={(e) => handleKeyDown(e, i, formik)}
-                              onPaste={(e) => handlePaste(e, i, formik)}
-                              className="size-8! p-1! rounded-lg! md:size-12! md:p-2! text-center border-gray-400! md:rounded-2xl!"
-                            />
-                          ))}
-                        </div>
-                        <div className="h-5 mt-1">
-                          {formik.touched.code &&
-                            formik.errors.code &&
-                            formik.values.code.length < 5 && (
-                              <p className="text-red-500 text-xs text-right pr-6 text-[10px]">
-                                {formik.errors.code}
-                              </p>
-                            )}
                         </div>
 
-                        <button
+                        {/* دکمه‌های پایین */}
+                        <div className="space-y-3 pt-1">
+                          {/* ارسال مجدد */}
+                          <motion.button
                           type="button"
                           onClick={() =>
                             handleSubmitRequestForm(phoneNumber.current)
                           }
                           disabled={codeExpireTime > 0}
-                          className={`flex items-center justify-end mr-auto ml-8 gap-2 text-paragray font-estedad-light text-sm ${
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                            className={`w-full text-center text-xs font-estedad-medium transition-colors ${
                             codeExpireTime === 0
-                              ? " text-accent! hover:text-secondary! font-estedad-lightbold"
-                              : "cursor-not-allowed loader!"
+                                ? "text-primary hover:text-accent cursor-pointer"
+                                : "text-gray-400 cursor-not-allowed"
                           }`}
                         >
-                          <span>ارسال دوباره </span>
+                            <span>ارسال مجدد کد</span>
                           {codeExpireTime > 0 && (
-                            <span>
-                              ({" "}
-                              {String(Math.floor(codeExpireTime / 60)).padStart(
-                                2,
-                                "0"
-                              )}
-                              :{String(codeExpireTime % 60).padStart(2, "0")} )
+                              <span className="mr-2">
+                                ({String(Math.floor(codeExpireTime / 60)).padStart(2, "0")}:
+                                {String(codeExpireTime % 60).padStart(2, "0")})
                             </span>
                           )}
-                        </button>
+                          </motion.button>
 
-                        <button
+                          <motion.button
                           type="submit"
                           disabled={formik.isSubmitting || artificialLoading}
-                          className={`w-full mt-4 main-btn flex items-center justify-center min-h-[48px] ${
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className={`w-full h-12 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                             formik.isSubmitting || artificialLoading
                               ? "opacity-70 cursor-not-allowed"
-                              : ""
+                                : "hover:scale-[1.02] active:scale-[0.98]"
                           }`}
                         >
                           {formik.isSubmitting || artificialLoading ? (
-                            <div className="btn-loader"></div>
+                              <>
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                <span>در حال ثبت...</span>
+                              </>
                           ) : (
-                            "ورود"
+                              <>
+                                <span>ثبت نام و ورود</span>
+                                <i className="fas fa-check text-xs"></i>
+                              </>
                           )}
-                        </button>
+                          </motion.button>
+                        </div>
                       </form>
                     );
                   }}
@@ -538,77 +609,98 @@ function Signin({ onClose }: SigninProps = {}) {
                 >
                   {(formik) => {
                     return (
-                      <form onSubmit={formik.handleSubmit}>
-                        <p className="text-center mb-2 font-iran-sans-bold">
-                          کد تایید برای {phoneNumber.current} ارسال شد
+                      <form onSubmit={formik.handleSubmit} className="space-y-6">
+                        {/* کد تایید */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.1 }}
+                          className="space-y-4"
+                        >
+                          <div className="text-center mb-2">
+                            <p className="text-sm font-estedad-medium text-gray-600">
+                              کد تایید برای <span className="font-estedad-bold text-dark">{phoneNumber.current}</span> ارسال شد
                         </p>
-                        <div className="flex flex-row-reverse items-center justify-center gap-2 ">
+                          </div>
+
+                          <div className="flex flex-row-reverse items-center justify-center gap-3">
                           {Array.from({ length }).map((_, i) => (
-                            <CustomInput
+                              <motion.input
                               key={i}
                               ref={(el) => {
                                 inputsRef.current[i] = el!;
                               }}
-                              inputType="number"
+                                type="number"
                               maxLength={1}
-                              manualValue={formik.values.code[i] || ""}
-                              manualOnChange={(e) => handleChange(e, i, formik)}
+                                value={formik.values.code[i] || ""}
+                                onChange={(e) => handleChange(e.target.value, i, formik)}
                               onKeyDown={(e) => handleKeyDown(e, i, formik)}
                               onPaste={(e) => handlePaste(e, i, formik)}
-                              className="size-8! p-1! rounded-lg! md:size-12! md:p-2! text-center border-gray-400! md:rounded-2xl!"
+                                className="w-14 h-14 md:w-16 md:h-16 rounded-xl border-2 border-gray-200 text-center text-xl font-estedad-bold text-dark focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-white"
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.2 + i * 0.05 }}
                             />
                           ))}
                         </div>
-                        <div className="h-5 mt-1">
                           {formik.touched.code &&
                             formik.errors.code &&
                             formik.values.code.length < 5 && (
-                              <p className="text-red-500 text-xs text-right pr-6 text-[10px]">
+                              <p className="text-red-500 text-xs text-center">
                                 {formik.errors.code}
                               </p>
                             )}
-                        </div>
+                        </motion.div>
 
-                        <button
+                        {/* ارسال مجدد */}
+                        <motion.button
                           type="button"
                           onClick={() =>
                             handleSubmitRequestForm(phoneNumber.current)
                           }
                           disabled={codeExpireTime > 0}
-                          className={`flex items-center justify-end mr-auto ml-8 gap-2 text-paragray font-estedad-light text-sm ${
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.3 }}
+                          className={`w-full text-center text-sm font-estedad-medium transition-colors ${
                             codeExpireTime === 0
-                              ? " text-accent! hover:text-secondary! font-estedad-lightbold"
-                              : "cursor-not-allowed!"
+                              ? "text-primary hover:text-accent cursor-pointer"
+                              : "text-gray-400 cursor-not-allowed"
                           }`}
                         >
-                          <span>ارسال دوباره </span>
+                          <span>ارسال مجدد کد</span>
                           {codeExpireTime > 0 && (
-                            <span>
-                              ({" "}
-                              {String(Math.floor(codeExpireTime / 60)).padStart(
-                                2,
-                                "0"
-                              )}
-                              :{String(codeExpireTime % 60).padStart(2, "0")} )
+                            <span className="mr-2">
+                              ({String(Math.floor(codeExpireTime / 60)).padStart(2, "0")}:
+                              {String(codeExpireTime % 60).padStart(2, "0")})
                             </span>
                           )}
-                        </button>
+                        </motion.button>
 
-                        <button
+                        <motion.button
                           type="submit"
-                          disabled={formik.isSubmitting}
-                          className={`w-full mt-4   main-btn ${
-                            formik.isSubmitting
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
+                          disabled={formik.isSubmitting || artificialLoading}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.4 }}
+                          className={`w-full h-14 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                            formik.isSubmitting || artificialLoading
+                              ? "opacity-70 cursor-not-allowed"
+                              : "hover:scale-[1.02] active:scale-[0.98]"
                           }`}
                         >
-                          {formik.isSubmitting ? (
-                            <div className="btn-loader"></div>
+                          {formik.isSubmitting || artificialLoading ? (
+                            <>
+                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                              <span>در حال ورود...</span>
+                            </>
                           ) : (
-                            "ورود"
+                            <>
+                              <span>ورود</span>
+                              <i className="fas fa-arrow-left text-sm"></i>
+                            </>
                           )}
-                        </button>
+                        </motion.button>
                       </form>
                     );
                   }}

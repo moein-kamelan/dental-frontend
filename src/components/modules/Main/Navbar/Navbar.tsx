@@ -231,7 +231,7 @@ function Navbar() {
                           {user.firstName} {user.lastName}
                         </p>
                         {user.role && (
-                              <span className="inline-block mt-1 px-2 py-0.5 text-[10px] bg-accent/10 text-accent rounded-md font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                              <span className="inline-block mt-1 px-2 py-0.5 text-[10px] bg-accent/10 text-accent rounded-lg font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
                             {user.role === "PATIENT"
                               ? "بیمار"
                               : user.role === "ADMIN"

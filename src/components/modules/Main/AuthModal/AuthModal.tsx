@@ -1,10 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
 import Signin from "../../../../pages/Auth/Signin/Signin";
 import { AnimatePresence, motion } from "motion/react";
 
 function AuthModal() {
   const { isOpen, closeModal } = useAuthModal();
+  const [isWide, setIsWide] = useState(false);
+
+  // Reset isWide when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setIsWide(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -58,7 +66,7 @@ function AuthModal() {
 
           {/* مدال */}
           <motion.div
-            className="relative z-10 w-full max-w-md ring-2 border-dark rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto auth-modal-scrollbar scroll-smooth bg-white"
+            className={`relative z-10 w-full ${isWide ? "max-w-4xl" : "max-w-md"} rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto auth-modal-scrollbar scroll-smooth bg-white`}
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -81,18 +89,19 @@ function AuthModal() {
             {/* دکمه بستن */}
             <motion.button
               onClick={closeModal}
-              className="absolute top-4 left-6 z-20 flex items-center justify-center rounded-full size-10 bg-accent hover:bg-secondary transition-colors"
+              className="absolute top-5 left-5 z-20 flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 backdrop-blur-md border border-gray-200/50 hover:bg-white hover:border-gray-300 hover:shadow-lg transition-all duration-200 group"
               aria-label="بستن"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
-              <i className="fas fa-times text-2xl text-white"></i>
+              <i className="fas fa-times text-sm text-gray-600 group-hover:text-gray-800 transition-colors"></i>
             </motion.button>
 
             {/* محتوای فرم */}
             <div className="relative z-10">
-              <Signin onClose={closeModal} />
+              <Signin onClose={closeModal} onWideChange={setIsWide} />
             </div>
           </motion.div>
         </motion.div>

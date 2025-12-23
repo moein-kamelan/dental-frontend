@@ -36,7 +36,7 @@ function App() {
       <AppointmentModalProvider>
         <ToastContainer
           stacked
-          position="top-left"
+          position="top-right"
           autoClose={5000}
           closeOnClick={true}
           pauseOnHover={false}

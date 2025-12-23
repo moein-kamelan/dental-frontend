@@ -26,18 +26,6 @@ function Team() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <motion.div
-            className="inline-block mb-4"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-        >
-            <span className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-accent/10 to-primary/10 rounded-full border border-accent/20 text-accent font-estedad-semibold">
-              <i className="fas fa-user-md"></i>
-              تیم ما
-            </span>
-          </motion.div>
           <motion.h2
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-dark mb-4"
             style={{ fontFamily: 'var(--font-vazir)' }}
@@ -62,7 +50,7 @@ function Team() {
 
         {/* Doctors Grid */}
         <motion.div
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}

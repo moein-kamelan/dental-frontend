@@ -4,6 +4,7 @@ import {
   ProtectedUserDashboardRoute,
   ProtectedAdminRoute,
   ProtectedAdminAuthRoute,
+  ProtectedAdminOnlyRoute,
 } from "./components/guards";
 
 // Lazy load Main Layout (only loaded once, so can stay eager)
@@ -294,10 +295,21 @@ const routes = createBrowserRouter([
         element: <InsurancesManagementEdit />,
       },
 
-      { path: "contact-us-management", element: <ContactUsManagement /> },
+      {
+        path: "contact-us-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ContactUsManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "doctor-applications-management",
-        element: <DoctorApplicationsManagement />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <DoctorApplicationsManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       { path: "reviews-management", element: <ReviewsManagement /> },
       {

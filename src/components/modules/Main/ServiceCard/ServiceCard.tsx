@@ -23,17 +23,17 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <div
       onClick={handleCardClick}
-      className="bg-white rounded-[10px] group overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition p-5 cursor-pointer border border-transparent hover:border-secondary/20 flex flex-col"
+      className="bg-white rounded-xl group overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition p-5 cursor-pointer border border-transparent hover:border-secondary/20 flex flex-col"
     >
       <div className="relative h-64">
         {service?.coverImage ? (
           <img
             src={getImageUrl(service.coverImage)}
             alt={service.title}
-            className="w-full h-full rounded-[5px] group-hover:scale-105 transition-all duration-500 object-cover"
+            className="w-full h-full rounded-lg group-hover:scale-105 transition-all duration-500 object-cover"
           />
         ) : (
-          <div className="w-full h-full rounded-[5px] bg-gray-100 flex items-center justify-center">
+          <div className="w-full h-full rounded-lg bg-gray-100 flex items-center justify-center">
             <div className="text-center space-y-2">
               <div className="flex items-center justify-center">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-200 flex items-center justify-center">

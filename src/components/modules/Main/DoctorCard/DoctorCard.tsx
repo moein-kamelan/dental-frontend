@@ -46,27 +46,18 @@ function DoctorCard({ doctor }: DoctorCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.4 }}
-      whileHover={{ y: -4 }}
     >
       {/* Image Container - Minimalist */}
       <div className="relative overflow-hidden shrink-0 h-64 bg-gray-50">
-        <motion.img
-          src={
-            doctor?.profileImage
-              ? getImageUrl(doctor.profileImage)
-              : "/images/team-1.jpg"
-          }
-          alt={`${doctor.firstName} ${doctor.lastName}`}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        />
-        
-        {/* Minimalist Badge */}
-        {doctor.isAppointmentEnabled && (
-          <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-accent px-2.5 py-1 rounded-full text-[10px] font-semibold shadow-sm flex items-center gap-1">
-            <i className="fas fa-check-circle text-[9px]"></i>
-            <span>قابل رزرو</span>
+        {doctor?.profileImage ? (
+          <img
+            src={getImageUrl(doctor.profileImage)}
+            alt={`${doctor.firstName} ${doctor.lastName}`}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <i className="fas fa-user-md text-6xl text-gray-400"></i>
           </div>
         )}
       </div>
@@ -74,13 +65,12 @@ function DoctorCard({ doctor }: DoctorCardProps) {
       {/* Content Section - Clean & Minimalist */}
       <div className="flex-1 flex flex-col px-5 py-4">
         {/* Doctor Name */}
-        <motion.h3
+        <h3
           className="text-lg font-bold text-dark mb-1.5 line-clamp-1 group-hover/card:text-accent transition-colors duration-200"
           style={{ fontFamily: 'var(--font-vazir)' }}
-          layout
         >
           دکتر {doctor.firstName} {doctor.lastName}
-        </motion.h3>
+        </h3>
 
         {/* Skills/Qualifications - Minimalist */}
         {skills && (
@@ -109,16 +99,14 @@ function DoctorCard({ doctor }: DoctorCardProps) {
         {/* Action Buttons - Minimalist */}
         <div className="mt-auto space-y-2 pt-3 border-t border-gray-100">
           {doctor.isAppointmentEnabled ? (
-            <motion.button
+            <button
               onClick={handleBookAppointment}
               className="w-full bg-accent text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-accent/90 transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-sm"
               style={{ fontFamily: 'var(--font-vazir)' }}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
             >
               <i className="fas fa-calendar-check text-xs"></i>
               <span>رزرو نوبت</span>
-            </motion.button>
+            </button>
           ) : (
             <div className="w-full bg-gray-50 text-gray-400 py-2.5 px-4 rounded-lg font-medium text-center cursor-not-allowed text-sm" style={{ fontFamily: 'var(--font-vazir)' }}>
               <i className="fas fa-calendar-times ml-2 text-xs"></i>
@@ -126,16 +114,14 @@ function DoctorCard({ doctor }: DoctorCardProps) {
             </div>
           )}
           
-          <motion.button
+          <button
             onClick={handleCardClick}
             className="w-full border border-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center justify-center gap-2 text-sm"
             style={{ fontFamily: 'var(--font-vazir)' }}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
           >
             <i className="fas fa-arrow-left text-xs"></i>
             <span>جزئیات</span>
-          </motion.button>
+          </button>
         </div>
       </div>
     </motion.div>

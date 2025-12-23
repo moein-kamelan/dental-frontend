@@ -14,7 +14,7 @@ function TableContainer({
   withMargin = false,
 }: TableContainerProps) {
   const baseClasses =
-    "max-md:max-w-[630px] max-sm:max-w-[470px] max-xs:!max-w-[290px] mx-auto overflow-x-auto border border-[#5e5b5b17] rounded-[10px] shadow-sm custom-scrollbar ";
+    "max-md:max-w-[630px] max-sm:max-w-[470px] max-xs:!max-w-[290px] mx-auto overflow-x-auto border border-[#5e5b5b17] rounded-xl shadow-sm custom-scrollbar ";
 
   const classes = [
     baseClasses,

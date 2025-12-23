@@ -475,12 +475,16 @@ button {
 }
 
 /* toastify styles */
-.Toastify__toast,
+.Toastify__toast {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 12px !important;
+}
+
 .Toastify__progress-bar-theme--light {
   background: transparent;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
 }
 
 .Toastify__toast-body {
@@ -490,12 +494,23 @@ button {
 .Toastify__progress-bar--wrp {
   width: 100%;
 }
-.sussecc-progress-bar,
-.error-progress-bar {
-  @apply bg-yellow-300;
-  height: 5px !important;
-  border-radius: 0 0 10px 10px !important;
+/* Toast Progress Bar Styles */
+.toast-progress-bar {
+  height: 3px !important;
+  border-radius: 0 0 12px 12px !important;
   width: 100%;
+}
+
+.toast-progress-success {
+  @apply bg-green-500;
+}
+
+.toast-progress-error {
+  @apply bg-red-500;
+}
+
+.toast-progress-warn {
+  @apply bg-amber-500;
 }
 
 /* input type number styles  */

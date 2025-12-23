@@ -1,28 +1,28 @@
-import React from "react";
-
 function ErrorToast({ message }: { message: string }) {
   return (
-    <div className="bg-red-500 text-sm/6 rounded-md text-yellow-300 font-iran-sans-normal pt-4 pb-6 pl-6 pr-1.5  flex items-center gap-3 w-full text-justify ">
+    <div className="bg-white/95 backdrop-blur-md border border-red-200/50 rounded-xl shadow-lg px-4 py-3.5 flex items-center gap-3 min-w-[320px] max-w-md group hover:shadow-xl transition-all duration-300">
+      {/* Icon Container */}
+      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100">
       <svg
-        className="shrink-0"
-        width="44"
-        height="42"
-        viewBox="0 0 44 42"
+          className="w-5 h-5 text-red-600"
         fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          opacity="0.4"
-          d="M21.9736 38.5C31.748 38.5 39.6717 30.665 39.6717 21C39.6717 11.335 31.748 3.5 21.9736 3.5C12.1992 3.5 4.27547 11.335 4.27547 21C4.27547 30.665 12.1992 38.5 21.9736 38.5Z"
-          fill="#000"
-        />
-        <path
-          d="M23.8496 21L27.9202 16.975C28.4334 16.4675 28.4334 15.6275 27.9202 15.12C27.4069 14.6125 26.5574 14.6125 26.0442 15.12L21.9736 19.145L17.903 15.12C17.3898 14.6125 16.5403 14.6125 16.027 15.12C15.5138 15.6275 15.5138 16.4675 16.027 16.975L20.0976 21L16.027 25.025C15.5138 25.5325 15.5138 26.3725 16.027 26.88C16.2925 27.1425 16.6288 27.265 16.965 27.265C17.3013 27.265 17.6376 27.1425 17.903 26.88L21.9736 22.855L26.0442 26.88C26.3096 27.1425 26.6459 27.265 26.9822 27.265C27.3184 27.265 27.6547 27.1425 27.9202 26.88C28.4334 26.3725 28.4334 25.5325 27.9202 25.025L23.8496 21Z"
-          fill="#F527B4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+            d="M6 18L18 6M6 6l12 12"
         />
       </svg>
+      </div>
 
+      {/* Message */}
+      <p className="flex-1 text-sm font-estedad-medium text-gray-800 leading-relaxed">
       {message}
+      </p>
     </div>
   );
 }

@@ -163,45 +163,45 @@ export function ConfirmationStep({
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
     >
-      <div className="flex items-center justify-center gap-2 my-4">
+      <div className="flex items-center justify-center gap-2 mb-3">
         <h2 className="text-2xl font-iran-sans-bold text-dark text-center">
           تایید نهایی نوبت
         </h2>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-6 overflow-y-auto">
+      <div className="flex-1 flex flex-col items-center justify-center gap-3 overflow-y-auto px-2">
         {submitStatus === "idle" && (
           <>
-            <p className="text-lg font-estedad-semibold text-dark text-center">
+            <p className="text-base font-estedad-medium text-gray-600 text-center mb-2">
               لطفاً اطلاعات زیر را بررسی کنید و در صورت صحت، تایید کنید
             </p>
 
             {/* اطلاعات نوبت */}
-            <div className="w-full max-w-2xl bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+            <div className="w-full max-w-xl bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md border border-gray-100 overflow-hidden">
               {/* هدر با گرادیانت */}
-              <div className="bg-gradient-to-r from-accent via-accent to-secondary p-4 text-center">
-                <h3 className="text-white font-estedad-bold text-xl flex items-center justify-center gap-2">
+              <div className="bg-gradient-to-r from-accent via-accent to-secondary p-3 text-center">
+                <h3 className="text-white font-estedad-semibold text-lg flex items-center justify-center gap-2">
                   <i className="fas fa-clipboard-check"></i>
                   خلاصه اطلاعات نوبت
                 </h3>
               </div>
 
-              <div className="p-5 space-y-3">
+              <div className="p-4 space-y-2.5">
                 {/* کلینیک */}
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-accent/20 to-accent/10 rounded-lg flex items-center justify-center">
-                    <i className="fas fa-hospital text-accent text-lg"></i>
+                  <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-accent/20 to-accent/10 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-hospital text-accent"></i>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-estedad-medium text-gray-400 mb-0.5">
+                    <p className="text-xs font-estedad-medium text-gray-400 mb-1">
                       کلینیک
                     </p>
-                    <p className="text-base font-estedad-bold text-dark truncate">
+                    <p className="text-base font-estedad-semibold text-dark truncate">
                       {selectedClinic?.name || "-"}
                     </p>
                   </div>
@@ -213,16 +213,16 @@ export function ConfirmationStep({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.15 }}
-                    className="flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
+                    className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
                   >
-                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-500/20 to-blue-400/10 rounded-lg flex items-center justify-center">
-                      <i className="fas fa-user-md text-blue-500 text-lg"></i>
+                    <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-blue-500/20 to-blue-400/10 rounded-lg flex items-center justify-center">
+                      <i className="fas fa-user-md text-blue-500"></i>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-estedad-medium text-gray-400 mb-0.5">
+                      <p className="text-xs font-estedad-medium text-gray-400 mb-1">
                         پزشک
                       </p>
-                      <p className="text-base font-estedad-bold text-dark truncate">
+                      <p className="text-base font-estedad-semibold text-dark truncate">
                         دکتر {selectedDoctor.firstName}{" "}
                         {selectedDoctor.lastName}
                       </p>
@@ -235,16 +235,16 @@ export function ConfirmationStep({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500/20 to-purple-400/10 rounded-lg flex items-center justify-center">
-                    <i className="fas fa-calendar-alt text-purple-500 text-lg"></i>
+                  <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-purple-500/20 to-purple-400/10 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-calendar-alt text-purple-500"></i>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-estedad-medium text-gray-400 mb-0.5">
+                    <p className="text-xs font-estedad-medium text-gray-400 mb-1">
                       تاریخ و زمان
                     </p>
-                    <p className="text-base font-estedad-bold text-dark">
+                    <p className="text-base font-estedad-semibold text-dark">
                       {displayDate}{" "}
                       <span className="text-accent">ساعت {displayTime}</span>
                     </p>
@@ -256,16 +256,16 @@ export function ConfirmationStep({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-500/20 to-green-400/10 rounded-lg flex items-center justify-center">
-                    <i className="fas fa-user text-green-500 text-lg"></i>
+                  <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-green-500/20 to-green-400/10 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-user text-green-500"></i>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-estedad-medium text-gray-400 mb-0.5">
+                    <p className="text-xs font-estedad-medium text-gray-400 mb-1">
                       {isForSelf === false ? "مراجع" : "بیمار"}
                     </p>
-                    <p className="text-base font-estedad-bold text-dark truncate">
+                    <p className="text-base font-estedad-semibold text-dark truncate">
                       {isForSelf === false &&
                       patientFirstName &&
                       patientLastName
@@ -288,16 +288,16 @@ export function ConfirmationStep({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex items-start gap-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
+                    className="flex items-start gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
                   >
-                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-amber-500/20 to-amber-400/10 rounded-lg flex items-center justify-center mt-0.5">
-                      <i className="fas fa-note-sticky text-amber-500 text-lg"></i>
+                    <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-amber-500/20 to-amber-400/10 rounded-lg flex items-center justify-center mt-0.5">
+                      <i className="fas fa-note-sticky text-amber-500"></i>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-estedad-medium text-gray-400 mb-1">
                         توضیحات
                       </p>
-                      <p className="text-sm font-estedad-medium text-dark leading-relaxed">
+                      <p className="text-sm font-estedad-medium text-dark leading-relaxed line-clamp-2">
                         {notes}
                       </p>
                     </div>
@@ -307,32 +307,29 @@ export function ConfirmationStep({
             </div>
 
             {/* دکمه‌های اقدام */}
-            <div className="flex items-center justify-center gap-4 w-full max-w-2xl">
+            <div className="flex items-center justify-center gap-3 w-full max-w-xl mt-2">
               <motion.button
                 onClick={onBack}
                 disabled={isSubmitting}
-                className="px-6 py-3 rounded-xl border-2 border-gray-300 text-dark font-estedad-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={!isSubmitting ? { scale: 1.05 } : {}}
-                whileTap={!isSubmitting ? { scale: 0.95 } : {}}
+                className="px-4 py-2.5 rounded-lg bg-white/80 backdrop-blur-md border border-gray-200/50 text-gray-700 text-sm font-estedad-semibold hover:bg-white hover:border-gray-300 hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 group"
               >
-                بازگشت
+                <i className="fas fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform"></i>
+                <span>بازگشت</span>
               </motion.button>
               <motion.button
                 onClick={handleConfirm}
                 disabled={isSubmitting}
-                className="px-8 py-3 rounded-xl bg-gradient-to-br from-accent via-accent to-secondary text-white font-estedad-bold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                whileHover={!isSubmitting ? { scale: 1.05 } : {}}
-                whileTap={!isSubmitting ? { scale: 0.95 } : {}}
+                className="px-5 py-2 rounded-lg bg-gradient-to-r from-primary via-primary/95 to-accent text-white text-sm font-estedad-semibold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
               >
                 {isSubmitting ? (
                   <>
-                    <i className="fas fa-spinner fa-spin"></i>
-                    در حال ثبت...
+                    <i className="fas fa-spinner fa-spin text-xs"></i>
+                    <span>در حال ثبت...</span>
                   </>
                 ) : (
                   <>
-                    <i className="fas fa-check-circle"></i>
-                    تایید و ثبت نوبت
+                    <i className="fas fa-check-circle text-xs"></i>
+                    <span>تایید و ثبت نوبت</span>
                   </>
                 )}
               </motion.button>
@@ -345,28 +342,26 @@ export function ConfirmationStep({
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-2xl bg-green-50 border-2 border-green-200 rounded-2xl p-8 text-center"
+            className="w-full max-w-xl bg-green-50 border border-green-200 rounded-xl p-5 text-center"
           >
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
-              className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3"
             >
-              <i className="fas fa-check text-white text-3xl"></i>
+              <i className="fas fa-check text-white text-xl"></i>
             </motion.div>
-            <h3 className="text-2xl font-estedad-bold text-green-800 mb-2">
+            <h3 className="text-lg font-estedad-bold text-green-800 mb-2">
               نوبت با موفقیت ثبت شد!
             </h3>
-            <p className="text-base font-estedad-medium text-green-700 mb-6">
+            <p className="text-sm font-estedad-medium text-green-700 mb-4">
               نوبت شما در سیستم ثبت شد و در دست بررسی می‌باشد. لطفاً تا تأیید
               نهایی صبر کنید.
             </p>
             <motion.button
               onClick={onClose}
-              className="px-8 py-3 rounded-xl bg-green-500 text-white font-estedad-bold hover:bg-green-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2 rounded-lg bg-green-500 text-white text-sm font-estedad-semibold hover:bg-green-600 transition-colors"
             >
               بستن
             </motion.button>
@@ -378,20 +373,20 @@ export function ConfirmationStep({
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-2xl bg-red-50 border-2 border-red-200 rounded-2xl p-8 text-center"
+            className="w-full max-w-xl bg-red-50 border border-red-200 rounded-xl p-5 text-center"
           >
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
-              className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-14 h-14 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-3"
             >
-              <i className="fas fa-times text-white text-3xl"></i>
+              <i className="fas fa-times text-white text-xl"></i>
             </motion.div>
-            <h3 className="text-2xl font-estedad-bold text-red-800 mb-2">
+            <h3 className="text-lg font-estedad-bold text-red-800 mb-2">
               خطا در ثبت نوبت
             </h3>
-            <p className="text-base font-estedad-medium text-red-700 mb-4">
+            <p className="text-sm font-estedad-medium text-red-700 mb-4">
               {errorMessage}
             </p>
             <motion.button
@@ -399,9 +394,7 @@ export function ConfirmationStep({
                 setSubmitStatus("idle");
                 setErrorMessage("");
               }}
-              className="px-6 py-3 rounded-xl bg-red-500 text-white font-estedad-semibold hover:bg-red-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2 rounded-lg bg-red-500 text-white text-sm font-estedad-semibold hover:bg-red-600 transition-colors"
             >
               تلاش مجدد
             </motion.button>
