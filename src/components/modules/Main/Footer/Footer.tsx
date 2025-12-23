@@ -147,6 +147,21 @@ function Footer() {
               تماس با ما
             </h5>
             <div className="space-y-3">
+              {/* Online Consultation Button */}
+              <motion.a
+                href="https://goftino.com/c/bpADrN"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-lg p-3 hover:bg-white hover:text-primary transition-all duration-300 shadow-md mb-4"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ fontFamily: 'var(--font-vazir)' }}
+              >
+                <i className="fas fa-comments text-accent"></i>
+                <span className="font-estedad-semibold text-sm">دریافت مشاوره آنلاین</span>
+                <i className="fas fa-external-link-alt text-xs"></i>
+              </motion.a>
+              
               {settings?.data?.settings?.address && (
                 <motion.div
                   className="flex items-start gap-2 text-white/80"
