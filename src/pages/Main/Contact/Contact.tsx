@@ -27,26 +27,6 @@ function Contact() {
                   viewport={{ once: true, amount: 0.2 }}
                   className="lg:sticky lg:top-8 space-y-6"
                 >
-                  {/* Online Consultation Button */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <a
-                      href="https://goftino.com/c/bpADrN"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-3 bg-gradient-to-r from-accent to-primary text-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-full"
-                      style={{ fontFamily: 'var(--font-vazir)' }}
-                    >
-                      <i className="fas fa-comments text-xl"></i>
-                      <span className="font-estedad-semibold text-base">دریافت مشاوره آنلاین</span>
-                      <i className="fas fa-external-link-alt text-sm"></i>
-                    </a>
-                  </motion.div>
-                  
                   <ContactMessageForm />
                 </motion.div>
               </div>

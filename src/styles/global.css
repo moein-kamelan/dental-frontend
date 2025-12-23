@@ -437,7 +437,7 @@ button {
 
 @utility custom-title {
   font-family: var(--font-vazir);
-  @apply text-dark font-bold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-10 md:mt-[70px] text-justify leading-12;
+  @apply text-dark font-bold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-10 md:mt-[70px] leading-12;
 }
 
 @utility custom-sub-title {
