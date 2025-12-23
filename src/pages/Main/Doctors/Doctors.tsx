@@ -29,48 +29,13 @@ function Doctors() {
   };
 
   const hasDoctors = doctors?.data?.doctors && doctors.data.doctors.length > 0;
-  const totalDoctors = doctors?.meta?.total || 0;
 
   return (
     <>
       <Breadcrumb searchForm={<SearchForm doctors={doctors} />} />
 
-      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-gray-50/50 to-white">
+      <section className="pt-6 pb-12 md:pt-8 md:pb-16 lg:pt-10 lg:pb-20 bg-gradient-to-b from-gray-50/50 to-white">
         <div className="container mx-auto px-4">
-          {/* Header Section with Stats */}
-          {!isLoading && hasDoctors && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8 md:mb-12"
-            >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-estedad-verybold text-dark mb-2">
-                    تیم پزشکی ما
-                  </h2>
-                  <p className="text-paragray font-estedad-medium">
-                    با پزشکان متخصص و مجرب ما آشنا شوید
-                  </p>
-                </div>
-                <div className="flex items-center gap-4 bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100">
-                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-accent/20 to-primary/20 rounded-xl">
-                    <i className="fas fa-user-md text-accent text-xl"></i>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-estedad-bold text-dark">
-                      {totalDoctors}
-                    </p>
-                    <p className="text-xs text-paragray font-estedad-medium">
-                      پزشک فعال
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
           {isLoading ? (
             <LoadingState text="در حال بارگذاری پزشکان..." />
           ) : hasDoctors ? (
@@ -80,7 +45,7 @@ function Doctors() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
               >
                 {doctors?.data?.doctors?.map((doctor: Doctor, index: number) => (
                   <motion.div
@@ -102,10 +67,10 @@ function Doctors() {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="mt-12 md:mt-16"
                 >
-                  <MainPagination
-                    meta={doctors?.meta}
-                    onPageChange={handlePageChange}
-                  />
+                <MainPagination
+                  meta={doctors?.meta}
+                  onPageChange={handlePageChange}
+                />
                 </motion.div>
               )}
             </>

@@ -91,8 +91,8 @@ function Navbar() {
             )}
           </NavLink>
 
-          <div className="hidden lg:flex items-center gap-8">
-            <ul className="flex items-center lg:gap-6 xl:gap-8 gap-8 lg:text-xs xl:text-base font-iran-sans-bold ">
+          <div className="hidden lg:flex items-center gap-4">
+            <ul className="flex items-center gap-3 lg:gap-4 xl:gap-5 lg:text-xs xl:text-base font-iran-sans-bold ">
               <li className="text-nowrap">
                 <NavLink
                   to={"/home"}
@@ -169,12 +169,6 @@ function Navbar() {
 
           <div className="hidden lg:flex items-center gap-8">
             <div className="flex items-center gap-4">
-              <NavLink
-                to={""}
-                className="text-gray-600 hover:text-accent text-xl"
-              >
-                <i className="fa fa-search"></i>
-              </NavLink>
               <button
                 onClick={openAppointmentModal}
                 className="main-btn lg:text-xs xl:text-sm text-nowrap"
@@ -182,13 +176,14 @@ function Navbar() {
                 دریافت نوبت
               </button>
 
-              {/* User Menu */}
+              {/* User Menu - Modern & Minimalist */}
               {user ? (
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center gap-4 p-2 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 border border-accent/20 hover:border-accent/40"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 group"
                   >
+                    <div className="relative">
                     <img
                       src={
                         user.profileImage
@@ -198,36 +193,45 @@ function Navbar() {
                           : "/images/male-user.jpeg"
                       }
                       alt="profile"
-                      className="w-8 h-8 rounded-full object-cover"
+                        className="w-9 h-9 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-accent/30 transition-all duration-200"
                     />
-
-                    <div className="text-right">
-                      <p className="text-sm font-iran-sans-bold text-dark">
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    <div className="text-right hidden xl:block">
+                      <p className="text-sm font-semibold text-dark leading-tight" style={{ fontFamily: 'var(--font-vazir)' }}>
                         {user.firstName} {user.lastName}
-                      </p>
-                      <p className="text-xs text-gray-500 font-iran-sans-light">
-                        {user.phoneNumber}
                       </p>
                     </div>
                     <i
-                      className={`fas fa-chevron-down text-accent transition-transform duration-300 ${
+                      className={`fas fa-chevron-down text-gray-400 text-xs transition-transform duration-200 ${
                         isDropdownOpen ? "rotate-180" : ""
                       }`}
                     ></i>
                   </button>
 
-                  {/* Dropdown Menu */}
+                  {/* Dropdown Menu - Luxury & Minimalist */}
                   {isDropdownOpen && (
-                    <div className="absolute left-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-60 transform transition-all duration-200 ease-out opacity-100 translate-y-0">
-                      <div className="px-4 py-3 border-b border-gray-100">
-                        <p className="text-sm font-iran-sans-bold text-dark">
+                    <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-60 backdrop-blur-sm">
+                      {/* User Info Header - Compact */}
+                      <div className="px-4 py-3 bg-gradient-to-br from-gray-50 to-white border-b border-gray-100">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={
+                              user.profileImage
+                                ? getImageUrl(user.profileImage)
+                                : user.gender === "FEMALE"
+                                ? "/images/female-user.jpeg"
+                                : "/images/male-user.jpeg"
+                            }
+                            alt="profile"
+                            className="w-10 h-10 rounded-full object-cover ring-2 ring-accent/20"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-dark truncate" style={{ fontFamily: 'var(--font-vazir)' }}>
                           {user.firstName} {user.lastName}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {user.phoneNumber}
-                        </p>
                         {user.role && (
-                          <span className="inline-block mt-2 px-2 py-1 text-xs bg-accent/10 text-accent rounded">
+                              <span className="inline-block mt-1 px-2 py-0.5 text-[10px] bg-accent/10 text-accent rounded-md font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
                             {user.role === "PATIENT"
                               ? "بیمار"
                               : user.role === "ADMIN"
@@ -235,9 +239,12 @@ function Navbar() {
                               : user.role}
                           </span>
                         )}
+                          </div>
+                        </div>
                       </div>
 
-                      <nav className="py-2">
+                      {/* Menu Items - Clean */}
+                      <nav className="py-1.5">
                         <NavLink
                           to="/dashboard/profile"
                           onClick={() => setIsDropdownOpen(false)}
@@ -247,53 +254,42 @@ function Navbar() {
                               location.pathname.startsWith(
                                 "/dashboard/profile"
                               );
-                            return `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                            return `flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
                               isProfileActive
-                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                                ? "bg-accent/5 text-accent font-semibold"
+                                : "text-gray-700 hover:bg-gray-50 hover:text-accent"
                             }`;
                           }}
+                          style={{ fontFamily: 'var(--font-vazir)' }}
                         >
-                          <i className="fas fa-user-circle w-5 text-center"></i>
+                          <i className={`fas fa-user-circle text-sm ${location.pathname.startsWith("/dashboard/profile") ? "text-accent" : "text-gray-400"}`}></i>
                           <span>پروفایل من</span>
                         </NavLink>
                         <NavLink
                           to="/dashboard/turns"
                           onClick={() => setIsDropdownOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                            `flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
                               isActive
-                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                                : "text-dark hover:bg-accent/10 hover:text-accent"
+                                ? "bg-accent/5 text-accent font-semibold"
+                                : "text-gray-700 hover:bg-gray-50 hover:text-accent"
                             }`
                           }
+                          style={{ fontFamily: 'var(--font-vazir)' }}
                         >
-                          <i className="fas fa-calendar-alt w-5 text-center"></i>
+                          <i className={`fas fa-calendar-alt text-sm ${location.pathname === "/dashboard/turns" ? "text-accent" : "text-gray-400"}`}></i>
                           <span>نوبت‌ها</span>
-                        </NavLink>
-
-                        <NavLink
-                          to="/dashboard/messages"
-                          onClick={() => setIsDropdownOpen(false)}
-                          className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
-                              isActive
-                                ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                                : "text-dark hover:bg-accent/10 hover:text-accent"
-                            }`
-                          }
-                        >
-                          <i className="fas fa-envelope w-5 text-center"></i>
-                          <span>پیام‌ها</span>
                         </NavLink>
                       </nav>
 
-                      <div className="border-t border-gray-100 pt-2">
+                      {/* Logout Button - Separated */}
+                      <div className="border-t border-gray-100 pt-1.5 pb-1.5">
                         <button
                           onClick={handleLogout}
-                          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                          className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors rounded-lg mx-1"
+                          style={{ fontFamily: 'var(--font-vazir)' }}
                         >
-                          <i className="fas fa-sign-out-alt w-5 text-center"></i>
+                          <i className="fas fa-sign-out-alt text-sm"></i>
                           <span>خروج از حساب</span>
                         </button>
                       </div>

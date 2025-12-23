@@ -1,114 +1,156 @@
 import React from "react";
+import { motion } from "motion/react";
 import StatItem from "../../../../components/templates/Main/Dashboard/Profile/StatItem/StatItem";
 import { useAppSelector } from "../../../../redux/typedHooks";
 import { Link } from "react-router-dom";
+import { useGetMyAppointments } from "../../../../services/useAppointments";
+import { getImageUrl } from "../../../../utils/helpers";
 
 function Profile() {
-
   const user = useAppSelector((state) => state.user.data);
+  
+  // Get all appointments to calculate stats
+  const { data: allAppointmentsData, isLoading: isLoadingStats } = useGetMyAppointments({ page: 1, limit: 1000 });
+  const appointments = allAppointmentsData?.data?.appointments || [];
+  
+  // Calculate stats
+  const approvedCount = appointments.filter((apt: any) => apt.status === "FINAL_APPROVED").length;
+  const pendingCount = appointments.filter((apt: any) => apt.status === "APPROVED_BY_USER").length;
+  const canceledCount = appointments.filter((apt: any) => apt.status === "CANCELED").length;
+  
   return (
-    < >
-      <div className="mb-8">
-        <h5 className="main-header">مشاهده کلی</h5>
-
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <StatItem />
-          <StatItem />
-          <StatItem />
-          <StatItem />
-          <StatItem />
-          <StatItem />
+    <div className="space-y-6">
+      {/* Stats Section - Modern & Minimalist */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <h2 className="text-xl font-bold text-dark mb-4" style={{ fontFamily: 'var(--font-vazir)' }}>
+          آمار نوبت‌ها
+        </h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          <StatItem 
+            title="تأیید شده"
+            value={isLoadingStats ? 0 : approvedCount}
+            icon="far fa-check-circle"
+            gradient={{
+              from: "var(--color-accent)",
+              to: "var(--color-tertiary)"
+            }}
+          />
+          <StatItem 
+            title="در انتظار تأیید"
+            value={isLoadingStats ? 0 : pendingCount}
+            icon="far fa-clock"
+            gradient={{
+              from: "var(--color-secondary)",
+              to: "var(--color-semantic-yellow)"
+            }}
+          />
+          <StatItem 
+            title="لغو شده"
+            value={isLoadingStats ? 0 : canceledCount}
+            icon="far fa-times-circle"
+            gradient={{
+              from: "var(--color-semantic-red)",
+              to: "#e63946"
+            }}
+          />
         </div>
-      </div>
+      </motion.div>
 
-      {/* <!-- Profile Details --> */}
-      <div className="bg-white  p-8">
-        <div className="flex items-center justify-between mb-6 ">
-          <div className="flex items-center w-full justify-between pb-2.5 border-b-2 relative border-[#5e5b5b17] mb-6 after:absolute after:content-[''] after:bg-primary after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-36">
-            <h5 className="text-2xl relative   font-estedad-verybold text-dark ">
-              پروفایل من
-            </h5>
+      {/* Profile Details - Luxury & Minimalist */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+      >
+        {/* Header */}
+        <div className="bg-gradient-to-r from-gray-50 to-white px-6 py-4 border-b border-gray-100">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+              <i className="fas fa-user-circle text-accent"></i>
+              <span>اطلاعات پروفایل</span>
+            </h3>
             <Link
               to="/dashboard/profile-edit"
-              className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition"
+              className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors text-sm font-semibold"
+              style={{ fontFamily: 'var(--font-vazir)' }}
             >
-              ویرایش
+              <i className="fas fa-edit text-xs"></i>
+              <span>ویرایش</span>
             </Link>
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-4 divide-y divide-[#ddd]">
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              نام:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              {user?.firstName } {user?.lastName}
-            </span>
+        {/* Profile Content */}
+        <div className="p-6">
+          <div className="space-y-4">
+            {/* Name */}
+            <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg shrink-0">
+                <i className="fas fa-user text-accent text-sm"></i>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  نام و نام خانوادگی
+                </p>
+                <p className="text-base font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  {user?.firstName} {user?.lastName}
+                </p>
+              </div>
+            </div>
+
+            {/* National Code */}
+            <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg shrink-0">
+                <i className="fas fa-id-card text-primary text-sm"></i>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  کد ملی
+                </p>
+                <p className="text-base font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  {user?.nationalCode || <span className="text-gray-400 font-normal">ثبت نشده</span>}
+                </p>
+              </div>
+            </div>
+
+            {/* Gender */}
+            <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex items-center justify-center w-10 h-10 bg-secondary/10 rounded-lg shrink-0">
+                <i className={`fas ${user?.gender === "FEMALE" ? "fa-venus" : "fa-mars"} text-secondary text-sm`}></i>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              کد ملی:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              {user?.nationalCode || <span className="text-gray-400">ثبت نشده</span>}
-            </span>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  جنسیت
+                </p>
+                <p className="text-base font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  {user?.gender === "MALE" ? "مرد" : user?.gender === "FEMALE" ? "زن" : <span className="text-gray-400 font-normal">ثبت نشده</span>}
+                </p>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              جنسیت:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              {user?.gender === "MALE" ? "مرد" : user?.gender === "FEMALE" ? "زن" : <span className="text-gray-400">ثبت نشده</span>}
-            </span>
           </div>
-          {/* <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              موبایل:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              {user?.phoneNumber}
-            </span>
-          </div> */}
-          {/* <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              ایمیل:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              example@gmail.com
-            </span>
+
+            {/* Phone Number */}
+            <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg shrink-0">
+                <i className="fas fa-phone text-accent text-sm"></i>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              جنسیت:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">مرد</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  شماره همراه
+                </p>
+                <p className="text-base font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  {user?.phoneNumber || <span className="text-gray-400 font-normal">ثبت نشده</span>}
+                </p>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              وزن:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              ۶۴ کیلوگرم
-            </span>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              سن:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">۳۵</span>
           </div>
-          <div className=" pb-4 flex items-center  flex-wrap gap-y-3 ">
-            <span className="text-dark font-estedad-light w-16 xs:w-25 max-xs:text-sm">
-              آدرس:
-            </span>
-            <span className=" text-paragray mr-3 max-sm:text-sm">
-              شیراز. بلوار ارم. کوچه ۱۲
-            </span>
-          </div> */}
         </div>
+      </motion.div>
       </div>
-    </>
   );
 }
 

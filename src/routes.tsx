@@ -214,7 +214,7 @@ const routes = createBrowserRouter([
           { path: "profile-edit", element: <ProfileEdit /> },
           { path: "turns", element: <Turns /> },
           // { path: "upcoming-meeting", element: <UpcomingMeeting /> },
-          { path: "messages", element: <Messages /> },
+          // { path: "messages", element: <Messages /> },
           // { path: "meeting-history", element: <MeetingHistory /> },
           { path: "*", element: <Navigate to="/404" replace /> },
         ],

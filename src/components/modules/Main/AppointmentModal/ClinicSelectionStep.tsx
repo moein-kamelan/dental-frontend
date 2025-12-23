@@ -50,7 +50,7 @@ export function ClinicSelectionStep({
           کلینیکی یافت نشد
         </div>
       ) : (
-        <div className="grid h-full grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid h-full grid-cols-2 sm:grid-cols-2 gap-4">
           {clinics.map((clinic) => {
             const isEnabled = getIsClinicEnabled(clinic);
             return (

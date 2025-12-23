@@ -73,7 +73,7 @@ function AuthModal() {
             <div
               className="absolute inset-0 z-0 rounded-3xl"
               style={{
-                backgroundImage: `radial-gradient(circle at center, #FFF991 0%, transparent 70%)`,
+                backgroundImage: `radial-gradient(circle at top center, #FFF991 0%, transparent 95%)`,
                 opacity: 0.6,
                 mixBlendMode: "multiply",
               }}

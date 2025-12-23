@@ -587,20 +587,6 @@ export function DateTimeSelectionStep({
                   delay: index * 0.1,
                   ease: "easeOut",
                 }}
-                whileHover={
-                  !isDisabled
-                    ? {
-                        scale: 1.03,
-                        y: -4,
-                        transition: {
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 17,
-                        },
-                      }
-                    : {}
-                }
-                whileTap={!isDisabled ? { scale: 0.95 } : {}}
               >
                 {/* افکت درخشان برای حالت انتخاب شده و هاور - فقط برای روزهای غیر جمعه */}
                 {!isDisabled && (
@@ -825,8 +811,6 @@ export function DateTimeSelectionStep({
                             duration: 0.2,
                             delay: index * 0.02,
                           }}
-                          whileHover={!isWaiting && !isOccupied ? { scale: 1.05 } : {}}
-                          whileTap={!isWaiting && !isOccupied ? { scale: 0.95 } : {}}
                         >
                           {isOccupied && (
                             <motion.i

@@ -16,7 +16,7 @@ function AboutUsSection() {
     : null;
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white via-gray-50/30 to-white overflow-hidden relative">
+    <section className="pt-8 pb-16 md:pt-10 md:pb-20 lg:pt-12 lg:pb-24 bg-gradient-to-b from-white via-gray-50/30 to-white overflow-hidden relative">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 -right-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
@@ -25,11 +25,11 @@ function AboutUsSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header Section */}
-        <motion.div
+          <motion.div
           className="text-center mb-12 md:mb-16"
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
           <motion.div
@@ -45,7 +45,8 @@ function AboutUsSection() {
             </span>
           </motion.div>
           <motion.h2
-            className="text-3xl md:text-4xl lg:text-5xl font-estedad-verybold text-dark mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-dark mb-4"
+            style={{ fontFamily: 'var(--font-vazir)' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -54,26 +55,26 @@ function AboutUsSection() {
             مرکز پزشکی ما
           </motion.h2>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-primary rounded-full mx-auto"></div>
-        </motion.div>
+          </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Image/Video Section */}
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
             className="relative"
-          >
+            >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               {aboutUsImage ? (
                 <motion.img
-                  src={getImageUrl(aboutUsImage)}
-                  alt="درباره ما"
-                  className="w-full h-auto object-cover"
+                    src={getImageUrl(aboutUsImage)}
+                    alt="درباره ما"
+                    className="w-full h-auto object-cover"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.5 }}
-                />
+                  />
               ) : (
                 <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 aspect-[4/3] flex items-center justify-center">
                   <div className="text-center space-y-4">
@@ -112,17 +113,17 @@ function AboutUsSection() {
 
               {/* Decorative Corner */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent/20 to-transparent rounded-bl-3xl"></div>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
 
           {/* Content Section */}
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
             <div className="bg-white rounded-3xl p-6 md:p-8 shadow-lg border border-gray-100">
               {aboutUsContent ? (
                 <div
@@ -173,9 +174,9 @@ function AboutUsSection() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
-      </div>
     </section>
   );
 }

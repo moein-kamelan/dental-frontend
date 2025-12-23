@@ -31,14 +31,15 @@ function Services() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-          >
+        >
             <span className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-accent/10 to-primary/10 rounded-full border border-accent/20 text-accent font-estedad-semibold">
               <i className="fas fa-tooth"></i>
               خدمات ما
             </span>
           </motion.div>
           <motion.h2
-            className="text-3xl md:text-4xl lg:text-5xl font-estedad-verybold text-dark mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-dark mb-4"
+            style={{ fontFamily: 'var(--font-vazir)' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}

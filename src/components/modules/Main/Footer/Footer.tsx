@@ -47,16 +47,6 @@ function Footer() {
 
   return (
     <footer className="relative bg-gradient-to-br from-primary via-primary/95 to-accent text-white mt-20 md:mt-30 overflow-hidden">
-      {/* Background Pattern Overlay */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        ></div>
-      </div>
-
       <div className="container mx-auto px-4 pt-16 md:pt-20 pb-8 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
@@ -133,14 +123,14 @@ function Footer() {
                 { to: "/contact", label: "تماس با ما", icon: "fas fa-envelope" },
               ].map((link) => (
                 <li key={link.to}>
-                  <Link
+                <Link
                     to={link.to}
                     className="text-white/80 font-estedad-medium hover:text-accent transition-colors duration-300 flex items-center gap-2 group"
-                  >
+                >
                     <i className={`${link.icon} text-xs text-accent group-hover:translate-x-1 transition-transform duration-300`}></i>
                     <span>{link.label}</span>
-                  </Link>
-                </li>
+                </Link>
+              </li>
               ))}
             </ul>
           </motion.div>
@@ -167,8 +157,8 @@ function Footer() {
                     <i className="fas fa-map-marker-alt text-accent"></i>
                   </div>
                   <p className="font-estedad-light leading-relaxed">
-                    {settings.data.settings.address}
-                  </p>
+                  {settings.data.settings.address}
+                </p>
                 </motion.div>
               )}
               {settings?.data?.settings?.email && (

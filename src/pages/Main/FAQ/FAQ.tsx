@@ -16,7 +16,7 @@ function FAQ() {
     <>
       <Breadcrumb />
 
-      <section className="py-20">
+      <section className="pt-10 pb-20">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* استفاده از grid با items-start تا هر آیتم ارتفاع مستقل داشته باشه */}
           <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 items-start">

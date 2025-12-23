@@ -21,7 +21,7 @@ function ServiceDetails() {
     <>
       <Breadcrumb />
 
-      <section className="py-12">
+      <section className="pt-6 pb-12">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-4 gap-8 items-start">
             {/* <!-- Main Content --> */}

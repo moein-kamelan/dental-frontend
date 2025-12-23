@@ -13,7 +13,7 @@ function BecomeDoctor() {
           { label: "ثبت نام پزشک", path: "/become-doctor" },
         ]}
       />
-      <section className="py-4 md:py-6 ">
+      <section className="pt-2 pb-4 md:pt-3 md:pb-6 ">
         <div className="container mx-auto px-4">
           <div className="mb-12"></div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">

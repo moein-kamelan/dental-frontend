@@ -1,5 +1,6 @@
 /* ckeditor styles - must be first */
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 @import "./fonts.css";
 @import "swiper/css";
@@ -13,7 +14,7 @@
 :root {
   direction: rtl;
   scroll-behavior: smooth;
-  --ck-content-font-family: "estedad-medium";
+  --ck-content-font-family: "Vazirmatn", "Vazir", sans-serif;
 }
 
 .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
@@ -41,7 +42,7 @@ figure img {
 .article-content {
   direction: rtl;
   text-align: right;
-  font-family: var(--font-estedad-light), sans-serif;
+  font-family: var(--font-vazir);
   line-height: 1.8;
 }
 
@@ -372,6 +373,8 @@ figure img {
   --font-estedad-extralight: "estedad-extralight";
   --font-estedad-medium: "estedad-medium";
   --font-estedad-semibold: "estedad-semibold";
+  
+  --font-vazir: "Vazirmatn", "Vazir", sans-serif;
 }
 
 html {
@@ -382,13 +385,36 @@ html {
 body {
   width: 100%;
   position: relative;
-  font-family: var(--font-estedad-medium), sans-serif;
+  font-family: var(--font-vazir);
   @apply text-dark;
   background-color: var(--color-background);
   background-image: 
     radial-gradient(circle at 20% 50%, rgba(42, 122, 122, 0.02) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
   background-attachment: fixed;
+}
+
+/* Override all estedad fonts to use Vazir */
+.font-estedad-verybold,
+.font-estedad-lightbold,
+.font-estedad-bold,
+.font-estedad-semibold,
+.font-estedad-medium,
+.font-estedad-light,
+.font-estedad-extralight,
+[class*="font-estedad"] {
+  font-family: var(--font-vazir) !important;
+}
+
+/* Apply Vazir font to all text elements by default */
+p, span, div, h1, h2, h3, h4, h5, h6, a, button, input, textarea, select, label, li, td, th, 
+article, section, nav, header, footer, main, aside, blockquote, pre, code {
+  font-family: var(--font-vazir);
+}
+
+/* Keep Font Awesome icons with their original font */
+i, [class*="fa-"], [class*="fab-"], [class*="fas-"], [class*="far-"], [class*="fal-"] {
+  font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
 }
 
 /* Prevent overflow during animations */
@@ -410,19 +436,23 @@ button {
 }
 
 @utility custom-title {
-  @apply text-dark font-estedad-verybold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-10 md:mt-[70px] text-justify leading-12;
+  font-family: var(--font-vazir);
+  @apply text-dark font-bold text-2xl sm:text-[28px] md:text-4xl xl:text-[42px] 2xl:text-[44px] mt-10 md:mt-[70px] text-justify leading-12;
 }
 
 @utility custom-sub-title {
-  @apply text-accent font-estedad-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit;
+  font-family: var(--font-vazir);
+  @apply text-accent font-semibold md:text-lg border-r-2 border-r-accent pr-5 w-fit;
 }
 
 @utility main-btn {
-  @apply bg-accent text-white py-3 px-10 rounded-[30px] font-estedad-semibold hover:bg-secondary transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0 after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4;
+  font-family: var(--font-vazir);
+  @apply bg-accent text-white py-3 px-10 rounded-[30px] font-semibold hover:bg-secondary transition-all duration-300 relative hover:pr-[55px] hover:pl-[25px] after:size-6 after:opacity-0 after:absolute after:bg-[url('/images/arrow_icon.png')] after:bg-no-repeat after:bg-center after:bg-contain after:top-1/2 after:right-0 after:-translate-y-1/2 hover:after:opacity-100 after:transition-all after:duration-300 hover:after:right-4;
 }
 
 @utility main-header {
-  @apply text-2xl relative   font-estedad-verybold text-dark pb-2.5 border-b-2 border-[#18181817] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
+  font-family: var(--font-vazir);
+  @apply text-2xl relative font-bold text-dark pb-2.5 border-b-2 border-[#18181817] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
 }
 
 @utility section-border {

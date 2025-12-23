@@ -19,9 +19,21 @@ function SearchForm({services, doctors, articles}: {services?: {data: {services:
     }
     return (
         <form onSubmit={handleSearch} className="w-full lg:w-auto">
-            <div className="relative">
-                <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="جستجو.." className="w-full lg:w-64 xl:w-80 pl-16 pr-6 py-3 border-main-border-color border-2 rounded-full focus:outline-none focus:border-primary bg-white/80 backdrop-blur-sm shadow-sm"/>
-                <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-primary bg-primary rounded-full p-2 size-9 hover:bg-deepblue transition-all duration-300 shrink-0 cursor-pointer"><i className="fa fa-search text-white"></i></button>
+            <div className="relative group">
+                <input 
+                    value={search} 
+                    onChange={(e) => setSearch(e.target.value)} 
+                    type="text" 
+                    placeholder="جستجو..." 
+                    className="w-full lg:w-64 xl:w-72 pl-12 pr-4 py-2.5 bg-white border-2 border-primary/30 rounded-full focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-dark placeholder:text-paragray text-sm transition-all duration-300 shadow-md"
+                    style={{ fontFamily: 'var(--font-vazir)' }}
+                />
+                <button 
+                    type="submit" 
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-primary hover:text-accent transition-colors duration-200 shrink-0 cursor-pointer focus:outline-none"
+                >
+                    <i className="fas fa-search text-sm"></i>
+                </button>
             </div>
         </form>
     )

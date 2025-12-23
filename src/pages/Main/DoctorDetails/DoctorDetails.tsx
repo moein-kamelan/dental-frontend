@@ -29,72 +29,73 @@ function DoctorDetails() {
     <>
       <Breadcrumb />
 
-      <section className="py-8 md:py-12 bg-gradient-to-b from-gray-50/30 to-white">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      <section className="pt-3 pb-6 md:pt-4 md:pb-8 bg-white">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="grid lg:grid-cols-3 gap-4 items-start max-w-6xl mx-auto">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-6 lg:space-y-8">
-              {/* Doctor Header Card */}
+            <div className="lg:col-span-2 space-y-5">
+              {/* Doctor Header Card - Compact */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100"
+                transition={{ duration: 0.4 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-100"
               >
-                <div className="bg-gradient-to-r from-accent/10 via-primary/5 to-transparent p-6 md:p-8">
-                  <div className="grid md:grid-cols-[280px_1fr] gap-6 md:gap-8">
-                    {/* Profile Image */}
-                    <div className="flex justify-center md:justify-start">
+                <div className="p-4">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    {/* Profile Image - Compact */}
+                    <div className="flex justify-center sm:justify-start shrink-0">
                       <div className="relative">
                         <motion.img
-                          src={
-                            doctor?.data?.doctor?.profileImage
-                              ? getImageUrl(doctor.data.doctor.profileImage)
-                              : "/images/user_img.png"
-                          }
-                          alt={
-                            doctor?.data?.doctor?.firstName +
-                            " " +
-                            doctor?.data?.doctor?.lastName
-                          }
-                          className="rounded-3xl w-64 h-64 md:w-80 md:h-80 object-cover shadow-xl border-4 border-white"
+                      src={
+                        doctor?.data?.doctor?.profileImage
+                          ? getImageUrl(doctor.data.doctor.profileImage)
+                          : "/images/user_img.png"
+                      }
+                      alt={
+                        doctor?.data?.doctor?.firstName +
+                        " " +
+                        doctor?.data?.doctor?.lastName
+                      }
+                          className="rounded-xl w-28 h-28 sm:w-36 sm:h-36 object-cover border-2 border-gray-100"
                           whileHover={{ scale: 1.02 }}
                           transition={{ duration: 0.3 }}
                         />
                         {doctorData?.isAppointmentEnabled && (
-                          <div className="absolute bottom-4 left-4 bg-accent text-white px-4 py-2 rounded-full text-sm font-estedad-semibold shadow-lg flex items-center gap-2">
-                            <i className="fas fa-check-circle"></i>
+                          <div className="absolute bottom-2 left-2 bg-white/95 backdrop-blur-sm text-accent px-2 py-0.5 rounded-full text-[9px] font-semibold shadow-sm flex items-center gap-1">
+                            <i className="fas fa-check-circle text-[8px]"></i>
                             <span>قابل رزرو</span>
                           </div>
                         )}
                       </div>
-                    </div>
+                  </div>
 
-                    {/* Doctor Info */}
-                    <div className="space-y-4">
+                    {/* Doctor Info - Compact */}
+                    <div className="flex-1 space-y-3">
                       <div>
-                        <h1 className="text-3xl md:text-4xl font-estedad-verybold text-dark mb-2">
+                        <h1 className="text-xl sm:text-2xl font-bold text-dark mb-1.5" style={{ fontFamily: 'var(--font-vazir)' }}>
                           دکتر {doctor?.data?.doctor?.firstName}{" "}
-                          {doctor?.data?.doctor?.lastName}
+                      {doctor?.data?.doctor?.lastName}
                         </h1>
                         {doctor?.data?.doctor?.university && (
-                          <div className="flex items-center gap-2 text-paragray mb-3">
-                            <i className="fas fa-university text-accent"></i>
-                            <span className="font-estedad-medium">
+                          <div className="flex items-center gap-1.5 text-gray-600 mb-2">
+                            <i className="fas fa-university text-accent text-xs"></i>
+                            <span className="text-xs" style={{ fontFamily: 'var(--font-vazir)' }}>
                               {doctor.data.doctor.university}
                             </span>
                           </div>
                         )}
                       </div>
 
-                      {/* Skills */}
+                      {/* Skills - Compact Tags */}
                       {doctor?.data?.doctor?.skills &&
                         doctor.data.doctor.skills.length > 0 && (
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-1.5">
                             {doctor.data.doctor.skills.map((skill, index) => (
                               <span
                                 key={index}
-                                className="px-4 py-1.5 bg-gradient-to-r from-accent/10 to-primary/10 text-accent rounded-full text-sm font-estedad-medium border border-accent/20"
+                                className="px-2 py-0.5 bg-gray-50 text-gray-700 rounded-md text-[10px] border border-gray-200"
+                                style={{ fontFamily: 'var(--font-vazir)' }}
                               >
                                 {skill}
                               </span>
@@ -102,153 +103,149 @@ function DoctorDetails() {
                           </div>
                         )}
 
-                      {/* Additional Info */}
-                      <div className="space-y-3 pt-2">
-                        {doctor?.data?.doctor?.medicalLicenseNo && (
-                          <div className="flex items-center gap-3 text-paragray">
-                            <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg">
-                              <i className="fas fa-id-card text-accent"></i>
-                            </div>
-                            <div>
-                              <span className="text-xs text-paragray block mb-0.5">
-                                شماره نظام پزشکی
-                              </span>
-                              <span className="font-estedad-semibold text-dark">
-                                {doctor.data.doctor.medicalLicenseNo}
-                              </span>
-                            </div>
+                      {/* Additional Info - Compact */}
+                      {doctor?.data?.doctor?.medicalLicenseNo && (
+                        <div className="flex items-center gap-2 text-gray-600 pt-1">
+                          <div className="flex items-center justify-center w-7 h-7 bg-gray-50 rounded-lg shrink-0">
+                            <i className="fas fa-id-card text-accent text-[10px]"></i>
                           </div>
-                        )}
-                      </div>
+                          <div>
+                            <span className="text-[9px] text-gray-400 block leading-tight" style={{ fontFamily: 'var(--font-vazir)' }}>
+                              شماره نظام پزشکی
+                            </span>
+                            <span className="text-xs font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                              {doctor.data.doctor.medicalLicenseNo}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Biography Section */}
+              {/* Biography Section - Compact */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden"
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
               >
-                <div className="bg-gradient-to-r from-primary to-accent p-6">
-                  <h2 className="text-2xl md:text-3xl font-estedad-bold text-white flex items-center gap-3">
-                    <i className="fas fa-user-md"></i>
-                    <span>
-                      بیوگرافی دکتر {doctor?.data?.doctor?.firstName}{" "}
-                      {doctor?.data?.doctor?.lastName}
-                    </span>
+                <div className="bg-gray-50 px-4 py-2.5 border-b border-gray-100">
+                  <h2 className="text-base font-bold text-dark flex items-center gap-2" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    <i className="fas fa-user-md text-accent text-xs"></i>
+                    <span>بیوگرافی</span>
                   </h2>
-                </div>
-                <div
-                  className="p-6 md:p-8 md:p-10 article-content"
-                  dangerouslySetInnerHTML={{
-                    __html: doctor?.data?.doctor?.biography || "",
-                  }}
-                ></div>
+                  </div>
+                  <div
+                  className="p-4 article-content text-sm leading-relaxed"
+                    dangerouslySetInnerHTML={{
+                      __html: doctor?.data?.doctor?.biography || "",
+                    }}
+                  ></div>
               </motion.div>
 
-              {/* Comments Section */}
+              {/* Comments Section - Compact */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="space-y-6"
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="space-y-4"
               >
-                <CommentsBox doctorId={doctor?.data?.doctor?.id} />
-                <CommentForm doctorId={doctor?.data?.doctor?.id} />
+              <CommentsBox doctorId={doctor?.data?.doctor?.id} />
+              <CommentForm doctorId={doctor?.data?.doctor?.id} />
               </motion.div>
             </div>
 
-            {/* Sidebar */}
+            {/* Sidebar - Compact */}
             <StickyBox
               offsetBottom={20}
-              offsetTop={100}
+              offsetTop={80}
               className="max-lg:!static"
             >
-              <div className="space-y-6">
-                {/* Appointment Card */}
+              <div className="space-y-4">
+                {/* Appointment Card - Compact */}
                 {doctorData?.isAppointmentEnabled && (
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="bg-gradient-to-br from-primary via-accent to-primary rounded-3xl shadow-xl overflow-hidden border border-accent/20"
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                    className="bg-gradient-to-br from-primary via-primary/95 to-accent rounded-xl shadow-sm overflow-hidden border border-primary/20"
                   >
-                    <div className="p-6 md:p-8">
-                      <div className="text-center mb-6">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-                          <i className="fas fa-calendar-check text-white text-2xl"></i>
+                    <div className="p-3.5">
+                      <div className="text-center mb-3">
+                        <div className="inline-flex items-center justify-center w-9 h-9 bg-white/10 backdrop-blur-sm rounded-full mb-1.5">
+                          <i className="fas fa-calendar-check text-white text-xs"></i>
                         </div>
-                        <h3 className="font-estedad-bold text-white text-xl md:text-2xl mb-2">
-                          درخواست نوبت
+                        <h3 className="font-bold text-white text-sm mb-1" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    درخواست نوبت
                         </h3>
-                        <p className="text-white/90 text-sm font-estedad-medium">
+                        <p className="text-white/80 text-[9px] leading-tight" style={{ fontFamily: 'var(--font-vazir)' }}>
                           برای دریافت نوبت اینجا کلیک کنید
                         </p>
                       </div>
                       <motion.button
-                        onClick={handleBookAppointment}
-                        className="w-full bg-white text-primary py-4 px-6 rounded-2xl font-estedad-bold hover:bg-secondary hover:text-white transition-all duration-300 flex items-center justify-center gap-3 text-lg shadow-lg"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <i className="fas fa-calendar-check text-xl"></i>
+                      onClick={handleBookAppointment}
+                        className="w-full bg-white text-primary py-2 px-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200 flex items-center justify-center gap-1.5 text-[10px] shadow-sm"
+                        style={{ fontFamily: 'var(--font-vazir)' }}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                    >
+                        <i className="fas fa-calendar-check text-[9px]"></i>
                         <span>دریافت نوبت</span>
                       </motion.button>
-                    </div>
+                </div>
                   </motion.div>
                 )}
 
-                {/* Working Hours Card */}
+                {/* Working Hours Card - Compact */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden sticky top-24"
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-20"
                 >
-                  <div className="bg-gradient-to-r from-accent/10 to-primary/10 p-6 border-b border-gray-100">
-                    <h3 className="text-xl md:text-2xl font-estedad-bold text-dark flex items-center gap-3">
-                      <div className="flex items-center justify-center w-10 h-10 bg-accent rounded-xl">
-                        <i className="fas fa-clock text-white"></i>
+                  <div className="bg-gray-50 px-3.5 py-2.5 border-b border-gray-100">
+                    <h3 className="text-sm font-bold text-dark flex items-center gap-1.5" style={{ fontFamily: 'var(--font-vazir)' }}>
+                      <div className="flex items-center justify-center w-6 h-6 bg-accent/10 rounded-lg shrink-0">
+                        <i className="fas fa-clock text-accent text-[10px]"></i>
                       </div>
                       <span>روزهای کاری</span>
                     </h3>
                   </div>
-                  <div className="p-6">
-                    {(() => {
-                      const workingDays = doctor?.data?.doctor?.workingDays;
-                      const clinics = doctor?.data?.doctor?.clinics || [];
-
-                      // اگر workingDays خالی است یا null است
+                  <div className="p-3.5">
+                  {(() => {
+                    const workingDays = doctor?.data?.doctor?.workingDays;
+                    const clinics = doctor?.data?.doctor?.clinics || [];
+                    
+                    // اگر workingDays خالی است یا null است
                       if (
                         !workingDays ||
                         Object.keys(workingDays).length === 0
                       ) {
-                        return (
-                          <div className="text-center py-8">
-                            <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4">
-                              <i className="fas fa-calendar-times text-paragray text-xl"></i>
+                      return (
+                          <div className="text-center py-4">
+                            <div className="flex items-center justify-center w-10 h-10 bg-gray-50 rounded-full mx-auto mb-2">
+                              <i className="fas fa-calendar-times text-gray-400 text-xs"></i>
                             </div>
-                            <p className="text-paragray font-estedad-medium">
-                              ساعات کاری تعریف نشده است
-                            </p>
+                            <p className="text-gray-500 text-xs" style={{ fontFamily: 'var(--font-vazir)' }}>
+                          ساعات کاری تعریف نشده است
+                        </p>
                           </div>
-                        );
-                      }
+                      );
+                    }
 
-                      // ساختار جدید: { clinicId: { day: "..." } }
-                      return clinics.map((dc: { clinic: Clinic }) => {
-                        const clinicId = dc.clinic.id;
-                        const clinicWorkingDays = workingDays[clinicId];
-
+                    // ساختار جدید: { clinicId: { day: "..." } }
+                    return clinics.map((dc: { clinic: Clinic }) => {
+                      const clinicId = dc.clinic.id;
+                      const clinicWorkingDays = workingDays[clinicId];
+                      
                         if (
                           !clinicWorkingDays ||
                           typeof clinicWorkingDays !== "object"
                         ) {
-                          return null;
-                        }
+                        return null;
+                      }
 
                         const daysWithHours = Object.keys(
                           clinicWorkingDays
@@ -256,39 +253,39 @@ function DoctorDetails() {
                           (day: string) =>
                             clinicWorkingDays[day] !== null &&
                             clinicWorkingDays[day] !== ""
-                        );
+                      );
 
-                        if (daysWithHours.length === 0) {
-                          return null;
-                        }
+                      if (daysWithHours.length === 0) {
+                        return null;
+                      }
 
-                        return (
-                          <div key={clinicId} className="mb-6 last:mb-0">
-                            <h6 className="text-base font-estedad-bold text-dark mb-4 pb-2 border-b border-gray-100">
-                              <i className="fas fa-hospital text-accent ml-2"></i>
+                      return (
+                          <div key={clinicId} className="mb-4 last:mb-0">
+                            <h6 className="text-xs font-semibold text-dark mb-2.5 pb-1.5 border-b border-gray-100 flex items-center gap-1.5" style={{ fontFamily: 'var(--font-vazir)' }}>
+                              <i className="fas fa-hospital text-accent text-[10px]"></i>
                               {dc.clinic.name}
                             </h6>
-                            <ul className="space-y-2">
-                              {daysWithHours.map((day: string) => (
-                                <li
-                                  key={day}
-                                  className="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-accent/5 transition-colors duration-200"
-                                >
-                                  <span className="text-dark font-estedad-medium flex items-center gap-2">
-                                    <i className="fas fa-calendar-day text-accent text-sm"></i>
-                                    {translateDayName(day)}
-                                  </span>
-                                  <span className="text-accent font-estedad-semibold">
-                                    {clinicWorkingDays[day]}
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        );
-                      });
-                    })()}
-                  </div>
+                            <ul className="space-y-1">
+                            {daysWithHours.map((day: string) => (
+                        <li
+                          key={day}
+                                  className="flex items-center justify-between p-2 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-150"
+                        >
+                                  <span className="text-dark text-[10px] flex items-center gap-1" style={{ fontFamily: 'var(--font-vazir)' }}>
+                                    <i className="fas fa-calendar-day text-accent text-[9px]"></i>
+                            {translateDayName(day)}
+                          </span>
+                                  <span className="text-accent font-semibold text-[10px]" style={{ fontFamily: 'var(--font-vazir)' }}>
+                                  {clinicWorkingDays[day]}
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
                 </motion.div>
               </div>
             </StickyBox>

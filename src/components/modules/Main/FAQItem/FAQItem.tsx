@@ -17,7 +17,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
       >
         <div className="flex items-center justify-between gap-4">
           <h3 className="font-estedad-semibold text-dark text-base md:text-lg flex-1">
-            {question}
+                            {question}
           </h3>
           <motion.div
             animate={{ rotate: isFaqOpen ? 180 : 0 }}
@@ -26,7 +26,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
           >
             <i className={`fas ${isFaqOpen ? 'fa-minus' : 'fa-plus'} text-accent`}></i>
           </motion.div>
-        </div>
+                        </div>
       </motion.div>
 
       <AnimatePresence>
@@ -40,9 +40,9 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
           >
             <div className="px-5 md:px-6 pb-5 md:pb-6 pt-0 border-t border-gray-100">
               <p className="text-paragray font-estedad-light leading-relaxed text-justify">
-                {answer}
+                            {answer}
               </p>
-            </div>
+                        </div>
           </motion.div>
         )}
       </AnimatePresence>

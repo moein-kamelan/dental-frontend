@@ -6,7 +6,7 @@ function Gallery() {
     <>
     <Breadcrumb/>
 
-       <section className="py-12">
+       <section className="pt-6 pb-12">
         <div className="container mx-auto px-4">
 
             <div className="grid grid-cols-3 grid-rows-[420px_420px_420px]  gap-8">

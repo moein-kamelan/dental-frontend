@@ -78,7 +78,7 @@ function Dashboard() {
     <>
       <Breadcrumb />
 
-      <section className="py-12 overflow-x-hidden">
+      <section className="pt-6 pb-12 overflow-x-hidden">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-4 gap-8">
             {/* <!-- Sidebar --> */}
@@ -167,23 +167,6 @@ function Dashboard() {
                       }
                     >
                       <span>نوبت ها</span>
-                      <i className="fas fa-angle-left"></i>
-                    </NavLink>
-                  </li>
-
-                
-      
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
-                    <NavLink
-                      to={"/dashboard/messages"}
-                      className={({ isActive }) =>
-                        ` ${
-                          isActive &&
-                          "text-white bg-primary hover:bg-primary hover:text-white"
-                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`
-                      }
-                    >
-                      <span>پیام ها</span>
                       <i className="fas fa-angle-left"></i>
                     </NavLink>
                   </li>

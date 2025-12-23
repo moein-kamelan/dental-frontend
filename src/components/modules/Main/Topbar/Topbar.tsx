@@ -38,85 +38,112 @@ function Topbar() {
   }
 
   return (
-    <section className="bg-linear-to-l overflow-hidden from-primary to-accent text-white block h-9 sm:h-10 md:h-11 font-estedad-medium">
-      <div className="container mx-auto px-3 sm:px-4 h-full">
-        <div className="flex flex-wrap justify-center lg:justify-between items-center gap-1.5 sm:gap-2 h-full">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/95 to-accent text-white py-2 md:py-2.5">
+      <div className="container mx-auto px-3 sm:px-4 relative z-10">
+        <div className="flex flex-wrap justify-center lg:justify-between items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
             {hasTwoClinics && (
               <button
                 onClick={handleToggleClinic}
-                className="flex items-center gap-1 px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-md hover:bg-white/10 transition-colors text-[10px] sm:text-xs md:text-sm leading-none"
+                className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg hover:bg-white/10 transition-colors text-[10px] sm:text-xs leading-none backdrop-blur-sm"
                 title={`تبدیل به ${activeClinicIndex === 0 ? secondClinic.name : firstClinic.name}`}
+                style={{ fontFamily: 'var(--font-vazir)' }}
               >
-                <i className="fas fa-exchange-alt text-xs sm:text-sm"></i>
-                <span className="hidden sm:inline">
+                <i className="fas fa-exchange-alt text-xs"></i>
+                <span className="hidden sm:inline font-medium">
                   {activeClinicIndex === 0 ? firstClinic.name : secondClinic.name}
                 </span>
               </button>
             )}
             
-            <div className="flex md:hidden items-center gap-1.5 sm:gap-2 text-sm sm:text-base leading-none">
+            <div className="flex md:hidden items-center gap-1.5 sm:gap-2 text-xs sm:text-sm leading-none">
               {phoneNumber && (
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <div className="text-xs sm:text-sm">
-                    <i className="fas fa-phone-alt"></i>
-                  </div>
-                  <a href={`tel:${phoneNumber}`} className="leading-none whitespace-nowrap font-estedad-medium">{phoneNumber}</a>
+                <div className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${phoneNumber}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {phoneNumber}
+                  </a>
                 </div>
               )}
               {activeClinic && (
-                <span className="text-xs sm:text-sm opacity-90 whitespace-nowrap">- {activeClinic.name}</span>
+                <span className="text-[10px] sm:text-xs opacity-80 whitespace-nowrap" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  - {activeClinic.name}
+                </span>
               )}
             </div>
             
-            <ul className="hidden md:flex flex-wrap gap-4 lg:gap-6 text-sm leading-none">
+            <ul className="hidden md:flex flex-wrap gap-3 lg:gap-4 text-xs sm:text-sm leading-none">
               {phoneNumber && (
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-phone-alt"></i>
-                  <a href={`tel:${phoneNumber}`} className="leading-none">{phoneNumber}</a>
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${phoneNumber}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {phoneNumber}
+                  </a>
                 </li>
               )}
               {email && (
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-envelope"></i>
-                  <a href={`mailto:${email}`} className="leading-none">{email}</a>
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-envelope text-[10px]"></i>
+                  <a href={`mailto:${email}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {email}
+                  </a>
                 </li>
               )}
               {address && (
-                <li className="flex items-center gap-2">
-                  <i className="fas fa-map-marker-alt"></i>
-                  <p className="leading-none m-0">{address}</p>
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-map-marker-alt text-[10px]"></i>
+                  <p className="leading-none m-0 font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>{address}</p>
                 </li>
               )}
             </ul>
           </div>
           
-          <ul className="hidden lg:flex flex-wrap gap-3 xl:gap-4 items-center">
+          <ul className="hidden lg:flex flex-wrap gap-2.5 xl:gap-3 items-center">
             {facebook && (
               <li>
-                <a href={facebook} target="_blank" rel="noopener noreferrer" className="flex items-center hover:opacity-80 transition-opacity">
-                  <i className="fab fa-facebook-f"></i>
+                <a 
+                  href={facebook} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                >
+                  <i className="fab fa-facebook-f text-xs"></i>
                 </a>
               </li>
             )}
             {twitter && (
               <li>
-                <a href={twitter} target="_blank" rel="noopener noreferrer" className="flex items-center hover:opacity-80 transition-opacity">
-                  <i className="fab fa-twitter"></i>
+                <a 
+                  href={twitter} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                >
+                  <i className="fab fa-twitter text-xs"></i>
                 </a>
               </li>
             )}
             {youtube && (
               <li>
-                <a href={youtube} target="_blank" rel="noopener noreferrer" className="flex items-center hover:opacity-80 transition-opacity">
-                  <i className="fab fa-youtube"></i>
+                <a 
+                  href={youtube} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                >
+                  <i className="fab fa-youtube text-xs"></i>
                 </a>
               </li>
             )}
             {instagram && (
               <li>
-                <a href={instagram} target="_blank" rel="noopener noreferrer" className="flex items-center hover:opacity-80 transition-opacity">
-                  <i className="fab fa-instagram"></i>
+                <a 
+                  href={instagram} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                >
+                  <i className="fab fa-instagram text-xs"></i>
                 </a>
               </li>
             )}

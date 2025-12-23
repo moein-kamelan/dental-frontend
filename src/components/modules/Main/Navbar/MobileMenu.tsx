@@ -132,43 +132,32 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 <div className="px-3 sm:px-4 pb-3 sm:pb-4">
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg bg-linear-to-r from-accent/10 to-primary/10 border border-accent/20 hover:from-accent/20 hover:to-primary/20 transition-all duration-300 active:scale-[0.98]"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 group"
                   >
-                    <img
-                      src={
-                        user.profileImage
-                          ? getImageUrl(user.profileImage)
-                          : user.gender === "FEMALE"
-                          ? "/images/female-user.jpeg"
-                          : "/images/male-user.jpeg"
-                      }
-                      alt="profile"
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover shrink-0"
-                    />
-                    <div className="flex-1 text-right min-w-0">
-                      <p className="text-sm font-iran-sans-bold text-dark truncate">
+                    <div className="relative">
+                      <img
+                        src={
+                          user.profileImage
+                            ? getImageUrl(user.profileImage)
+                            : user.gender === "FEMALE"
+                            ? "/images/female-user.jpeg"
+                            : "/images/male-user.jpeg"
+                        }
+                        alt="profile"
+                        className="w-9 h-9 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-accent/30 transition-all duration-200"
+                      />
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    <div className="text-right flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-dark leading-tight truncate" style={{ fontFamily: 'var(--font-vazir)' }}>
                         {user.firstName} {user.lastName}
                       </p>
-                      <p className="text-xs text-gray-500 font-iran-sans-light truncate">
-                        {user.phoneNumber}
-                      </p>
-                      {user.role && (
-                        <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-accent/10 text-accent rounded">
-                          {user.role === "PATIENT"
-                            ? "بیمار"
-                            : user.role === "ADMIN"
-                            ? "مدیر"
-                            : user.role}
-                        </span>
-                      )}
                     </div>
-                    <div className="shrink-0">
-                      <i
-                        className={`fas fa-chevron-down text-accent transition-transform duration-300 text-sm ${
-                          isUserMenuOpen ? "rotate-180" : ""
-                        }`}
-                      ></i>
-                    </div>
+                    <i
+                      className={`fas fa-chevron-down text-gray-400 text-xs transition-transform duration-200 ${
+                        isUserMenuOpen ? "rotate-180" : ""
+                      }`}
+                    ></i>
                   </button>
 
                   {/* User Menu Dropdown */}
@@ -210,23 +199,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         <i className="fas fa-calendar-alt"></i>
                       </div>
                       <span>نوبت‌ها</span>
-                    </NavLink>
-
-                    <NavLink
-                      to="/dashboard/messages"
-                      onClick={handleLinkClick}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 text-sm transition-colors rounded active:scale-[0.98] ${
-                          isActive
-                            ? "bg-accent/20 text-accent font-iran-sans-bold border-r-2 border-r-accent"
-                            : "text-dark hover:bg-accent/10 hover:text-accent"
-                        }`
-                      }
-                    >
-                      <div className="w-5 flex items-center justify-center shrink-0">
-                        <i className="fas fa-envelope"></i>
-                      </div>
-                      <span>پیام‌ها</span>
                     </NavLink>
 
                     <div className="border-t border-gray-200 pt-2 mt-2">
@@ -375,18 +347,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </nav>
 
               <div className="px-4 sm:px-6 py-3 sm:py-4 space-y-2 sm:space-y-3 border-t border-gray-200 mt-3 sm:mt-4">
-                <NavLink
-                  to=""
-                  onClick={handleLinkClick}
-                  className="flex items-center justify-center gap-2 text-gray-600 hover:text-accent text-lg sm:text-xl py-2 active:scale-[0.98] transition-all"
-                >
-                  <div className="flex items-center justify-center">
-                    <i className="fa fa-search"></i>
-                  </div>
-                  <span className="text-sm sm:text-base font-iran-sans-bold">
-                    جستجو
-                  </span>
-                </NavLink>
                 <button
                   onClick={() => {
                     openAppointmentModal();

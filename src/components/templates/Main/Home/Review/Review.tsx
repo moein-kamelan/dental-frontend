@@ -28,7 +28,7 @@ function Review() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <motion.div
+                            <motion.div
             className="inline-block mb-4"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -41,7 +41,8 @@ function Review() {
             </span>
           </motion.div>
           <motion.h2
-            className="text-3xl md:text-4xl lg:text-5xl font-estedad-verybold text-dark mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-dark mb-4"
+            style={{ fontFamily: 'var(--font-vazir)' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -84,47 +85,47 @@ function Review() {
               </p>
             </div>
           ) : (
-            <div>
-              <Swiper
-                modules={[Pagination, Autoplay]}
-                pagination={{
-                  el: ".comments-pagination",
-                  clickable: true,
+        <div>
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            pagination={{
+              el: ".comments-pagination",
+              clickable: true,
                   renderBullet: (_index, className) => {
-                    return `<span class="${className} custom-bullet"></span>`;
-                  },
-                }}
+                return `<span class="${className} custom-bullet"></span>`;
+              },
+            }}
                 spaceBetween={30}
-                slidesPerView={1}
+            slidesPerView={1}
                 loop={reviews.length > 3}
-                autoplay={{
+            autoplay={{
                   delay: 3000,
-                  disableOnInteraction: false,
+              disableOnInteraction: false,
                   pauseOnMouseEnter: true,
-                }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
                     spaceBetween: 24,
-                  },
-                  1024: {
-                    slidesPerView: 3,
+              },
+              1024: {
+                slidesPerView: 3,
                     spaceBetween: 30,
-                  },
-                }}
+              },
+            }}
                 className="pb-12"
-              >
+          >
                 {reviews.map((review: ReviewType) => (
                   <SwiperSlide key={review.id}>
                     <CommentCard review={review} />
-                  </SwiperSlide>
+            </SwiperSlide>
                 ))}
-              </Swiper>
+          </Swiper>
 
               <div className="comments-pagination mt-8 flex justify-center items-center gap-2"></div>
-            </div>
+        </div>
           )}
-        </motion.div>
+          </motion.div>
       </div>
     </section>
   );

@@ -15,7 +15,7 @@ function Contact() {
       <Breadcrumb />
       
       {/* Main Content: Maps and Contact Form */}
-      <section className="py-12 bg-white">
+      <section className="pt-6 pb-12 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid xl:grid-cols-12 gap-8 ">
               {/* Contact Form Section - Right Side (4 columns) - First in RTL */}
