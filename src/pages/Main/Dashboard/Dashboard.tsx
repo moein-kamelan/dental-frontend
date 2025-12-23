@@ -78,9 +78,9 @@ function Dashboard() {
     <>
       <Breadcrumb />
 
-      <section className="pt-6 pb-12 overflow-x-hidden">
+      <section className="pt-2 pb-4 overflow-x-hidden">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid lg:grid-cols-4 gap-4">
             {/* <!-- Sidebar --> */}
 
             <motion.div
@@ -91,9 +91,9 @@ function Dashboard() {
             >
               <div
                 className="bg-[linear-gradient(45deg,_#E8F4F4_0%,_rgba(212,232,232,0.85)_28.13%,_rgba(245,232,212,0.90)_79.75%,_#FAF0E0_100%)]
- rounded-2xl shadow-sm p-6 mb-6 text-center "
+ rounded-xl shadow-sm p-4 mb-3 text-center "
               >
-                <div className="relative w-32 h-32 mx-auto mb-4">
+                <div className="relative w-20 h-20 mx-auto mb-2">
                   <img
                     src={
                       user?.profileImage
@@ -107,16 +107,16 @@ function Dashboard() {
                   />
                   {isUploading && (
                     <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
                     </div>
                   )}
                   <label
                     htmlFor="profile_photo"
-                    className={`absolute bottom-0 left-0 w-10 h-10 bg-white hover:bg-primary rounded-full flex items-center justify-center hover:text-white cursor-pointer transition ${
+                    className={`absolute bottom-0 left-0 w-8 h-8 bg-white hover:bg-primary rounded-full flex items-center justify-center hover:text-white cursor-pointer transition shadow-sm ${
                       isUploading ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                   >
-                    <i className="fas fa-camera text-sm"></i>
+                    <i className="fas fa-camera text-xs"></i>
                   </label>
                   <input
                     id="profile_photo"
@@ -128,18 +128,18 @@ function Dashboard() {
                     disabled={isUploading}
                   />
                 </div>
-                <h4 className="text-dark  font-estedad-verybold text-2xl mb-2">
+                <h4 className="text-dark font-estedad-verybold text-lg mb-1">
                   {user?.firstName} {user?.lastName}
                 </h4>
-                <p className="text-paragray font-estedad-light ">
-                  شماره کاربر: {user?.phoneNumber}+
+                <p className="text-paragray font-estedad-light text-xs">
+                  {user?.phoneNumber}
                 </p>
               </div>
 
               {/* <!-- Dashboard Menu --> */}
               <div className="">
-                <ul className="space-y-6 p-2">
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
+                <ul className="space-y-2">
+                  <li className="border border-[#1b1d1f14] overflow-hidden rounded-xl">
                     <NavLink
                       to={"/dashboard/profile"}
                       className={({ isActive }) => {
@@ -149,28 +149,28 @@ function Dashboard() {
                         return ` ${
                           isProfileActive &&
                           "text-white bg-primary hover:bg-primary hover:text-white"
-                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`;
+                        } flex items-center justify-between py-2.5 px-4 bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold text-sm`;
                       }}
                     >
                       <span>پروفایل من</span>
-                      <i className="fas fa-angle-left"></i>
+                      <i className="fas fa-angle-left text-xs"></i>
                     </NavLink>
                   </li>
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
+                  <li className="border border-[#1b1d1f14] overflow-hidden rounded-xl">
                     <NavLink
                       to={"/dashboard/turns"}
                       className={({ isActive }) =>
                         ` ${
                           isActive &&
                           "text-white bg-primary hover:bg-primary hover:text-white"
-                        } flex items-center justify-between py-3.5 px-5  bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold`
+                        } flex items-center justify-between py-2.5 px-4 bg-[#d4af370d] hover:bg-gray-100 transition text-dark font-estedad-semibold text-sm`
                       }
                     >
                       <span>نوبت ها</span>
-                      <i className="fas fa-angle-left"></i>
+                      <i className="fas fa-angle-left text-xs"></i>
                     </NavLink>
                   </li>
-                  <li className="border border-[#1b1d1f14]  overflow-hidden rounded-[30px]">
+                  <li className="border border-[#1b1d1f14] overflow-hidden rounded-xl">
                     <button
                       onClick={async () => {
                         await logout();
@@ -180,10 +180,10 @@ function Dashboard() {
                         dispatch(clearCsrfToken());
                         navigate("/home", { replace: true });
                       }}
-                      className="flex items-center justify-between py-3.5 px-5  bg-secondary/80 hover:bg-secondary text-white transition w-full"
+                      className="flex items-center justify-between py-2.5 px-4 bg-secondary/80 hover:bg-secondary text-white transition w-full text-sm"
                     >
                       <span>خروج</span>
-                      <i className="fas fa-angle-left"></i>
+                      <i className="fas fa-angle-left text-xs"></i>
                     </button>
                   </li>
                 </ul>
