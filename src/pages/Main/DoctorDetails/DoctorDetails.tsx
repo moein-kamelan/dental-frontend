@@ -82,7 +82,7 @@ function DoctorDetails() {
                               " " +
                               doctor?.data?.doctor?.lastName
                             }
-                            className="rounded-xl w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 object-cover border-2 border-gray-100"
+                            className="rounded-xl w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 object-cover object-top border-2 border-gray-100"
                             whileHover={{ scale: 1.02 }}
                             transition={{ duration: 0.3 }}
                           />

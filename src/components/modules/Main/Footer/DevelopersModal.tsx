@@ -29,7 +29,7 @@ const developers: Developer[] = [
   {
     name: "معین کاملان",
     role: "Frontend Developer",
-    image: "",
+    image: "/images/moein.jpg",
     github: "https://github.com/moein-kamelan",
     linkedin: "https://linkedin.com",
     telegram: "https://t.me/Moeink80",

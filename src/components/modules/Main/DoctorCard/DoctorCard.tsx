@@ -46,22 +46,22 @@ function DoctorCard({ doctor }: DoctorCardProps) {
       transition={{ duration: 0.4 }}
     >
       {/* Main Content - Horizontal Layout */}
-      <div className="flex flex-row gap-4 p-4">
+      <div className="flex flex-row gap-2 md:gap-4 p-3 md:p-4">
         {/* Left Section - Doctor Info */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0">
+        <div className="flex-1 flex flex-col gap-1.5 md:gap-2 min-w-0">
         {/* Doctor Name */}
         <h3
-            className="text-base font-bold text-dark line-clamp-1 group-hover/card:text-accent transition-colors duration-200"
+            className="text-xl font-bold text-dark line-clamp-1 group-hover/card:text-accent transition-colors duration-200"
           style={{ fontFamily: 'var(--font-vazir)' }}
         >
           دکتر {doctor.firstName} {doctor.lastName}
         </h3>
 
           {/* Specialty with Stats on same line */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
             {/* Specialty */}
         {skills && (
-              <span className="text-sm text-gray-600" style={{ fontFamily: 'var(--font-vazir)' }}>
+              <span className="text-base text-gray-600" style={{ fontFamily: 'var(--font-vazir)' }}>
               {skills}
             </span>
             )}
@@ -85,7 +85,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
             {successfulAppointments > 0 && (
               <div className="flex items-center gap-1.5">
                 <i className="fas fa-check-circle text-green-500 text-sm"></i>
-                <span className="text-xs text-gray-600" style={{ fontFamily: 'var(--font-vazir)' }}>
+                <span className="text-sm text-gray-600" style={{ fontFamily: 'var(--font-vazir)' }}>
                   {successfulAppointments.toLocaleString('fa-IR')} نوبت موفق
                 </span>
               </div>
@@ -93,24 +93,24 @@ function DoctorCard({ doctor }: DoctorCardProps) {
           </div>
         </div>
 
-        {/* Right Section - Profile Image (Circular) */}
+        {/* Right Section - Profile Image (Rounded square) */}
         <div className="shrink-0">
           {doctor?.profileImage ? (
             <img
               src={getImageUrl(doctor.profileImage)}
               alt={`${doctor.firstName} ${doctor.lastName}`}
-              className="w-20 h-20 rounded-full object-cover border-2 border-gray-100"
+              className="w-28 h-28 md:w-24 md:h-24 rounded-xl object-cover object-top border-2 border-gray-100"
             />
           ) : (
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border-2 border-gray-100">
-              <i className="fas fa-user-md text-2xl text-gray-400"></i>
+            <div className="w-28 h-28 md:w-24 md:h-24 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border-2 border-gray-100">
+              <i className="fas fa-user-md text-2xl md:text-2xl text-gray-400"></i>
           </div>
         )}
         </div>
       </div>
 
       {/* Booking Button */}
-      <div className="px-4 pb-4">
+      <div className="px-3 pb-3 md:px-4 md:pb-4">
           {doctor.isAppointmentEnabled ? (
             <button
               onClick={handleBookAppointment}

@@ -97,9 +97,11 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
   };
 
   const breadcrumbItems = getDefaultBreadcrumb();
+  const pageTitle =
+    title || breadcrumbItems[breadcrumbItems.length - 1]?.label || "صفحه";
 
   return (
-    <section className="relative overflow-hidden py-4 md:py-5 mb-3">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/95 to-accent text-white py-4 md:py-5 mb-6">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between"
@@ -107,7 +109,7 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {/* Right side - Breadcrumb */}
+          {/* Right side - Title and Breadcrumb */}
           <div className="flex-1 w-full lg:w-auto order-1 lg:order-1 min-w-0">
             <motion.div
               className="flex flex-col gap-2.5"
@@ -115,6 +117,17 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
+              {/* Compact Page Title */}
+              <motion.h1
+                className="text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight"
+                style={{ fontFamily: 'var(--font-vazir)' }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                {pageTitle}
+              </motion.h1>
+
               {/* Compact Breadcrumb Navigation */}
           <nav
                 className="flex items-center gap-1 flex-wrap"
@@ -131,7 +144,7 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
                 >
                   {index > 0 && (
                         <motion.span
-                          className="text-dark/40 text-[10px] mx-0.5"
+                          className="text-white/40 text-[10px] mx-0.5"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                           transition={{ delay: 0.35 + index * 0.05 }}
@@ -142,7 +155,7 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
                   {item.path ? (
                     <NavLink
                       to={item.path}
-                          className="group relative text-xs md:text-sm text-dark/80 hover:text-dark transition-colors duration-200 font-medium"
+                          className="group relative text-xs md:text-sm text-white/80 hover:text-white transition-colors duration-200 font-medium"
                     >
                           <span className="flex items-center gap-1">
                             {index === 0 && (
@@ -150,11 +163,11 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
                             )}
                         {item.label}
                       </span>
-                          <span className="absolute bottom-0 right-0 left-0 h-0.5 bg-primary/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-right"></span>
+                          <span className="absolute bottom-0 right-0 left-0 h-0.5 bg-white/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-right"></span>
                     </NavLink>
                   ) : (
                     <motion.span
-                          className="text-xs md:text-sm text-dark font-semibold"
+                          className="text-xs md:text-sm text-white font-semibold"
                           style={{ fontFamily: 'var(--font-vazir)' }}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
