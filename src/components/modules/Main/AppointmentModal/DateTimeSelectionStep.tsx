@@ -163,7 +163,9 @@ export function DateTimeSelectionStep({
 }: DateTimeSelectionStepProps) {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [isWaiting, setIsWaiting] = useState(false);
+  const [shouldBounce, setShouldBounce] = useState(false);
   const timeoutRef = useRef<number | null>(null);
+  const timeSectionRef = useRef<HTMLDivElement>(null);
 
   // دریافت تنظیمات نوبت‌دهی
   const { data: settingsData } = useGetAppointmentSettings();
@@ -260,6 +262,21 @@ export function DateTimeSelectionStep({
     const dateString = formatDateToString(date);
     onDateSelect(dateString);
     setSelectedTime(null); // Reset زمان انتخاب شده هنگام تغییر تاریخ
+    
+    // انیمیشن جهش به پایین برای نمایش بخش انتخاب زمان
+    setTimeout(() => {
+      if (timeSectionRef.current) {
+        timeSectionRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest' 
+        });
+        // فعال کردن انیمیشن bounce
+        setShouldBounce(true);
+        setTimeout(() => {
+          setShouldBounce(false);
+        }, 600);
+      }
+    }, 100);
   };
 
   // تولید زمان‌های رزرو (10 دقیقه‌ای)
@@ -573,7 +590,7 @@ export function DateTimeSelectionStep({
                   !isDisabled && handleDateClick(availableDate.date)
                 }
                 disabled={isDisabled}
-                className={`group relative  flex flex-col items-center justify-center gap-1 sm:gap-2   px-2 py-8 sm:py-10 md:py-8 sm:px-3 md:px-4  min-h-[90px] sm:min-h-[100px] md:min-h-[110px] rounded-xl sm:rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
+                className={`group relative  flex flex-col items-center justify-center gap-1 sm:gap-1.5   px-2 py-4 sm:py-5 md:py-6 sm:px-3 md:px-4  min-h-[70px] sm:min-h-[75px] md:min-h-[80px] rounded-xl sm:rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
                   isDisabled
                     ? "bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed opacity-60"
                     : isSelected
@@ -694,10 +711,10 @@ export function DateTimeSelectionStep({
                 )}
 
                 {/* محتوای کارت */}
-                <div className="relative z-10 flex flex-col items-center gap-1.5">
+                <div className="relative z-10 flex flex-col items-center gap-1 sm:gap-1.5">
                   {/* نام روز */}
                   <motion.span
-                    className={`text-xs sm:text-sm font-estedad-semibold tracking-wide transition-colors duration-300 ${
+                    className={`text-sm sm:text-base font-estedad-semibold tracking-wide transition-colors duration-300 ${
                       isDisabled
                         ? "text-gray-400"
                         : isSelected
@@ -727,14 +744,14 @@ export function DateTimeSelectionStep({
                         whileHover={{ scale: 1.2 }}
                       />
                     )}
-                    <span className="relative text-xl sm:text-2xl md:text-3xl font-estedad-bold leading-none">
+                    <span className="relative text-2xl sm:text-3xl md:text-4xl font-estedad-bold leading-none">
                       {availableDate.dayNumber}
                     </span>
                   </motion.div>
 
                   {/* نام ماه */}
                   <motion.span
-                    className={`text-xs md:text-sm font-estedad-medium transition-colors duration-300 ${
+                    className={`text-sm md:text-base font-estedad-medium transition-colors duration-300 ${
                       isDisabled
                         ? "text-gray-400"
                         : isSelected
@@ -763,9 +780,16 @@ export function DateTimeSelectionStep({
 
         {/* بخش انتخاب زمان - همیشه نمایش داده می‌شود */}
         <motion.div
+          ref={timeSectionRef}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          animate={{ 
+            opacity: 1, 
+            y: shouldBounce ? [0, -10, 0] : 0 
+          }}
+          transition={{ 
+            duration: shouldBounce ? 0.6 : 0.3,
+            ease: shouldBounce ? "easeInOut" : "easeOut"
+          }}
           className="w-full max-w-5xl mt-2"
         >
           <div className="bg-white rounded-2xl border-2 border-gray-200 p-6">

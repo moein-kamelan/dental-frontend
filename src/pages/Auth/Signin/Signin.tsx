@@ -372,7 +372,7 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                           className={`w-full h-12 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                             formik.isSubmitting || artificialLoading
                               ? "opacity-70 cursor-not-allowed"
-                              : "hover:scale-[1.02] active:scale-[0.98]"
+                              : ""
                           }`}
                         >
                           {formik.isSubmitting || artificialLoading ? (
@@ -491,7 +491,6 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                                       ? "bg-gradient-to-r from-primary to-accent text-white border-transparent shadow-lg"
                                       : "bg-white text-gray-700 border-gray-200 hover:border-primary/50 hover:bg-gray-50"
                               }`}
-                                  whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
                             >
                                 <i
@@ -513,7 +512,6 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                                       ? "bg-gradient-to-r from-primary to-accent text-white border-transparent shadow-lg"
                                       : "bg-white text-gray-700 border-gray-200 hover:border-primary/50 hover:bg-gray-50"
                               }`}
-                                  whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
                             >
                                 <i
@@ -725,7 +723,7 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                           className={`w-full h-12 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                             formik.isSubmitting || artificialLoading
                               ? "opacity-70 cursor-not-allowed"
-                              : "hover:scale-[1.02] active:scale-[0.98]"
+                              : ""
                           }`}
                         >
                           {formik.isSubmitting || artificialLoading ? (

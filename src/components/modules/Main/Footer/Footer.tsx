@@ -218,7 +218,7 @@ function Footer() {
           viewport={{ once: true }}
         >
           <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-right">
-            تمامی حقوق متعلق به کلینیک دندان پزشکی طاها می‌باشد © {new Date().getFullYear()}
+            تمامی حقوق متعلق به کلینیک دندان پزشکی طاها می‌باشد © ۱۴۰۴
           </p>
           <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-left">
             ساخته شده با <i className="fas fa-heart text-accent mx-1"></i>{" "}
