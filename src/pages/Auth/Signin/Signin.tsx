@@ -10,6 +10,8 @@ import { showSuccessToast } from "../../../utils/toastify";
 import { useAppDispatch, useAppSelector } from "../../../redux/typedHooks";
 import { fetchUser } from "../../../redux/slices/userSlice";
 import { formatPersianNameForGreeting } from "../../../utils/helpers";
+import { useAuthModal } from "../../../contexts/useAuthModal";
+import { useAppointmentModal } from "../../../contexts/useAppointmentModal";
 
 interface SigninProps {
   onClose?: () => void;
@@ -27,6 +29,8 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
   const { mutateAsync: requestOtp } = usePostOtpRequest();
   const { mutateAsync: verifyOtp } = usePostOtpVerify();
   const { data: existingUser } = useAppSelector((state) => state.user);
+  const { shouldOpenAppointmentAfterLogin, preselectedDoctorId, closeModal: closeAuthModal } = useAuthModal();
+  const { openModalDirectly: openAppointmentModalDirectly } = useAppointmentModal();
 
   const [isNewUser, setIsNewUser] = useState<boolean>(false);
   const [artificialLoading, setArtificialLoading] = useState<boolean>(false);
@@ -209,10 +213,20 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
       await dispatch(fetchUser());
 
       setArtificialLoading(false);
-      if (onClose) {
-        onClose();
+      
+      // اگر کاربر از طریق دکمه رزرو نوبت مودال لاگین را باز کرده بود، بعد از لاگین موفق مودال رزرو نوبت را باز کن
+      if (shouldOpenAppointmentAfterLogin) {
+        closeAuthModal();
+        // کمی تاخیر برای اطمینان از بسته شدن مودال لاگین و به‌روزرسانی state
+        setTimeout(() => {
+          openAppointmentModalDirectly(preselectedDoctorId || undefined);
+        }, 300);
+      } else {
+        if (onClose) {
+          onClose();
+        }
+        navigate("/home");
       }
-      navigate("/home");
     } catch (error) {
       console.log(error);
       setArtificialLoading(false);

@@ -15,12 +15,18 @@ export function AppointmentModalProvider({
   const { openModal: openAuthModal } = useAuthModal();
 
   const openModal = (doctorId?: string) => {
-    // اگر کاربر لاگین نشده باشد، مودال لاگین را باز کن
+    // اگر کاربر لاگین نشده باشد، مودال لاگین را باز کن و flag را set کن
     if (!user) {
-      openAuthModal();
+      openAuthModal(true, doctorId);
       showErrorToast("لطفا ابتدا وارد شوید");
       return;
     }
+    setPreselectedDoctorId(doctorId || null);
+    setIsOpen(true);
+  };
+
+  const openModalDirectly = (doctorId?: string) => {
+    // باز کردن مستقیم مودال بدون چک کردن user (برای استفاده بعد از لاگین موفق)
     setPreselectedDoctorId(doctorId || null);
     setIsOpen(true);
   };
@@ -35,6 +41,7 @@ export function AppointmentModalProvider({
       value={{
         isOpen,
         openModal,
+        openModalDirectly,
         closeModal,
         preselectedDoctorId,
       }}

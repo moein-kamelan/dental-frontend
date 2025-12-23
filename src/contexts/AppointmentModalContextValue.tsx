@@ -3,6 +3,7 @@ import { createContext } from "react";
 interface AppointmentModalContextType {
   isOpen: boolean;
   openModal: (doctorId?: string) => void;
+  openModalDirectly: (doctorId?: string) => void;
   closeModal: () => void;
   preselectedDoctorId?: string | null;
 }
