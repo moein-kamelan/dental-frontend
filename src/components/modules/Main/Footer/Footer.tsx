@@ -46,10 +46,10 @@ function Footer() {
   ].filter((link) => link.url);
 
   return (
-    <footer className="relative bg-gradient-to-br from-primary via-primary/95 to-accent text-white mt-20 md:mt-30 overflow-hidden">
-      <div className="container mx-auto px-4 pt-16 md:pt-20 pb-8 relative z-10">
+    <footer className="relative bg-gradient-to-br from-primary via-primary/95 to-accent text-white mt-12 md:mt-16 overflow-hidden">
+      <div className="container mx-auto px-4 pt-8 md:pt-12 pb-6 relative z-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8">
           {/* About Section */}
           <motion.div
             className="lg:col-span-2"
@@ -59,7 +59,7 @@ function Footer() {
             viewport={{ once: true }}
           >
             {isSettingsLoading ? (
-              <div className="mb-6 w-48 h-20 bg-white/10 animate-pulse rounded-lg" />
+              <div className="mb-4 w-40 h-16 bg-white/10 animate-pulse rounded-lg" />
             ) : (
               <motion.img
                 src={
@@ -68,35 +68,35 @@ function Footer() {
                     : "/images/Logo_1.png"
                 }
                 alt="logo"
-                className="mb-6 w-48 h-20 object-contain filter brightness-0 invert"
+                className="mb-4 w-40 h-16 object-contain filter brightness-0 invert"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               />
             )}
-            <p className="text-white/80 font-estedad-light mb-6 leading-relaxed text-base">
+            <p className="text-white/80 font-estedad-light mb-4 leading-relaxed text-sm">
               {settings?.data?.settings?.description ||
                 "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ"}
             </p>
 
             {/* Social Media Links */}
             <div>
-              <h6 className="text-white font-estedad-semibold mb-4 flex items-center gap-2">
-                <i className="fas fa-share-alt text-accent"></i>
+              <h6 className="text-white font-estedad-semibold mb-3 flex items-center gap-2 text-sm">
+                <i className="fas fa-share-alt text-accent text-xs"></i>
                 ما را دنبال کنید
               </h6>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={index}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-primary transition-all duration-300 shadow-md"
+                    className="w-9 h-9 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-primary transition-all duration-300 shadow-md"
                     whileHover={{ scale: 1.1, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     aria-label={social.name}
                   >
-                    <i className={`${social.icon} text-lg`}></i>
+                    <i className={`${social.icon} text-sm`}></i>
                   </motion.a>
                 ))}
               </div>
@@ -110,11 +110,11 @@ function Footer() {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h5 className="font-estedad-bold text-xl text-white mb-6 flex items-center gap-2">
-              <i className="fas fa-link text-accent"></i>
+            <h5 className="font-estedad-bold text-lg text-white mb-4 flex items-center gap-2">
+              <i className="fas fa-link text-accent text-sm"></i>
               لینک‌های سریع
             </h5>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {[
                 { to: "/", label: "خانه", icon: "fas fa-home" },
                 { to: "/about-us", label: "درباره ما", icon: "fas fa-info-circle" },
@@ -125,7 +125,7 @@ function Footer() {
                 <li key={link.to}>
                 <Link
                     to={link.to}
-                    className="text-white/80 font-estedad-medium hover:text-accent transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/80 font-estedad-medium hover:text-accent transition-colors duration-300 flex items-center gap-2 group text-sm"
                 >
                     <i className={`${link.icon} text-xs text-accent group-hover:translate-x-1 transition-transform duration-300`}></i>
                     <span>{link.label}</span>
@@ -142,21 +142,21 @@ function Footer() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h5 className="font-estedad-bold text-xl text-white mb-6 flex items-center gap-2">
-              <i className="fas fa-phone text-accent"></i>
+            <h5 className="font-estedad-bold text-lg text-white mb-4 flex items-center gap-2">
+              <i className="fas fa-phone text-accent text-sm"></i>
               تماس با ما
             </h5>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {settings?.data?.settings?.address && (
                 <motion.div
-                  className="flex items-start gap-3 text-white/80"
+                  className="flex items-start gap-2 text-white/80"
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center mt-0.5">
-                    <i className="fas fa-map-marker-alt text-accent"></i>
+                  <div className="flex-shrink-0 w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center mt-0.5">
+                    <i className="fas fa-map-marker-alt text-accent text-xs"></i>
                   </div>
-                  <p className="font-estedad-light leading-relaxed">
+                  <p className="font-estedad-light leading-relaxed text-sm">
                   {settings.data.settings.address}
                 </p>
                 </motion.div>
@@ -164,27 +164,27 @@ function Footer() {
               {settings?.data?.settings?.email && (
                 <motion.a
                   href={`mailto:${settings.data.settings.email}`}
-                  className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors duration-300 group"
+                  className="flex items-center gap-2 text-white/80 hover:text-accent transition-colors duration-300 group"
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
-                    <i className="fas fa-envelope text-accent"></i>
+                  <div className="flex-shrink-0 w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-envelope text-accent text-xs"></i>
                   </div>
-                  <span className="font-estedad-medium">{settings.data.settings.email}</span>
+                  <span className="font-estedad-medium text-sm">{settings.data.settings.email}</span>
                 </motion.a>
               )}
               {settings?.data?.settings?.phoneNumber && (
                 <motion.a
                   href={`tel:${settings.data.settings.phoneNumber}`}
-                  className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors duration-300 group"
+                  className="flex items-center gap-2 text-white/80 hover:text-accent transition-colors duration-300 group"
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
-                    <i className="fas fa-phone-alt text-accent"></i>
+                  <div className="flex-shrink-0 w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+                    <i className="fas fa-phone-alt text-accent text-xs"></i>
                   </div>
-                  <span className="font-estedad-medium">{settings.data.settings.phoneNumber}</span>
+                  <span className="font-estedad-medium text-sm">{settings.data.settings.phoneNumber}</span>
                 </motion.a>
               )}
             </div>
@@ -193,16 +193,16 @@ function Footer() {
 
         {/* Bottom Copyright Bar */}
         <motion.div
-          className="border-t border-white/20 pt-6 pb-4 flex flex-col md:flex-row justify-between items-center gap-4"
+          className="border-t border-white/20 pt-4 pb-3 flex flex-col md:flex-row justify-between items-center gap-3"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-white/70 font-estedad-light text-sm md:text-base text-center md:text-right">
-            تمامی حقوق متعلق به کلینیک دندان پزشکی طاهابی می‌باشد © {new Date().getFullYear()}
+          <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-right">
+            تمامی حقوق متعلق به کلینیک دندان پزشکی طاها می‌باشد © {new Date().getFullYear()}
           </p>
-          <p className="text-white/70 font-estedad-light text-sm md:text-base text-center md:text-left">
+          <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-left">
             ساخته شده با <i className="fas fa-heart text-accent mx-1"></i> برای شما
           </p>
         </motion.div>

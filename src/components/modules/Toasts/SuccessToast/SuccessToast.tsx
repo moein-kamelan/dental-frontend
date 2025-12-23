@@ -1,6 +1,6 @@
 function SuccessToast({ message }: { message: string }) {
   return (
-    <div className="bg-white/95 backdrop-blur-md border border-green-500/60 rounded-xl shadow-lg px-4 py-3.5 flex items-center gap-3 min-w-[320px] max-w-md group hover:shadow-xl transition-all duration-300">
+    <div className="bg-gradient-to-br from-green-50/80 via-white/95 to-green-50/80 backdrop-blur-md border border-green-500/60 rounded-xl shadow-lg px-4 py-3.5 flex items-center gap-3 min-w-[320px] max-w-md group hover:shadow-xl transition-all duration-300">
       {/* Icon Container */}
       <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center border border-green-300">
         <svg

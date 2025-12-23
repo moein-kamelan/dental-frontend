@@ -44,6 +44,17 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
     };
   }, []);
 
+  // Clear timer when going back to step 1
+  useEffect(() => {
+    if (authStep === 1) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      setCodeExpireTime(20);
+    }
+  }, [authStep]);
+
   const handleChange = (
     value: string,
     index: number,
@@ -125,6 +136,19 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
       if (onWideChange) {
         onWideChange(isNewUser);
       }
+      // ایجاد تایمر جدید با زمان باقی‌مانده
+      timerRef.current = setInterval(() => {
+        setCodeExpireTime((prev) => {
+          if (prev <= 1) {
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+              timerRef.current = null;
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
       return;
     }
 
@@ -203,6 +227,11 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
           {authStep === 2 && (
             <motion.button
               onClick={() => {
+                // Clear timer before going back
+                if (timerRef.current) {
+                  clearInterval(timerRef.current);
+                  timerRef.current = null;
+                }
                 setAuthStep(1);
                 // فقط اگر کاربر جدید نیست، isNewUser را reset کن
                 // اگر کاربر جدید است، isNewUser را نگه دار تا دوباره به مرحله ثبت نام برگردد
