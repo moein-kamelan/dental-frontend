@@ -83,7 +83,7 @@ function AdminDashBaordHeader({
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center   gap-5 bg-gray-50 hover:bg-gray-300  py-2 px-4 rounded-lg transition  shadow-sm"
+              className="relative flex items-center   gap-5 bg-gray-50 hover:bg-gray-300  py-2 px-4 rounded-lg transition  shadow-sm"
             >
               <img
                 src={
@@ -100,19 +100,17 @@ function AdminDashBaordHeader({
                 <span className="text-dark text-sm lg:text-lg font-iran-yekan-bold">
                   {user?.firstName} {user?.lastName}
                 </span>
-                <span className=" font-iran-yekan-medium text-paragray">
-                  {user?.role === "ADMIN"
-                    ? "مدیر"
-                    : user?.role === "SECRETARY"
-                    ? "منشی"
-                    : "بیمار"}
-                </span>
               </div>
               <i
                 className={`fas fa-chevron-down text-gray-600 transition-transform duration-200 ${
                   isDropdownOpen ? "rotate-180" : ""
                 }`}
               ></i>
+              {(user?.role === "ADMIN" || user?.role === "SECRETARY") && (
+                <span className="absolute -top-2 -right-2 text-lg bg-white rounded-full p-1 shadow-md">
+                  {user?.role === "ADMIN" ? "👑" : "📋"}
+                </span>
+              )}
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100 overflow-hidden">
