@@ -69,14 +69,14 @@ const AdminDashboardLogin = () => {
       <div className="w-full max-w-6xl grid md:grid-cols-2 gap-8 ">
         {/* بخش راست - فرم لاگین */}
         <div className="w-full">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 ">
             {/* لوگو */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-4">
               <div className="w-24 h-24 bg-linear-to-br from-purple-600 to-purple-400 rounded-2xl flex items-center justify-center shadow-lg">
                 <img
                   src="/images/admin-logo.png"
                   alt="Logo"
-                  className="w-full h-full object-contain p-4"
+                  className="w-full h-full object-contain p-3"
                   onError={(e) => {
                     // اگر لوگو وجود نداشت، یک آیکون نمایش داده می‌شود
                     const target = e.target as HTMLImageElement;
@@ -95,8 +95,8 @@ const AdminDashboardLogin = () => {
             </div>
 
             {/* عنوان */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-estedad-verybold text-dark mb-2">
+            <div className="text-center mb-6">
+              <h1 className="text-3xl  font-estedad-verybold text-dark mb-2">
                 ورود به پنل مدیریت
               </h1>
               <p className="text-paragray font-estedad-medium">
@@ -177,7 +177,7 @@ const AdminDashboardLogin = () => {
             </Formik>
 
             {/* اطلاعات اضافی */}
-            <div className="mt-6 text-center">
+            <div className="mt-3 text-center">
               <p className="text-sm text-paragray font-estedad-medium">
                 در صورت فراموشی رمز عبور، با مدیر سیستم تماس بگیرید
               </p>
