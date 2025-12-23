@@ -303,11 +303,12 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                 >
                   {(formik) => {
                     return (
-                      <form onSubmit={formik.handleSubmit} className="space-y-6">
+                      <form onSubmit={formik.handleSubmit} className="space-y-4 min-h-[200px] flex flex-col">
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 }}
+                          className="flex-1"
                         >
                         <CustomInput
                           inputType="phone"
@@ -330,7 +331,7 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.3 }}
-                          className={`w-full h-14 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                          className={`w-full h-12 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                             formik.isSubmitting || artificialLoading
                               ? "opacity-70 cursor-not-allowed"
                               : "hover:scale-[1.02] active:scale-[0.98]"
@@ -338,13 +339,13 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                         >
                           {formik.isSubmitting || artificialLoading ? (
                             <>
-                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                               <span>در حال ارسال...</span>
                             </>
                           ) : (
                             <>
                               <span>ادامه</span>
-                              <i className="fas fa-arrow-left text-sm"></i>
+                              <i className="fas fa-arrow-left text-xs"></i>
                             </>
                           )}
                         </motion.button>
@@ -609,40 +610,40 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                 >
                   {(formik) => {
                     return (
-                      <form onSubmit={formik.handleSubmit} className="space-y-6">
+                      <form onSubmit={formik.handleSubmit} className="space-y-4 min-h-[200px] flex flex-col">
                         {/* کد تایید */}
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.1 }}
-                          className="space-y-4"
+                          className="space-y-4 flex-1 flex flex-col justify-center"
                         >
                           <div className="text-center mb-2">
-                            <p className="text-sm font-estedad-medium text-gray-600">
+                            <p className="text-xs font-estedad-medium text-gray-600">
                               کد تایید برای <span className="font-estedad-bold text-dark">{phoneNumber.current}</span> ارسال شد
-                        </p>
+                            </p>
                           </div>
 
-                          <div className="flex flex-row-reverse items-center justify-center gap-3">
-                          {Array.from({ length }).map((_, i) => (
+                          <div className="flex flex-row-reverse items-center justify-center gap-2">
+                            {Array.from({ length }).map((_, i) => (
                               <motion.input
-                              key={i}
-                              ref={(el) => {
-                                inputsRef.current[i] = el!;
-                              }}
+                                key={i}
+                                ref={(el) => {
+                                  inputsRef.current[i] = el!;
+                                }}
                                 type="number"
-                              maxLength={1}
+                                maxLength={1}
                                 value={formik.values.code[i] || ""}
                                 onChange={(e) => handleChange(e.target.value, i, formik)}
-                              onKeyDown={(e) => handleKeyDown(e, i, formik)}
-                              onPaste={(e) => handlePaste(e, i, formik)}
-                                className="w-14 h-14 md:w-16 md:h-16 rounded-xl border-2 border-gray-200 text-center text-xl font-estedad-bold text-dark focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-white"
+                                onKeyDown={(e) => handleKeyDown(e, i, formik)}
+                                onPaste={(e) => handlePaste(e, i, formik)}
+                                className="w-12 h-12 md:w-14 md:h-14 rounded-lg border-2 border-accent/30 text-center text-lg font-estedad-bold text-dark focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-200 bg-white"
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.2 + i * 0.05 }}
-                            />
-                          ))}
-                        </div>
+                              />
+                            ))}
+                          </div>
                           {formik.touched.code &&
                             formik.errors.code &&
                             formik.values.code.length < 5 && (
@@ -662,7 +663,7 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.3 }}
-                          className={`w-full text-center text-sm font-estedad-medium transition-colors ${
+                          className={`w-full text-center text-xs font-estedad-medium transition-colors ${
                             codeExpireTime === 0
                               ? "text-primary hover:text-accent cursor-pointer"
                               : "text-gray-400 cursor-not-allowed"
@@ -683,7 +684,7 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.4 }}
-                          className={`w-full h-14 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                          className={`w-full h-12 rounded-xl bg-gradient-to-r from-primary via-primary/95 to-accent text-white font-estedad-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                             formik.isSubmitting || artificialLoading
                               ? "opacity-70 cursor-not-allowed"
                               : "hover:scale-[1.02] active:scale-[0.98]"
@@ -691,13 +692,13 @@ function Signin({ onClose, onWideChange }: SigninProps = {}) {
                         >
                           {formik.isSubmitting || artificialLoading ? (
                             <>
-                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                               <span>در حال ورود...</span>
                             </>
                           ) : (
                             <>
                               <span>ورود</span>
-                              <i className="fas fa-arrow-left text-sm"></i>
+                              <i className="fas fa-arrow-left text-xs"></i>
                             </>
                           )}
                         </motion.button>
