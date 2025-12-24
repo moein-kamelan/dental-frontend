@@ -40,7 +40,7 @@ function Topbar() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-primary via-primary/95 to-accent text-white py-2">
+    <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white py-2">
       <div className="container mx-auto px-3 sm:px-4 relative z-10">
         <div className="flex flex-wrap justify-center lg:justify-between items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4">

@@ -447,7 +447,7 @@ button {
 
 @utility main-btn {
   font-family: var(--font-vazir);
-  @apply bg-accent text-white py-3 px-10 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden shadow-lg hover:shadow-xl hover:shadow-accent/30 hover:scale-105 active:scale-100 hover:bg-accent/90;
+  @apply bg-gradient-to-r from-accent to-accent/98 text-white py-3 px-10 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden shadow-lg hover:shadow-xl hover:shadow-accent/30 hover:scale-105 active:scale-100;
 }
 
 .main-btn::before {

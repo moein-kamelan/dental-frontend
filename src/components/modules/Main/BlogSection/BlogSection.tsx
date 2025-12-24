@@ -79,7 +79,7 @@ function BlogSection() {
           >
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-accent to-primary text-white rounded-2xl font-estedad-bold hover:from-secondary hover:to-accent transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-accent to-primary text-white rounded-2xl font-estedad-bold transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               <span>مشاهده همه مقالات</span>
               <i className="fas fa-arrow-left"></i>

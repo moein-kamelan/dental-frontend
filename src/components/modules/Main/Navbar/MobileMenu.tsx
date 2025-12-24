@@ -224,7 +224,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       openModal();
                       onClose();
                     }}
-                    className="main-btn flex items-center justify-center gap-2 w-full text-sm sm:text-base py-2.5 sm:py-3 active:scale-[0.98]"
+                    className="main-btn no-hover-effect flex items-center justify-center gap-2 w-full text-sm sm:text-base py-2.5 sm:py-3"
                   >
                     <div className="flex items-center justify-center">
                       <i className="fas fa-user"></i>

@@ -299,7 +299,7 @@ function Navbar() {
               ) : (
                 <button
                   onClick={openModal}
-                  className="main-btn flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
+                  className="main-btn no-hover-effect flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
                 >
                   <i className="fas fa-user"></i>
                   <span>ورود / ثبت نام</span>
