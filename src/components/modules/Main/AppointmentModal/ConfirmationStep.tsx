@@ -177,7 +177,7 @@ export function ConfirmationStep({
             </p>
 
             {/* اطلاعات نوبت */}
-            <div className="w-full max-w-xl bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md border border-gray-100 overflow-hidden">
+            <div className="w-full max-w-4xl bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md border border-gray-100 overflow-hidden">
               {/* هدر با گرادیانت */}
               <div className="bg-gradient-to-r from-accent via-accent to-secondary p-3 text-center">
                 <h3 className="text-white font-estedad-semibold text-lg flex items-center justify-center gap-2">
@@ -186,13 +186,13 @@ export function ConfirmationStep({
                 </h3>
               </div>
 
-              <div className="p-4 space-y-2.5">
+              <div className="p-3 grid grid-cols-1 sm:grid-cols-2 ">
                 {/* کلینیک */}
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
+                  className="flex items-center gap-2.5  rounded-lg p-2 col-span-2 "
                 >
                   <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-accent/20 to-accent/10 rounded-lg flex items-center justify-center">
                     <i className="fas fa-hospital text-accent"></i>
@@ -213,7 +213,7 @@ export function ConfirmationStep({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.15 }}
-                    className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
+                    className="flex items-center gap-2.5  rounded-lg p-2 col-span-2 "
                   >
                     <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-blue-500/20 to-blue-400/10 rounded-lg flex items-center justify-center">
                       <i className="fas fa-user-md text-blue-500"></i>
@@ -235,7 +235,7 @@ export function ConfirmationStep({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
+                  className="flex items-center gap-2.5  rounded-lg p-2 col-span-2 "
                 >
                   <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-purple-500/20 to-purple-400/10 rounded-lg flex items-center justify-center">
                     <i className="fas fa-calendar-alt text-purple-500"></i>
@@ -246,7 +246,7 @@ export function ConfirmationStep({
                     </p>
                     <p className="text-base font-estedad-semibold text-dark">
                       {displayDate}{" "}
-                      <span className="text-accent">ساعت {displayTime}</span>
+                      <span className="text-accent text-nowrap">ساعت {displayTime}</span>
                     </p>
                   </div>
                 </motion.div>
@@ -256,7 +256,7 @@ export function ConfirmationStep({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
+                  className="flex items-center gap-2.5  rounded-lg p-2 col-span-2 "
                 >
                   <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-green-500/20 to-green-400/10 rounded-lg flex items-center justify-center">
                     <i className="fas fa-user text-green-500"></i>
@@ -288,7 +288,7 @@ export function ConfirmationStep({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex items-start gap-2.5 bg-white rounded-lg p-2.5 shadow-sm"
+                    className="flex items-start gap-2.5  rounded-lg p-2 col-span-2 "
                   >
                     <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-amber-500/20 to-amber-400/10 rounded-lg flex items-center justify-center mt-0.5">
                       <i className="fas fa-note-sticky text-amber-500"></i>

@@ -214,7 +214,7 @@ export function DoctorSelectionStep({
                         <img
                           src={getImageUrl(doctor.profileImage)}
                           alt={`دکتر ${doctor.firstName} ${doctor.lastName}`}
-                          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                          className="h-full w-full object-fill transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-l from-black/50 via-black/20 to-transparent" />
                         <div
