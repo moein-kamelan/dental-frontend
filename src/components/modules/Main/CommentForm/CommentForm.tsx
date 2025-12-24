@@ -7,7 +7,7 @@ import { showErrorToast, showSuccessToast } from "../../../../utils/toastify";
 const validationSchema = Yup.object({
   content: Yup.string()
     .required("متن نظر الزامی است")
-    .min(10, "نظر باید حداقل ۱۰ کاراکتر باشد")
+    .min(3, "نظر باید حداقل ۳ کاراکتر باشد")
     .max(1000, "نظر نباید بیشتر از ۱۰۰۰ کاراکتر باشد"),
   rating: Yup.number()
     .integer("امتیاز باید عدد صحیح باشد")
