@@ -176,13 +176,16 @@ function ReviewForm() {
 
                     <button
                       type="submit"
-                      className="w-full main-btn mt-6"
+                      className="w-full main-btn no-hover-effect mt-6 flex items-center justify-center gap-2"
                       disabled={isPending}
                     >
                       {isPending ? (
                         <div className="btn-loader"></div>
                       ) : (
-                        "ثبت نظر"
+                        <>
+                          <span>ثبت نظر</span>
+                          <i className="fas fa-arrow-left"></i>
+                        </>
                       )}
                     </button>
                   </form>

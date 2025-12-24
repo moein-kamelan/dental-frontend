@@ -120,33 +120,33 @@ export function PatientInfoStep({
         >
           <div className="bg-gradient-to-br from-accent/10 via-secondary/10 to-primary/10 rounded-2xl p-6 border-2 border-accent/20 shadow-lg">
             <div className="grid md:grid-cols-2 gap-6">
-              {/* توضیحات گزینه برای خودم */}
+                {/* توضیحات گزینه برای خودم */}
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-md">
                   <i className="fas fa-user text-white text-lg"></i>
-                </div>
-                <div className="flex-1">
+                  </div>
+                  <div className="flex-1">
                   <h4 className="font-estedad-bold text-dark mb-2 text-lg">
-                    رزرو برای خودم
-                  </h4>
+                      رزرو برای خودم
+                    </h4>
                   <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
-                    اگر خودتان قصد دریافت نوبت دارید، این گزینه را انتخاب کنید. فقط کد ملی شما نیاز است.
-                  </p>
+                      اگر خودتان قصد دریافت نوبت دارید، این گزینه را انتخاب کنید. فقط کد ملی شما نیاز است.
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {/* توضیحات گزینه برای کسی دیگر */}
+                {/* توضیحات گزینه برای کسی دیگر */}
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-md">
                   <i className="fas fa-user-friends text-white text-lg"></i>
-                </div>
-                <div className="flex-1">
+                  </div>
+                  <div className="flex-1">
                   <h4 className="font-estedad-bold text-dark mb-2 text-lg">
-                    رزرو برای دیگری
-                  </h4>
+                      رزرو برای دیگری
+                    </h4>
                   <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
                     اگر می‌خواهید برای دیگری نوبت رزرو کنید، این گزینه را انتخاب کنید. نام و نام خانوادگی و کد ملی نیاز است.
-                  </p>
+                    </p>
                 </div>
               </div>
             </div>
@@ -239,58 +239,58 @@ export function PatientInfoStep({
 
           {/* کد ملی - فقط برای خودم */}
           {isForSelf === true && (
-            <div>
+          <div>
               <label className="block text-sm font-estedad-semibold text-dark mb-2">
-                کد ملی <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={patientNationalId}
-                onChange={(e) => {
-                  // فقط اعداد مجاز
-                  const value = e.target.value.replace(/\D/g, "");
-                  if (value.length <= 10) {
-                    onNationalIdChange(value);
-                  }
-                }}
-                disabled={isNationalIdDisabled}
+              کد ملی <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={patientNationalId}
+              onChange={(e) => {
+                // فقط اعداد مجاز
+                const value = e.target.value.replace(/\D/g, "");
+                if (value.length <= 10) {
+                  onNationalIdChange(value);
+                }
+              }}
+              disabled={isNationalIdDisabled}
                 placeholder="کد ملی خود را وارد کنید"
-                maxLength={10}
+              maxLength={10}
                 className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
-                  errors.nationalId
-                    ? "border-red-500 focus:border-red-500"
-                    : isNationalIdDisabled
-                    ? "border-green-400 bg-green-50 text-gray-700 cursor-not-allowed"
-                    : "border-gray-300 focus:border-accent"
-                } focus:outline-none focus:ring-2 focus:ring-accent/20`}
-              />
+                errors.nationalId
+                  ? "border-red-500 focus:border-red-500"
+                  : isNationalIdDisabled
+                  ? "border-green-400 bg-green-50 text-gray-700 cursor-not-allowed"
+                  : "border-gray-300 focus:border-accent"
+              } focus:outline-none focus:ring-2 focus:ring-accent/20`}
+            />
               <div className="min-h-[20px] mt-1">
-                <AnimatePresence mode="wait">
-                  {isNationalIdDisabled ? (
-                    <motion.p
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.2 }}
+              <AnimatePresence mode="wait">
+                {isNationalIdDisabled ? (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.2 }}
                       className="text-green-600 text-sm flex items-center gap-1"
-                    >
-                      <i className="fas fa-check-circle"></i>
-                      کد ملی از پروفایل شما دریافت شد
-                    </motion.p>
-                  ) : errors.nationalId ? (
-                    <motion.p
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.2 }}
+                  >
+                    <i className="fas fa-check-circle"></i>
+                    کد ملی از پروفایل شما دریافت شد
+                  </motion.p>
+                ) : errors.nationalId ? (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.2 }}
                       className="text-red-500 text-sm"
-                    >
-                      {errors.nationalId}
-                    </motion.p>
-                  ) : null}
-                </AnimatePresence>
-              </div>
+                  >
+                    {errors.nationalId}
+                  </motion.p>
+                ) : null}
+              </AnimatePresence>
             </div>
+          </div>
           )}
 
           {/* فیلد یادداشت تک خطی - فقط برای کسی دیگر */}
@@ -311,18 +311,18 @@ export function PatientInfoStep({
 
           {/* فیلد یادداشت تک خطی - فقط برای خودم */}
           {isForSelf === true && (
-            <div>
+          <div>
               <label className="block text-sm font-estedad-semibold text-dark mb-2">
-                یادداشت (اختیاری)
-              </label>
+              یادداشت (اختیاری)
+            </label>
               <input
                 type="text"
-                value={notes}
-                onChange={(e) => onNotesChange(e.target.value)}
-                placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
+              value={notes}
+              onChange={(e) => onNotesChange(e.target.value)}
+              placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
                 className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all text-base"
-              />
-            </div>
+            />
+          </div>
           )}
 
           {/* دکمه ادامه */}

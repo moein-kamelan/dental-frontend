@@ -17,9 +17,10 @@ function FaqContent() {
     </div>
     <Link
       to="/contact"
-      className="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-deepblue   mt-6 main-btn "
+      className="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-deepblue mt-6 main-btn no-hover-effect flex items-center gap-2"
     >
-      تماس با ما
+      <span>تماس با ما</span>
+      <i className="fas fa-arrow-left"></i>
     </Link>
   </div>
   )

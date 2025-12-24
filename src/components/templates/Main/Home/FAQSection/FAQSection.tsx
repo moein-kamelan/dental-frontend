@@ -83,7 +83,7 @@ function FAQSection() {
             >
               <Link
                 to="/faq"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-accent text-accent rounded-2xl font-estedad-bold hover:bg-accent hover:text-white transition-all duration-300 shadow-md hover:shadow-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-accent to-primary text-white rounded-2xl font-estedad-bold transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 <span>مشاهده همه سوالات</span>
                 <i className="fas fa-arrow-left"></i>
