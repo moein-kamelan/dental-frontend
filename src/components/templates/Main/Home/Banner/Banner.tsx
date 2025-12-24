@@ -64,7 +64,7 @@ function Banner() {
   }, [yearsOfExperience, totalDoctors, activeClinics]);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 md:min-h-[1000px] lg:min-h-[600px] md:h-[calc(100vh-116px)] pt-5 overflow-hidden">
+    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30   xl:max-h-full lg:max-h-[600px] lg:h-[calc(100vh-96px)] pt-5 overflow-hidden">
       <div className="container mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
