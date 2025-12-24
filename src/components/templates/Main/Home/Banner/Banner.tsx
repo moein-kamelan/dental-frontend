@@ -84,7 +84,7 @@ function Banner() {
             </p>
             <button
               onClick={() => openAppointmentModal()}
-              className="inline-block main-btn"
+              className="inline-block main-btn no-hover-effect"
             >
               دریافت نوبت
             </button>

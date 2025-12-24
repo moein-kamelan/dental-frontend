@@ -352,7 +352,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     openAppointmentModal();
                     onClose();
                   }}
-                  className="main-btn block text-center w-full text-sm sm:text-base py-2.5 sm:py-3 active:scale-[0.98]"
+                  className="main-btn no-hover-effect block text-center w-full text-sm sm:text-base py-2.5 sm:py-3"
                 >
                   دریافت نوبت
                 </button>

@@ -607,11 +607,22 @@ input[type="number"] {
 }
 
 /* Disable hover effects for specific buttons */
+.main-btn.no-hover-effect {
+  transform: scale(1) !important;
+  scale: 1 !important;
+  transition: background-color 0.3s, box-shadow 0.3s !important;
+}
+
 .main-btn.no-hover-effect:hover {
   transform: scale(1) !important;
   scale: 1 !important;
-  padding-right: 1rem !important;
-  padding-left: 1rem !important;
+  padding-right: 2.5rem !important;
+  padding-left: 2.5rem !important;
+}
+
+.main-btn.no-hover-effect:active {
+  transform: scale(1) !important;
+  scale: 1 !important;
 }
 
 .main-btn.no-hover-effect::after {

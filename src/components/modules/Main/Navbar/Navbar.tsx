@@ -171,7 +171,7 @@ function Navbar() {
             <div className="flex items-center gap-4">
               <button
                 onClick={openAppointmentModal}
-                className="main-btn lg:text-xs xl:text-sm text-nowrap"
+                className="main-btn no-hover-effect lg:text-xs xl:text-sm text-nowrap"
               >
                 دریافت نوبت
               </button>
