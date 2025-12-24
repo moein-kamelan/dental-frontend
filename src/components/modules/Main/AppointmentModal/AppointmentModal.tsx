@@ -360,8 +360,8 @@ function AppointmentModal() {
                   exit={{ opacity: 0, x: 10 }}
                   transition={{ duration: 0.2 }}
                   >
-                  <i className="fas fa-arrow-right text-xs text-gray-600 group-hover:text-gray-800 transition-colors"></i>
-                  <span className="text-xs font-estedad-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+                  <i className="fas fa-arrow-right text-sm text-gray-600 group-hover:text-gray-800 transition-colors"></i>
+                  <span className="text-sm font-estedad-medium text-gray-600 group-hover:text-gray-800 transition-colors">
                     بازگشت
                   </span>
                 </motion.button>

@@ -705,7 +705,7 @@ export function DateTimeSelectionStep({
                   >
                     <div className="bg-red-500 text-white px-1.5 py-0.5 sm:px-2 md:px-3 sm:py-1 md:py-1.5 rounded-b-xl sm:rounded-b-2xl shadow-lg text-[8px] sm:text-[9px] md:text-[10px] font-estedad-semibold text-center w-full">
                       <i className="fas fa-calendar-times ml-0.5 sm:ml-1 text-[8px] sm:text-[9px] md:text-[10px]"></i>
-                      {availableDate.isFriday ? "جمعه" : "تعطیل رسمی"}
+                      تعطیل
                     </div>
                   </motion.div>
                 )}

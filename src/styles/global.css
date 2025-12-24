@@ -606,6 +606,22 @@ input[type="number"] {
   opacity: 0;
 }
 
+/* Disable hover effects for specific buttons */
+.main-btn.no-hover-effect:hover {
+  transform: scale(1) !important;
+  scale: 1 !important;
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}
+
+.main-btn.no-hover-effect::after {
+  display: none !important;
+}
+
+.main-btn.no-hover-effect::before {
+  display: none !important;
+}
+
 /* Sidebar scrollbar styles */
 .sidebar-scrollbar::-webkit-scrollbar {
   width: 6px;

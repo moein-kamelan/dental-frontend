@@ -327,7 +327,7 @@ export function PatientInfoStep({
 
           {/* دکمه ادامه */}
           <div className="mt-auto pt-2">
-            <button onClick={onContinue} className="main-btn w-full text-base py-3.5">
+            <button onClick={onContinue} className="main-btn no-hover-effect w-full text-base py-3.5">
               ادامه
             </button>
           </div>
