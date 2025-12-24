@@ -11,6 +11,7 @@ export interface Settings {
   address?: string;
   instagram?: string;
   telegram?: string;
+  eitaa?: string;
   whatsapp?: string;
   twitter?: string;
   linkedin?: string;

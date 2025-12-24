@@ -30,6 +30,8 @@ function Topbar() {
   const twitter = settings?.twitter
   const youtube = settings?.youtube
   const instagram = settings?.instagram
+  const telegram = settings?.telegram
+  const eitaa = settings?.eitaa
 
   const handleToggleClinic = () => {
     if (hasTwoClinics) {
@@ -38,7 +40,7 @@ function Topbar() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-primary via-primary/95 to-accent text-white py-2 md:py-2.5">
+    <section className="relative overflow-hidden bg-gradient-to-r from-primary via-primary/95 to-accent text-white py-1 md:py-1.5">
       <div className="container mx-auto px-3 sm:px-4 relative z-10">
         <div className="flex flex-wrap justify-center lg:justify-between items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
@@ -98,16 +100,16 @@ function Topbar() {
             </ul>
           </div>
           
-          <ul className="hidden lg:flex flex-wrap gap-2.5 xl:gap-3 items-center">
+          <ul className="flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3 items-center">
             {facebook && (
               <li>
                 <a 
                   href={facebook} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-200"
                 >
-                  <i className="fab fa-facebook-f text-xs"></i>
+                  <i className="fab fa-facebook-f text-xs text-white"></i>
                 </a>
               </li>
             )}
@@ -117,9 +119,9 @@ function Topbar() {
                   href={twitter} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-400 hover:bg-blue-500 transition-all duration-200"
                 >
-                  <i className="fab fa-twitter text-xs"></i>
+                  <i className="fab fa-twitter text-xs text-white"></i>
                 </a>
               </li>
             )}
@@ -129,9 +131,9 @@ function Topbar() {
                   href={youtube} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-200"
                 >
-                  <i className="fab fa-youtube text-xs"></i>
+                  <i className="fab fa-youtube text-xs text-white"></i>
                 </a>
               </li>
             )}
@@ -141,9 +143,47 @@ function Topbar() {
                   href={instagram} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200"
+                  className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
                 >
-                  <i className="fab fa-instagram text-xs"></i>
+                  <img
+                    src="/images/insta.png"
+                    alt="Instagram"
+                    width={20}
+                    height={20}
+                    loading="lazy"
+                    className="w-5 h-5 object-contain"
+                  />
+                </a>
+              </li>
+            )}
+            {telegram && (
+              <li>
+                <a 
+                  href={telegram} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-500 hover:bg-blue-600 transition-all duration-200"
+                >
+                  <i className="fab fa-telegram-plane text-xs text-white"></i>
+                </a>
+              </li>
+            )}
+            {eitaa && (
+              <li>
+                <a 
+                  href={eitaa} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
+                >
+                  <img
+                    src="/images/eita.png"
+                    alt="Eitaa"
+                    width={20}
+                    height={20}
+                    loading="lazy"
+                    className="w-5 h-5 object-contain"
+                  />
                 </a>
               </li>
             )}

@@ -820,7 +820,7 @@ export function DateTimeSelectionStep({
                           title={isOccupied ? occupiedCheck.reason : undefined}
                           className={`group relative px-4 py-3 rounded-xl border-2 transition-all duration-300 text-center ${
                             isOccupied
-                              ? "bg-red-50 text-red-400 border-red-200 cursor-not-allowed opacity-60"
+                              ? "bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed opacity-60"
                               : isSelected
                               ? "bg-gradient-to-br from-accent via-accent to-secondary text-white border-accent shadow-xl shadow-accent/50"
                               : "bg-white text-dark border-gray-200 hover:bg-gradient-to-br hover:from-accent hover:via-accent hover:to-secondary hover:text-white hover:border-accent hover:shadow-xl hover:shadow-accent/50"
@@ -838,7 +838,7 @@ export function DateTimeSelectionStep({
                         >
                           {isOccupied && (
                             <motion.i
-                              className="fas fa-ban absolute top-1 left-1 text-xs text-red-400"
+                              className="fas fa-lock absolute top-1 left-1 text-xs text-gray-400"
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
                               transition={{
@@ -869,7 +869,7 @@ export function DateTimeSelectionStep({
                               }}
                             />
                           )}
-                          <span className={`text-sm font-estedad-semibold ${isOccupied ? "line-through" : ""}`}>
+                          <span className="text-sm font-estedad-semibold">
                             {formatTimeForDisplay(time)}
                           </span>
                         </motion.button>

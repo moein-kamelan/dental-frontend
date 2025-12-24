@@ -1,9 +1,12 @@
 import { motion } from "motion/react";
 import { useGetSettings } from "../../../../services/useSettings";
+import { useGetAllInsurances } from "../../../../services/useInsurances";
 import { getImageUrl } from "../../../../utils/helpers";
+import type { InsuranceOrganization } from "../../../../types/types";
 
 function AboutUsSection() {
   const { data: settingsData } = useGetSettings();
+  const { data: insurancesData } = useGetAllInsurances(1, 100, true);
   const settings = settingsData?.data?.settings;
 
   const aboutUsImage = settings?.aboutUsImage
@@ -14,6 +17,8 @@ function AboutUsSection() {
   const aboutUsVideo = settings?.aboutUsVideo
     ? `${settings.aboutUsVideo}`
     : null;
+
+  const insurances = insurancesData?.data?.organizations || [];
 
   return (
     <section className="pt-8 pb-16 md:pt-10 md:pb-20 lg:pt-12 lg:pb-24 bg-gradient-to-b from-white via-gray-50/30 to-white overflow-hidden relative">
@@ -185,6 +190,73 @@ function AboutUsSection() {
             </motion.div>
             </motion.div>
           </div>
+
+          {/* Insurance Organizations Section */}
+          <motion.div
+            className="mt-16 md:mt-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="text-center mb-8 md:mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-dark mb-4" style={{ fontFamily: 'var(--font-vazir)' }}>
+                سازمان‌های بیمه طرف قرارداد
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-accent to-primary rounded-full mx-auto"></div>
+              <p className="text-paragray mt-4 font-estedad-light">
+                ما با سازمان‌های بیمه زیر همکاری می‌کنیم
+              </p>
+            </motion.div>
+
+            {insurances.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                {insurances.map((insurance: InsuranceOrganization, index: number) => (
+                  <motion.div
+                    key={insurance.id}
+                    className="bg-white rounded-xl p-4 md:p-6 shadow-md border border-gray-100 hover:shadow-lg hover:border-accent/30 transition-all duration-300 flex flex-col items-center justify-center min-h-[120px]"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    {insurance.logo ? (
+                      <img
+                        src={getImageUrl(insurance.logo)}
+                        alt={insurance.name}
+                        className="max-w-full max-h-16 object-contain mb-2"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mb-2">
+                        <i className="fas fa-shield-alt text-gray-400 text-2xl"></i>
+                      </div>
+                    )}
+                    <h3 className="text-sm md:text-base font-estedad-semibold text-dark text-center mt-2">
+                      {insurance.name}
+                    </h3>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                    <i className="fas fa-shield-alt text-gray-400 text-2xl"></i>
+                  </div>
+                </div>
+                <p className="text-paragray font-estedad-light text-lg">
+                  در حال حاضر سازمان بیمه‌ای ثبت نشده است
+                </p>
+              </div>
+            )}
+          </motion.div>
         </div>
     </section>
   );

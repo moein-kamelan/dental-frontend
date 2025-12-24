@@ -26,6 +26,7 @@ const validationSchema = Yup.object({
   address: Yup.string(),
   instagram: Yup.string().url("لینک معتبر نیست"),
   telegram: Yup.string().url("لینک معتبر نیست"),
+  eitaa: Yup.string().url("لینک معتبر نیست"),
   whatsapp: Yup.string(),
   twitter: Yup.string().url("لینک معتبر نیست"),
   linkedin: Yup.string().url("لینک معتبر نیست"),
@@ -142,6 +143,8 @@ function SettingsForm() {
           formData.append("instagram", values.instagram);
         if (values.telegram !== undefined)
           formData.append("telegram", values.telegram);
+        if (values.eitaa !== undefined)
+          formData.append("eitaa", values.eitaa);
         if (values.whatsapp !== undefined)
           formData.append("whatsapp", values.whatsapp);
         if (values.twitter !== undefined)
@@ -265,6 +268,8 @@ function SettingsForm() {
           updateData.instagram = values.instagram;
         if (values.telegram !== undefined)
           updateData.telegram = values.telegram;
+        if (values.eitaa !== undefined)
+          updateData.eitaa = values.eitaa;
         if (values.whatsapp !== undefined)
           updateData.whatsapp = values.whatsapp;
         if (values.twitter !== undefined) updateData.twitter = values.twitter;
@@ -330,6 +335,7 @@ function SettingsForm() {
         address: settings?.address || "",
         instagram: settings?.instagram || "",
         telegram: settings?.telegram || "",
+        eitaa: settings?.eitaa || "",
         whatsapp: settings?.whatsapp || "",
         twitter: settings?.twitter || "",
         linkedin: settings?.linkedin || "",
@@ -541,6 +547,19 @@ function SettingsForm() {
                 errorMessage={
                   formik.touched.telegram && formik.errors.telegram
                     ? formik.errors.telegram
+                    : null
+                }
+              />
+
+              <CustomInput
+                labelText="ایتا"
+                placeholder="لینک ایتا را وارد کنید"
+                className="bg-white"
+                optional
+                {...formik.getFieldProps("eitaa")}
+                errorMessage={
+                  formik.touched.eitaa && formik.errors.eitaa
+                    ? formik.errors.eitaa
                     : null
                 }
               />

@@ -29,15 +29,26 @@ function ServiceDetails() {
               <div className=" overflow-hidden">
                 {/* <!-- Main Image with Icon --> */}
                 <div className="relative ">
-                  <img
-                    src={
-                      service?.data?.service?.coverImage
-                        ? `${service?.data?.service?.coverImage}`
-                        : "/images/service-1.jpg"
-                    }
-                    alt={service?.data?.service?.title}
-                    className="w-8/10 mx-auto   h-150 rounded-xl"
-                  />
+                  {service?.data?.service?.coverImage ? (
+                    <img
+                      src={service.data.service.coverImage}
+                      alt={service?.data?.service?.title}
+                      className="w-8/10 mx-auto h-150 rounded-xl object-cover"
+                    />
+                  ) : (
+                    <div className="w-8/10 mx-auto h-150 rounded-xl bg-gray-100 flex items-center justify-center">
+                      <div className="text-center space-y-2">
+                        <div className="flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i className="fas fa-image text-gray-400 text-2xl"></i>
+                          </div>
+                        </div>
+                        <p className="text-gray-400 text-sm font-estedad-light">
+                          تصویر خدمات
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-8">

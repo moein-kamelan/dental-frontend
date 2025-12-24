@@ -30,15 +30,26 @@ function BlogDetails() {
               <div className="">
                 {/* <!-- Image --> */}
                 <div className="relative">
-                  <img
-                    src={
-                      article?.data?.article?.coverImage
-                        ? getImageUrl(article.data.article.coverImage)
-                        : "/images/blog-1.jpg"
-                    }
-                    alt={article?.data?.article?.title}
-                    className="w-8/10 mx-auto   h-150 rounded-xl"
-                  />
+                  {article?.data?.article?.coverImage ? (
+                    <img
+                      src={getImageUrl(article.data.article.coverImage)}
+                      alt={article?.data?.article?.title}
+                      className="w-8/10 mx-auto h-150 rounded-xl object-cover"
+                    />
+                  ) : (
+                    <div className="w-8/10 mx-auto h-150 rounded-xl bg-gray-100 flex items-center justify-center">
+                      <div className="text-center space-y-2">
+                        <div className="flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i className="fas fa-image text-gray-400 text-2xl"></i>
+                          </div>
+                        </div>
+                        <p className="text-gray-400 text-sm font-estedad-light">
+                          تصویر مقاله
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* <!-- Header Info --> */}

@@ -241,58 +241,158 @@ const routes = createBrowserRouter([
         path: "appointments-management/edit/:id",
         element: <AppointmentsManagementEdit />,
       },
-      { path: "doctors-management", element: <DoctorsManagement /> },
+      {
+        path: "doctors-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <DoctorsManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "doctors-management/edit/:id",
-        element: <DoctorsManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <DoctorsManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
 
-      { path: "clinics-management", element: <ClinicsManagement /> },
+      {
+        path: "clinics-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ClinicsManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "clinics-management/edit/:id",
-        element: <ClinicsManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ClinicsManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
-      { path: "articles-management", element: <ArticlesManagement /> },
+      {
+        path: "articles-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ArticlesManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "articles-management/edit/:id",
-        element: <ArticlesManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ArticlesManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "articles-category-management",
-        element: <ArticlesCategoryManagement />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ArticlesCategoryManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "articles-category-management/edit/:id",
-        element: <ArticlesCategoryManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ArticlesCategoryManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "services-category-management",
-        element: <ServicesCategoryManagement />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ServicesCategoryManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "services-category-management/edit/:id",
-        element: <ServicesCategoryManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ServicesCategoryManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
-      { path: "services-management", element: <ServicesManagement /> },
+      {
+        path: "services-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ServicesManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "services-management/edit/:id",
-        element: <ServicesManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ServicesManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
-      { path: "comments-management", element: <CommentsManagements /> },
-      { path: "faqs-management", element: <FaqsManagement /> },
+      {
+        path: "comments-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <CommentsManagements />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
+      {
+        path: "faqs-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <FaqsManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "faqs-management/edit/:id",
-        element: <FaqsManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <FaqsManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
-      { path: "gallery-management", element: <GalleryManagement /> },
+      {
+        path: "gallery-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <GalleryManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "gallery-management/edit/:id",
-        element: <GalleryManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <GalleryManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
-      { path: "insurance-management", element: <InsurancesManagement /> },
+      {
+        path: "insurance-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <InsurancesManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "insurances-management/edit/:id",
-        element: <InsurancesManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <InsurancesManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
 
       {
@@ -311,10 +411,21 @@ const routes = createBrowserRouter([
           </ProtectedAdminOnlyRoute>
         ),
       },
-      { path: "reviews-management", element: <ReviewsManagement /> },
+      {
+        path: "reviews-management",
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ReviewsManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
+      },
       {
         path: "reviews-management/edit/:id",
-        element: <ReviewsManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <ReviewsManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       { path: "users-management", element: <UsersManagement /> },
       {
@@ -324,23 +435,43 @@ const routes = createBrowserRouter([
       { path: "profile-management", element: <ProfileManagement /> },
       {
         path: "banner-management",
-        element: <BannerManagement />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <BannerManagement />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "banner-management/edit/:id",
-        element: <BannerManagementEdit />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <BannerManagementEdit />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "settings",
-        element: <Settings />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <Settings />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "appointment-settings",
-        element: <AppointmentSettings />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <AppointmentSettings />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
       {
         path: "notification-settings",
-        element: <NotificationSettings />,
+        element: (
+          <ProtectedAdminOnlyRoute>
+            <NotificationSettings />
+          </ProtectedAdminOnlyRoute>
+        ),
       },
     ],
   },

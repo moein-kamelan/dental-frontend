@@ -4,6 +4,7 @@ import { formatPersianNameForGreeting } from '../../../../../utils/helpers'
 function WelcomeSection() {
   const { data: user } = useAppSelector((state) => state.user);
   const formattedName = formatPersianNameForGreeting(user?.firstName);
+  const isSecretary = user?.role === "SECRETARY";
   
   return (
     <div className="bg-linear-to-r from-purple-400 to-purple-600  rounded-xl p-4 md:p-6 mb-8 text-white">
@@ -11,9 +12,15 @@ function WelcomeSection() {
       <div>
         <h2 className="text-xl md:text-2xl font-iran-yekan-bold mb-2">خوش آمدید {formattedName ? `${formattedName} عزیز` : ''}!
         </h2>
-        <p className="text-white/80 font-iran-yekan-medium text-sm md:text-base">
-          امروز یک روز عالی برای مدیریت کسب و کار شماست.
-        </p>
+        {isSecretary ? (
+          <p className="text-white/80 font-iran-yekan-medium text-sm md:text-base">
+            آماده‌اید تا نوبت‌های امروز را مدیریت کنید؟
+          </p>
+        ) : (
+          <p className="text-white/80 font-iran-yekan-medium text-sm md:text-base">
+            امروز یک روز عالی برای مدیریت کسب و کار شماست.
+          </p>
+        )}
       </div>
       <div className="hidden md:block">
         <i className="fas fa-rocket text-6xl text-white/40"></i>

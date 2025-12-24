@@ -14,37 +14,59 @@ function Footer() {
       name: "Facebook",
       icon: "fab fa-facebook-f",
       url: settings?.data?.settings?.facebook,
-      color: "hover:bg-blue-600",
+      bgColor: "bg-blue-600",
+      hoverColor: "hover:bg-blue-700",
+      useImage: false,
     },
     {
       name: "Twitter",
       icon: "fab fa-twitter",
       url: settings?.data?.settings?.twitter,
-      color: "hover:bg-blue-400",
+      bgColor: "bg-blue-400",
+      hoverColor: "hover:bg-blue-500",
+      useImage: false,
     },
     {
       name: "Instagram",
       icon: "fab fa-instagram",
       url: settings?.data?.settings?.instagram,
-      color: "hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600",
+      bgColor: "bg-transparent",
+      hoverColor: "hover:bg-transparent",
+      useImage: true,
+      imagePath: "/images/insta.png",
     },
     {
       name: "LinkedIn",
       icon: "fab fa-linkedin-in",
       url: settings?.data?.settings?.linkedin,
-      color: "hover:bg-blue-700",
+      bgColor: "bg-blue-700",
+      hoverColor: "hover:bg-blue-800",
+      useImage: false,
     },
     {
       name: "Telegram",
       icon: "fab fa-telegram-plane",
       url: settings?.data?.settings?.telegram,
-      color: "hover:bg-blue-500",
+      bgColor: "bg-blue-500",
+      hoverColor: "hover:bg-blue-600",
+      useImage: false,
+    },
+    {
+      name: "Eitaa",
+      icon: "fab fa-telegram-plane",
+      url: settings?.data?.settings?.eitaa,
+      bgColor: "bg-transparent",
+      hoverColor: "hover:bg-transparent",
+      useImage: true,
+      imagePath: "/images/eita.png",
     },
     {
       name: "YouTube",
       icon: "fab fa-youtube",
       url: settings?.data?.settings?.youtube,
-      color: "hover:bg-red-600",
+      bgColor: "bg-red-600",
+      hoverColor: "hover:bg-red-700",
+      useImage: false,
     },
   ].filter((link) => link.url);
 
@@ -94,12 +116,23 @@ function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-primary transition-all duration-300 shadow-md"
-                    whileHover={{ scale: 1.1, y: -3 }}
+                    className={`${social.useImage ? 'w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity duration-300' : `w-9 h-9 rounded-lg ${social.bgColor} ${social.hoverColor} text-white flex items-center justify-center transition-all duration-300 shadow-md`}`}
+                    whileHover={social.useImage ? { scale: 1.1 } : { scale: 1.1, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     aria-label={social.name}
                   >
-                    <i className={`${social.icon} text-sm`}></i>
+                    {social.useImage ? (
+                      <img
+                        src={social.imagePath}
+                        alt={social.name}
+                        width={36}
+                        height={36}
+                        loading="lazy"
+                        className="w-9 h-9 object-contain"
+                      />
+                    ) : (
+                      <i className={`${social.icon} text-sm`}></i>
+                    )}
                   </motion.a>
                 ))}
               </div>

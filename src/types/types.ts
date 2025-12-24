@@ -126,6 +126,7 @@ export interface Comment {
   user: {
     firstName: string;
     lastName: string;
+    profileImage?: string | null;
   };
   doctor?: {
     id: string;
@@ -244,6 +245,20 @@ export interface User {
     id: string;
     name: string;
   } | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InsuranceOrganization {
+  id: string;
+  name: string;
+  description?: string | null;
+  website?: string | null;
+  phoneNumber?: string | null;
+  email?: string | null;
+  logo?: string | null;
+  published: boolean;
+  order: number;
   createdAt?: string;
   updatedAt?: string;
 }

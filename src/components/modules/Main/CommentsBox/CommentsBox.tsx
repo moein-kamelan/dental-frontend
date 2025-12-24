@@ -1,7 +1,7 @@
 import { useGetCommentsByIdInfinite } from "../../../../services/useComments";
 import LoadingState from "../LoadingState/LoadingState";
 import type { Comment } from "../../../../types/types";
-import { formatJalali } from "../../../../utils/helpers";
+import { formatJalali, getImageUrl } from "../../../../utils/helpers";
 
 function CommentsBox({
   doctorId,
@@ -55,11 +55,17 @@ function CommentsBox({
               className="border-t-[1.5px] border-[rgba(94,91,91,0.09)] pt-6 mt-6 "
             >
               <div className="grid  sm:grid-cols-[auto_1fr]  gap-4 ">
-                <img
-                  src="../../../../public/images/comment-1.png"
-                  alt="reviewer"
-                  className="size-20 rounded-full shrink-0 justify-self-center"
-                />
+                {(comment.user as any)?.profileImage ? (
+                  <img
+                    src={getImageUrl((comment.user as any).profileImage)}
+                    alt={`${comment.user.firstName} ${comment.user.lastName}`}
+                    className="size-20 rounded-full shrink-0 justify-self-center object-cover"
+                  />
+                ) : (
+                  <div className="size-20 rounded-full shrink-0 justify-self-center bg-gray-200 flex items-center justify-center">
+                    <i className="fas fa-user text-gray-400 text-2xl"></i>
+                  </div>
+                )}
                 <div className="flex-1  space-y-2.5">
                   <div className="flex items-start justify-between  flex-wrap  gap-4">
                     <div className="space-y-2.5">
