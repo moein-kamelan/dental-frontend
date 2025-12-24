@@ -290,19 +290,21 @@ export function PatientInfoStep({
             </div>
           </div>
 
-          {/* فیلد یادداشت (اختیاری) */}
-          <div>
-            <label className="block text-sm font-estedad-semibold text-dark mb-2">
-              یادداشت (اختیاری)
-            </label>
-            <textarea
-              value={notes}
-              onChange={(e) => onNotesChange(e.target.value)}
-              placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
-              rows={3}
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none text-base"
-            />
-          </div>
+          {/* فیلد یادداشت (اختیاری) - فقط برای خودم */}
+          {isForSelf === true && (
+            <div>
+              <label className="block text-sm font-estedad-semibold text-dark mb-2">
+                یادداشت (اختیاری)
+              </label>
+              <textarea
+                value={notes}
+                onChange={(e) => onNotesChange(e.target.value)}
+                placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
+                rows={3}
+                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none text-base"
+              />
+            </div>
+          )}
 
           {/* دکمه ادامه */}
           <div className="mt-auto pt-2">
