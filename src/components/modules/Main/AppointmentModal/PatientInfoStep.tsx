@@ -145,7 +145,7 @@ export function PatientInfoStep({
                     رزرو برای دیگری
                   </h4>
                   <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
-                    اگر می‌خواهید برای دیگری نوبت رزرو کنید، این گزینه را انتخاب کنید. نام، نام خانوادگی و کد ملی نیاز است.
+                    اگر می‌خواهید برای دیگری نوبت رزرو کنید، این گزینه را انتخاب کنید. نام و نام خانوادگی و کد ملی نیاز است.
                   </p>
                 </div>
               </div>
@@ -162,18 +162,18 @@ export function PatientInfoStep({
           transition={{ duration: 0.3 }}
           className="flex-1 flex flex-col gap-4"
         >
-          {/* نام و نام خانوادگی - فقط برای کسی دیگر */}
+          {/* نام و نام خانوادگی و کد ملی - فقط برای کسی دیگر */}
           {isForSelf === false && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-estedad-semibold text-dark mb-2">
-                  نام <span className="text-red-500">*</span>
+                  نام و نام خانوادگی <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={patientFirstName}
                   onChange={(e) => onFirstNameChange(e.target.value)}
-                  placeholder="نام بیمار را وارد کنید"
+                  placeholder="نام و نام خانوادگی بیمار را وارد کنید"
                   className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
                     errors.firstName
                       ? "border-red-500 focus:border-red-500"
@@ -198,22 +198,29 @@ export function PatientInfoStep({
               </div>
               <div>
                 <label className="block text-sm font-estedad-semibold text-dark mb-2">
-                  نام خانوادگی <span className="text-red-500">*</span>
+                  کد ملی <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
-                  value={patientLastName}
-                  onChange={(e) => onLastNameChange(e.target.value)}
-                  placeholder="نام خانوادگی بیمار را وارد کنید"
+                  value={patientNationalId}
+                  onChange={(e) => {
+                    // فقط اعداد مجاز
+                    const value = e.target.value.replace(/\D/g, "");
+                    if (value.length <= 10) {
+                      onNationalIdChange(value);
+                    }
+                  }}
+                  placeholder="کد ملی بیمار را وارد کنید"
+                  maxLength={10}
                   className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
-                    errors.lastName
+                    errors.nationalId
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 focus:border-accent"
                   } focus:outline-none focus:ring-2 focus:ring-accent/20`}
                 />
                 <div className="min-h-[20px] mt-1">
                   <AnimatePresence mode="wait">
-                    {errors.lastName && (
+                    {errors.nationalId && (
                       <motion.p
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -221,7 +228,7 @@ export function PatientInfoStep({
                         transition={{ duration: 0.2 }}
                         className="text-red-500 text-sm"
                       >
-                        {errors.lastName}
+                        {errors.nationalId}
                       </motion.p>
                     )}
                   </AnimatePresence>
@@ -230,78 +237,90 @@ export function PatientInfoStep({
             </div>
           )}
 
-          {/* کد ملی - همیشه نمایش داده می‌شود */}
-          <div>
-            <label className="block text-sm font-estedad-semibold text-dark mb-2">
-              کد ملی <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              value={patientNationalId}
-              onChange={(e) => {
-                // فقط اعداد مجاز
-                const value = e.target.value.replace(/\D/g, "");
-                if (value.length <= 10) {
-                  onNationalIdChange(value);
-                }
-              }}
-              disabled={isNationalIdDisabled}
-              placeholder={
-                isForSelf === true
-                  ? "کد ملی خود را وارد کنید"
-                  : isForSelf === false
-                  ? "کد ملی بیمار را وارد کنید"
-                  : "کد ملی را وارد کنید"
-              }
-              maxLength={10}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
-                errors.nationalId
-                  ? "border-red-500 focus:border-red-500"
-                  : isNationalIdDisabled
-                  ? "border-green-400 bg-green-50 text-gray-700 cursor-not-allowed"
-                  : "border-gray-300 focus:border-accent"
-              } focus:outline-none focus:ring-2 focus:ring-accent/20`}
-            />
-            <div className="min-h-[20px] mt-1">
-              <AnimatePresence mode="wait">
-                {isNationalIdDisabled ? (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    className="text-green-600 text-sm flex items-center gap-1"
-                  >
-                    <i className="fas fa-check-circle"></i>
-                    کد ملی از پروفایل شما دریافت شد
-                  </motion.p>
-                ) : errors.nationalId ? (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    className="text-red-500 text-sm"
-                  >
-                    {errors.nationalId}
-                  </motion.p>
-                ) : null}
-              </AnimatePresence>
+          {/* کد ملی - فقط برای خودم */}
+          {isForSelf === true && (
+            <div>
+              <label className="block text-sm font-estedad-semibold text-dark mb-2">
+                کد ملی <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={patientNationalId}
+                onChange={(e) => {
+                  // فقط اعداد مجاز
+                  const value = e.target.value.replace(/\D/g, "");
+                  if (value.length <= 10) {
+                    onNationalIdChange(value);
+                  }
+                }}
+                disabled={isNationalIdDisabled}
+                placeholder="کد ملی خود را وارد کنید"
+                maxLength={10}
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
+                  errors.nationalId
+                    ? "border-red-500 focus:border-red-500"
+                    : isNationalIdDisabled
+                    ? "border-green-400 bg-green-50 text-gray-700 cursor-not-allowed"
+                    : "border-gray-300 focus:border-accent"
+                } focus:outline-none focus:ring-2 focus:ring-accent/20`}
+              />
+              <div className="min-h-[20px] mt-1">
+                <AnimatePresence mode="wait">
+                  {isNationalIdDisabled ? (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-green-600 text-sm flex items-center gap-1"
+                    >
+                      <i className="fas fa-check-circle"></i>
+                      کد ملی از پروفایل شما دریافت شد
+                    </motion.p>
+                  ) : errors.nationalId ? (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-red-500 text-sm"
+                    >
+                      {errors.nationalId}
+                    </motion.p>
+                  ) : null}
+                </AnimatePresence>
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* فیلد یادداشت (اختیاری) - فقط برای خودم */}
+          {/* فیلد یادداشت تک خطی - فقط برای کسی دیگر */}
+          {isForSelf === false && (
+            <div>
+              <label className="block text-sm font-estedad-semibold text-dark mb-2">
+                یادداشت (اختیاری)
+              </label>
+              <input
+                type="text"
+                value={notes}
+                onChange={(e) => onNotesChange(e.target.value)}
+                placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
+                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all text-base"
+              />
+            </div>
+          )}
+
+          {/* فیلد یادداشت تک خطی - فقط برای خودم */}
           {isForSelf === true && (
             <div>
               <label className="block text-sm font-estedad-semibold text-dark mb-2">
                 یادداشت (اختیاری)
               </label>
-              <textarea
+              <input
+                type="text"
                 value={notes}
                 onChange={(e) => onNotesChange(e.target.value)}
                 placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
-                rows={3}
-                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none text-base"
+                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all text-base"
               />
             </div>
           )}

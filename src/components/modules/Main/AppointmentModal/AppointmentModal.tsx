@@ -199,10 +199,7 @@ function AppointmentModal() {
     // اگر برای کسی دیگر است، نام و نام خانوادگی اجباری است
     if (isForSelf === false) {
       if (!patientFirstName.trim()) {
-        newErrors.firstName = "نام الزامی است";
-      }
-      if (!patientLastName.trim()) {
-        newErrors.lastName = "نام خانوادگی الزامی است";
+        newErrors.firstName = "نام و نام خانوادگی الزامی است";
       }
     }
 
