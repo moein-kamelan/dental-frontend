@@ -188,6 +188,8 @@ export interface ContactMessage {
   createdAt: string;
 }
 
+export type ApplicationType = "DENTIST" | "NURSE";
+
 export interface DoctorApplication {
   id: string;
   firstName: string;
@@ -196,6 +198,7 @@ export interface DoctorApplication {
   phoneNumber: string;
   doctorInfo: string;
   documents?: string | null; // JSON array of document paths
+  applicationType: ApplicationType;
   read: boolean;
   clinicId?: string | null;
   clinic?: {

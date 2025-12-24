@@ -131,7 +131,7 @@ function Footer() {
                         className="w-9 h-9 object-contain"
                       />
                     ) : (
-                      <i className={`${social.icon} text-sm`}></i>
+                    <i className={`${social.icon} text-sm`}></i>
                     )}
                   </motion.a>
                 ))}

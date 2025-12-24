@@ -1,10 +1,14 @@
 import React from "react";
 import { useGetSettings } from "../../../../../services/useSettings";
 
-function BecomeDoctorContent() {
+interface BecomeDoctorContentProps {
+  type?: "doctor" | "nurse";
+}
+
+function BecomeDoctorContent({ type = "doctor" }: BecomeDoctorContentProps) {
   const { data: settingsData, isLoading } = useGetSettings();
   const settings = settingsData?.data?.settings;
-  const content = settings?.becomeDoctorContent;
+  const content = type === "nurse" ? settings?.becomeNurseContent : settings?.becomeDoctorContent;
 
   if (isLoading) {
     return (
@@ -19,7 +23,7 @@ function BecomeDoctorContent() {
       <div className="space-y-6">
         <div>
           <h3 className="text-[26px] sm:text-[32px] md:text-[44px] text-right font-estedad-verybold text-primary  mb-4">
-            دکتر شوید !
+            {type === "nurse" ? "نرس شوید !" : "دکتر شوید !"}
           </h3>
           <p className="text-paragray leading-relaxed mb-4">
             در مادیفاکس، ما متعهد به حفاظت از حریم خصوصی و اطلاعات شخصی شما هستیم

@@ -164,10 +164,10 @@ function ViewApplicationModal({
               </div>
             )}
 
-            {/* اطلاعات پزشک */}
+            {/* اطلاعات متقاضی */}
             <div className="border-b border-gray-200 pb-3">
               <label className="text-sm font-estedad-semibold text-gray-500 block mb-1">
-                اطلاعات پزشک
+                اطلاعات متقاضی
               </label>
               <p className="text-dark font-estedad-light text-base leading-7 whitespace-pre-wrap">
                 {application.doctorInfo}

@@ -17,9 +17,9 @@ function WelcomeSection() {
             آماده‌اید تا نوبت‌های امروز را مدیریت کنید؟
           </p>
         ) : (
-          <p className="text-white/80 font-iran-yekan-medium text-sm md:text-base">
-            امروز یک روز عالی برای مدیریت کسب و کار شماست.
-          </p>
+        <p className="text-white/80 font-iran-yekan-medium text-sm md:text-base">
+          امروز یک روز عالی برای مدیریت کسب و کار شماست.
+        </p>
         )}
       </div>
       <div className="hidden md:block">

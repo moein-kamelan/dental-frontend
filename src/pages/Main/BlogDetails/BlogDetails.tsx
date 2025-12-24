@@ -33,8 +33,8 @@ function BlogDetails() {
                   {article?.data?.article?.coverImage ? (
                     <img
                       src={getImageUrl(article.data.article.coverImage)}
-                      alt={article?.data?.article?.title}
-                      className="w-5/10 mx-auto h-110 rounded-xl  object-fill"
+                    alt={article?.data?.article?.title}
+                      className="w-8/10 mx-auto h-150 rounded-xl object-cover"
                     />
                   ) : (
                     <div className="w-8/10 mx-auto h-150 rounded-xl bg-gray-100 flex items-center justify-center">

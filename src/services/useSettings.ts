@@ -24,6 +24,7 @@ export interface Settings {
   contactUsImage?: string | null;
   contactUsVideo?: string | null;
   becomeDoctorContent?: string;
+  becomeNurseContent?: string;
 }
 
 export interface SettingsResponse {
