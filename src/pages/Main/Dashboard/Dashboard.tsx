@@ -103,7 +103,7 @@ function Dashboard() {
                         : "/images/male-user.jpeg"
                     }
                     alt="user"
-                    className="w-full h-full rounded-full object-cover"
+                    className="w-full h-full rounded-full object-fill"
                   />
                   {isUploading && (
                     <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">

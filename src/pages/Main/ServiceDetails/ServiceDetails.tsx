@@ -8,6 +8,7 @@ import CommentForm from "../../../components/modules/Main/CommentForm/CommentFor
 import { useParams } from "react-router-dom";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import { useGetServiceByIdentifier } from "../../../services/useServices";
+import { getImageUrl } from "../../../utils/helpers";
 function ServiceDetails() {
   const { slug } = useParams();
   const { data: service, isLoading } = useGetServiceByIdentifier(
@@ -31,7 +32,7 @@ function ServiceDetails() {
                 <div className="relative ">
                   {service?.data?.service?.coverImage ? (
                     <img
-                      src={service.data.service.coverImage} 
+                      src={getImageUrl(service.data.service.coverImage)} 
                       alt={service?.data?.service?.title}
                       className="w-8/10 mx-auto h-150 rounded-xl object-cover"
                     />

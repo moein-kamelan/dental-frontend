@@ -14,7 +14,7 @@ interface StatItemProps {
 function StatItem({ title, value, icon, gradient }: StatItemProps) {
   return (
     <motion.div
-      className="text-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow"
+      className="text-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow max-w-[300px]"
       style={{
         background: `linear-gradient(to right, ${gradient.from}, ${gradient.to})`,
       }}

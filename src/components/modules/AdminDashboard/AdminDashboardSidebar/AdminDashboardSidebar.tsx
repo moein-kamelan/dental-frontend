@@ -220,7 +220,7 @@ function AdminDashboardSidebar() {
         )}
 
         {/* بخش تنظیمات */}
-        <div className="border-t border-white/20 pt-2 mt-2">
+        <div className="border-t border-white/20 pt-2 mt-2 space-y-2">
           {isAdmin && (
             <>
               <AdminDashboardSidebarLink

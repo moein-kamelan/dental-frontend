@@ -39,7 +39,7 @@ function BlogCard({ article }: BlogCardProps) {
           <img
             src={getImageUrl(article.coverImage)}
             alt={article.title}
-            className="w-full h-full group-hover/card:scale-105 transition-all duration-800 object-cover"
+            className="w-full h-full group-hover/card:scale-105 transition-all duration-800 object-fill "
           />
         ) : (
           <div className="w-full h-full bg-gray-100 flex items-center justify-center">

@@ -193,7 +193,7 @@ function Navbar() {
                           : "/images/male-user.jpeg"
                       }
                       alt="profile"
-                        className="w-9 h-9 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-accent/30 transition-all duration-200"
+                        className="w-9 h-9 rounded-full object-fill ring-2 ring-gray-100 group-hover:ring-accent/30 transition-all duration-200"
                     />
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                     </div>
@@ -224,7 +224,7 @@ function Navbar() {
                                 : "/images/male-user.jpeg"
                             }
                             alt="profile"
-                            className="w-10 h-10 rounded-full object-cover ring-2 ring-accent/20"
+                            className="w-10 h-10 rounded-full object-fill ring-2 ring-accent/20"
                           />
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-dark truncate" style={{ fontFamily: 'var(--font-vazir)' }}>

@@ -44,7 +44,7 @@ const statusConfig = {
   APPROVED_BY_USER: {
     label: "در انتظار تأیید منشی",
     className: "bg-yellow-100 text-yellow-700",
-    icon: "far fa-hourglass-half",
+    icon: "fa fa-hourglass-half",
     iconBg: "bg-yellow-200",
     iconColor: "text-yellow-600",
   },
