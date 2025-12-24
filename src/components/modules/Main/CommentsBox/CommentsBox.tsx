@@ -56,7 +56,7 @@ function CommentsBox({
             >
               <div className="grid  sm:grid-cols-[auto_1fr]  gap-4 ">
                 {(comment.user as any)?.profileImage ? (
-                  <img
+                <img
                     src={getImageUrl((comment.user as any).profileImage)}
                     alt={`${comment.user.firstName} ${comment.user.lastName}`}
                     className="size-20 rounded-full shrink-0 justify-self-center object-cover"

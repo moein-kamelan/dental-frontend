@@ -39,6 +39,7 @@ const validationSchema = Yup.object({
   contactUsImage: Yup.mixed().nullable(),
   contactUsVideo: Yup.mixed().nullable(),
   becomeDoctorContent: Yup.string(),
+  becomeNurseContent: Yup.string(),
 });
 
 function SettingsForm() {
@@ -161,6 +162,8 @@ function SettingsForm() {
           formData.append("aboutUsContent", values.aboutUsContent);
         if (values.becomeDoctorContent !== undefined)
           formData.append("becomeDoctorContent", values.becomeDoctorContent);
+        if (values.becomeNurseContent !== undefined)
+          formData.append("becomeNurseContent", values.becomeNurseContent);
 
         if (hasAboutUsImageFile && isFile(aboutUsImageFile)) {
           formData.append("aboutUsImage", aboutUsImageFile);
@@ -284,6 +287,8 @@ function SettingsForm() {
           updateData.aboutUsContent = values.aboutUsContent;
         if (values.becomeDoctorContent !== undefined)
           updateData.becomeDoctorContent = values.becomeDoctorContent;
+        if (values.becomeNurseContent !== undefined)
+          updateData.becomeNurseContent = values.becomeNurseContent;
 
         const response = await updateSettings(updateData);
         // Update cache immediately with the response data
@@ -348,6 +353,7 @@ function SettingsForm() {
         contactUsImage: null,
         contactUsVideo: null,
         becomeDoctorContent: settings?.becomeDoctorContent || "",
+        becomeNurseContent: settings?.becomeNurseContent || "",
       }}
       validationSchema={validationSchema}
       enableReinitialize
@@ -894,6 +900,27 @@ function SettingsForm() {
                 formik.touched.becomeDoctorContent &&
                 formik.errors.becomeDoctorContent
                   ? formik.errors.becomeDoctorContent
+                  : null
+              }
+            />
+          </div>
+
+          {/* محتوای صفحه نرس شوید */}
+          <div className="bg-white/50 p-6 rounded-lg border-2 border-purple-200">
+            <h3 className="text-lg font-estedad-semibold text-dark mb-4">
+              محتوای صفحه نرس شوید
+            </h3>
+            <TextEditor
+              value={formik.values.becomeNurseContent || ""}
+              onChange={(value) =>
+                formik.setFieldValue("becomeNurseContent", value)
+              }
+              labelText="محتوای صفحه"
+              placeholder="محتوای صفحه نرس شوید را اینجا وارد کنید..."
+              errorMessage={
+                formik.touched.becomeNurseContent &&
+                formik.errors.becomeNurseContent
+                  ? formik.errors.becomeNurseContent
                   : null
               }
             />

@@ -90,116 +90,116 @@ function AdminDashboardSidebar() {
         {/* فقط برای مدیر */}
         {isAdmin && (
           <>
-            <AdminDashboardSidebarLink
-              to={"/admin/doctors-management"}
-              icon="fas fa-user-md"
-              title="پزشکان"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/clinics-management"}
-              icon="fas fa-hospital"
-              title="کلینیک ها"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/articles-management"}
-              icon="fas fa-newspaper"
-              title="مقالات"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/services-management"}
-              icon="fas fa-handshake"
-              title="خدمات"
-              onClick={handleLinkClick}
-            />
+        <AdminDashboardSidebarLink
+          to={"/admin/doctors-management"}
+          icon="fas fa-user-md"
+          title="پزشکان"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/clinics-management"}
+          icon="fas fa-hospital"
+          title="کلینیک ها"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/articles-management"}
+          icon="fas fa-newspaper"
+          title="مقالات"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/services-management"}
+          icon="fas fa-handshake"
+          title="خدمات"
+          onClick={handleLinkClick}
+        />
 
-            <button
-              onClick={toggleCategories}
-              className={`flex items-center justify-between text-sm gap-x-2 p-3 rounded-lg hover:bg-white/10 transition-opacity duration-200 cursor-pointer w-full whitespace-nowrap ${
-                !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
-              }`}
-              style={
-                !isSidebarOpen
-                  ? { transitionDelay: "-100ms" }
-                  : { transitionDelay: "200ms" }
-              }
-            >
-              <div className="flex items-center gap-x-3">
-                <i className="fas fa-tags"></i>
-                <span>دسته بندی ها</span>
-              </div>
-              <i
-                className={`fas ${
-                  isCategoriesOpen ? "fa-chevron-up" : "fa-chevron-down"
-                } transition-transform duration-300`}
-              ></i>
-            </button>
-            <div
-              className={`grid transition-all duration-300 ease-in-out overflow-hidden ${
-                !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
-              }`}
-              style={{
-                gridTemplateRows: isCategoriesOpen ? "1fr" : "0fr",
-                transitionDelay: !isSidebarOpen ? "-100ms" : "200ms",
-              }}
-            >
-              <div className="min-h-0 pr-2 ">
-                <div className="w-full bg-white/10 space-y-2 rounded-lg">
-                  <AdminDashboardSidebarLink
-                    to={"/admin/articles-category-management"}
-                    icon="fas fa-newspaper"
-                    title="دسته بندی مقالات"
-                    onClick={handleLinkClick}
-                  />
-                  <AdminDashboardSidebarLink
-                    to={"/admin/services-category-management"}
-                    icon="fas fa-handshake"
-                    title="دسته بندی خدمات"
-                    onClick={handleLinkClick}
-                  />
-                </div>
-              </div>
+        <button
+          onClick={toggleCategories}
+          className={`flex items-center justify-between text-sm gap-x-2 p-3 rounded-lg hover:bg-white/10 transition-opacity duration-200 cursor-pointer w-full whitespace-nowrap ${
+            !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
+          }`}
+          style={
+            !isSidebarOpen
+              ? { transitionDelay: "-100ms" }
+              : { transitionDelay: "200ms" }
+          }
+        >
+          <div className="flex items-center gap-x-3">
+            <i className="fas fa-tags"></i>
+            <span>دسته بندی ها</span>
+          </div>
+          <i
+            className={`fas ${
+              isCategoriesOpen ? "fa-chevron-up" : "fa-chevron-down"
+            } transition-transform duration-300`}
+          ></i>
+        </button>
+        <div
+          className={`grid transition-all duration-300 ease-in-out overflow-hidden ${
+            !isSidebarOpen ? "opacity-0" : "opacity-100 delay-200"
+          }`}
+          style={{
+            gridTemplateRows: isCategoriesOpen ? "1fr" : "0fr",
+            transitionDelay: !isSidebarOpen ? "-100ms" : "200ms",
+          }}
+        >
+          <div className="min-h-0 pr-2 ">
+            <div className="w-full bg-white/10 space-y-2 rounded-lg">
+              <AdminDashboardSidebarLink
+                to={"/admin/articles-category-management"}
+                icon="fas fa-newspaper"
+                title="دسته بندی مقالات"
+                onClick={handleLinkClick}
+              />
+              <AdminDashboardSidebarLink
+                to={"/admin/services-category-management"}
+                icon="fas fa-handshake"
+                title="دسته بندی خدمات"
+                onClick={handleLinkClick}
+              />
             </div>
+          </div>
+        </div>
 
-            <AdminDashboardSidebarLink
-              to={"/admin/comments-management"}
-              icon="fas fa-comments"
-              title="نظرات"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/reviews-management"}
-              icon="fas fa-star"
-              title="دیدگاه کاربران"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/faqs-management"}
-              icon="fas fa-question-circle"
-              title="سوالات متداول"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/gallery-management"}
-              icon="fas fa-images"
-              title="گالری"
-              onClick={handleLinkClick}
-            />
+        <AdminDashboardSidebarLink
+          to={"/admin/comments-management"}
+          icon="fas fa-comments"
+          title="نظرات"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/reviews-management"}
+          icon="fas fa-star"
+          title="دیدگاه کاربران"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/faqs-management"}
+          icon="fas fa-question-circle"
+          title="سوالات متداول"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/gallery-management"}
+          icon="fas fa-images"
+          title="گالری"
+          onClick={handleLinkClick}
+        />
 
-            <AdminDashboardSidebarLink
-              to={"/admin/insurance-management"}
-              icon="fas fa-shield-alt"
-              title="سازمان های بیمه"
-              onClick={handleLinkClick}
-            />
-            <AdminDashboardSidebarLink
-              to={"/admin/banner-management"}
-              icon="fas fa-layer-group"
-              title="بنر"
-              onClick={handleLinkClick}
-            />
+        <AdminDashboardSidebarLink
+          to={"/admin/insurance-management"}
+          icon="fas fa-shield-alt"
+          title="سازمان های بیمه"
+          onClick={handleLinkClick}
+        />
+        <AdminDashboardSidebarLink
+          to={"/admin/banner-management"}
+          icon="fas fa-layer-group"
+          title="بنر"
+          onClick={handleLinkClick}
+        />
           </>
         )}
         {isAdmin && (
@@ -214,7 +214,7 @@ function AdminDashboardSidebar() {
         <AdminDashboardSidebarLink
           to={"/admin/doctor-applications-management"}
           icon="fas fa-user-plus"
-          title="درخواست عضویت پزشکان"
+          title="درخواست عضویت در کادر درمان"
           onClick={handleLinkClick}
         />
         )}
@@ -223,24 +223,24 @@ function AdminDashboardSidebar() {
         <div className="border-t border-white/20 pt-2 mt-2 space-y-2">
           {isAdmin && (
             <>
-              <AdminDashboardSidebarLink
-                to={"/admin/settings"}
-                icon="fas fa-cog"
-                title="تنظیمات سایت"
-                onClick={handleLinkClick}
-              />
-              <AdminDashboardSidebarLink
-                to={"/admin/appointment-settings"}
-                icon="fas fa-calendar-check"
-                title="تنظیمات نوبت‌دهی"
-                onClick={handleLinkClick}
-              />
-              <AdminDashboardSidebarLink
-                to={"/admin/notification-settings"}
-                icon="fas fa-bell"
-                title="تنظیمات نوتیفیکیشن"
-                onClick={handleLinkClick}
-              />
+          <AdminDashboardSidebarLink
+            to={"/admin/settings"}
+            icon="fas fa-cog"
+            title="تنظیمات سایت"
+            onClick={handleLinkClick}
+          />
+          <AdminDashboardSidebarLink
+            to={"/admin/appointment-settings"}
+            icon="fas fa-calendar-check"
+            title="تنظیمات نوبت‌دهی"
+            onClick={handleLinkClick}
+          />
+          <AdminDashboardSidebarLink
+            to={"/admin/notification-settings"}
+            icon="fas fa-bell"
+            title="تنظیمات نوتیفیکیشن"
+            onClick={handleLinkClick}
+          />
             </>
           )}
           <AdminDashboardSidebarLink

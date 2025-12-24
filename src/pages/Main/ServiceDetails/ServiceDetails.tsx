@@ -32,8 +32,13 @@ function ServiceDetails() {
                 <div className="relative ">
                   {service?.data?.service?.coverImage ? (
                     <img
+<<<<<<< HEAD
                       src={getImageUrl(service.data.service.coverImage)} 
                       alt={service?.data?.service?.title}
+=======
+                      src={service.data.service.coverImage}
+                    alt={service?.data?.service?.title}
+>>>>>>> 65c5f08c40ddb2da94e4fc1b334888db9bbecbb0
                       className="w-8/10 mx-auto h-150 rounded-xl object-cover"
                     />
                   ) : (

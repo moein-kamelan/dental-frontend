@@ -310,7 +310,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         }`
                       }
                     >
-                      همکاری با ما
+                      عضویت در کادر درمان
                     </NavLink>
                   </li>
                   <li>

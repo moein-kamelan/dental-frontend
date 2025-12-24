@@ -38,7 +38,11 @@ const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => {
   );
 };
 
-function BecomeDoctorForm() {
+interface BecomeDoctorFormProps {
+  applicationType?: "DENTIST" | "NURSE";
+}
+
+function BecomeDoctorForm({ applicationType = "DENTIST" }: BecomeDoctorFormProps) {
   const { mutateAsync: createDoctorApplication } = useCreateDoctorApplication();
   const { data: clinicsData } = useGetAllClinics(1, 100);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -81,6 +85,9 @@ function BecomeDoctorForm() {
           formData.append("documents", file);
         });
       }
+
+      // Add applicationType to formData
+      formData.append("applicationType", applicationType);
 
       const response = await createDoctorApplication(formData);
       console.log(response);
@@ -364,7 +371,7 @@ function BecomeDoctorForm() {
                   </label>
                 </div> */}
                 <button type="submit" className="main-btn">
-                  دکتر شوید
+                  ارسال درخواست
                 </button>
               </div>
             </form>

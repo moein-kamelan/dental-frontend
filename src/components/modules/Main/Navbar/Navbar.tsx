@@ -151,7 +151,7 @@ function Navbar() {
                     isActive ? "text-accent" : "text-dark hover:text-accent"
                   }
                 >
-                  همکاری با ما
+                  عضویت در کادر درمان
                 </NavLink>
               </li>
               <li className="text-nowrap">

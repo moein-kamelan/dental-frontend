@@ -51,9 +51,10 @@ function DoctorApplicationsManagementTable({
             <tr className="*:text-right *:p-4.5 *:text-nowrap">
               <th>ردیف</th>
               <th>نام و نام خانوادگی</th>
+              <th>نوع درخواست</th>
               <th>ایمیل</th>
               <th>شماره تماس</th>
-              <th>اطلاعات پزشک</th>
+              <th>اطلاعات متقاضی</th>
               <th>کلینیک</th>
               <th>وضعیت</th>
               <th>تاریخ ایجاد</th>
@@ -62,10 +63,10 @@ function DoctorApplicationsManagementTable({
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingApplications ? (
-              <TableSkeleton rows={5} columns={9} />
+              <TableSkeleton rows={5} columns={10} />
             ) : applications.length === 0 ? (
               <tr>
-                <td colSpan={9} className="text-center p-8 font-estedad-light">
+                <td colSpan={10} className="text-center p-8 font-estedad-light">
                   درخواستی یافت نشد
                 </td>
               </tr>
@@ -94,6 +95,19 @@ function DoctorApplicationsManagementTable({
                           </p>
                         </div>
                       </div>
+                    </td>
+                    <td className="text-dark font-estedad-light">
+                      {application.applicationType === "DENTIST" ? (
+                        <span className="px-3 py-1.5 text-xs rounded-lg bg-blue-100 text-blue-700 font-estedad-semibold flex items-center gap-1.5 w-fit">
+                          <i className="fas fa-user-md"></i>
+                          دندانپزشک
+                        </span>
+                      ) : (
+                        <span className="px-3 py-1.5 text-xs rounded-lg bg-purple-100 text-purple-700 font-estedad-semibold flex items-center gap-1.5 w-fit">
+                          <i className="fas fa-user-nurse"></i>
+                          نرس
+                        </span>
+                      )}
                     </td>
                     <td className="text-dark font-estedad-light">
                       {application.email || (

@@ -152,14 +152,14 @@ function DoctorApplicationsManagement() {
       <SectionContainer>
         <DoctorApplicationsStats />
 
-        <h5 className="main-header ">لیست درخواست‌ها</h5>
+        <h5 className="main-header ">لیست درخواست‌های عضویت در کادر درمان</h5>
 
         {/* Search Input and Filters */}
         <div className="mb-4 flex flex-col md:flex-row  justify-between gap-4">
           <div className="relative max-w-md flex-1">
             <CustomInput
               labelText="جستجو"
-              placeholder="جستجو بر اساس نام، ایمیل، شماره تماس یا اطلاعات..."
+              placeholder="جستجو بر اساس نام، ایمیل، شماره تماس یا اطلاعات متقاضی..."
               className="bg-white pr-12"
               value={searchInput}
               onChange={(e) => {

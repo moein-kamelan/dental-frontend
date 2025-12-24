@@ -55,34 +55,56 @@ export function PatientInfoStep({
       transition={{ duration: 0.15, ease: "easeOut" }}
     >
       {/* گزینه انتخاب: برای خودم یا برای کسی دیگر */}
-      <div className="mb-3 mt-1">
-        <p className="text-sm font-estedad-semibold text-dark mb-2 text-center">
+      <div className="mb-6 flex flex-col items-center gap-4">
+        <p className="text-2xl font-estedad-medium text-dark text-center leading-relaxed">
           نوبت برای چه کسی رزرو می‌شود؟
         </p>
-        <div className="flex flex-row flex-wrap gap-2 justify-center" >
+        <div className="flex max-sm:gap-6 gap-4 max-md:justify-between items-center flex-wrap max-sm:w-full">
           <button
             type="button"
             onClick={() => handleIsForSelfClick(true)}
-            className={`px-3 sm:px-5 py-2.5 rounded-lg font-estedad-semibold text-sm transition-all duration-300 flex items-center justify-center gap-1.5 max-sm:min-w-[140px] sm:w-[180px] border-2 border-gray-300 hover:border-accent hover:shadow-md ${
+            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center ${
               isForSelf === true
-                ? "bg-accent text-white shadow-lg "
-                : "bg-white text-dark "
+                ? "bg-accent text-white shadow-md"
+                : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
             }`}
           >
-            <i className="fas fa-user mr-1 text-sm"></i>
-            <span className="max-sm:text-sm text-nowrap">برای خودم</span>
+            <i className="fas fa-user text-lg"></i>
+            <span>برای خودم</span>
+            {isForSelf === true && (
+              <motion.i
+                className="fas fa-check-circle text-sm sm:text-lg"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                }}
+              />
+            )}
           </button>
           <button
             type="button"
             onClick={() => handleIsForSelfClick(false)}
-            className={`px-3 sm:px-5 py-2.5 rounded-lg font-estedad-semibold text-sm transition-all duration-300 flex items-center justify-center gap-1.5 max-sm:min-w-[140px] sm:w-[180px] border-2 border-gray-300 hover:border-accent hover:shadow-md ${
+            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center ${
               isForSelf === false
-                ? "bg-accent text-white shadow-lg "
-                : "bg-white text-dark "
+                ? "bg-accent text-white shadow-md"
+                : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
             }`}
           >
-            <i className="fas fa-user-friends mr-1 text-sm"></i>
-            <span className="max-sm:text-sm text-nowrap">برای شخصی دیگر</span>
+            <i className="fas fa-user-friends text-lg"></i>
+            <span>برای شخصی دیگر</span>
+            {isForSelf === false && (
+              <motion.i
+                className="fas fa-check-circle text-sm sm:text-lg"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                }}
+              />
+            )}
           </button>
         </div>
       </div>
@@ -90,43 +112,41 @@ export function PatientInfoStep({
       {/* بخش توضیحات - فقط زمانی نمایش داده می‌شود که هنوز انتخاب نشده باشد */}
       {isForSelf === null && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="flex-1 flex items-center justify-center"
+          className="w-full max-w-4xl mx-auto"
         >
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="bg-gradient-to-br from-accent/10 via-secondary/10 to-primary/10 rounded-xl p-4 border-2 border-accent/20 shadow-lg">
-              <div className="grid md:grid-cols-2 gap-4">
-                {/* توضیحات گزینه برای خودم */}
-                <div className="flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center shadow-md">
-                    <i className="fas fa-user text-white text-sm"></i>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-estedad-bold text-dark mb-1 text-sm">
-                      رزرو برای خودم
-                    </h4>
-                    <p className="text-xs text-gray-700 font-estedad-medium leading-relaxed">
-                      اگر خودتان قصد دریافت نوبت دارید، این گزینه را انتخاب کنید. فقط کد ملی شما نیاز است.
-                    </p>
-                  </div>
+          <div className="bg-gradient-to-br from-accent/10 via-secondary/10 to-primary/10 rounded-2xl p-6 border-2 border-accent/20 shadow-lg">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* توضیحات گزینه برای خودم */}
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-md">
+                  <i className="fas fa-user text-white text-lg"></i>
                 </div>
+                <div className="flex-1">
+                  <h4 className="font-estedad-bold text-dark mb-2 text-lg">
+                    رزرو برای خودم
+                  </h4>
+                  <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
+                    اگر خودتان قصد دریافت نوبت دارید، این گزینه را انتخاب کنید. فقط کد ملی شما نیاز است.
+                  </p>
+                </div>
+              </div>
 
-                {/* توضیحات گزینه برای کسی دیگر */}
-                <div className="flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-full bg-secondary flex items-center justify-center shadow-md">
-                    <i className="fas fa-user-friends text-white text-sm"></i>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-estedad-bold text-dark mb-1 text-sm">
-                      رزرو برای دیگری
-                    </h4>
-                    <p className="text-xs text-gray-700 font-estedad-medium leading-relaxed">
-                      اگر می‌خواهید برای دیگری نوبت رزرو کنید، این گزینه را انتخاب کنید. نام، نام خانوادگی و کد ملی نیاز است.
-                    </p>
-                  </div>
+              {/* توضیحات گزینه برای کسی دیگر */}
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-md">
+                  <i className="fas fa-user-friends text-white text-lg"></i>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-estedad-bold text-dark mb-2 text-lg">
+                    رزرو برای دیگری
+                  </h4>
+                  <p className="text-sm text-gray-700 font-estedad-medium leading-relaxed">
+                    اگر می‌خواهید برای دیگری نوبت رزرو کنید، این گزینه را انتخاب کنید. نام، نام خانوادگی و کد ملی نیاز است.
+                  </p>
                 </div>
               </div>
             </div>
@@ -140,13 +160,13 @@ export function PatientInfoStep({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="flex-1 flex flex-col gap-3"
+          className="flex-1 flex flex-col gap-4"
         >
           {/* نام و نام خانوادگی - فقط برای کسی دیگر */}
           {isForSelf === false && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-estedad-semibold text-dark mb-1">
+                <label className="block text-sm font-estedad-semibold text-dark mb-2">
                   نام <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -154,13 +174,13 @@ export function PatientInfoStep({
                   value={patientFirstName}
                   onChange={(e) => onFirstNameChange(e.target.value)}
                   placeholder="نام بیمار را وارد کنید"
-                  className={`w-full px-3 py-2 rounded-lg border-2 transition-all text-sm ${
+                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
                     errors.firstName
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 focus:border-accent"
                   } focus:outline-none focus:ring-2 focus:ring-accent/20`}
                 />
-                <div className="min-h-[16px] mt-0.5">
+                <div className="min-h-[20px] mt-1">
                   <AnimatePresence mode="wait">
                     {errors.firstName && (
                       <motion.p
@@ -168,7 +188,7 @@ export function PatientInfoStep({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
                         transition={{ duration: 0.2 }}
-                        className="text-red-500 text-xs"
+                        className="text-red-500 text-sm"
                       >
                         {errors.firstName}
                       </motion.p>
@@ -177,7 +197,7 @@ export function PatientInfoStep({
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-estedad-semibold text-dark mb-1">
+                <label className="block text-sm font-estedad-semibold text-dark mb-2">
                   نام خانوادگی <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -185,13 +205,13 @@ export function PatientInfoStep({
                   value={patientLastName}
                   onChange={(e) => onLastNameChange(e.target.value)}
                   placeholder="نام خانوادگی بیمار را وارد کنید"
-                  className={`w-full px-3 py-2 rounded-lg border-2 transition-all text-sm ${
+                  className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
                     errors.lastName
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 focus:border-accent"
                   } focus:outline-none focus:ring-2 focus:ring-accent/20`}
                 />
-                <div className="min-h-[16px] mt-0.5">
+                <div className="min-h-[20px] mt-1">
                   <AnimatePresence mode="wait">
                     {errors.lastName && (
                       <motion.p
@@ -199,7 +219,7 @@ export function PatientInfoStep({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
                         transition={{ duration: 0.2 }}
-                        className="text-red-500 text-xs"
+                        className="text-red-500 text-sm"
                       >
                         {errors.lastName}
                       </motion.p>
@@ -212,7 +232,7 @@ export function PatientInfoStep({
 
           {/* کد ملی - همیشه نمایش داده می‌شود */}
           <div>
-            <label className="block text-xs font-estedad-semibold text-dark mb-1">
+            <label className="block text-sm font-estedad-semibold text-dark mb-2">
               کد ملی <span className="text-red-500">*</span>
             </label>
             <input
@@ -234,7 +254,7 @@ export function PatientInfoStep({
                   : "کد ملی را وارد کنید"
               }
               maxLength={10}
-              className={`w-full px-3 py-2 rounded-lg border-2 transition-all text-sm ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-base ${
                 errors.nationalId
                   ? "border-red-500 focus:border-red-500"
                   : isNationalIdDisabled
@@ -242,7 +262,7 @@ export function PatientInfoStep({
                   : "border-gray-300 focus:border-accent"
               } focus:outline-none focus:ring-2 focus:ring-accent/20`}
             />
-            <div className="min-h-[16px] mt-0.5">
+            <div className="min-h-[20px] mt-1">
               <AnimatePresence mode="wait">
                 {isNationalIdDisabled ? (
                   <motion.p
@@ -250,7 +270,7 @@ export function PatientInfoStep({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: 0.2 }}
-                    className="text-green-600 text-xs flex items-center gap-1"
+                    className="text-green-600 text-sm flex items-center gap-1"
                   >
                     <i className="fas fa-check-circle"></i>
                     کد ملی از پروفایل شما دریافت شد
@@ -261,7 +281,7 @@ export function PatientInfoStep({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: 0.2 }}
-                    className="text-red-500 text-xs"
+                    className="text-red-500 text-sm"
                   >
                     {errors.nationalId}
                   </motion.p>
@@ -272,21 +292,21 @@ export function PatientInfoStep({
 
           {/* فیلد یادداشت (اختیاری) */}
           <div>
-            <label className="block text-xs font-estedad-semibold text-dark mb-1">
+            <label className="block text-sm font-estedad-semibold text-dark mb-2">
               یادداشت (اختیاری)
             </label>
             <textarea
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               placeholder="توضیحات اضافی یا یادداشت را وارد کنید..."
-              rows={2}
-              className="w-full px-3 py-2 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none text-sm"
+              rows={3}
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none text-base"
             />
           </div>
 
           {/* دکمه ادامه */}
-          <div className="mt-1">
-            <button onClick={onContinue} className="main-btn w-full text-sm py-2.5">
+          <div className="mt-auto pt-2">
+            <button onClick={onContinue} className="main-btn w-full text-base py-3.5">
               ادامه
             </button>
           </div>
