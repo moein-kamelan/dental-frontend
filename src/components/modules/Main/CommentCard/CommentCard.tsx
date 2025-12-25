@@ -20,11 +20,9 @@ function CommentCard({ review }: { review?: Review }) {
         </p>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <img
-              src="images/review-1.png"
-              alt="reviewer"
-              className="w-16 h-16 rounded-full"
-            />
+            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
+              <i className="fas fa-user text-gray-400 text-xl"></i>
+            </div>
             <div>
               <h3 className="font-bold text-dark">محسن دادار</h3>
               <span className="text-paragray text-sm font-estedad-light">
@@ -64,11 +62,9 @@ function CommentCard({ review }: { review?: Review }) {
               className="w-16 h-16 rounded-full object-cover"
             />
           ) : (
-            <img
-              src="images/review-1.png"
-              alt="reviewer"
-              className="w-16 h-16 rounded-full"
-            />
+            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
+              <i className="fas fa-user text-gray-400 text-xl"></i>
+            </div>
           )}
           <div>
             <h3 className="font-bold text-dark">{review.name}</h3>
