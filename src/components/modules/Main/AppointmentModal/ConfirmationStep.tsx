@@ -169,7 +169,7 @@ export function ConfirmationStep({
         </h2>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-2 overflow-y-auto px-2">
+      <div className="flex-1 flex flex-col items-center justify-center gap-2  px-2">
         {submitStatus === "idle" && (
           <>
             <p className="text-base font-estedad-medium text-gray-600 text-center mb-1">
