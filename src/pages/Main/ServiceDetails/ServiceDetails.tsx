@@ -20,18 +20,18 @@ function ServiceDetails() {
   if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات خدمات..." />;
 
   const serviceTitle = service?.data?.service?.title
-    ? `${service.data.service.title} - کلینیک دندانپزشکی تaha`
-    : "خدمات دندانپزشکی - کلینیک دندانپزشکی تaha";
+    ? `${service.data.service.title} - کلینیک دندان پزشکی طاها`
+    : "خدمات دندانپزشکی - کلینیک دندان پزشکی طاها";
   const serviceDescription = service?.data?.service?.description
     ? service.data.service.description.replace(/<[^>]*>/g, "").substring(0, 160)
-    : "خدمات تخصصی دندانپزشکی در کلینیک تaha";
+    : "خدمات تخصصی دندانپزشکی در کلینیک طاها";
 
   return (
     <>
       <SEO
         title={serviceTitle}
         description={serviceDescription}
-        keywords={`${service?.data?.service?.title}, خدمات دندانپزشکی, کلینیک تaha`}
+        keywords={`${service?.data?.service?.title}, خدمات دندانپزشکی, کلینیک طاها`}
         image={service?.data?.service?.coverImage ? getImageUrl(service.data.service.coverImage) : undefined}
         url={`/services/${slug}`}
       />

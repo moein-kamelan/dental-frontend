@@ -58,18 +58,18 @@ function DoctorDetails() {
     ? `${doctorData.firstName} ${doctorData.lastName}`
     : "";
   const doctorTitle = doctorData
-    ? `دکتر ${doctorName} - کلینیک دندانپزشکی تaha`
-    : "پروفایل پزشک - کلینیک دندانپزشکی تaha";
+    ? `دکتر ${doctorName} - کلینیک دندان پزشکی طاها`
+    : "پروفایل پزشک - کلینیک دندان پزشکی طاها";
   const doctorDescription = doctorData
     ? `پروفایل دکتر ${doctorName} - ${doctorData.university || ""} - ${doctorData.skills?.join(", ") || ""}. مشاهده ساعات کاری و دریافت نوبت`
-    : "پروفایل پزشک کلینیک دندانپزشکی تaha";
+    : "پروفایل پزشک کلینیک دندان پزشکی طاها";
 
   return (
     <>
       <SEO
         title={doctorTitle}
         description={doctorDescription}
-        keywords={`دکتر ${doctorName}, دندانپزشک, ${doctorData?.skills?.join(", ") || ""}, کلینیک تaha`}
+        keywords={`دکتر ${doctorName}, دندانپزشک, ${doctorData?.skills?.join(", ") || ""}, کلینیک طاها`}
         image={doctorData?.profileImage ? getImageUrl(doctorData.profileImage) : undefined}
         url={`/doctors/${slug}`}
         type="profile"

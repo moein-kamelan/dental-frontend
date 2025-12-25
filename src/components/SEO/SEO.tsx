@@ -13,11 +13,12 @@ interface SEOProps {
   modifiedTime?: string;
   noindex?: boolean;
   nofollow?: boolean;
+  structuredData?: object; // JSON-LD structured data
 }
 
 const SEO = ({
-  title = "کلینیک دندانپزشکی تaha - بهترین خدمات دندانپزشکی",
-  description = "کلینیک دندانپزشکی تaha ارائه دهنده بهترین خدمات دندانپزشکی با کادری مجرب و تجهیزات مدرن",
+  title = "کلینیک دندان پزشکی طاها - بهترین خدمات دندانپزشکی",
+  description = "کلینیک دندان پزشکی طاها ارائه دهنده بهترین خدمات دندانپزشکی با کادری مجرب و تجهیزات مدرن",
   keywords = "دندانپزشکی, کلینیک دندانپزشکی, دندانپزشک, خدمات دندانپزشکی, ایمپلنت, ارتودنسی, زیبایی دندان",
   image = "/images/logo.png",
   url,
@@ -27,6 +28,7 @@ const SEO = ({
   modifiedTime,
   noindex = false,
   nofollow = false,
+  structuredData,
 }: SEOProps) => {
   const location = useLocation();
   const siteUrl = import.meta.env.VITE_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "");
@@ -55,7 +57,7 @@ const SEO = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:locale" content="fa_IR" />
-      <meta property="og:site_name" content="کلینیک دندانپزشکی تaha" />
+      <meta property="og:site_name" content="کلینیک دندان پزشکی طاها" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -82,6 +84,13 @@ const SEO = ({
 
       {/* Language */}
       <html lang="fa" dir="rtl" />
+
+      {/* Structured Data (JSON-LD) */}
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
     </Helmet>
   );
 };

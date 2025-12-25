@@ -21,8 +21,8 @@ function BlogDetails() {
   if (isLoading) return <LoadingState text="در حال بارگذاری مقاله..." />;
 
   const articleTitle = article?.data?.article?.title
-    ? `${article.data.article.title} - کلینیک دندانپزشکی تaha`
-    : "مقاله دندانپزشکی - کلینیک دندانپزشکی تaha";
+    ? `${article.data.article.title} - کلینیک دندان پزشکی طاها`
+    : "مقاله دندانپزشکی - کلینیک دندان پزشکی طاها";
   const articleDescription = article?.data?.article?.content
     ? article.data.article.content.replace(/<[^>]*>/g, "").substring(0, 160)
     : "مقاله تخصصی در زمینه دندانپزشکی و سلامت دهان و دندان";
@@ -32,7 +32,7 @@ function BlogDetails() {
       <SEO
         title={articleTitle}
         description={articleDescription}
-        keywords={`${article?.data?.article?.title}, مقالات دندانپزشکی, کلینیک تaha`}
+        keywords={`${article?.data?.article?.title}, مقالات دندانپزشکی, کلینیک طاها`}
         image={article?.data?.article?.coverImage ? getImageUrl(article.data.article.coverImage) : undefined}
         url={`/blog/${slug}`}
         type="article"

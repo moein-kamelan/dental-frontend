@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useGetSettings } from '../../../../services/useSettings'
 import { useGetAllClinics } from '../../../../services/useClinics'
 
@@ -10,20 +9,16 @@ function Topbar() {
   const clinics = clinicsData?.data?.clinics || []
   const firstClinic = clinics[0] || null
   const secondClinic = clinics[1] || null
-  
-  // State for toggling between clinics (only if we have two clinics)
-  const [activeClinicIndex, setActiveClinicIndex] = useState(0)
-  const hasTwoClinics = firstClinic && secondClinic
-  
-  // Determine which clinic to show
-  const activeClinic = hasTwoClinics 
-    ? (activeClinicIndex === 0 ? firstClinic : secondClinic)
-    : firstClinic
 
-  // Use clinic data if provided, otherwise fallback to settings or default values
-  const phoneNumber = activeClinic?.phoneNumber || settings?.phoneNumber || '123456789'
+  // Get phone numbers from clinics
+  const firstClinicPhone = firstClinic?.phoneNumber
+  const secondClinicPhone = secondClinic?.phoneNumber
+  
+  // Fallback to settings if no clinic phone numbers
+  const fallbackPhone = settings?.phoneNumber || '123456789'
+  
   const email = settings?.email // Only use email from settings, no fallback
-  const address = activeClinic?.address || settings?.address || 'شیراز. خیابان نیایش. ساختمان پزشکان'
+  const address = firstClinic?.address || settings?.address || 'شیراز. خیابان نیایش. ساختمان پزشکان'
   
   // Social media links from settings
   const facebook = settings?.facebook
@@ -33,74 +28,12 @@ function Topbar() {
   const telegram = settings?.telegram
   const eitaa = settings?.eitaa
 
-  const handleToggleClinic = () => {
-    if (hasTwoClinics) {
-      setActiveClinicIndex(prev => (prev === 0 ? 1 : 0))
-    }
-  }
-
   return (
     <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white py-2">
       <div className="container mx-auto px-3 sm:px-4 relative z-10">
-        <div className="flex flex-wrap justify-center lg:justify-between items-center gap-2 sm:gap-3">
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-            {hasTwoClinics && (
-              <button
-                onClick={handleToggleClinic}
-                className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg hover:bg-white/10 transition-colors text-[10px] sm:text-xs leading-none backdrop-blur-sm"
-                title={`تبدیل به ${activeClinicIndex === 0 ? secondClinic.name : firstClinic.name}`}
-                style={{ fontFamily: 'var(--font-vazir)' }}
-              >
-                <i className="fas fa-exchange-alt text-xs"></i>
-                <span className="hidden sm:inline font-medium">
-                  {activeClinicIndex === 0 ? firstClinic.name : secondClinic.name}
-                </span>
-              </button>
-            )}
-            
-            <div className="flex md:hidden items-center gap-1.5 sm:gap-2 text-xs sm:text-sm leading-none">
-              {phoneNumber && (
-                <div className="flex items-center gap-1.5">
-                  <i className="fas fa-phone-alt text-[10px]"></i>
-                  <a href={`tel:${phoneNumber}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    {phoneNumber}
-                  </a>
-                </div>
-              )}
-              {activeClinic && (
-                <span className="text-[10px] sm:text-xs opacity-80 whitespace-nowrap" style={{ fontFamily: 'var(--font-vazir)' }}>
-                  - {activeClinic.name}
-                </span>
-              )}
-            </div>
-            
-            <ul className="hidden md:flex flex-wrap gap-3 lg:gap-4 text-xs sm:text-sm leading-none">
-              {phoneNumber && (
-                <li className="flex items-center gap-1.5">
-                  <i className="fas fa-phone-alt text-[10px]"></i>
-                  <a href={`tel:${phoneNumber}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    {phoneNumber}
-                  </a>
-                </li>
-              )}
-              {email && (
-                <li className="flex items-center gap-1.5">
-                  <i className="fas fa-envelope text-[10px]"></i>
-                  <a href={`mailto:${email}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    {email}
-                  </a>
-                </li>
-              )}
-              {address && (
-                <li className="flex items-center gap-1.5">
-                  <i className="fas fa-map-marker-alt text-[10px]"></i>
-                  <p className="leading-none m-0 font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>{address}</p>
-                </li>
-              )}
-            </ul>
-          </div>
-          
-          <ul className="flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3 items-center">
+        <div className="flex flex-wrap justify-between items-center gap-2 sm:gap-3">
+          {/* Social Media - Left side (mobile and desktop) */}
+          <ul className="flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3 items-center order-2">
             {facebook && (
               <li>
                 <a 
@@ -188,6 +121,82 @@ function Topbar() {
               </li>
             )}
           </ul>
+
+          {/* Contact Info - Right side */}
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 order-1">
+            {/* Mobile: Phone numbers from both clinics */}
+            <div className="flex md:hidden items-center gap-2 sm:gap-3 text-xs sm:text-sm leading-none flex-wrap">
+              {firstClinicPhone && (
+                <div className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${firstClinicPhone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {firstClinicPhone}
+                  </a>
+                </div>
+              )}
+              {secondClinicPhone && (
+                <>
+                  <span className="opacity-60">|</span>
+                  <div className="flex items-center gap-1.5">
+                    <i className="fas fa-phone-alt text-[10px]"></i>
+                    <a href={`tel:${secondClinicPhone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                      {secondClinicPhone}
+                    </a>
+                  </div>
+                </>
+              )}
+              {!firstClinicPhone && !secondClinicPhone && fallbackPhone && (
+                <div className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${fallbackPhone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {fallbackPhone}
+                  </a>
+                </div>
+              )}
+            </div>
+            
+            {/* Desktop: Phone numbers, Email, Address */}
+            <ul className="hidden md:flex flex-wrap gap-3 lg:gap-4 text-xs sm:text-sm leading-none items-center">
+              {firstClinicPhone && (
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${firstClinicPhone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {firstClinicPhone}
+                  </a>
+                </li>
+              )}
+              {secondClinicPhone && (
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${secondClinicPhone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {secondClinicPhone}
+                  </a>
+                </li>
+              )}
+              {!firstClinicPhone && !secondClinicPhone && fallbackPhone && (
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  <a href={`tel:${fallbackPhone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {fallbackPhone}
+                  </a>
+                </li>
+              )}
+              {email && (
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-envelope text-[10px]"></i>
+                  <a href={`mailto:${email}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                    {email}
+                  </a>
+                </li>
+              )}
+              {address && (
+                <li className="flex items-center gap-1.5">
+                  <i className="fas fa-map-marker-alt text-[10px]"></i>
+                  <p className="leading-none m-0 font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>{address}</p>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
