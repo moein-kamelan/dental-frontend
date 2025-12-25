@@ -11,6 +11,7 @@ import BlogDetailsHeader from "../../../components/templates/BlogDetails/BlogDet
 import BlogDetailsTagsAndShare from "../../../components/templates/BlogDetails/BlogDetailsTagsAndShare/BlogDetailsTagsAndShare";
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import { getImageUrl } from "../../../utils/helpers";
+import SEO from "../../../components/SEO/SEO";
 
 function BlogDetails() {
   const { slug } = useParams();
@@ -19,8 +20,26 @@ function BlogDetails() {
 
   if (isLoading) return <LoadingState text="در حال بارگذاری مقاله..." />;
 
+  const articleTitle = article?.data?.article?.title
+    ? `${article.data.article.title} - کلینیک دندانپزشکی تaha`
+    : "مقاله دندانپزشکی - کلینیک دندانپزشکی تaha";
+  const articleDescription = article?.data?.article?.content
+    ? article.data.article.content.replace(/<[^>]*>/g, "").substring(0, 160)
+    : "مقاله تخصصی در زمینه دندانپزشکی و سلامت دهان و دندان";
+
   return (
     <>
+      <SEO
+        title={articleTitle}
+        description={articleDescription}
+        keywords={`${article?.data?.article?.title}, مقالات دندانپزشکی, کلینیک تaha`}
+        image={article?.data?.article?.coverImage ? getImageUrl(article.data.article.coverImage) : undefined}
+        url={`/blog/${slug}`}
+        type="article"
+        author={article?.data?.article?.author?.firstName ? `${article.data.article.author.firstName} ${article.data.article.author.lastName}` : undefined}
+        publishedTime={article?.data?.article?.createdAt}
+        modifiedTime={article?.data?.article?.updatedAt}
+      />
       <Breadcrumb />
       <section className="pt-6 pb-12">
         <div className="container mx-auto px-4">

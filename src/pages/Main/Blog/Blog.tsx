@@ -6,6 +6,7 @@ import { useGetAllArticles } from "../../../services/useArticles";
 import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import SEO from "../../../components/SEO/SEO";
 import type { Article } from "../../../types/types";
 
 function Blog() {
@@ -41,6 +42,12 @@ function Blog() {
 
   return (
     <>
+      <SEO
+        title="مقالات و اخبار دندانپزشکی - کلینیک دندانپزشکی تaha"
+        description="مقالات و اخبار تخصصی در زمینه دندانپزشکی، مراقبت از دندان، درمان‌های جدید و اطلاعات مفید برای سلامت دهان و دندان"
+        keywords="مقالات دندانپزشکی, اخبار دندانپزشکی, مراقبت از دندان, سلامت دهان و دندان, مقالات کلینیک تaha"
+        url="/blog"
+      />
       <Breadcrumb searchForm={<SearchForm articles={articles} />} />
 
       <section className="pt-10 pb-20">

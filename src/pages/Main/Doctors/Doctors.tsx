@@ -7,6 +7,7 @@ import { useGetAllDoctors } from "../../../services/useDoctors";
 import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import SEO from "../../../components/SEO/SEO";
 import type { Doctor } from "../../../types/types";
 
 function Doctors() {
@@ -32,6 +33,12 @@ function Doctors() {
 
   return (
     <>
+      <SEO
+        title="لیست پزشکان - کلینیک دندانپزشکی تaha"
+        description="لیست کامل پزشکان و متخصصین کلینیک دندانپزشکی تaha. مشاهده پروفایل، تخصص و تجربه پزشکان ما"
+        keywords="دندانپزشک, لیست پزشکان, متخصص دندانپزشکی, پزشکان کلینیک تaha"
+        url="/doctors"
+      />
       <Breadcrumb searchForm={<SearchForm doctors={doctors} />} />
 
       <section className="pt-6 pb-12 md:pt-8 md:pb-16 lg:pt-10 lg:pb-20 bg-gradient-to-b from-gray-50/50 to-white">

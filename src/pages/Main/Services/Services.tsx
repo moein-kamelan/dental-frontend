@@ -6,6 +6,7 @@ import { useGetAllServices } from "../../../services/useServices";
 import MainPagination from "../../../components/modules/MainPagination/MainPagination";
 import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
+import SEO from "../../../components/SEO/SEO";
 import type { Service } from "../../../types/types";
 
 function Services() {
@@ -39,6 +40,12 @@ function Services() {
 
   return (
     <>
+      <SEO
+        title="خدمات دندانپزشکی - کلینیک دندانپزشکی تaha"
+        description="لیست کامل خدمات دندانپزشکی کلینیک تaha شامل: ایمپلنت، ارتودنسی، زیبایی دندان، لمینت، کامپوزیت و سایر خدمات تخصصی"
+        keywords="خدمات دندانپزشکی, ایمپلنت, ارتودنسی, زیبایی دندان, لمینت, کامپوزیت, خدمات کلینیک تaha"
+        url="/services"
+      />
       <Breadcrumb searchForm={<SearchForm services={services} />} />
 
       <section className="pt-10 pb-20">

@@ -1,9 +1,16 @@
 import React from 'react'
 import Breadcrumb from '../../../components/modules/Main/Breadcrumb/Breadcrumb'
+import SEO from '../../../components/SEO/SEO'
 
 function Gallery() {
   return (
     <>
+    <SEO
+      title="گالری تصاویر - کلینیک دندانپزشکی تaha"
+      description="گالری تصاویر کلینیک دندانپزشکی تaha - مشاهده تصاویر محیط کلینیک، تجهیزات و نمونه کارهای انجام شده"
+      keywords="گالری, تصاویر کلینیک, محیط کلینیک, تجهیزات دندانپزشکی, کلینیک تaha"
+      url="/gallery"
+    />
     <Breadcrumb/>
 
        <section className="pt-6 pb-12">

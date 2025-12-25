@@ -4,6 +4,7 @@ import ReviewForm from "../../../components/templates/Main/AboutUs/ReviewForm/Re
 import { useGetAllClinics } from "../../../services/useClinics";
 import ClinicMap from "../../../components/templates/Main/AboutUs/GoogleMap/ClinicMap";
 import ContactMessageForm from "../../../components/templates/Main/AboutUs/ContactForm/ContactMessageForm";
+import SEO from "../../../components/SEO/SEO";
 import type { Clinic } from "../../../types/types";
 
 function Contact() {
@@ -12,6 +13,12 @@ function Contact() {
 
   return (
     <>
+      <SEO
+        title="تماس با ما - کلینیک دندانپزشکی تaha"
+        description="تماس با کلینیک دندانپزشکی تaha - آدرس، شماره تماس، ایمیل و موقعیت کلینیک‌های ما. برای دریافت نوبت و مشاوره با ما تماس بگیرید"
+        keywords="تماس با ما, آدرس کلینیک, شماره تماس, موقعیت کلینیک, کلینیک تaha"
+        url="/contact"
+      />
       <Breadcrumb />
       
       {/* Main Content: Maps and Contact Form */}

@@ -3,6 +3,7 @@ import FAQItem from "../../../components/modules/Main/FAQItem/FAQItem";
 import FaqContent from "../../../components/templates/Main/Faq/FaqContent/FaqContent";
 import FaqForm from "../../../components/templates/Main/Faq/FaqFrom/FaqForm";
 import { useGetAllFaqs } from "../../../services/useFaqs";
+import SEO from "../../../components/SEO/SEO";
 
 interface FaqType {
   id: string;
@@ -14,6 +15,12 @@ function FAQ() {
   const { data: faqs } = useGetAllFaqs(1, 10, true);
   return (
     <>
+      <SEO
+        title="سوالات متداول (FAQ) - کلینیک دندانپزشکی تaha"
+        description="پاسخ به سوالات متداول در مورد خدمات دندانپزشکی، نوبت‌دهی، هزینه‌ها و سایر سوالات رایج در کلینیک دندانپزشکی تaha"
+        keywords="سوالات متداول, FAQ, پرسش و پاسخ, سوالات دندانپزشکی, کلینیک تaha"
+        url="/faq"
+      />
       <Breadcrumb />
 
       <section className="pt-10 pb-20">

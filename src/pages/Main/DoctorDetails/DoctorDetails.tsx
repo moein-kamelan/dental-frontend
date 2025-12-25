@@ -10,6 +10,7 @@ import { translateDayName, getImageUrl } from "../../../utils/helpers";
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 import { useAppointmentModal } from "../../../contexts/useAppointmentModal";
+import SEO from "../../../components/SEO/SEO";
 
 function DoctorDetails() {
   const { slug } = useParams();
@@ -53,8 +54,26 @@ function DoctorDetails() {
 
   if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات دکتر..." />;
 
+  const doctorName = doctorData
+    ? `${doctorData.firstName} ${doctorData.lastName}`
+    : "";
+  const doctorTitle = doctorData
+    ? `دکتر ${doctorName} - کلینیک دندانپزشکی تaha`
+    : "پروفایل پزشک - کلینیک دندانپزشکی تaha";
+  const doctorDescription = doctorData
+    ? `پروفایل دکتر ${doctorName} - ${doctorData.university || ""} - ${doctorData.skills?.join(", ") || ""}. مشاهده ساعات کاری و دریافت نوبت`
+    : "پروفایل پزشک کلینیک دندانپزشکی تaha";
+
   return (
     <>
+      <SEO
+        title={doctorTitle}
+        description={doctorDescription}
+        keywords={`دکتر ${doctorName}, دندانپزشک, ${doctorData?.skills?.join(", ") || ""}, کلینیک تaha`}
+        image={doctorData?.profileImage ? getImageUrl(doctorData.profileImage) : undefined}
+        url={`/doctors/${slug}`}
+        type="profile"
+      />
       <Breadcrumb />
 
       <section className="pt-6 pb-24 md:pt-8 md:pb-16 bg-white lg:pb-16">
