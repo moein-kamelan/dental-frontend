@@ -116,8 +116,7 @@ function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${social.useImage ? 'w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity duration-300' : `w-9 h-9 rounded-lg ${social.bgColor} ${social.hoverColor} text-white flex items-center justify-center transition-all duration-300 shadow-md`}`}
-                    whileHover={social.useImage ? { scale: 1.1 } : { scale: 1.1, y: -3 }}
+                    className={`${social.useImage ? 'w-7 h-7 flex items-center justify-center hover:opacity-80 transition-opacity duration-300' : `w-7 h-7 rounded-lg ${social.bgColor} ${social.hoverColor} text-white flex items-center justify-center transition-all duration-300 shadow-md`}`}
                     whileTap={{ scale: 0.95 }}
                     aria-label={social.name}
                   >
@@ -125,13 +124,13 @@ function Footer() {
                       <img
                         src={social.imagePath}
                         alt={social.name}
-                        width={36}
-                        height={36}
+                        width={28}
+                        height={28}
                         loading="lazy"
-                        className="w-9 h-9 object-contain"
+                        className="w-7 h-7 object-contain"
                       />
                     ) : (
-                    <i className={`${social.icon} text-sm`}></i>
+                    <i className={`${social.icon} text-xs`}></i>
                     )}
                   </motion.a>
                 ))}
