@@ -180,11 +180,11 @@ function AboutUsSection() {
                 href="https://goftino.com/c/bpADrN"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 bg-gradient-to-r from-accent to-primary text-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="flex items-center justify-center gap-3 bg-gradient-to-r from-accent to-primary text-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300"
                 style={{ fontFamily: 'var(--font-vazir)' }}
               >
                 <i className="fas fa-comments text-xl"></i>
-                <span className="font-estedad-semibold text-base">ارتباط با ما از طریق گفتینو</span>
+                <span className="font-estedad-semibold text-base">مشاوره آنلاین رایگان</span>
                 <i className="fas fa-external-link-alt text-sm"></i>
               </a>
             </motion.div>
@@ -216,29 +216,28 @@ function AboutUsSection() {
             </motion.div>
 
             {insurances.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
                 {insurances.map((insurance: InsuranceOrganization, index: number) => (
                   <motion.div
                     key={insurance.id}
-                    className="bg-white rounded-xl p-4 md:p-6 shadow-md border border-gray-100 hover:shadow-lg hover:border-accent/30 transition-all duration-300 flex flex-col items-center justify-center min-h-[120px]"
+                    className="bg-white rounded-xl p-3 md:p-4 shadow-md border border-gray-100 hover:shadow-lg hover:border-accent/30 transition-all duration-300 flex flex-col items-center justify-center min-h-[100px]"
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.05 }}
                   >
                     {insurance.logo ? (
                       <img
                         src={getImageUrl(insurance.logo)}
                         alt={insurance.name}
-                        className="max-w-full max-h-16 object-contain mb-2"
+                        className="max-w-full max-h-12 object-contain mb-2"
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mb-2">
-                        <i className="fas fa-shield-alt text-gray-400 text-2xl"></i>
+                      <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-2">
+                        <i className="fas fa-shield-alt text-gray-400 text-xl"></i>
                       </div>
                     )}
-                    <h3 className="text-sm md:text-base font-estedad-semibold text-dark text-center mt-2">
+                    <h3 className="text-xs md:text-sm font-estedad-semibold text-dark text-center mt-2">
                       {insurance.name}
                     </h3>
                   </motion.div>
