@@ -7,14 +7,27 @@ function SearchForm({services, doctors, articles}: {services?: {data: {services:
     const navigate = useNavigate();
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const searchTerm = search.trim();
         if (services) {
-          navigate(`/services?page=1&limit=9&search=${search}`);
+          if (searchTerm) {
+            navigate(`/services?page=1&limit=9&search=${encodeURIComponent(searchTerm)}`);
+          } else {
+            navigate(`/services?page=1&limit=9`);
+          }
         }
         if (doctors) {
-          navigate(`/doctors?page=1&limit=8&search=${search}`);
+          if (searchTerm) {
+            navigate(`/doctors?page=1&limit=8&search=${encodeURIComponent(searchTerm)}`);
+          } else {
+            navigate(`/doctors?page=1&limit=8`);
+          }
         }
         if (articles) {
-          navigate(`/blog?page=1&limit=9&search=${search}`);
+          if (searchTerm) {
+            navigate(`/blog?page=1&limit=9&search=${encodeURIComponent(searchTerm)}`);
+          } else {
+            navigate(`/blog?page=1&limit=9`);
+          }
         }
     }
     return (

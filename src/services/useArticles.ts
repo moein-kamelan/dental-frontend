@@ -23,8 +23,11 @@ export const useGetAllArticles = (
       const params = new URLSearchParams({
         page: page.toString(),
         limit: limit.toString(),
-        search: search,
       });
+
+      if (search && search.trim()) {
+        params.append("search", search.trim());
+      }
 
       if (published !== "") {
         params.append("published", published.toString());

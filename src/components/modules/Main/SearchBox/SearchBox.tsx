@@ -6,11 +6,20 @@ function SearchBox({ isServiceCategory , isArticleCategory }: { isServiceCategor
   const [search, setSearch] = useState<string>('');
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const searchTerm = search.trim();
     if (isServiceCategory) {
-      navigate(`/services?search=${search}`);
+      if (searchTerm) {
+        navigate(`/services?search=${encodeURIComponent(searchTerm)}`);
+      } else {
+        navigate(`/services`);
+      }
     }
     if (isArticleCategory) {
-      navigate(`/blog?search=${search}`);
+      if (searchTerm) {
+        navigate(`/blog?search=${encodeURIComponent(searchTerm)}`);
+      } else {
+        navigate(`/blog`);
+      }
     }
   }
   return (
