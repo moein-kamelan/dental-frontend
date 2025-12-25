@@ -6,7 +6,6 @@ Disallow: /dashboard
 Disallow: /api
 
 # Sitemap - Dynamic sitemap generated from backend
-# Replace 'yourdomain.com' with your actual domain
 # The sitemap is generated dynamically and includes all doctors, services, and articles
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://tahadentalclinic.ir/sitemap.xml
 
