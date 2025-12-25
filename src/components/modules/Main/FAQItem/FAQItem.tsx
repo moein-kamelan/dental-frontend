@@ -16,7 +16,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
         whileTap={{ scale: 0.98 }}
       >
         <div className="flex items-center justify-between gap-4">
-          <h3 className="font-estedad-semibold text-dark text-base md:text-lg flex-1">
+          <h3 className="font-estedad-semibold text-dark text-base md:text-lg flex-1 line-clamp-1">
                             {question}
           </h3>
           <motion.div
@@ -38,7 +38,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="px-5 md:px-6 pb-5 md:pb-6 pt-0 border-t border-gray-100">
+            <div className="px-5 md:px-6 py-5 md:py-6  border-t border-gray-100">
               <p className="text-paragray font-estedad-light leading-relaxed text-justify">
                             {answer}
               </p>
