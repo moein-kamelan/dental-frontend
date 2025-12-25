@@ -114,10 +114,11 @@ function DoctorCard({ doctor }: DoctorCardProps) {
           {doctor.isAppointmentEnabled ? (
             <button
               onClick={handleBookAppointment}
-              className="w-full bg-accent text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-accent/90 transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-sm"
+              className="w-full bg-accent text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-secondary transition-all duration-200 flex items-center justify-center text-sm shadow-sm group/button relative overflow-hidden"
               style={{ fontFamily: 'var(--font-vazir)' }}
             >
-            <span>نوبت بگیرید</span>
+            <span className="group-hover/button:mr-2 transition-all duration-200">نوبت بگیرید</span>
+            <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/button:opacity-100 group-hover/button:translate-x-0 -translate-x-2 transition-all duration-200"></i>
             </button>
           ) : (
             <div className="w-full bg-gray-50 text-gray-400 py-2.5 px-4 rounded-lg font-medium text-center cursor-not-allowed text-sm" style={{ fontFamily: 'var(--font-vazir)' }}>

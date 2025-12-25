@@ -486,6 +486,47 @@ button {
   padding-left: 2.5rem;
 }
 
+/* Custom hover effect for appointment buttons */
+.main-btn.group\/btn {
+  @apply bg-accent;
+  background: var(--color-accent) !important;
+  transform: scale(1) !important;
+  scale: 1 !important;
+  transition: background-color 0.2s ease !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  padding-right: 2.5rem !important;
+  padding-left: 2.5rem !important;
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+}
+
+.main-btn.group\/btn:hover {
+  @apply bg-secondary;
+  background: var(--color-secondary) !important;
+  transform: scale(1) !important;
+  scale: 1 !important;
+  padding-right: 2.5rem !important;
+  padding-left: 2.5rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+}
+
+.main-btn.group\/btn:active {
+  transform: scale(1) !important;
+  scale: 1 !important;
+}
+
+.main-btn.group\/btn::after {
+  display: none !important;
+}
+
+.main-btn.group\/btn::before {
+  display: none !important;
+}
+
 @utility main-header {
   font-family: var(--font-vazir);
   @apply text-2xl relative font-bold text-dark pb-2.5 border-b-2 border-[#18181817] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
