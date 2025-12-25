@@ -83,40 +83,10 @@ function Profile() {
           </div>
         </div>
 
-        {/* Profile Content - 2 Column Grid */}
+        {/* Profile Content - 2 Column Grid (Mobile: 2x2, Desktop: 2 columns) */}
         <div className="p-4">
-          <div className="grid md:grid-cols-2 gap-3">
-            {/* Name */}
-            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="flex items-center justify-center w-8 h-8 bg-accent/10 rounded-lg shrink-0">
-                <i className="fas fa-user text-accent text-xs"></i>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-gray-500 mb-0.5" style={{ fontFamily: 'var(--font-vazir)' }}>
-                  نام و نام خانوادگی
-                </p>
-                <p className="text-sm font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
-                  {user?.firstName} {user?.lastName}
-                </p>
-              </div>
-            </div>
-
-            {/* National Code */}
-            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg shrink-0">
-                <i className="fas fa-id-card text-primary text-xs"></i>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-gray-500 mb-0.5" style={{ fontFamily: 'var(--font-vazir)' }}>
-                  کد ملی
-                </p>
-                <p className="text-sm font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
-                  {user?.nationalCode || <span className="text-gray-400 font-normal">ثبت نشده</span>}
-                </p>
-              </div>
-            </div>
-
-            {/* Gender */}
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
+            {/* Gender - Top Right */}
             <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="flex items-center justify-center w-8 h-8 bg-secondary/10 rounded-lg shrink-0">
                 <i className={`fas ${user?.gender === "FEMALE" ? "fa-venus" : "fa-mars"} text-secondary text-xs`}></i>
@@ -131,7 +101,22 @@ function Profile() {
               </div>
             </div>
 
-            {/* Phone Number */}
+            {/* Name - Top Left */}
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex items-center justify-center w-8 h-8 bg-accent/10 rounded-lg shrink-0">
+                <i className="fas fa-user text-accent text-xs"></i>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-500 mb-0.5" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  نام و نام خانوادگی
+                </p>
+                <p className="text-sm font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  {user?.firstName} {user?.lastName}
+                </p>
+              </div>
+            </div>
+
+            {/* Phone Number - Bottom Right */}
             <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="flex items-center justify-center w-8 h-8 bg-accent/10 rounded-lg shrink-0">
                 <i className="fas fa-phone text-accent text-xs"></i>
@@ -142,6 +127,21 @@ function Profile() {
                 </p>
                 <p className="text-sm font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
                   {user?.phoneNumber || <span className="text-gray-400 font-normal">ثبت نشده</span>}
+                </p>
+              </div>
+            </div>
+
+            {/* National Code - Bottom Left */}
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg shrink-0">
+                <i className="fas fa-id-card text-primary text-xs"></i>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-500 mb-0.5" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  کد ملی
+                </p>
+                <p className="text-sm font-semibold text-dark" style={{ fontFamily: 'var(--font-vazir)' }}>
+                  {user?.nationalCode || <span className="text-gray-400 font-normal">ثبت نشده</span>}
                 </p>
               </div>
             </div>
