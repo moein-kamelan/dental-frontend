@@ -224,12 +224,13 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       openModal();
                       onClose();
                     }}
-                    className="main-btn no-hover-effect flex items-center justify-center gap-2 w-full text-sm sm:text-base py-2.5 sm:py-3"
+                    className="main-btn group/btn relative flex items-center justify-center w-full text-sm sm:text-base py-2.5 sm:py-3"
                   >
-                    <div className="flex items-center justify-center">
+                    <span className="flex items-center gap-2 group-hover/btn:translate-x-1 transition-all duration-200">
                       <i className="fas fa-user"></i>
-                    </div>
-                    <span>ورود / ثبت نام</span>
+                      <span>ورود / ثبت نام</span>
+                    </span>
+                    <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm text-white"></i>
                   </button>
                 </div>
               )}
@@ -352,9 +353,10 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     openAppointmentModal();
                     onClose();
                   }}
-                  className="main-btn no-hover-effect block text-center w-full text-sm sm:text-base py-2.5 sm:py-3"
+                  className="main-btn group/btn relative flex items-center justify-center w-full text-sm sm:text-base py-2.5 sm:py-3"
                 >
-                  دریافت نوبت
+                  <span className="group-hover/btn:translate-x-1 transition-all duration-200">دریافت نوبت</span>
+                  <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm text-white"></i>
                 </button>
               </div>
             </div>

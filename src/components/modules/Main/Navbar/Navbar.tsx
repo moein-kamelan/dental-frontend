@@ -300,10 +300,13 @@ function Navbar() {
               ) : (
                 <button
                   onClick={openModal}
-                  className="main-btn no-hover-effect flex items-center gap-2 text-nowrap lg:text-xs xl:text-sm"
+                  className="main-btn group/btn relative flex items-center justify-center lg:text-xs xl:text-sm text-nowrap"
                 >
-                  <i className="fas fa-user"></i>
-                  <span>ورود / ثبت نام</span>
+                  <span className="flex items-center gap-2 group-hover/btn:translate-x-1 transition-all duration-200">
+                    <i className="fas fa-user"></i>
+                    <span>ورود / ثبت نام</span>
+                  </span>
+                  <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm text-white"></i>
                 </button>
               )}
             </div>

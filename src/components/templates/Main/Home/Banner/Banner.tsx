@@ -84,7 +84,7 @@ function Banner() {
             </p>
             <button
               onClick={() => openAppointmentModal()}
-              className="main-btn group/btn relative flex items-center justify-center lg:text-xs xl:text-sm text-nowrap"
+              className="main-btn group/btn relative flex items-center justify-center lg:text-xs xl:text-sm text-nowrap max-md:mx-auto"
             >
               <span className="group-hover/btn:translate-x-1 transition-all duration-200">دریافت نوبت</span>
               <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm"></i>
