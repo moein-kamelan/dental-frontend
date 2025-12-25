@@ -220,15 +220,15 @@ function ContactMessageForm() {
 
               <button
                 type="submit"
-                className="main-btn no-hover-effect mt-6 col-span-2 justify-self-end flex items-center gap-2"
+                className="main-btn group/btn relative flex items-center justify-center mt-6 col-span-2 justify-self-end"
                 disabled={isPending}
               >
                 {isPending ? (
                   <div className="btn-loader"></div>
                 ) : (
                   <>
-                    <span>ارسال پیام</span>
-                    <i className="fas fa-arrow-left"></i>
+                    <span className="group-hover/btn:translate-x-1 transition-all duration-200">ارسال پیام</span>
+                    <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm"></i>
                   </>
                 )}
               </button>

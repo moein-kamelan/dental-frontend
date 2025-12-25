@@ -370,8 +370,9 @@ function BecomeDoctorForm({ applicationType = "DENTIST" }: BecomeDoctorFormProps
                     </a>
                   </label>
                 </div> */}
-                <button type="submit" className="main-btn">
-                  ارسال درخواست
+                <button type="submit" className="main-btn group/btn relative flex items-center justify-center">
+                  <span className="group-hover/btn:translate-x-1 transition-all duration-200">ارسال درخواست</span>
+                  <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm"></i>
                 </button>
               </div>
             </form>

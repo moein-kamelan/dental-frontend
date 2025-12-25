@@ -81,10 +81,10 @@ function ClinicMap({ clinic }: ClinicProps) {
                 href={`https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 w-full main-btn no-hover-effect flex items-center justify-center gap-2"
+                className="mt-3 w-full main-btn group/btn relative flex items-center justify-center"
               >
-                <span>مسیریابی روی نقشه</span>
-                <i className="fas fa-arrow-left"></i>
+                <span className="group-hover/btn:translate-x-1 transition-all duration-200">مسیریابی روی نقشه</span>
+                <i className="fas fa-route absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm"></i>
               </a>
             </div>
           )}
