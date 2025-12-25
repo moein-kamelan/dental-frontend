@@ -55,18 +55,18 @@ export function PatientInfoStep({
       transition={{ duration: 0.15, ease: "easeOut" }}
     >
       {/* گزینه انتخاب: برای خودم یا برای کسی دیگر */}
-      <div className="mb-6 flex flex-col items-center gap-4">
-        <p className="text-2xl font-estedad-medium text-dark text-center leading-relaxed">
+      <div className="mb-5 flex flex-col items-center gap-4">
+        <p className="text-xl font-estedad-medium text-dark text-center leading-relaxed">
           نوبت برای چه کسی رزرو می‌شود؟
         </p>
         <div className="flex max-sm:gap-6 gap-4 max-md:justify-between items-center flex-wrap max-sm:w-full">
           <button
             type="button"
             onClick={() => handleIsForSelfClick(true)}
-            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center ${
+            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center border-2 border-gray-300 ${
               isForSelf === true
                 ? "bg-accent text-white shadow-md"
-                : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+                : "bg-white text-dark  hover:border-gray-400 hover:bg-gray-50"
             }`}
           >
             <i className="fas fa-user text-lg"></i>
@@ -86,10 +86,10 @@ export function PatientInfoStep({
           <button
             type="button"
             onClick={() => handleIsForSelfClick(false)}
-            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center ${
+            className={`px-4 sm:px-8 py-3 rounded-full text-sm sm:text-lg font-estedad-medium transition-all duration-300 flex items-center gap-2 grow justify-center border-2 border-gray-300 ${
               isForSelf === false
                 ? "bg-accent text-white shadow-md"
-                : "bg-white text-dark border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+                : "bg-white text-dark  hover:border-gray-400 hover:bg-gray-50"
             }`}
           >
             <i className="fas fa-user-friends text-lg"></i>
@@ -160,7 +160,7 @@ export function PatientInfoStep({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="flex-1 flex flex-col gap-4"
+          className="flex-1 flex flex-col gap-2"
         >
           {/* نام و نام خانوادگی و کد ملی - فقط برای کسی دیگر */}
           {isForSelf === false && (
