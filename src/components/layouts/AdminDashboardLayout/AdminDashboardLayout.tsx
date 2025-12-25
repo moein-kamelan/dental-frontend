@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import AdminDashBaordHeader from "../../modules/AdminDashboard/AdminDashBaordHeader/AdminDashBaordHeader";
 import AdminDashboardSidebar from "../../modules/AdminDashboard/AdminDashboardSidebar/AdminDashboardSidebar";
 import { Outlet } from "react-router-dom";
@@ -21,6 +22,90 @@ function AdminDashboardLayout() {
 
 function AdminDashboardLayoutContent() {
   const { isSidebarOpen, toggleSidebar } = useAdminDashboardHeader();
+
+  // مخفی کردن ویجت چت آنلاین در پنل ادمین
+  useEffect(() => {
+    let goftinoWidget: HTMLElement | null = null;
+
+    const findGoftinoWidget = (): HTMLElement | null => {
+      const selectors = [
+        '[id*="goftino"]',
+        '[class*="goftino"]',
+        'iframe[src*="goftino"]',
+        'div[style*="position: fixed"][style*="bottom"][style*="right"]',
+        'div[style*="position:fixed"][style*="bottom"][style*="right"]',
+      ];
+
+      for (const selector of selectors) {
+        const element = document.querySelector(selector) as HTMLElement;
+        if (element) {
+          return element;
+        }
+      }
+
+      return null;
+    };
+
+    const hideGoftinoWidget = () => {
+      if (!goftinoWidget) {
+        goftinoWidget = findGoftinoWidget();
+      }
+
+      if (goftinoWidget) {
+        goftinoWidget.style.display = "none";
+        goftinoWidget.style.opacity = "0";
+        goftinoWidget.style.pointerEvents = "none";
+        goftinoWidget.style.visibility = "hidden";
+      }
+    };
+
+    // بررسی اولیه با تاخیر برای اطمینان از لود شدن ابزارک
+    let checkInterval: NodeJS.Timeout | null = null;
+    let attempts = 0;
+    const maxAttempts = 20; // 10 ثانیه (20 * 500ms)
+
+    const startChecking = () => {
+      checkInterval = setInterval(() => {
+        attempts++;
+        hideGoftinoWidget();
+        
+        if (goftinoWidget || attempts >= maxAttempts) {
+          if (checkInterval) {
+            clearInterval(checkInterval);
+            checkInterval = null;
+          }
+        }
+      }, 500);
+    };
+
+    // استفاده از MutationObserver برای مشاهده تغییرات DOM
+    const observer = new MutationObserver(() => {
+      hideGoftinoWidget();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    startChecking();
+    hideGoftinoWidget();
+
+    return () => {
+      if (checkInterval) {
+        clearInterval(checkInterval);
+      }
+      observer.disconnect();
+      
+      // نمایش مجدد ویجت هنگام خروج از پنل ادمین
+      if (goftinoWidget) {
+        goftinoWidget.style.display = "";
+        goftinoWidget.style.opacity = "";
+        goftinoWidget.style.pointerEvents = "";
+        goftinoWidget.style.visibility = "";
+      }
+    };
+  }, []);
 
   return (
     <div className="transition-colors duration-200 font-estedad-medium">

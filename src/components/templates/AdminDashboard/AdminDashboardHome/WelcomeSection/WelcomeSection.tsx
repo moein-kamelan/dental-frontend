@@ -23,7 +23,7 @@ function WelcomeSection() {
         )}
       </div>
       <div className="hidden md:block">
-        <i className="fas fa-rocket text-6xl text-white/40"></i>
+        <i className="fas fa-tooth text-6xl text-white/40"></i>
       </div>
     </div>
   </div>
