@@ -27,7 +27,7 @@ function Profile() {
         <h2 className="text-base font-bold text-dark mb-2" style={{ fontFamily: 'var(--font-vazir)' }}>
           آمار نوبت‌ها
         </h2>
-        <div className="grid grid-cols-1  sm:grid-cols-3 gap-2 ">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
           <StatItem 
             title="تأیید شده"
             value={isLoadingStats ? 0 : stats.approved}
