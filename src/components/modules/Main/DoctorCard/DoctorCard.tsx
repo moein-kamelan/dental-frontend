@@ -39,7 +39,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
   return (
     <motion.div
       onClick={handleCardClick}
-      className="group/card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 hover:border-gray-200 flex flex-col w-[324px]"
+      className="group/card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 hover:border-gray-200 flex flex-col w-full sm:w-[324px]"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
