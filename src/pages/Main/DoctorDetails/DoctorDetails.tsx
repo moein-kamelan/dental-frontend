@@ -52,7 +52,7 @@ function DoctorDetails() {
     };
   }, [doctorData?.isAppointmentEnabled]);
 
-  if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات دکتر..." />;
+  if (isLoading) return <LoadingState text="در حال بارگذاری جزئیات پزشک..." />;
 
   const doctorName = doctorData
     ? `${doctorData.firstName} ${doctorData.lastName}`
@@ -312,7 +312,7 @@ function DoctorDetails() {
                     دریافت نوبت
                         </h3>
                         <p className="text-white/80 text-sm leading-relaxed" style={{ fontFamily: 'var(--font-vazir)' }}>
-                          برای دریافت نوبت اینجا کلیک کنید
+                          برای دریافت نوبت با این پزشک، اینجا کلیک کنید
                         </p>
                       </div>
                       <motion.button
@@ -322,7 +322,6 @@ function DoctorDetails() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                     >
-                        <i className="fas fa-calendar-check text-sm"></i>
                         <span>دریافت نوبت</span>
                       </motion.button>
                 </div>

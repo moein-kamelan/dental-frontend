@@ -32,7 +32,7 @@ const routeLabels: Record<string, string> = {
   auth: "احراز هویت",
   "sign-in": "ورود",
   "sign-up": "ثبت نام",
-  "doctors/:slug": "جزئیات دکتر",
+  "doctors/:slug": "جزئیات پزشک",
   "services/:slug": "جزئیات خدمات",
   "blog/:slug": "جزئیات وبلاگ",
 };
