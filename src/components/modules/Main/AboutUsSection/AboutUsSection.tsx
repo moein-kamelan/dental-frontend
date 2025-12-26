@@ -177,7 +177,7 @@ function AboutUsSection() {
               className="mt-6"
             >
               <a
-                href="https://goftino.com/c/bpADrN"
+                href="https://goftino.com/c/azYBvB"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 bg-gradient-to-r from-accent to-primary text-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300"
