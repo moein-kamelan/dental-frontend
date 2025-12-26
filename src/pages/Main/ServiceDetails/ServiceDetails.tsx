@@ -10,6 +10,7 @@ import LoadingState from "../../../components/modules/Main/LoadingState/LoadingS
 import { useGetServiceByIdentifier } from "../../../services/useServices";
 import { getImageUrl } from "../../../utils/helpers";
 import SEO from "../../../components/SEO/SEO";
+import { generateServiceSchema } from "../../../utils/structuredData";
 function ServiceDetails() {
   const { slug } = useParams();
   const { data: service, isLoading } = useGetServiceByIdentifier(
@@ -26,6 +27,21 @@ function ServiceDetails() {
     ? service.data.service.description.replace(/<[^>]*>/g, "").substring(0, 160)
     : "خدمات تخصصی دندانپزشکی در کلینیک طاها";
 
+  // Structured Data for Service
+  const siteUrl = import.meta.env.VITE_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "");
+  const serviceSchema = service?.data?.service ? generateServiceSchema({
+    name: service.data.service.title,
+    description: serviceDescription,
+    image: service.data.service.coverImage ? getImageUrl(service.data.service.coverImage) : undefined,
+    url: `${siteUrl}/services/${slug}`,
+    provider: {
+      name: "کلینیک دندان پزشکی طاها",
+      url: `${siteUrl}/home`,
+    },
+    areaServed: "ایران",
+    serviceType: "خدمات دندانپزشکی",
+  }) : undefined;
+
   return (
     <>
       <SEO
@@ -34,6 +50,7 @@ function ServiceDetails() {
         keywords={`${service?.data?.service?.title}, خدمات دندانپزشکی, کلینیک طاها`}
         image={service?.data?.service?.coverImage ? getImageUrl(service.data.service.coverImage) : undefined}
         url={`/services/${slug}`}
+        structuredData={serviceSchema}
       />
       <Breadcrumb />
 

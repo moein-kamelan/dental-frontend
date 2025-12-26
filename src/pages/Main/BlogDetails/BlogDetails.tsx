@@ -12,6 +12,7 @@ import BlogDetailsTagsAndShare from "../../../components/templates/BlogDetails/B
 import Breadcrumb from "../../../components/modules/Main/Breadcrumb/Breadcrumb";
 import { getImageUrl } from "../../../utils/helpers";
 import SEO from "../../../components/SEO/SEO";
+import { generateArticleSchema } from "../../../utils/structuredData";
 
 function BlogDetails() {
   const { slug } = useParams();
@@ -27,6 +28,29 @@ function BlogDetails() {
     ? article.data.article.content.replace(/<[^>]*>/g, "").substring(0, 160)
     : "مقاله تخصصی در زمینه دندانپزشکی و سلامت دهان و دندان";
 
+  // Structured Data for Article
+  const siteUrl = import.meta.env.VITE_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "");
+  const articleSchema = article?.data?.article ? generateArticleSchema({
+    headline: article.data.article.title,
+    description: articleDescription,
+    image: article.data.article.coverImage ? getImageUrl(article.data.article.coverImage) : undefined,
+    datePublished: article.data.article.createdAt,
+    dateModified: article.data.article.updatedAt,
+    author: {
+      name: article.data.article.author?.firstName && article.data.article.author?.lastName
+        ? `${article.data.article.author.firstName} ${article.data.article.author.lastName}`
+        : "کلینیک دندان پزشکی طاها",
+    },
+    publisher: {
+      name: "کلینیک دندان پزشکی طاها",
+      logo: {
+        url: `${siteUrl}/images/logo.png`,
+        width: 200,
+        height: 200,
+      },
+    },
+  }) : undefined;
+
   return (
     <>
       <SEO
@@ -39,6 +63,7 @@ function BlogDetails() {
         author={article?.data?.article?.author?.firstName ? `${article.data.article.author.firstName} ${article.data.article.author.lastName}` : undefined}
         publishedTime={article?.data?.article?.createdAt}
         modifiedTime={article?.data?.article?.updatedAt}
+        structuredData={articleSchema}
       />
       <Breadcrumb />
       <section className="pt-6 pb-12">

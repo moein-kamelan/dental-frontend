@@ -11,6 +11,7 @@ import CommentForm from "../../../components/modules/Main/CommentForm/CommentFor
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 import { useAppointmentModal } from "../../../contexts/useAppointmentModal";
 import SEO from "../../../components/SEO/SEO";
+import { generateDoctorSchema } from "../../../utils/structuredData";
 
 function DoctorDetails() {
   const { slug } = useParams();
@@ -64,6 +65,21 @@ function DoctorDetails() {
     ? `پروفایل دکتر ${doctorName} - ${doctorData.university || ""} - ${doctorData.skills?.join(", ") || ""}. مشاهده ساعات کاری و دریافت نوبت`
     : "پروفایل پزشک کلینیک دندان پزشکی طاها";
 
+  // Structured Data for Doctor
+  const siteUrl = import.meta.env.VITE_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "");
+  const doctorSchema = doctorData ? generateDoctorSchema({
+    name: doctorName,
+    jobTitle: "دندانپزشک",
+    description: doctorDescription,
+    image: doctorData.profileImage ? getImageUrl(doctorData.profileImage) : undefined,
+    url: `${siteUrl}/doctors/${slug}`,
+    worksFor: {
+      name: "کلینیک دندان پزشکی طاها",
+      url: `${siteUrl}/home`,
+    },
+    specialty: doctorData.skills || [],
+  }) : undefined;
+
   return (
     <>
       <SEO
@@ -73,6 +89,7 @@ function DoctorDetails() {
         image={doctorData?.profileImage ? getImageUrl(doctorData.profileImage) : undefined}
         url={`/doctors/${slug}`}
         type="profile"
+        structuredData={doctorSchema}
       />
       <Breadcrumb />
 
