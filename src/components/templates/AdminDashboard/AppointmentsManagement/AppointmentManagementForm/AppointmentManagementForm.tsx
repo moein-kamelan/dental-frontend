@@ -402,7 +402,7 @@ function AppointmentManagementForm({
                     onChange={(value) => {
                       setFieldValue("jalaliDate", value);
                     }}
-                    onBlur={handleBlur}
+                    onBlur={() => handleBlur("jalaliDate")}
                     placeholder="تاریخ را انتخاب کنید"
                     name="jalaliDate"
                     required

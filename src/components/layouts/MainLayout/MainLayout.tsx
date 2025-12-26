@@ -56,7 +56,7 @@ function MainLayout() {
     };
 
     // بررسی اولیه با تاخیر برای اطمینان از لود شدن ابزارک
-    let checkInterval: NodeJS.Timeout | null = null;
+    let checkInterval: ReturnType<typeof setInterval> | null = null;
     let attempts = 0;
     const maxAttempts = 20; // 10 ثانیه (20 * 500ms)
 

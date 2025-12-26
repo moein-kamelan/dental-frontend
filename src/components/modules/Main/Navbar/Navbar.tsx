@@ -170,7 +170,7 @@ function Navbar() {
           <div className="hidden lg:flex items-center gap-8">
             <div className="flex items-center gap-4">
               <button
-                onClick={openAppointmentModal}
+                onClick={() => openAppointmentModal()}
                 className="main-btn group/btn relative flex items-center justify-center lg:text-xs xl:text-sm text-nowrap"
               >
                 <span className="group-hover/btn:translate-x-1 transition-all duration-200">دریافت نوبت</span>

@@ -232,8 +232,9 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
             }
           ).catch(() => {});
           // #endregion
-        } catch (error) {
+        } catch (error: unknown) {
           // #region agent log
+          const errorObj = error as { message?: string; response?: { data?: unknown } };
           fetch(
             "http://127.0.0.1:7242/ingest/c5282bb0-1a44-499c-bce8-9a51f667292e",
             {
@@ -244,8 +245,8 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                 message: "After updateClinic response - ERROR",
                 data: {
                   clinicId: clinic.id,
-                  error: error?.message,
-                  errorResponse: error?.response?.data,
+                  error: errorObj?.message,
+                  errorResponse: errorObj?.response?.data,
                 },
                 timestamp: Date.now(),
                 sessionId: "debug-session",

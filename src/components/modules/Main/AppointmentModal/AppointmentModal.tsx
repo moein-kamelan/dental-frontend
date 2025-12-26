@@ -156,7 +156,7 @@ function AppointmentModal() {
       const doctor = preselectedDoctorData.data.doctor;
       // بررسی کن که آیا این پزشک در کلینیک انتخاب شده کار می‌کند
       const doctorWorksInClinic = doctor.clinics?.some(
-        (dc) => dc.clinic.id === clinic.id
+        (dc: { clinic: { id: string } }) => dc.clinic.id === clinic.id
       );
 
       if (doctorWorksInClinic) {

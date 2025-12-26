@@ -86,17 +86,17 @@ function Footer() {
             {isSettingsLoading ? (
               <div className="mb-4 w-40 h-16 bg-white/10 animate-pulse rounded-lg" />
             ) : (
-              <motion.img
-                src={
-                  settings?.data?.settings?.logo
-                    ? getImageUrl(settings.data.settings.logo)
-                    : "/images/main-logo.png"
-                }
-                alt="logo"
-                className="mb-4 w-40 h-16 object-contain filter brightness-0 invert"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
+              <div className="mb-4 w-40 h-16 overflow-hidden">
+                <img
+                  src={
+                    settings?.data?.settings?.logo
+                      ? getImageUrl(settings.data.settings.logo)
+                      : "/images/main-logo.png"
+                  }
+                  alt="logo"
+                  className="w-[180px] h-16 object-contain object-left filter brightness-0 invert"
+                />
+              </div>
             )}
             <p className="text-white/80 font-estedad-light mb-4 leading-relaxed text-sm">
               {settings?.data?.settings?.description ||

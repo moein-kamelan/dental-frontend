@@ -375,7 +375,7 @@ function AppointmentSettings() {
                           ></i>
                         </button>
                         <button
-                          onClick={() => copyToClipboard(newlyCreatedKey)}
+                          onClick={() => newlyCreatedKey && copyToClipboard(newlyCreatedKey)}
                           className="p-2 text-primary hover:text-primary/80"
                           title="کپی"
                         >
@@ -388,7 +388,7 @@ function AppointmentSettings() {
               )}
 
               {/* لیست کلیدهای موجود */}
-              {settings?.syncApiKeys && settings.syncApiKeys.length > 0 ? (
+              {settings && settings.syncApiKeys && settings.syncApiKeys.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
@@ -411,7 +411,7 @@ function AppointmentSettings() {
                       </tr>
                     </thead>
                     <tbody>
-                      {settings.syncApiKeys.map((key) => (
+                      {settings?.syncApiKeys?.map((key) => (
                         <tr key={key.id} className="border-b hover:bg-gray-50">
                           <td className="p-3">
                             <span className="font-estedad-medium">
