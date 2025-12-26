@@ -388,7 +388,7 @@ function AppointmentSettings() {
               )}
 
               {/* لیست کلیدهای موجود */}
-              {settings && settings.syncApiKeys && settings.syncApiKeys.length > 0 ? (
+              {(settings?.syncApiKeys?.length ?? 0) > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
