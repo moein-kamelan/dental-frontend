@@ -112,7 +112,26 @@ export function getImageUrl(path: string | null | undefined): string {
     import.meta.env.VITE_BACKEND_URL ||
     (import.meta.env.DEV ? "http://localhost:4000" : "");
 
-  const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+  let backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+
+  // در حالت combined (production)، اگر VITE_BACKEND_URL به localhost اشاره می‌کند
+  // یا اگر origin فعلی با backend URL متفاوت است، از relative path استفاده می‌کنیم
+  if (typeof window !== "undefined") {
+    const currentOrigin = window.location.origin;
+    
+    // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
+    if (!import.meta.env.DEV && backendBaseUrl.includes("localhost")) {
+      backendBaseUrl = ""; // استفاده از relative path
+    }
+    // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
+    else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
+      // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
+      // در حالت combined باید از relative path استفاده کنیم
+      if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+        backendBaseUrl = ""; // استفاده از relative path
+      }
+    }
+  }
 
   // اگر backendBaseUrl وجود دارد، مسیر را با آن ترکیب کن
   if (backendBaseUrl) {
@@ -142,7 +161,26 @@ export function getApiUrl(endpoint: string): string {
     import.meta.env.VITE_BACKEND_URL ||
     (import.meta.env.DEV ? "http://localhost:4000" : "");
 
-  const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+  let backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+
+  // در حالت combined (production)، اگر VITE_BACKEND_URL به localhost اشاره می‌کند
+  // یا اگر origin فعلی با backend URL متفاوت است، از relative path استفاده می‌کنیم
+  if (typeof window !== "undefined") {
+    const currentOrigin = window.location.origin;
+    
+    // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
+    if (!import.meta.env.DEV && backendBaseUrl.includes("localhost")) {
+      backendBaseUrl = ""; // استفاده از relative path
+    }
+    // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
+    else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
+      // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
+      // در حالت combined باید از relative path استفاده کنیم
+      if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+        backendBaseUrl = ""; // استفاده از relative path
+      }
+    }
+  }
 
   // اگر backendBaseUrl وجود دارد، endpoint را با آن ترکیب کن
   if (backendBaseUrl) {
@@ -198,26 +236,105 @@ export function getErrorMessage(
   error: unknown,
   defaultMessage: string = "خطای ناشناخته رخ داده است"
 ): string {
-  // بررسی اینکه آیا error یک AxiosError است
+  // لاگ کردن خطا برای دیباگ (هم در development و هم در production برای رفع مشکل)
+  if (error) {
+    const hasResponse = error && typeof error === "object" && "response" in error;
+    const responseStatus = hasResponse
+      ? (error as { response?: { status?: number } }).response?.status
+      : undefined;
+    const errorCode = error && typeof error === "object" && "code" in error
+      ? (error as { code?: string }).code
+      : undefined;
+    const errorMessage = error && typeof error === "object" && "message" in error
+      ? (error as { message?: string }).message
+      : undefined;
+
+    // همیشه لاگ کن تا ببینیم مشکل چیست
+    console.error("Error details:", {
+      hasResponse,
+      responseStatus,
+      errorCode,
+      errorMessage,
+      error: error && typeof error === "object" ? {
+        ...(error as object),
+        // فقط بخش‌های مهم را نمایش بده
+        response: hasResponse ? {
+          status: responseStatus,
+          statusText: (error as { response?: { statusText?: string } }).response?.statusText,
+          data: (error as { response?: { data?: unknown } }).response?.data,
+        } : undefined,
+      } : error,
+    });
+  }
+
+  // اول بررسی می‌کنیم که آیا response وجود دارد یا نه
+  // اگر response وجود دارد، این یک response error است نه network error
   if (error && typeof error === "object" && "response" in error) {
-    const axiosError = error as { response?: { data?: unknown } };
-    const data = axiosError.response?.data;
+    const axiosError = error as { 
+      response?: { 
+        data?: unknown;
+        status?: number;
+        statusText?: string;
+      } 
+    };
+    
+    // اگر response وجود دارد، از data استفاده می‌کنیم
+    // مهم: اگر response وجود دارد، این یک response error است و نباید به network error برود
+    if (axiosError.response) {
+      const data = axiosError.response.data;
+      const status = axiosError.response.status;
 
-    // اگر data یک string است، آن را برگردان
-    if (typeof data === "string") {
-      return data;
-    }
-
-    // اگر data یک object با property message است
-    if (data && typeof data === "object" && "message" in data) {
-      const message = (data as { message?: unknown }).message;
-      if (typeof message === "string") {
-        return message;
+      // اول بررسی status code های خاص (فقط اگر status وجود داشته باشد)
+      if (status !== undefined) {
+        if (status === 401) {
+          return "لطفاً دوباره وارد شوید";
+        }
+        if (status === 403) {
+          return "شما دسترسی به این عملیات را ندارید";
+        }
+        if (status === 404) {
+          return "منبع مورد نظر یافت نشد";
+        }
+        if (status === 429) {
+          return "تعداد درخواست‌های شما بیش از حد مجاز است. لطفاً کمی صبر کنید";
+        }
+        if (status >= 500) {
+          return "خطای سرور. لطفاً بعداً تلاش کنید";
+        }
+        // برای سایر status code ها (400, 422, etc) از data استفاده می‌کنیم
       }
+
+      // اگر data یک string است، آن را برگردان
+      if (typeof data === "string" && data.trim()) {
+        return data;
+      }
+
+      // اگر data یک object با property message است
+      if (data && typeof data === "object" && "message" in data) {
+        const message = (data as { message?: unknown }).message;
+        if (typeof message === "string" && message.trim()) {
+          return message;
+        }
+      }
+
+      // اگر statusText وجود دارد
+      if (axiosError.response.statusText) {
+        return axiosError.response.statusText;
+      }
+
+      // اگر response وجود دارد اما هیچ پیامی پیدا نکردیم،
+      // از status code برای ساخت پیام استفاده می‌کنیم
+      if (status !== undefined) {
+        return `خطا در درخواست (کد خطا: ${status})`;
+      }
+
+      // اگر response وجود دارد اما هیچ اطلاعاتی نداریم، پیام پیش‌فرض
+      return "خطا در دریافت پاسخ از سرور";
     }
   }
 
-  // بررسی network errors (بدون response)
+  // فقط اگر response وجود نداشته باشد، network error را بررسی می‌کنیم
+  // مهم: فقط اگر واقعاً response وجود نداشته باشد
   if (error && typeof error === "object") {
     const err = error as { message?: string; code?: string };
     
@@ -226,22 +343,26 @@ export function getErrorMessage(
       return "زمان درخواست به پایان رسید. لطفاً دوباره تلاش کنید.";
     }
     
+    // فقط برای کدهای واقعی network error
     if (err.code === "ERR_NETWORK" || err.code === "ECONNREFUSED") {
       return "خطا در اتصال به سرور. لطفاً اتصال اینترنت خود را بررسی کنید.";
     }
 
-    // اگر message وجود دارد، از آن استفاده کن
+    // بررسی message فقط برای network errors واقعی
     if (err.message && typeof err.message === "string") {
-      // فیلتر کردن پیام‌های فنی
+      // فقط اگر واقعاً network error باشد
       if (
-        err.message.includes("Network Error") ||
-        err.message.includes("timeout")
+        err.message === "Network Error" ||
+        err.message.includes("timeout of") ||
+        err.code === "ERR_NETWORK"
       ) {
         return "خطا در اتصال به سرور. لطفاً دوباره تلاش کنید.";
       }
-      return err.message;
     }
   }
 
+  // اگر به اینجا رسیدیم و response وجود داشت اما پیامی پیدا نکردیم،
+  // از defaultMessage استفاده می‌کنیم
+  // اما اگر response وجود نداشت و کد network error هم نبود، باز هم defaultMessage
   return defaultMessage;
 }

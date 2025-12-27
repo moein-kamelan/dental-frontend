@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { formatJalali } from "../../../../utils/helpers";
-import { backendBaseUrl } from "../../../../utils/axios";
+import { getBackendBaseUrl } from "../../../../utils/axios";
 import type { DoctorApplication } from "../../../../types/types";
 
 interface ViewApplicationModalProps {
@@ -49,7 +49,7 @@ function ViewApplicationModal({
     }
   }
 
-  const baseURL = backendBaseUrl;
+  const baseURL = getBackendBaseUrl();
 
   const buildDocumentUrl = (path: string) => {
     if (!path) return "";

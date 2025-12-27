@@ -10,11 +10,72 @@ const rawBackendBase =
   (import.meta.env.DEV ? "http://localhost:4000" : "");
 
 // Keep without trailing slash so we can safely append paths.
-export const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+let backendBaseUrl = rawBackendBase.replace(/\/$/, "");
+
+// در حالت combined (production)، اگر VITE_BACKEND_URL به localhost اشاره می‌کند
+// یا اگر origin فعلی با backend URL متفاوت است، از relative path استفاده می‌کنیم
+if (typeof window !== "undefined") {
+  const currentOrigin = window.location.origin;
+  
+  // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
+  if (!import.meta.env.DEV && backendBaseUrl.includes("localhost")) {
+    backendBaseUrl = ""; // استفاده از relative path
+  }
+  // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
+  else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
+    // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
+    // در حالت combined باید از relative path استفاده کنیم
+    if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+      backendBaseUrl = ""; // استفاده از relative path
+    }
+  }
+}
 
 // در حالت combined، اگر VITE_BACKEND_URL تنظیم نشده باشد، از relative path استفاده می‌کنیم
 // این باعث می‌شود که درخواست‌ها به همان origin ارسال شوند
 const apiBaseUrl = backendBaseUrl ? `${backendBaseUrl}/api` : "/api";
+
+/**
+ * Getter function for backendBaseUrl
+ * این function مقدار فعلی backendBaseUrl را برمی‌گرداند
+ * در حالت combined (production)، اگر به localhost اشاره می‌کند، خالی برمی‌گرداند
+ */
+export function getBackendBaseUrl(): string {
+  // اگر در browser هستیم، منطق را دوباره بررسی می‌کنیم
+  if (typeof window !== "undefined") {
+    const currentOrigin = window.location.origin;
+    const url = backendBaseUrl;
+    
+    // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
+    if (!import.meta.env.DEV && url.includes("localhost")) {
+      return ""; // استفاده از relative path
+    }
+    // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
+    else if (url && !url.startsWith(currentOrigin)) {
+      // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
+      // در حالت combined باید از relative path استفاده کنیم
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        return ""; // استفاده از relative path
+      }
+    }
+    
+    return url;
+  }
+  
+  return backendBaseUrl;
+}
+
+// لاگ برای دیباگ (فقط در development یا اگر مشکلی پیش آمد)
+if (import.meta.env.DEV || (typeof window !== "undefined" && window.location.hostname !== "localhost")) {
+  console.log("Axios Configuration:", {
+    VITE_BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
+    rawBackendBase,
+    backendBaseUrl,
+    apiBaseUrl,
+    currentOrigin: typeof window !== "undefined" ? window.location.origin : "N/A",
+    isDev: import.meta.env.DEV,
+  });
+}
 
 export const axiosInstance = axios.create({
   baseURL: apiBaseUrl,
@@ -65,6 +126,24 @@ export const setupAxiosInterceptors = (
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
+
+      // لاگ کردن خطا برای دیباگ (هم در development و هم در production برای رفع مشکل)
+      console.error("Axios Error:", {
+        url: originalRequest?.url,
+        method: originalRequest?.method,
+        baseURL: originalRequest?.baseURL,
+        fullURL: originalRequest?.baseURL ? `${originalRequest.baseURL}${originalRequest.url}` : originalRequest?.url,
+        hasResponse: !!error.response,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        errorCode: error.code,
+        errorMessage: error.message,
+        config: {
+          timeout: originalRequest?.timeout,
+          withCredentials: originalRequest?.withCredentials,
+        },
+      });
 
       // اگر خطای 403 مربوط به CSRF باشد و قبلاً retry نشده باشد
       if (
