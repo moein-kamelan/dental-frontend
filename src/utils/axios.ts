@@ -4,16 +4,16 @@ import type { AsyncThunk } from "@reduxjs/toolkit";
 
 // Backend origin is configurable per environment (dev/prod)
 // Default to localhost in dev if env is not provided.
+// در حالت combined (frontend + backend روی همان سرور)، از relative path استفاده می‌کنیم
 const rawBackendBase =
   import.meta.env.VITE_BACKEND_URL ||
   (import.meta.env.DEV ? "http://localhost:4000" : "");
 
-  console.log(import.meta.env.VITE_BACKEND_URL);
-  
-
 // Keep without trailing slash so we can safely append paths.
 export const backendBaseUrl = rawBackendBase.replace(/\/$/, "");
 
+// در حالت combined، اگر VITE_BACKEND_URL تنظیم نشده باشد، از relative path استفاده می‌کنیم
+// این باعث می‌شود که درخواست‌ها به همان origin ارسال شوند
 const apiBaseUrl = backendBaseUrl ? `${backendBaseUrl}/api` : "/api";
 
 export const axiosInstance = axios.create({

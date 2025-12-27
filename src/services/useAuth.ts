@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axios";
 import { showErrorToast } from "../utils/toastify";
+import { getErrorMessage } from "../utils/helpers";
 import type { AxiosError } from "axios";
 
 export const usePostOtpRequest = () => {
@@ -13,21 +14,9 @@ export const usePostOtpRequest = () => {
     },
 
     onError: (error) => {
-      const err = error as AxiosError<{ message?: string }>;
-      console.log(err);
-      const data = err.response?.data;
-
-      if (typeof data === "string") {
-        showErrorToast(data);
-        return;
-      }
-
-      if (typeof data === "object" && data?.message) {
-        showErrorToast(data.message);
-        return;
-      }
-
-      showErrorToast("خطای ناشناخته رخ داده است");
+      console.error("OTP Request Error:", error);
+      const errorMessage = getErrorMessage(error, "خطا در ارسال کد تأیید");
+      showErrorToast(errorMessage);
     },
   });
 };
@@ -66,21 +55,9 @@ export const usePostOtpVerify = () => {
       console.log(res);
     },
     onError: (error) => {
-      const err = error as AxiosError<{ message?: string }>;
-      console.log(err);
-      const data = err.response?.data;
-
-      if (typeof data === "string") {
-        showErrorToast(data);
-        return;
-      }
-
-      if (typeof data === "object" && data?.message) {
-        showErrorToast(data.message);
-        return;
-      }
-
-      showErrorToast("خطای ناشناخته رخ داده است");
+      console.error("OTP Request Error:", error);
+      const errorMessage = getErrorMessage(error, "خطا در ارسال کد تأیید");
+      showErrorToast(errorMessage);
     },
   });
 };
@@ -105,20 +82,9 @@ export const useUpdateProfileWithImage = () => {
       return response.data;
     },
     onError: (error) => {
-      const err = error as AxiosError<{ message?: string }>;
-      const data = err.response?.data;
-
-      if (typeof data === "string") {
-        showErrorToast(data);
-        return;
-      }
-
-      if (typeof data === "object" && data?.message) {
-        showErrorToast(data.message);
-        return;
-      }
-
-      showErrorToast("خطایی در به‌روزرسانی پروفایل رخ داد");
+      console.error("Profile Update Error:", error);
+      const errorMessage = getErrorMessage(error, "خطایی در به‌روزرسانی پروفایل رخ داد");
+      showErrorToast(errorMessage);
     },
   });
 };
@@ -139,21 +105,9 @@ export const useAdminLogin = () => {
       return response.data;
     },
     onError: (error) => {
-      const err = error as AxiosError<{ message?: string }>;
-      console.log(err);
-      const data = err.response?.data;
-
-      if (typeof data === "string") {
-        showErrorToast(data);
-        return;
-      }
-
-      if (typeof data === "object" && data?.message) {
-        showErrorToast(data.message);
-        return;
-      }
-
-      showErrorToast("خطای ناشناخته رخ داده است");
+      console.error("OTP Request Error:", error);
+      const errorMessage = getErrorMessage(error, "خطا در ارسال کد تأیید");
+      showErrorToast(errorMessage);
     },
   });
 };
@@ -165,13 +119,9 @@ export const useLogout = () => {
       return response.data;
     },
     onError: (error) => {
-      const err = error as AxiosError<{ message?: string }>;
-      console.log(err);
-      const data = err.response?.data;
-      if (typeof data === "string") {
-        showErrorToast(data);
-        return;
-      }
+      console.error("Logout Error:", error);
+      const errorMessage = getErrorMessage(error, "خطا در خروج از حساب کاربری");
+      showErrorToast(errorMessage);
     },
     onSuccess: (res) => {
       console.log(res);

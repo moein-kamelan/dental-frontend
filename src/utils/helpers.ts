@@ -186,3 +186,62 @@ export function gregorianToJalali(gregorianDate: string): string {
   const jMoment = moment(date);
   return jMoment.format("jYYYY/jMM/jDD");
 }
+
+/**
+ * استخراج پیام خطا از Axios error
+ * این function هم network errors و هم response errors را handle می‌کند
+ * @param error - Axios error object
+ * @param defaultMessage - پیام پیش‌فرض در صورت عدم وجود پیام خطا
+ * @returns پیام خطا برای نمایش به کاربر
+ */
+export function getErrorMessage(
+  error: unknown,
+  defaultMessage: string = "خطای ناشناخته رخ داده است"
+): string {
+  // بررسی اینکه آیا error یک AxiosError است
+  if (error && typeof error === "object" && "response" in error) {
+    const axiosError = error as { response?: { data?: unknown } };
+    const data = axiosError.response?.data;
+
+    // اگر data یک string است، آن را برگردان
+    if (typeof data === "string") {
+      return data;
+    }
+
+    // اگر data یک object با property message است
+    if (data && typeof data === "object" && "message" in data) {
+      const message = (data as { message?: unknown }).message;
+      if (typeof message === "string") {
+        return message;
+      }
+    }
+  }
+
+  // بررسی network errors (بدون response)
+  if (error && typeof error === "object") {
+    const err = error as { message?: string; code?: string };
+    
+    // بررسی کدهای خطای شبکه
+    if (err.code === "ECONNABORTED" || err.code === "ETIMEDOUT") {
+      return "زمان درخواست به پایان رسید. لطفاً دوباره تلاش کنید.";
+    }
+    
+    if (err.code === "ERR_NETWORK" || err.code === "ECONNREFUSED") {
+      return "خطا در اتصال به سرور. لطفاً اتصال اینترنت خود را بررسی کنید.";
+    }
+
+    // اگر message وجود دارد، از آن استفاده کن
+    if (err.message && typeof err.message === "string") {
+      // فیلتر کردن پیام‌های فنی
+      if (
+        err.message.includes("Network Error") ||
+        err.message.includes("timeout")
+      ) {
+        return "خطا در اتصال به سرور. لطفاً دوباره تلاش کنید.";
+      }
+      return err.message;
+    }
+  }
+
+  return defaultMessage;
+}
