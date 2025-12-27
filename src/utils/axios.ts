@@ -65,8 +65,8 @@ export function getBackendBaseUrl(): string {
   return backendBaseUrl;
 }
 
-// لاگ برای دیباگ (فقط در development یا اگر مشکلی پیش آمد)
-if (import.meta.env.DEV || (typeof window !== "undefined" && window.location.hostname !== "localhost")) {
+// لاگ برای دیباگ (فقط در development)
+if (import.meta.env.DEV) {
   console.log("Axios Configuration:", {
     VITE_BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
     rawBackendBase,
@@ -127,23 +127,25 @@ export const setupAxiosInterceptors = (
     async (error) => {
       const originalRequest = error.config;
 
-      // لاگ کردن خطا برای دیباگ (هم در development و هم در production برای رفع مشکل)
-      console.error("Axios Error:", {
-        url: originalRequest?.url,
-        method: originalRequest?.method,
-        baseURL: originalRequest?.baseURL,
-        fullURL: originalRequest?.baseURL ? `${originalRequest.baseURL}${originalRequest.url}` : originalRequest?.url,
-        hasResponse: !!error.response,
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        errorCode: error.code,
-        errorMessage: error.message,
-        config: {
-          timeout: originalRequest?.timeout,
-          withCredentials: originalRequest?.withCredentials,
-        },
-      });
+      // لاگ کردن خطا برای دیباگ (فقط در development)
+      if (import.meta.env.DEV) {
+        console.error("Axios Error:", {
+          url: originalRequest?.url,
+          method: originalRequest?.method,
+          baseURL: originalRequest?.baseURL,
+          fullURL: originalRequest?.baseURL ? `${originalRequest.baseURL}${originalRequest.url}` : originalRequest?.url,
+          hasResponse: !!error.response,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+          errorCode: error.code,
+          errorMessage: error.message,
+          config: {
+            timeout: originalRequest?.timeout,
+            withCredentials: originalRequest?.withCredentials,
+          },
+        });
+      }
 
       // اگر خطای 403 مربوط به CSRF باشد و قبلاً retry نشده باشد
       if (

@@ -236,8 +236,8 @@ export function getErrorMessage(
   error: unknown,
   defaultMessage: string = "خطای ناشناخته رخ داده است"
 ): string {
-  // لاگ کردن خطا برای دیباگ (هم در development و هم در production برای رفع مشکل)
-  if (error) {
+  // لاگ کردن خطا برای دیباگ (فقط در development)
+  if (import.meta.env.DEV && error) {
     const hasResponse = error && typeof error === "object" && "response" in error;
     const responseStatus = hasResponse
       ? (error as { response?: { status?: number } }).response?.status
@@ -249,7 +249,6 @@ export function getErrorMessage(
       ? (error as { message?: string }).message
       : undefined;
 
-    // همیشه لاگ کن تا ببینیم مشکل چیست
     console.error("Error details:", {
       hasResponse,
       responseStatus,

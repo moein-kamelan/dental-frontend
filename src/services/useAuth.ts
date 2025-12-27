@@ -14,7 +14,9 @@ export const usePostOtpRequest = () => {
     },
 
     onError: (error) => {
-      console.error("OTP Request Error:", error);
+      if (import.meta.env.DEV) {
+        console.error("OTP Request Error:", error);
+      }
       const errorMessage = getErrorMessage(error, "خطا در ارسال کد تأیید");
       showErrorToast(errorMessage);
     },
@@ -52,10 +54,14 @@ export const usePostOtpVerify = () => {
       return response.data;
     },
     onSuccess: (res) => {
-      console.log(res);
+      if (import.meta.env.DEV) {
+        console.log(res);
+      }
     },
     onError: (error) => {
-      console.error("OTP Request Error:", error);
+      if (import.meta.env.DEV) {
+        console.error("OTP Request Error:", error);
+      }
       const errorMessage = getErrorMessage(error, "خطا در ارسال کد تأیید");
       showErrorToast(errorMessage);
     },
@@ -82,7 +88,9 @@ export const useUpdateProfileWithImage = () => {
       return response.data;
     },
     onError: (error) => {
-      console.error("Profile Update Error:", error);
+      if (import.meta.env.DEV) {
+        console.error("Profile Update Error:", error);
+      }
       const errorMessage = getErrorMessage(error, "خطایی در به‌روزرسانی پروفایل رخ داد");
       showErrorToast(errorMessage);
     },
@@ -105,7 +113,9 @@ export const useAdminLogin = () => {
       return response.data;
     },
     onError: (error) => {
-      console.error("OTP Request Error:", error);
+      if (import.meta.env.DEV) {
+        console.error("OTP Request Error:", error);
+      }
       const errorMessage = getErrorMessage(error, "خطا در ارسال کد تأیید");
       showErrorToast(errorMessage);
     },
@@ -119,12 +129,16 @@ export const useLogout = () => {
       return response.data;
     },
     onError: (error) => {
-      console.error("Logout Error:", error);
+      if (import.meta.env.DEV) {
+        console.error("Logout Error:", error);
+      }
       const errorMessage = getErrorMessage(error, "خطا در خروج از حساب کاربری");
       showErrorToast(errorMessage);
     },
     onSuccess: (res) => {
-      console.log(res);
+      if (import.meta.env.DEV) {
+        console.log(res);
+      }
     },
   });
 };
