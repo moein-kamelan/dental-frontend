@@ -105,22 +105,22 @@ function Navbar() {
               </li>
               <li className="text-nowrap">
                 <NavLink
-                  to={"/about-us"}
-                  className={({ isActive }) =>
-                    isActive ? "text-accent" : "text-dark hover:text-accent"
-                  }
-                >
-                  درباره ما
-                </NavLink>
-              </li>
-              <li className="text-nowrap">
-                <NavLink
                   to={"/services"}
                   className={({ isActive }) =>
                     isActive ? "text-accent" : "text-dark hover:text-accent"
                   }
                 >
                   خدمات
+                </NavLink>
+              </li>
+              <li className="text-nowrap">
+                <NavLink
+                  to={"/gallery"}
+                  className={({ isActive }) =>
+                    isActive ? "text-accent" : "text-dark hover:text-accent"
+                  }
+                >
+                  گالری
                 </NavLink>
               </li>
 
@@ -151,7 +151,7 @@ function Navbar() {
                     isActive ? "text-accent" : "text-dark hover:text-accent"
                   }
                 >
-                  عضویت در کادر درمان
+                  به ما بپیوندید
                 </NavLink>
               </li>
               <li className="text-nowrap">

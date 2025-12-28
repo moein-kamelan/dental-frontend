@@ -168,18 +168,23 @@ export function getApiUrl(endpoint: string): string {
   if (typeof window !== "undefined") {
     const currentOrigin = window.location.origin;
     
-    // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
-    if (!import.meta.env.DEV && backendBaseUrl.includes("localhost")) {
-      backendBaseUrl = ""; // استفاده از relative path
-    }
-    // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
-    else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
-      // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
-      // در حالت combined باید از relative path استفاده کنیم
-      if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+    // فقط در production این منطق را اعمال می‌کنیم
+    // در development همیشه از backendBaseUrl کامل استفاده می‌کنیم
+    if (!import.meta.env.DEV) {
+      // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
+      if (backendBaseUrl.includes("localhost")) {
         backendBaseUrl = ""; // استفاده از relative path
       }
+      // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
+      else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
+        // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
+        // در حالت combined باید از relative path استفاده کنیم
+        if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+          backendBaseUrl = ""; // استفاده از relative path
+        }
+      }
     }
+    // در development، backendBaseUrl را بدون تغییر نگه می‌داریم
   }
 
   // اگر backendBaseUrl وجود دارد، endpoint را با آن ترکیب کن

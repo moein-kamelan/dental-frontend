@@ -286,6 +286,21 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   </li>
                   <li>
                     <NavLink
+                      to="/gallery"
+                      onClick={handleLinkClick}
+                      className={({ isActive }) =>
+                        `block px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-iran-sans-bold hover:bg-accent/10 hover:text-accent transition-colors active:scale-[0.98] ${
+                          isActive
+                            ? "text-accent bg-accent/10 border-r-4 border-r-accent"
+                            : "text-dark"
+                        }`
+                      }
+                    >
+                      گالری
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
                       to="/blog"
                       onClick={handleLinkClick}
                       className={({ isActive }) =>
@@ -311,7 +326,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         }`
                       }
                     >
-                      عضویت در کادر درمان
+                      به ما بپیوندید
                     </NavLink>
                   </li>
                   <li>
