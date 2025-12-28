@@ -113,11 +113,6 @@ function GalleryManagementTable({
                       ) : (
                         <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-image text-gray-400 text-2xl"></i>
-                          {console.log('No image field:', {
-                            imageId: image.id,
-                            imageField: image.image,
-                            hasImage: !!image.image
-                          })}
                         </div>
                       )}
                     </div>

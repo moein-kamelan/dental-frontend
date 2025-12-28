@@ -77,8 +77,7 @@ function ServiceManagementForm({ service }: { service?: Service }) {
         // id های دسته‌بندی را به صورت رشته ساده اعتبارسنجی می‌کنیم
         categoryIds: Yup.array()
           .of(Yup.string())
-          .min(1, "انتخاب حداقل یک دسته‌بندی الزامی است")
-          .required("انتخاب دسته‌بندی الزامی است"),
+          .nullable(),
       }),
     []
   );
@@ -264,7 +263,6 @@ function ServiceManagementForm({ service }: { service?: Service }) {
             <div>
               <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
                 دسته‌بندی‌ها
-                <span className="text-red-500 mr-1">*</span>
               </label>
               <div className="">
                 <Select<OptionType, true>
