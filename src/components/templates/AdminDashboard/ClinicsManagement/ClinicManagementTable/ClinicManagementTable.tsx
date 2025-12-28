@@ -130,8 +130,21 @@ function ClinicManagementTable({
                   <td className="text-dark font-estedad-light min-w-[260px] max-w-[260px]">
                     <span className="line-clamp-2">{clinic.address}</span>
                   </td>
-                  <td className="text-dark text-nowrap font-estedad-light">
-                    {clinic.phoneNumber || "-"}
+                  <td className="text-dark font-estedad-light">
+                    {(() => {
+                      const phones = Array.isArray(clinic.phoneNumber) 
+                        ? clinic.phoneNumber 
+                        : (clinic.phoneNumber ? [clinic.phoneNumber] : []);
+                      return phones.length > 0 ? (
+                        <div className="flex flex-col gap-1">
+                          {phones.map((phone, idx) => (
+                            <span key={idx} dir="ltr" className="text-nowrap">
+                              {phone}
+                            </span>
+                          ))}
+                        </div>
+                      ) : "-";
+                    })()}
                   </td>
                   <td className="text-dark font-estedad-light text-center">
                     {clinic._count?.doctors || 0}

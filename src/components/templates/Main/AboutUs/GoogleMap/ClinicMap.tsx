@@ -67,14 +67,18 @@ function ClinicMap({ clinic }: ClinicProps) {
               </div>
 
               {/* Phone with Icon */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
-                <i className="fas fa-phone text-green-500 text-sm"></i>
-              </div>
-              <span className="font-estedad-medium text-dark text-sm">
-                  {clinic.phoneNumber}
-                </span>
-              </div>
+            <div className="flex flex-col gap-2">
+              {(Array.isArray(clinic.phoneNumber) ? clinic.phoneNumber : (clinic.phoneNumber ? [clinic.phoneNumber] : [])).map((phone, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                    <i className="fas fa-phone text-green-500 text-sm"></i>
+                  </div>
+                  <a href={`tel:${phone}`} className="font-estedad-medium text-dark text-sm hover:text-primary transition-colors">
+                    {phone}
+                  </a>
+                </div>
+              ))}
+            </div>
 
               {/* Navigation Button */}
               <a

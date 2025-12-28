@@ -44,7 +44,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const validationSchema = Yup.object({
     name: Yup.string().required("نام کلینیک الزامی است"),
     address: Yup.string().required("آدرس الزامی است"),
-    phoneNumber: Yup.string(),
+    phoneNumbers: Yup.array().of(Yup.string().required("شماره تلفن الزامی است")).min(1, "حداقل یک شماره تلفن الزامی است"),
     description: Yup.string(),
     latitude: Yup.number()
       .nullable()
@@ -62,7 +62,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
     values: {
       name: string;
       address: string;
-      phoneNumber: string;
+      phoneNumbers: string[];
       description: string;
       latitude: number | null;
       longitude: number | null;
@@ -76,7 +76,9 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("address", values.address);
-      formData.append("phoneNumber", values.phoneNumber);
+      // Send phone numbers as JSON string (filter out empty values)
+      const validPhoneNumbers = values.phoneNumbers.filter(phone => phone && phone.trim() !== '');
+      formData.append("phoneNumber", JSON.stringify(validPhoneNumbers));
 
       if (values.description) {
         formData.append("description", values.description);
@@ -350,7 +352,9 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       initialValues={{
         name: clinic?.name || "",
         address: clinic?.address || "",
-        phoneNumber: clinic?.phoneNumber || "",
+        phoneNumbers: Array.isArray(clinic?.phoneNumber) && clinic.phoneNumber.length > 0
+          ? clinic.phoneNumber
+          : (clinic?.phoneNumber ? [clinic.phoneNumber] : [""]), // Support backward compatibility
         description: clinic?.description || "",
         image: null as File | null,
         latitude: clinic?.latitude ?? null,
@@ -406,7 +410,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
           {
             name: values.name,
             address: values.address,
-            phoneNumber: values.phoneNumber,
+            phoneNumbers: values.phoneNumbers,
             description: values.description,
             image: values.image,
             latitude:
@@ -444,19 +448,84 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                 }
               />
 
-              <CustomInput
-                labelText="شماره تماس"
-                placeholder="شماره تماس را وارد کنید"
-                requiredText
-                className="bg-white"
-                {...formik.getFieldProps("phoneNumber")}
-                inputType="phone"
-                errorMessage={
-                  formik.touched.phoneNumber && formik.errors.phoneNumber
-                    ? formik.errors.phoneNumber
-                    : null
-                }
-              />
+              <div className="space-y-2">
+                <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                  شماره تماس <span className="text-red-500">*</span>
+                </label>
+                {formik.values.phoneNumbers.map((phone, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <CustomInput
+                      placeholder="شماره تماس را وارد کنید"
+                      className="bg-white flex-1"
+                      value={phone}
+                      onChange={(e) => {
+                        const newPhoneNumbers = [...formik.values.phoneNumbers];
+                        newPhoneNumbers[index] = e.target.value;
+                        formik.setFieldValue("phoneNumbers", newPhoneNumbers);
+                      }}
+                      onBlur={() => formik.setFieldTouched(`phoneNumbers.${index}`, true)}
+                      inputType="phone"
+                      errorMessage={
+                        formik.touched.phoneNumbers?.[index] && formik.errors.phoneNumbers?.[index]
+                          ? String(formik.errors.phoneNumbers[index])
+                          : null
+                      }
+                    />
+                    {formik.values.phoneNumbers.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newPhoneNumbers = formik.values.phoneNumbers.filter((_, i) => i !== index);
+                          formik.setFieldValue("phoneNumbers", newPhoneNumbers);
+                        }}
+                        className="px-4 py-2 text-red-500 hover:text-red-700 transition-colors"
+                        title="حذف"
+                      >
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 5L15 15M15 5L5 15"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    formik.setFieldValue("phoneNumbers", [...formik.values.phoneNumbers, ""]);
+                  }}
+                  className="text-primary hover:text-primary/80 text-sm font-estedad-lightbold flex items-center gap-1"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 3V13M3 8H13"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  افزودن شماره تماس
+                </button>
+                {formik.touched.phoneNumbers && formik.errors.phoneNumbers && typeof formik.errors.phoneNumbers === 'string' && (
+                  <div className="text-red-500 text-sm">{formik.errors.phoneNumbers}</div>
+                )}
+              </div>
             </div>
 
             <CustomInput

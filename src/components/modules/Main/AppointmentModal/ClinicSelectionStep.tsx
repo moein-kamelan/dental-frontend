@@ -119,8 +119,8 @@ export function ClinicSelectionStep({
                       </span>
                     </div>
                   )}
-                  {clinic.phoneNumber && (
-                    <div className="flex items-center gap-1.5">
+                  {(Array.isArray(clinic.phoneNumber) ? clinic.phoneNumber : (clinic.phoneNumber ? [clinic.phoneNumber] : [])).map((phone, index) => (
+                    <div key={index} className="flex items-center gap-1.5">
                       <span className="inline-flex size-5 items-center justify-center rounded-full bg-white/40  text-accent">
                         <i className="fas fa-phone" />
                       </span>
@@ -128,10 +128,10 @@ export function ClinicSelectionStep({
                         dir="ltr"
                         className="font-estedad-light tracking-wide text-[12px]  "
                       >
-                        {clinic.phoneNumber}
+                        {phone}
                       </span>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
               {!isEnabled && preselectedDoctor && (

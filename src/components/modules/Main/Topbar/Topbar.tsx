@@ -10,9 +10,15 @@ function Topbar() {
   const firstClinic = clinics[0] || null
   const secondClinic = clinics[1] || null
 
-  // Get phone numbers from clinics
-  const firstClinicPhone = firstClinic?.phoneNumber
-  const secondClinicPhone = secondClinic?.phoneNumber
+  // Get phone numbers from clinics (handle both array and string for backward compatibility)
+  const firstClinicPhones = Array.isArray(firstClinic?.phoneNumber) 
+    ? firstClinic.phoneNumber 
+    : (firstClinic?.phoneNumber ? [firstClinic.phoneNumber] : []);
+  const secondClinicPhones = Array.isArray(secondClinic?.phoneNumber) 
+    ? secondClinic.phoneNumber 
+    : (secondClinic?.phoneNumber ? [secondClinic.phoneNumber] : []);
+  const firstClinicPhone = firstClinicPhones[0];
+  const secondClinicPhone = secondClinicPhones[0];
   
   // Fallback to settings if no clinic phone numbers
   const fallbackPhone = settings?.phoneNumber || '123456789'
@@ -29,8 +35,8 @@ function Topbar() {
   const eitaa = settings?.eitaa
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white py-2">
-      <div className="container mx-auto px-3 sm:px-4 relative z-10">
+    <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white h-[30px] flex items-center">
+      <div className="container mx-auto px-3 sm:px-4 relative z-10 w-full">
         <div className="flex flex-wrap justify-between items-center gap-2 sm:gap-3">
           {/* Social Media - Left side (mobile and desktop) */}
           <ul className="flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3 items-center order-2">
@@ -40,9 +46,9 @@ function Topbar() {
                   href={facebook} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-200"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-200"
                 >
-                  <i className="fab fa-facebook-f text-xs text-white"></i>
+                  <i className="fab fa-facebook-f text-sm text-white"></i>
                 </a>
               </li>
             )}
@@ -52,9 +58,9 @@ function Topbar() {
                   href={twitter} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-400 hover:bg-blue-500 transition-all duration-200"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-400 hover:bg-blue-500 transition-all duration-200"
                 >
-                  <i className="fab fa-twitter text-xs text-white"></i>
+                  <i className="fab fa-twitter text-sm text-white"></i>
                 </a>
               </li>
             )}
@@ -64,9 +70,9 @@ function Topbar() {
                   href={youtube} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-200"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-200"
                 >
-                  <i className="fab fa-youtube text-xs text-white"></i>
+                  <i className="fab fa-youtube text-sm text-white"></i>
                 </a>
               </li>
             )}
@@ -81,10 +87,10 @@ function Topbar() {
                   <img
                     src="/images/insta.png"
                     alt="Instagram"
-                    width={20}
-                    height={20}
+                    width={28}
+                    height={28}
                     loading="lazy"
-                    className="w-5 h-5 object-contain"
+                    className="w-7 h-7 object-contain"
                   />
                 </a>
               </li>
@@ -95,9 +101,9 @@ function Topbar() {
                   href={telegram} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-500 hover:bg-blue-600 transition-all duration-200"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-500 hover:bg-blue-600 transition-all duration-200"
                 >
-                  <i className="fab fa-telegram-plane text-xs text-white"></i>
+                  <i className="fab fa-telegram-plane text-sm text-white"></i>
                 </a>
               </li>
             )}
@@ -112,10 +118,10 @@ function Topbar() {
                   <img
                     src="/images/eita.png"
                     alt="Eitaa"
-                    width={20}
-                    height={20}
+                    width={25}
+                    height={25}
                     loading="lazy"
-                    className="w-5 h-5 object-contain"
+                    className="w-[24px] h-[24px] object-contain"
                   />
                 </a>
               </li>
