@@ -119,16 +119,26 @@ export function getImageUrl(path: string | null | undefined): string {
   if (typeof window !== "undefined") {
     const currentOrigin = window.location.origin;
     
-    // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
-    if (!import.meta.env.DEV && backendBaseUrl.includes("localhost")) {
-      backendBaseUrl = ""; // استفاده از relative path
-    }
-    // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
-    else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
-      // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
-      // در حالت combined باید از relative path استفاده کنیم
-      if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+    // در development، همیشه از backendBaseUrl استفاده می‌کنیم (حتی اگر با origin متفاوت باشد)
+    if (import.meta.env.DEV) {
+      // در development، از backendBaseUrl استفاده می‌کنیم
+      // اگر backendBaseUrl تنظیم نشده، از localhost:4000 استفاده می‌کنیم
+      if (!backendBaseUrl) {
+        backendBaseUrl = "http://localhost:4000";
+      }
+    } else {
+      // در production
+      // اگر در production هستیم و VITE_BACKEND_URL به localhost اشاره می‌کند
+      if (backendBaseUrl.includes("localhost")) {
         backendBaseUrl = ""; // استفاده از relative path
+      }
+      // اگر backendBaseUrl تنظیم شده اما با origin فعلی متفاوت است
+      else if (backendBaseUrl && !backendBaseUrl.startsWith(currentOrigin)) {
+        // اگر backendBaseUrl یک URL کامل است و با origin فعلی متفاوت است
+        // در حالت combined باید از relative path استفاده کنیم
+        if (backendBaseUrl.startsWith("http://") || backendBaseUrl.startsWith("https://")) {
+          backendBaseUrl = ""; // استفاده از relative path
+        }
       }
     }
   }
@@ -228,6 +238,39 @@ export function gregorianToJalali(gregorianDate: string): string {
   const date = new Date(gregorianDate);
   const jMoment = moment(date);
   return jMoment.format("jYYYY/jMM/jDD");
+}
+
+/**
+ * تولید عنوان پیش‌فرض بر اساس تاریخ و ساعت فعلی
+ * @returns عنوان به فرمت "آپلود شده در [تاریخ]، ساعت [ساعت]"
+ */
+export function generateDefaultGalleryTitle(): string {
+  const now = new Date();
+  
+  // Format date in Persian
+  const dateParts = new Intl.DateTimeFormat("fa-IR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).formatToParts(now);
+  
+  const day = dateParts.find((p) => p.type === "day")?.value;
+  const month = dateParts.find((p) => p.type === "month")?.value;
+  const year = dateParts.find((p) => p.type === "year")?.value;
+  const dateStr = `${day} ${month} ${year}`;
+  
+  // Format time in Persian
+  const timeParts = new Intl.DateTimeFormat("fa-IR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(now);
+  
+  const hour = timeParts.find((p) => p.type === "hour")?.value;
+  const minute = timeParts.find((p) => p.type === "minute")?.value;
+  const timeStr = `${hour}:${minute}`;
+  
+  return `آپلود شده در ${dateStr}، ساعت ${timeStr}`;
 }
 
 /**

@@ -50,6 +50,19 @@ export const useCreateGallery = () => {
   });
 };
 
+export const useBulkCreateGallery = () => {
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await axiosInstance.post("/gallery/bulk", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
 export const useUpdateGallery = () => {
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: FormData }) => {

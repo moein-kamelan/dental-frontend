@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import CustomTextArea from "../../../../modules/CustomTextArea/CustomTextArea";
 import {
   useCreateGallery,
   useUpdateGallery,
+  useBulkCreateGallery,
 } from "../../../../../services/useGallery";
 import {
   showSuccessToast,
@@ -18,10 +19,13 @@ import { useQueryClient } from "@tanstack/react-query";
 
 function GalleryManagementForm({ image }: { image?: Gallery }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const bulkFileInputRef = useRef<HTMLInputElement>(null);
+  const [isBulkUploading, setIsBulkUploading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutateAsync: createGallery } = useCreateGallery();
   const { mutateAsync: updateGallery } = useUpdateGallery();
+  const { mutateAsync: bulkCreateGallery } = useBulkCreateGallery();
 
   const isEditMode = !!image?.id;
 
@@ -139,6 +143,52 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
     }
   };
 
+  const handleBulkUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) {
+      showErrorToast("لطفاً حداقل یک تصویر انتخاب کنید");
+      return;
+    }
+
+    try {
+      setIsBulkUploading(true);
+      const formData = new FormData();
+      
+      // Append all files with the same field name
+      Array.from(files).forEach((file) => {
+        formData.append("galleryImages", file);
+      });
+      
+      // Set published to true by default
+      formData.append("published", "true");
+
+      await bulkCreateGallery(formData);
+      showSuccessToast(`${files.length} تصویر با موفقیت آپلود شد`);
+      
+      // Reset the input
+      if (bulkFileInputRef.current) {
+        bulkFileInputRef.current.value = "";
+      }
+      
+      // Invalidate queries to refresh the list
+      queryClient.invalidateQueries({ queryKey: ["gallery"] });
+      
+      // Scroll to top
+      const scrollContainer = document.querySelector(".overflow-auto");
+      if (scrollContainer) {
+        scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as { response?: { data?: { message?: string } } })?.response
+          ?.data?.message || "خطایی در آپلود تصاویر رخ داد";
+      showErrorToast(errorMessage);
+    } finally {
+      setIsBulkUploading(false);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -241,6 +291,35 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                     formik.setFieldValue("galleryImage", file);
                   }}
                 />
+                <input
+                  ref={bulkFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden "
+                  onChange={(e) => {
+                    handleBulkUpload(e.target.files);
+                  }}
+                />
+                {!isEditMode && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      bulkFileInputRef.current?.click();
+                    }}
+                    disabled={isBulkUploading}
+                    className="px-8 py-3 rounded-lg font-estedad-medium bg-green-500/60 text-white hover:bg-green-600/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isBulkUploading ? (
+                      <span className="flex items-center gap-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                        در حال آپلود...
+                      </span>
+                    ) : (
+                      "انتخاب گروهی"
+                    )}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => {
@@ -270,6 +349,12 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                 <div className="text-red-500 text-[10px] mr-4 mt-1 min-h-[20px]">
                   {formik.errors.galleryImage}
                 </div>
+              )}
+              {!isEditMode && (
+                <p className="text-xs text-paragray mt-2 mr-4">
+                  با استفاده از دکمه "انتخاب گروهی" می‌توانید چندین تصویر را همزمان آپلود کنید. 
+                  هر تصویر به صورت خودکار با عنوان "تصویر شماره [شماره]" و وضعیت منتشر شده ذخیره می‌شود.
+                </p>
               )}
             </div>
 

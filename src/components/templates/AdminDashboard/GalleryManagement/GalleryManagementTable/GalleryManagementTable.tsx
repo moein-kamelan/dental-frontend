@@ -78,16 +78,46 @@ function GalleryManagementTable({
                     {(page - 1) * 5 + index + 1}
                   </td>
                   <td className="">
-                    <div className="flex items-center ">
-                      {image.image ? (
+                    <div className="flex items-center justify-center">
+                      {image.image && typeof image.image === 'string' && image.image.trim() !== "" ? (
                         <img
                           src={getImageUrl(image.image)}
                           alt={image.title || "تصویر گالری"}
                           className="w-16 h-16 rounded-lg object-cover shrink-0"
+                          onError={(e) => {
+                            console.error('Image load error:', {
+                              imagePath: image.image,
+                              imageUrl: getImageUrl(image.image),
+                              imageId: image.id
+                            });
+                            // If image fails to load, show placeholder
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = "none";
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = `
+                                <div class="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
+                                  <i class="far fa-image text-gray-400 text-2xl"></i>
+                                </div>
+                              `;
+                            }
+                          }}
+                          onLoad={() => {
+                            console.log('Image loaded successfully:', {
+                              imagePath: image.image,
+                              imageUrl: getImageUrl(image.image),
+                              imageId: image.id
+                            });
+                          }}
                         />
                       ) : (
                         <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
                           <i className="far fa-image text-gray-400 text-2xl"></i>
+                          {console.log('No image field:', {
+                            imageId: image.id,
+                            imageField: image.image,
+                            hasImage: !!image.image
+                          })}
                         </div>
                       )}
                     </div>
