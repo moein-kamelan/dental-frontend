@@ -66,18 +66,50 @@ function ClinicMap({ clinic }: ClinicProps) {
               </p>
               </div>
 
-              {/* Phone with Icon */}
+              {/* Phone with Icon - List format */}
             <div className="flex flex-col gap-2">
-              {(Array.isArray(clinic.phoneNumber) ? clinic.phoneNumber : (clinic.phoneNumber ? [clinic.phoneNumber] : [])).map((phone, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
-                    <i className="fas fa-phone text-green-500 text-sm"></i>
-                  </div>
-                  <a href={`tel:${phone}`} className="font-estedad-medium text-dark text-sm hover:text-primary transition-colors">
-                    {phone}
-                  </a>
-                </div>
-              ))}
+              {(() => {
+                // Parse phone numbers from string (handle JSON string, array, or string with separator)
+                const getPhoneNumbers = (phoneStr: string | string[] | undefined): string[] => {
+                  if (!phoneStr) return [];
+                  if (Array.isArray(phoneStr)) return phoneStr.filter(p => p && p.trim());
+                  
+                  // Try to parse as JSON first (in case it's stored as JSON string)
+                  if (typeof phoneStr === 'string') {
+                    // Check if it looks like a JSON array
+                    const trimmed = phoneStr.trim();
+                    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+                      try {
+                        const parsed = JSON.parse(trimmed);
+                        if (Array.isArray(parsed)) {
+                          return parsed.filter(p => p && String(p).trim()).map(p => String(p).trim());
+                        }
+                      } catch {
+                        // If JSON parse fails, continue to separator splitting
+                      }
+                    }
+                    // Split by common separators: comma, pipe, semicolon, or newline
+                    return trimmed.split(/[,|;|\n]/).map(p => p.trim()).filter(p => p);
+                  }
+                  
+                  return [];
+                };
+                
+                const phoneNumbers = getPhoneNumbers(clinic.phoneNumber);
+                
+                return phoneNumbers.length > 0 ? (
+                  phoneNumbers.map((phone, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                        <i className="fas fa-phone text-green-500 text-sm"></i>
+                      </div>
+                      <a href={`tel:${phone}`} className="font-estedad-medium text-dark text-sm hover:text-primary transition-colors">
+                        {phone}
+                      </a>
+                    </div>
+                  ))
+                ) : null;
+              })()}
             </div>
 
               {/* Navigation Button */}

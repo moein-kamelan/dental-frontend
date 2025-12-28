@@ -352,9 +352,49 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       initialValues={{
         name: clinic?.name || "",
         address: clinic?.address || "",
-        phoneNumbers: Array.isArray(clinic?.phoneNumber) && clinic.phoneNumber.length > 0
-          ? clinic.phoneNumber
-          : (clinic?.phoneNumber ? [clinic.phoneNumber] : [""]), // Support backward compatibility
+        phoneNumbers: (() => {
+          // Parse phone numbers from various formats
+          const parsePhoneNumbers = (phoneData: string | string[] | undefined): string[] => {
+            if (!phoneData) return [""];
+            
+            // If it's already an array, return it
+            if (Array.isArray(phoneData)) {
+              return phoneData.length > 0 ? phoneData : [""];
+            }
+            
+            // If it's a string, try to parse as JSON first
+            if (typeof phoneData === 'string') {
+              const trimmed = phoneData.trim();
+              
+              // Check if it looks like a JSON array
+              if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+                try {
+                  const parsed = JSON.parse(trimmed);
+                  if (Array.isArray(parsed)) {
+                    return parsed.length > 0 
+                      ? parsed.filter(p => p && String(p).trim()).map(p => String(p).trim())
+                      : [""];
+                  }
+                } catch {
+                  // If JSON parse fails, continue to separator splitting
+                }
+              }
+              
+              // If it's a regular string, split by separators or return as single item
+              if (trimmed.includes(',') || trimmed.includes('|') || trimmed.includes(';')) {
+                const split = trimmed.split(/[,|;]/).map(p => p.trim()).filter(p => p);
+                return split.length > 0 ? split : [""];
+              }
+              
+              // Single phone number
+              return trimmed ? [trimmed] : [""];
+            }
+            
+            return [""];
+          };
+          
+          return parsePhoneNumbers(clinic?.phoneNumber);
+        })(),
         description: clinic?.description || "",
         image: null as File | null,
         latitude: clinic?.latitude ?? null,

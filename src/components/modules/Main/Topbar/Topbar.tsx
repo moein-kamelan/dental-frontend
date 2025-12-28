@@ -7,18 +7,42 @@ function Topbar() {
   const settings = settingsData?.data?.settings
   
   const clinics = clinicsData?.data?.clinics || []
-  const firstClinic = clinics[0] || null
-  const secondClinic = clinics[1] || null
+  // Get the first clinic (oldest - first created)
+  // Since clinics are ordered by createdAt desc, we need to get the last one for oldest
+  // Or we can sort to get oldest first
+  const sortedClinics = [...clinics].sort((a, b) => {
+    if (!a.createdAt || !b.createdAt) return 0;
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
+  const firstClinic = sortedClinics[0] || null;
 
-  // Get phone numbers from clinics (handle both array and string for backward compatibility)
-  const firstClinicPhones = Array.isArray(firstClinic?.phoneNumber) 
-    ? firstClinic.phoneNumber 
-    : (firstClinic?.phoneNumber ? [firstClinic.phoneNumber] : []);
-  const secondClinicPhones = Array.isArray(secondClinic?.phoneNumber) 
-    ? secondClinic.phoneNumber 
-    : (secondClinic?.phoneNumber ? [secondClinic.phoneNumber] : []);
-  const firstClinicPhone = firstClinicPhones[0];
-  const secondClinicPhone = secondClinicPhones[0];
+  // Get phone numbers from first clinic - handle JSON string, array, or string with separator
+  const getPhoneNumbersFromString = (phoneStr: string | string[] | undefined): string[] => {
+    if (!phoneStr) return [];
+    if (Array.isArray(phoneStr)) return phoneStr.filter(p => p && p.trim());
+    
+    // Try to parse as JSON first (in case it's stored as JSON string)
+    if (typeof phoneStr === 'string') {
+      // Check if it looks like a JSON array
+      const trimmed = phoneStr.trim();
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) {
+            return parsed.filter(p => p && String(p).trim()).map(p => String(p).trim());
+          }
+        } catch {
+          // If JSON parse fails, continue to separator splitting
+        }
+      }
+      // Split by common separators: comma, pipe, semicolon, or newline
+      return trimmed.split(/[,|;|\n]/).map(p => p.trim()).filter(p => p);
+    }
+    
+    return [];
+  };
+  
+  const firstClinicPhones = getPhoneNumbersFromString(firstClinic?.phoneNumber);
   
   // Fallback to settings if no clinic phone numbers
   const fallbackPhone = settings?.phoneNumber || '123456789'
@@ -130,63 +154,52 @@ function Topbar() {
 
           {/* Contact Info - Right side */}
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4 order-1">
-            {/* Mobile: Phone numbers from both clinics */}
+            {/* Mobile: Phone numbers from first clinic */}
             <div className="flex md:hidden items-center gap-2 sm:gap-3 text-xs sm:text-sm leading-none flex-wrap">
-              {firstClinicPhone && (
-                <div className="flex items-center gap-1.5">
-                  <i className="fas fa-phone-alt text-[10px]"></i>
-                  <a href={`tel:${firstClinicPhone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    {firstClinicPhone}
-                  </a>
-                </div>
-              )}
-              {secondClinicPhone && (
+              {firstClinicPhones.length > 0 ? (
                 <>
-                  <span className="opacity-60">|</span>
-                  <div className="flex items-center gap-1.5">
-                    <i className="fas fa-phone-alt text-[10px]"></i>
-                    <a href={`tel:${secondClinicPhone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                      {secondClinicPhone}
-                    </a>
-                  </div>
+                  <i className="fas fa-phone-alt text-[10px]"></i>
+                  {firstClinicPhones.map((phone, index) => (
+                    <div key={index} className="flex items-center gap-1.5">
+                      {index > 0 && <span className="opacity-60">|</span>}
+                      <a href={`tel:${phone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                        {phone}
+                      </a>
+                    </div>
+                  ))}
                 </>
-              )}
-              {!firstClinicPhone && !secondClinicPhone && fallbackPhone && (
+              ) : fallbackPhone ? (
                 <div className="flex items-center gap-1.5">
                   <i className="fas fa-phone-alt text-[10px]"></i>
                   <a href={`tel:${fallbackPhone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
                     {fallbackPhone}
                   </a>
                 </div>
-              )}
+              ) : null}
             </div>
             
             {/* Desktop: Phone numbers, Email, Address */}
             <ul className="hidden md:flex flex-wrap gap-3 lg:gap-4 text-xs sm:text-sm leading-none items-center">
-              {firstClinicPhone && (
+              {firstClinicPhones.length > 0 ? (
                 <li className="flex items-center gap-1.5">
                   <i className="fas fa-phone-alt text-[10px]"></i>
-                  <a href={`tel:${firstClinicPhone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    {firstClinicPhone}
-                  </a>
+                  {firstClinicPhones.map((phone, index) => (
+                    <div key={index} className="flex items-center gap-1.5">
+                      {index > 0 && <span className="opacity-60">|</span>}
+                      <a href={`tel:${phone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
+                        {phone}
+                      </a>
+                    </div>
+                  ))}
                 </li>
-              )}
-              {secondClinicPhone && (
-                <li className="flex items-center gap-1.5">
-                  <i className="fas fa-phone-alt text-[10px]"></i>
-                  <a href={`tel:${secondClinicPhone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
-                    {secondClinicPhone}
-                  </a>
-                </li>
-              )}
-              {!firstClinicPhone && !secondClinicPhone && fallbackPhone && (
+              ) : fallbackPhone ? (
                 <li className="flex items-center gap-1.5">
                   <i className="fas fa-phone-alt text-[10px]"></i>
                   <a href={`tel:${fallbackPhone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
                     {fallbackPhone}
                   </a>
                 </li>
-              )}
+              ) : null}
               {email && (
                 <li className="flex items-center gap-1.5">
                   <i className="fas fa-envelope text-[10px]"></i>
