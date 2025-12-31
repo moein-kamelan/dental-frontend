@@ -59,7 +59,7 @@ function Topbar() {
   const eitaa = settings?.eitaa
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white h-[30px] flex items-center">
+    <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white h-[32px] flex items-center">
       <div className="container mx-auto px-3 sm:px-4 relative z-10 w-full">
         <div className="flex flex-wrap justify-between items-center gap-2 sm:gap-3">
           {/* Social Media - Left side (mobile and desktop) */}
@@ -70,7 +70,7 @@ function Topbar() {
                   href={facebook} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-200"
+                  className="flex items-center justify-center w-6 h-6 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-200"
                 >
                   <i className="fab fa-facebook-f text-sm text-white"></i>
                 </a>
@@ -82,7 +82,7 @@ function Topbar() {
                   href={twitter} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-400 hover:bg-blue-500 transition-all duration-200"
+                  className="flex items-center justify-center w-6 h-6 rounded-lg bg-blue-400 hover:bg-blue-500 transition-all duration-200"
                 >
                   <i className="fab fa-twitter text-sm text-white"></i>
                 </a>
@@ -94,7 +94,7 @@ function Topbar() {
                   href={youtube} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-200"
+                  className="flex items-center justify-center w-6 h-6 rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-200"
                 >
                   <i className="fab fa-youtube text-sm text-white"></i>
                 </a>
@@ -106,15 +106,15 @@ function Topbar() {
                   href={instagram} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
+                  className="flex items-center justify-center w-6 h-6 hover:opacity-80 transition-opacity duration-200"
                 >
                   <img
                     src="/images/insta.png"
                     alt="Instagram"
-                    width={28}
-                    height={28}
+                    width={24}
+                    height={24}
                     loading="lazy"
-                    className="w-7 h-7 object-contain"
+                    className="w-6 h-6 object-contain"
                   />
                 </a>
               </li>
@@ -125,7 +125,7 @@ function Topbar() {
                   href={telegram} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-500 hover:bg-blue-600 transition-all duration-200"
+                  className="flex items-center justify-center w-6 h-6 rounded-lg bg-blue-500 hover:bg-blue-600 transition-all duration-200"
                 >
                   <i className="fab fa-telegram-plane text-sm text-white"></i>
                 </a>
@@ -137,7 +137,7 @@ function Topbar() {
                   href={eitaa} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
+                  className="flex items-center justify-center w-6 h-6 hover:opacity-80 transition-opacity duration-200"
                 >
                   <img
                     src="/images/eita.png"
@@ -145,7 +145,7 @@ function Topbar() {
                     width={25}
                     height={25}
                     loading="lazy"
-                    className="w-[24px] h-[24px] object-contain"
+                    className="w-6 h-6 object-contain"
                   />
                 </a>
               </li>
