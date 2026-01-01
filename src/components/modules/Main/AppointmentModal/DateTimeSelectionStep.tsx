@@ -590,7 +590,7 @@ export function DateTimeSelectionStep({
                   !isDisabled && handleDateClick(availableDate.date)
                 }
                 disabled={isDisabled}
-                className={`group relative  flex flex-col items-center justify-center gap-1 sm:gap-1.5   px-2 py-4 sm:py-5 md:py-6 sm:px-3 md:px-4  min-h-[70px] sm:min-h-[75px] md:min-h-[80px] rounded-xl sm:rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
+                className={`group relative   flex flex-col items-center justify-center gap-1 sm:gap-1.5   px-2 py-4 sm:py-5 md:py-6 sm:px-3 md:px-4  min-h-[70px] sm:min-h-[75px] md:min-h-[80px] rounded-xl sm:rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
                   isDisabled
                     ? "bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed opacity-60"
                     : isSelected
