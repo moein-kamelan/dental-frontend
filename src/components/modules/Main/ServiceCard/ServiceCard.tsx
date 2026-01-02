@@ -25,13 +25,15 @@ function ServiceCard({ service }: { service: Service }) {
       onClick={handleCardClick}
       className="bg-white rounded-xl group overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition p-5 cursor-pointer border border-transparent hover:border-secondary/20 flex flex-col"
     >
-      <div className="relative h-64">
+      <div className="relative  flex  items-center gap-4 ">
         {service?.coverImage ? (
-          <img
+<div className="basis-1/4 shrink-0 ">
+<img
             src={getImageUrl(service.coverImage)}
             alt={service.title}
-            className="w-full h-full rounded-lg group-hover:scale-105 transition-all duration-500 object-cover"
+            className=" rounded-full group-hover:scale-105 transition-all duration-500 object-cover"
           />
+</div>
         ) : (
           <div className="w-full h-full rounded-lg bg-gray-100 flex items-center justify-center">
             <div className="text-center space-y-2">
@@ -46,11 +48,12 @@ function ServiceCard({ service }: { service: Service }) {
             </div>
           </div>
         )}
-      </div>
-      <div className="mt-6 flex flex-col grow gap-y-3">
-        <h3 className="text-2xl sm:text-[18px] md:text-2xl font-estedad-semibold text-dark group-hover:text-accent transition-all duration-500 line-clamp-1">
+              <h3 className="basis-2/3 text-2xl sm:text-[18px] md:text-2xl font-estedad-semibold text-dark group-hover:text-accent transition-all duration-500 line-clamp-2 ">
           {service.title}
         </h3>
+      </div>
+      <div className="mt-6 flex flex-col grow gap-y-3">
+  
         <p className="text-paragray font-estedad-light line-clamp-2 ">
           {stripHtmlTags(service.description)}
         </p>
