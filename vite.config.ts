@@ -45,6 +45,29 @@ export default defineConfig({
     },
     // Increase chunk size warning limit
     chunkSizeWarningLimit: 1000,
+    // Enable minification and compression
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console.logs in production
+        drop_debugger: true,
+      },
+    },
+    // Enable CSS code splitting
+    cssCodeSplit: true,
+    // Generate source maps for better debugging (disable in production if needed)
+    sourcemap: false,
+    // Optimize chunk size
+    cssMinify: true,
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      'react-helmet-async'
+    ],
   },
 });
 

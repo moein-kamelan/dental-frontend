@@ -506,7 +506,8 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                       onBlur={() => formik.setFieldTouched(`phoneNumbers.${index}`, true)}
                       inputType="phone"
                       errorMessage={
-                        formik.touched.phoneNumbers?.[index] && formik.errors.phoneNumbers?.[index]
+                        (Array.isArray(formik.touched.phoneNumbers) && formik.touched.phoneNumbers[index]) &&
+                        (Array.isArray(formik.errors.phoneNumbers) && formik.errors.phoneNumbers[index])
                           ? String(formik.errors.phoneNumbers[index])
                           : null
                       }
