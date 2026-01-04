@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import "./Banner.css";
 import {
   useMotionValueEvent,
@@ -14,6 +14,24 @@ import { useGetAllHeroSliders } from "../../../../../services/useHeroSliders";
 import { useGetAllDoctors } from "../../../../../services/useDoctors";
 import type { HeroSlider } from "../../../../../types/types";
 import BannerSlide from "./BannerSlide/BannerSlide";
+
+// Optimized Banner Skeleton for LCP
+const BannerSkeleton = memo(() => (
+  <div className="h-[380px] md:h-full w-full flex items-end justify-center">
+    {/* Use a lightweight placeholder that matches LCP dimensions */}
+    <img
+      src="/images/doctor_banner.png"
+      alt="بنر کلینیک دندانپزشکی"
+      className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
+      // Critical for LCP: fetchpriority and loading
+      fetchPriority="high"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+));
+BannerSkeleton.displayName = 'BannerSkeleton';
+
 function Banner() {
   const [displayYearsExperience, setDisplayYearsExperience] = useState(0);
   const [displayTotalDoctors, setDisplayTotalDoctors] = useState(0);
@@ -64,20 +82,20 @@ function Banner() {
   }, [yearsOfExperience, totalDoctors, activeClinics]);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30   xl:max-h-full lg:max-h-[600px] lg:h-[calc(100vh-96px)] pt-5 overflow-hidden">
-      <div className="container mx-auto px-4 h-full ">
+    <section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 xl:max-h-full lg:max-h-[600px] lg:h-[calc(100vh-96px)] pt-5 overflow-hidden">
+      <div className="container mx-auto px-4 h-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
             className="space-y-6 xl:-translate-y-16 max-md:text-center"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <div className="custom-sub-title max-md:mx-auto">
               <span>خوش آمدید</span>
             </div>
             <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px] max-md:text-center">
-              {settings?.data?.settings?.siteTitle ?? "عنوان سایت"}
+              {settings?.data?.settings?.siteTitle ?? "کلینیک دندانپزشکی طاها"}
             </h1>
             <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
               {settings?.data?.settings?.description ?? ""}
@@ -119,16 +137,11 @@ function Banner() {
             </div>
           </motion.div>
 
-          <motion.div
+          <div
             className="relative h-full min-h-[380px] md:min-h-[575px] flex items-center justify-center"
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
           >
-            {isBannersLoading ? (
-              <div className="h-[380px] md:h-full w-full flex items-center justify-center">
-                <div className="w-[80%] max-w-[600px] h-[300px] md:h-[400px] bg-gray-200/50 animate-pulse rounded-2xl" />
-              </div>
+            {isBannersLoading || banners.length === 0 ? (
+              <BannerSkeleton />
             ) : (
               <Swiper
                 modules={[Autoplay]}
@@ -147,45 +160,36 @@ function Banner() {
                   setActiveSlideIndex(swiper.realIndex);
                 }}
               >
-                {banners.length > 0 ? (
-                  banners.map((banner, index) => (
-                    <SwiperSlide
-                      key={banner.id || index}
-                      className="relative flex items-end justify-center"
-                    >
-                      <BannerSlide
-                        banner={banner}
-                        isActive={activeSlideIndex === index}
-                      />
-                    </SwiperSlide>
-                  ))
-                ) : (
-                  <SwiperSlide className="relative flex items-end justify-center">
-                    <div className="relative w-full h-full flex items-end justify-center">
-                      <img
-                        src="images/doctor_banner.png"
-                        alt="banner"
-                        className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
-                      />
-                    </div>
+                {banners.map((banner, index) => (
+                  <SwiperSlide
+                    key={banner.id || index}
+                    className="relative flex items-end justify-center"
+                  >
+                    <BannerSlide
+                      banner={banner}
+                      isActive={activeSlideIndex === index}
+                      isFirstSlide={index === 0}
+                    />
                   </SwiperSlide>
-                )}
+                ))}
               </Swiper>
             )}
 
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
               <div className="w-[70%] sm:w-[75%] md:w-[80%] lg:w-[85%] h-auto">
                 <img
-                  src="images/banner-new-bg.png"
-                  alt="banner-bg"
+                  src="/images/banner-new-bg.png"
+                  alt=""
                   className="w-full h-auto circular-animation"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

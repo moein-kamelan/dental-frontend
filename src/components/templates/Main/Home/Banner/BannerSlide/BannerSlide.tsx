@@ -5,15 +5,20 @@ import { getImageUrl } from "../../../../../../utils/helpers";
 interface BannerSlideProps {
   banner: HeroSlider;
   isActive: boolean;
+  isFirstSlide?: boolean;
 }
 
-function BannerSlide({ banner, isActive }: BannerSlideProps) {
+function BannerSlide({ banner, isActive, isFirstSlide = false }: BannerSlideProps) {
   return (
     <div className="relative w-full h-full flex items-end justify-center">
       <img
-        src={getImageUrl(banner.image) || "images/doctor_banner.png"}
-        alt={banner.title || "Banner"}
+        src={getImageUrl(banner.image) || "/images/doctor_banner.png"}
+        alt={banner.title || "بنر کلینیک دندانپزشکی طاها"}
         className="w-[80%] max-w-[600px] h-auto max-h-[85%] object-contain z-20"
+        // Critical: First slide image is LCP candidate
+        fetchPriority={isFirstSlide ? "high" : "auto"}
+        loading={isFirstSlide ? "eager" : "lazy"}
+        decoding="async"
       />
       <motion.div
         className="absolute bottom-[20%] left-1/2 -translate-x-1/2 md:left-auto md:right-0 lg:right-0 md:translate-x-0 w-[280px] sm:w-[260px] md:w-[280px] lg:w-[260px] h-[120px] md:h-[140px] rounded-2xl bg-linear-to-br from-secondary/30 via-accent/15 to-transparent blur-xl opacity-60 z-10"

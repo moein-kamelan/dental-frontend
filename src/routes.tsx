@@ -7,12 +7,20 @@ import {
   ProtectedAdminOnlyRoute,
 } from "./components/guards";
 
-// Lazy load Main Layout (only loaded once, so can stay eager)
+// ============================================
+// PERFORMANCE: Critical path - load eagerly
+// ============================================
+// MainLayout and Home are on the critical path - don't lazy load
 import MainLayout from "./components/layouts/MainLayout/MainLayout";
+import Home from "./pages/Main/Home/Home";
+
+// Admin appointments loaded eagerly (seems intentional based on original)
 import AppointmentsManagementEdit from "./pages/AdminDashboard/AppointmentsManagementEdit/AppointmentsManagementEdit";
 import AppointmentsManagement from "./pages/AdminDashboard/AppointmentsManagement/AppointmentsManagemet";
-// Lazy load Main pages
-const Home = lazy(() => import("./pages/Main/Home/Home"));
+
+// ============================================
+// PERFORMANCE: Secondary pages - lazy load
+// ============================================
 const Doctors = lazy(() => import("./pages/Main/Doctors/Doctors"));
 const Services = lazy(() => import("./pages/Main/Services/Services"));
 const DoctorDetails = lazy(

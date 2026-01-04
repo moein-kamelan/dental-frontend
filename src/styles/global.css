@@ -1,6 +1,6 @@
-/* ckeditor styles - must be first */
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* Remove render-blocking Google Fonts - use local fonts instead */
+/* @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"); */
 @import "tailwindcss";
 @import "./fonts.css";
 @import "swiper/css";
