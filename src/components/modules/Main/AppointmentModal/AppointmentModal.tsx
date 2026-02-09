@@ -13,11 +13,14 @@ import { ConfirmationStep } from "./ConfirmationStep";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../redux/store";
 import { validateNationalCode } from "../../../../validators/nationalCodeValidator";
+import { useClinicSelection } from "../../../../contexts/useClinicSelection";
 
 type Step = "clinic" | "doctor" | "patient-info" | "datetime" | "confirmation";
 
 function AppointmentModal() {
   const { isOpen, closeModal, preselectedDoctorId } = useAppointmentModal();
+  const { selectedClinic: defaultClinic, selectClinic: persistSelectedClinic } =
+    useClinicSelection();
   const user = useSelector((state: RootState) => state.user.data);
   const [currentStep, setCurrentStep] = useState<Step>("clinic");
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
@@ -60,6 +63,7 @@ function AppointmentModal() {
   const clinics: Clinic[] = clinicsData?.data?.clinics || [];
   const doctors: Doctor[] = doctorsData?.data?.doctors || [];
   const preselectedDoctor: Doctor | null = preselectedDoctorData?.data?.doctor || null;
+  const hasDefaultClinic = Boolean(defaultClinic);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -81,7 +85,6 @@ function AppointmentModal() {
 
   useEffect(() => {
     if (!isOpen) {
-      // Reset state when modal closes
       setCurrentStep("clinic");
       setSelectedClinic(null);
       setSelectedDoctor(null);
@@ -94,11 +97,40 @@ function AppointmentModal() {
       setSelectedDate(null);
       setSelectedTime(null);
       setErrors({});
-    } else if (isOpen && preselectedDoctorId) {
-      // اگر preselectedDoctorId وجود دارد، ابتدا به مرحله clinic برو
-      setCurrentStep("clinic");
+      return;
     }
-  }, [isOpen, preselectedDoctorId]);
+
+    const initialClinic = defaultClinic || null;
+    setSelectedClinic(initialClinic);
+    setSelectedDoctor(null);
+    setWantsSpecificDoctor(preselectedDoctorId ? "yes" : null);
+    setIsForSelf(null);
+    setPatientFirstName("");
+    setPatientLastName("");
+    setPatientNationalId("");
+    setNotes("");
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setErrors({});
+    setCurrentStep(initialClinic ? "doctor" : "clinic");
+  }, [defaultClinic, isOpen, preselectedDoctorId]);
+
+  useEffect(() => {
+    if (!isOpen || !defaultClinic || !preselectedDoctorId || !preselectedDoctor) {
+      return;
+    }
+
+    const doctorWorksInClinic = preselectedDoctor.clinics?.some(
+      (dc: { clinic: { id: string } }) => dc.clinic.id === defaultClinic.id
+    );
+
+    if (doctorWorksInClinic) {
+      setSelectedClinic(defaultClinic);
+      setSelectedDoctor(preselectedDoctor);
+      setWantsSpecificDoctor("yes");
+      setCurrentStep("patient-info");
+    }
+  }, [defaultClinic, isOpen, preselectedDoctor, preselectedDoctorId]);
 
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -117,8 +149,9 @@ function AppointmentModal() {
     } else if (currentStep === "datetime") {
       setCurrentStep("patient-info");
     } else if (currentStep === "patient-info") {
-      // اگر preselectedDoctorId وجود دارد، به clinic برگرد (doctor step را اسکیپ کن)
-      if (preselectedDoctorId) {
+      if (hasDefaultClinic) {
+        setCurrentStep("doctor");
+      } else if (preselectedDoctorId) {
         setCurrentStep("clinic");
       } else {
         setCurrentStep("doctor");
@@ -138,6 +171,10 @@ function AppointmentModal() {
         setWantsSpecificDoctor(null);
       }
     } else if (currentStep === "doctor") {
+      if (hasDefaultClinic) {
+        handleClose();
+        return;
+      }
       setCurrentStep("clinic");
       // Reset تمام state های مربوط به مرحله doctor
       setSelectedDoctor(null);
@@ -151,6 +188,7 @@ function AppointmentModal() {
 
   const handleClinicSelect = (clinic: Clinic) => {
     setSelectedClinic(clinic);
+    persistSelectedClinic(clinic);
     // اگر preselectedDoctorId وجود دارد، مرحله doctor را اسکیپ کن و مستقیماً به patient-info برو
     if (preselectedDoctorId && preselectedDoctorData?.data?.doctor) {
       const doctor = preselectedDoctorData.data.doctor;

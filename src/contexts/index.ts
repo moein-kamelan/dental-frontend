@@ -4,3 +4,6 @@ export { useAdminDashboardHeader } from "./useAdminDashboardHeader";
 export { AuthModalProvider } from "./AuthModalContext";
 export { AuthModalContext } from "./AuthModalContextValue";
 export { useAuthModal } from "./useAuthModal";
+export { ClinicSelectionProvider } from "./ClinicSelectionContext";
+export { ClinicSelectionContext } from "./ClinicSelectionContextValue";
+export { useClinicSelection } from "./useClinicSelection";

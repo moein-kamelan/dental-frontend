@@ -4,10 +4,11 @@ import { axiosInstance } from "../utils/axios";
 export const useGetAllDoctors = (
   page: number = 1,
   limit: number = 10,
-  search: string = ""
+  search: string = "",
+  clinicId?: string | null
 ) => {
   return useQuery({
-    queryKey: ["doctors", page, limit, search],
+    queryKey: ["doctors", page, limit, search, clinicId || null],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: page.toString(),
@@ -15,6 +16,7 @@ export const useGetAllDoctors = (
       });
 
       if (search) params.append("search", search);
+      if (clinicId) params.append("clinicId", clinicId);
 
       const response = await axiosInstance.get(`/doctors?${params.toString()}`);
       return response.data;

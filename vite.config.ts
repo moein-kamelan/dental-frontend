@@ -1,6 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,73 +21,57 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Critical path - keep small for fast initial load
-          if (id.includes('node_modules')) {
-            // Core React - needed immediately
-            if (id.includes('react-dom') || id.includes('react/')) {
-              return 'react-core';
-            }
-            // Router - needed for navigation
-            if (id.includes('react-router')) {
-              return 'react-router';
-            }
-            // State management - can be slightly deferred
-            if (id.includes('@reduxjs/toolkit') || id.includes('react-redux')) {
-              return 'redux';
-            }
-            // React Query - for data fetching
-            if (id.includes('@tanstack/react-query') && !id.includes('devtools')) {
-              return 'query';
-            }
-            // Motion - defer as much as possible
-            if (id.includes('motion') || id.includes('framer-motion')) {
-              return 'motion';
-            }
-            // Swiper - only needed for banner
-            if (id.includes('swiper')) {
-              return 'swiper';
-            }
-            // Form libraries - only needed for forms
-            if (id.includes('formik') || id.includes('yup')) {
-              return 'forms';
-            }
-            // UI components
-            if (id.includes('react-select') || id.includes('react-toastify')) {
-              return 'ui';
-            }
-            // CKEditor - very heavy, lazy load only in admin
-            if (id.includes('ckeditor')) {
-              return 'editor';
-            }
-            // Map - lazy load only when needed
-            if (id.includes('leaflet') || id.includes('react-leaflet')) {
-              return 'map';
-            }
-            // Helmet for SEO
-            if (id.includes('react-helmet')) {
-              return 'seo';
-            }
-            // Everything else goes to vendor
-            return 'vendor';
-          }
+        manualChunks: {
+          // PERFORMANCE: Critical vendor chunks for better caching
+          "react-core": ["react", "react-dom"],
+          "react-router": ["react-router-dom"],
+          "redux": ["@reduxjs/toolkit", "react-redux"],
+          "query": ["@tanstack/react-query"],
+          
+          // PERFORMANCE: Form libraries - only load when needed
+          "forms": ["formik", "yup"],
+          
+          // PERFORMANCE: UI libraries - defer loading
+          "ui-base": ["react-select", "react-toastify"],
+          "swiper": ["swiper"],
+          "motion": ["motion"],
+          
+          // PERFORMANCE: Heavy editors - lazy load
+          "editor": [
+            "@ckeditor/ckeditor5-react",
+            "ckeditor5",
+            "@ckeditor/ckeditor5-build-classic",
+            "@ckeditor/ckeditor5-basic-styles",
+            "@ckeditor/ckeditor5-block-quote",
+            "@ckeditor/ckeditor5-essentials",
+            "@ckeditor/ckeditor5-heading",
+            "@ckeditor/ckeditor5-image",
+            "@ckeditor/ckeditor5-link",
+            "@ckeditor/ckeditor5-list",
+            "@ckeditor/ckeditor5-paragraph",
+            "@ckeditor/ckeditor5-table",
+            "@ckeditor/ckeditor5-upload",
+          ],
+          
+          // PERFORMANCE: Map libraries - only for specific pages
+          "maps": ["leaflet", "react-leaflet"],
         },
       },
     },
-    // Performance optimizations
-    target: 'es2020',
     // Increase chunk size warning limit
-    chunkSizeWarningLimit: 500,
-    // Use esbuild for faster builds
+    chunkSizeWarningLimit: 600,
+    // Use esbuild for faster builds, still provides good compression
     minify: 'esbuild',
     // Enable CSS code splitting
     cssCodeSplit: true,
-    // Disable source maps in production
+    // Disable source maps in production for smaller bundle
     sourcemap: false,
-    // Optimize CSS
-    cssMinify: true,
-    // Rollup optimizations
-    reportCompressedSize: false, // Faster builds
+    // Optimize chunk size
+    cssMinify: 'lightningcss',
+    // Target modern browsers for smaller output
+    target: 'es2020',
+    // Disable module preload to reduce overhead
+    modulePreload: false,
   },
   // Optimize dependencies
   optimizeDeps: {
@@ -90,23 +79,17 @@ export default defineConfig({
       'react', 
       'react-dom', 
       'react-router-dom',
-      'react-helmet-async'
+      'fuzzysort',
+      'react-select'
     ],
-    exclude: [
-      '@ckeditor/ckeditor5-react',
-      'ckeditor5'
-    ]
+    // Exclude heavy dependencies from pre-bundling
+    exclude: ['@ckeditor/ckeditor5-react', 'ckeditor5'],
   },
-  // Server configuration for development
-  server: {
-    warmup: {
-      clientFiles: [
-        './src/main.tsx',
-        './src/App.tsx',
-        './src/pages/Main/Home/Home.tsx',
-        './src/components/templates/Main/Home/Banner/Banner.tsx',
-      ]
-    }
-  }
+  // Fix for react-select and fuzzysort compatibility with Vite
+  resolve: {
+    alias: {
+      'fuzzysort': `${__dirname}/node_modules/fuzzysort/fuzzysort.js`,
+    },
+  },
 });
 

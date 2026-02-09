@@ -9,6 +9,8 @@ import EmptyState from "../../../components/modules/Main/EmptyState/EmptyState";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
 import SEO from "../../../components/SEO/SEO";
 import type { Doctor } from "../../../types/types";
+import { useClinicSelection } from "../../../contexts/useClinicSelection";
+import { useEffect, useRef } from "react";
 
 function Doctors() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,8 +19,26 @@ function Doctors() {
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "8");
   const search = searchParams.get("search") || "";
+  const { selectedClinic } = useClinicSelection();
+  const previousClinicIdRef = useRef<string | null>(selectedClinic?.id || null);
 
-  const { data: doctors, isLoading } = useGetAllDoctors(page, limit, search);
+  useEffect(() => {
+    if (previousClinicIdRef.current === selectedClinic?.id) return;
+    previousClinicIdRef.current = selectedClinic?.id || null;
+    if (page === 1) return;
+    setSearchParams({
+      page: "1",
+      limit: limit.toString(),
+      search,
+    });
+  }, [limit, page, search, selectedClinic?.id, setSearchParams]);
+
+  const { data: doctors, isLoading } = useGetAllDoctors(
+    page,
+    limit,
+    search,
+    selectedClinic?.id
+  );
 
   const handlePageChange = (newPage: number) => {
     setSearchParams({

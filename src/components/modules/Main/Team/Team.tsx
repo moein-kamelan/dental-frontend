@@ -4,9 +4,11 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { useGetAllDoctors } from "../../../../services/useDoctors";
 import type { Doctor } from "../../../../types/types";
+import { useClinicSelection } from "../../../../contexts/useClinicSelection";
 
 function Team() {
-  const { data: doctors } = useGetAllDoctors(1, 4);
+  const { selectedClinic } = useClinicSelection();
+  const { data: doctors } = useGetAllDoctors(1, 4, "", selectedClinic?.id);
   const totalDoctors = doctors?.meta?.total || 0;
 
   return (

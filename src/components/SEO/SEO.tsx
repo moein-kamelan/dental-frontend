@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 interface SEOProps {
@@ -41,58 +41,93 @@ const SEO = ({
     nofollow ? "nofollow" : "follow",
   ].join(", ");
 
-  return (
-    <Helmet>
-      {/* Basic Meta Tags */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <meta name="robots" content={robotsContent} />
-      {author && <meta name="author" content={author} />}
+  useEffect(() => {
+    // Update document title
+    document.title = title;
 
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content={type} />
-      <meta property="og:url" content={fullUrl} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={fullImageUrl} />
-      <meta property="og:locale" content="fa_IR" />
-      <meta property="og:site_name" content="کلینیک دندان پزشکی طاها" />
+    // Helper function to update or create meta tags
+    const updateMetaTag = (selector: string, attribute: string, value: string) => {
+      let element = document.querySelector(selector);
+      if (!element) {
+        element = document.createElement("meta");
+        const [attrName, attrValue] = selector.match(/\[(.*?)="(.*?)"\]/)?.slice(1, 3) || [];
+        if (attrName && attrValue) {
+          element.setAttribute(attrName, attrValue);
+        }
+        document.head.appendChild(element);
+      }
+      element.setAttribute(attribute, value);
+    };
 
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={fullUrl} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={fullImageUrl} />
+    // Helper function to update or create link tags
+    const updateLinkTag = (rel: string, href: string) => {
+      let element = document.querySelector(`link[rel="${rel}"]`);
+      if (!element) {
+        element = document.createElement("link");
+        element.setAttribute("rel", rel);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("href", href);
+    };
 
-      {/* Article specific */}
-      {type === "article" && (
-        <>
-          {author && <meta property="article:author" content={author} />}
-          {publishedTime && (
-            <meta property="article:published_time" content={publishedTime} />
-          )}
-          {modifiedTime && (
-            <meta property="article:modified_time" content={modifiedTime} />
-          )}
-        </>
-      )}
+    // Update meta tags
+    updateMetaTag('meta[name="description"]', "content", description);
+    updateMetaTag('meta[name="keywords"]', "content", keywords);
+    updateMetaTag('meta[name="robots"]', "content", robotsContent);
+    
+    if (author) {
+      updateMetaTag('meta[name="author"]', "content", author);
+    }
 
-      {/* Canonical URL */}
-      <link rel="canonical" href={fullUrl} />
+    // Open Graph tags
+    updateMetaTag('meta[property="og:type"]', "content", type);
+    updateMetaTag('meta[property="og:url"]', "content", fullUrl);
+    updateMetaTag('meta[property="og:title"]', "content", title);
+    updateMetaTag('meta[property="og:description"]', "content", description);
+    updateMetaTag('meta[property="og:image"]', "content", fullImageUrl);
+    updateMetaTag('meta[property="og:locale"]', "content", "fa_IR");
+    updateMetaTag('meta[property="og:site_name"]', "content", "کلینیک دندان پزشکی طاها");
 
-      {/* Language */}
-      <html lang="fa" dir="rtl" />
+    // Twitter tags
+    updateMetaTag('meta[name="twitter:card"]', "content", "summary_large_image");
+    updateMetaTag('meta[name="twitter:url"]', "content", fullUrl);
+    updateMetaTag('meta[name="twitter:title"]', "content", title);
+    updateMetaTag('meta[name="twitter:description"]', "content", description);
+    updateMetaTag('meta[name="twitter:image"]', "content", fullImageUrl);
 
-      {/* Structured Data (JSON-LD) */}
-      {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      )}
-    </Helmet>
-  );
+    // Article specific tags
+    if (type === "article") {
+      if (author) {
+        updateMetaTag('meta[property="article:author"]', "content", author);
+      }
+      if (publishedTime) {
+        updateMetaTag('meta[property="article:published_time"]', "content", publishedTime);
+      }
+      if (modifiedTime) {
+        updateMetaTag('meta[property="article:modified_time"]', "content", modifiedTime);
+      }
+    }
+
+    // Canonical URL
+    updateLinkTag("canonical", fullUrl);
+
+    // Language attributes
+    document.documentElement.lang = "fa";
+    document.documentElement.dir = "rtl";
+
+    // Structured Data
+    if (structuredData) {
+      let script = document.querySelector('script[type="application/ld+json"]');
+      if (!script) {
+        script = document.createElement("script");
+        script.setAttribute("type", "application/ld+json");
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(structuredData);
+    }
+  }, [title, description, keywords, fullImageUrl, fullUrl, type, author, publishedTime, modifiedTime, robotsContent, structuredData]);
+
+  return null;
 };
 
 export default SEO;

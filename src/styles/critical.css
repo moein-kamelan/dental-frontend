@@ -1,0 +1,78 @@
+/**
+ * CRITICAL CSS - Above the fold content
+ * This CSS should be inlined in index.html for fastest rendering
+ * Extract this and inline it in the <head> section
+ */
+
+/* Critical layout */
+#root {
+  min-height: 100vh;
+}
+
+/* Critical fonts - only Regular weight */
+@font-face {
+  font-family: 'Estedad';
+  src: url('/fonts/Estedad-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Critical hero section styles */
+.hero-section {
+  min-height: 70vh;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+.hero-title {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  line-height: 1.2;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+}
+
+/* Critical navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Optimize CLS - reserve space */
+.reserve-space-hero {
+  min-height: 600px;
+}
+
+/* Button critical styles */
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
