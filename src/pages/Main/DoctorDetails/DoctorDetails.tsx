@@ -6,7 +6,7 @@ import StickyBox from "react-sticky-box";
 import { useParams } from "react-router-dom";
 import { useGetDoctorByIdentifier } from "../../../services/useDoctors";
 import LoadingState from "../../../components/modules/Main/LoadingState/LoadingState";
-import { translateDayName, getImageUrl } from "../../../utils/helpers";
+import { translateDayName, getImageUrl, parseSkills } from "../../../utils/helpers";
 import CommentForm from "../../../components/modules/Main/CommentForm/CommentForm";
 import CommentsBox from "../../../components/modules/Main/CommentsBox/CommentsBox";
 import { useAppointmentModal } from "../../../contexts/useAppointmentModal";
@@ -62,7 +62,7 @@ function DoctorDetails() {
     ? `دکتر ${doctorName} - کلینیک دندان پزشکی طاها`
     : "پروفایل پزشک - کلینیک دندان پزشکی طاها";
   const doctorDescription = doctorData
-    ? `پروفایل دکتر ${doctorName} - ${doctorData.university || ""} - ${doctorData.skills?.join(", ") || ""}. مشاهده ساعات کاری و دریافت نوبت`
+    ? `پروفایل دکتر ${doctorName} - ${doctorData.university || ""} - ${parseSkills(doctorData.skills).join(", ")}. مشاهده ساعات کاری و دریافت نوبت`
     : "پروفایل پزشک کلینیک دندان پزشکی طاها";
 
   // Structured Data for Doctor
@@ -77,7 +77,7 @@ function DoctorDetails() {
       name: "کلینیک دندان پزشکی طاها",
       url: `${siteUrl}/home`,
     },
-    specialty: doctorData.skills || [],
+    specialty: parseSkills(doctorData.skills),
   }) : undefined;
 
   return (
@@ -85,7 +85,7 @@ function DoctorDetails() {
       <SEO
         title={doctorTitle}
         description={doctorDescription}
-        keywords={`دکتر ${doctorName}, دندانپزشک, ${doctorData?.skills?.join(", ") || ""}, کلینیک طاها`}
+        keywords={`دکتر ${doctorName}, دندانپزشک, ${parseSkills(doctorData?.skills).join(", ")}, کلینیک طاها`}
         image={doctorData?.profileImage ? getImageUrl(doctorData.profileImage) : undefined}
         url={`/doctors/${slug}`}
         type="profile"
@@ -148,10 +148,9 @@ function DoctorDetails() {
                       </div>
 
                       {/* Skills - Tags */}
-                      {doctor?.data?.doctor?.skills &&
-                        doctor.data.doctor.skills.length > 0 && (
+                      {parseSkills(doctor?.data?.doctor?.skills).length > 0 && (
                           <div className="flex flex-wrap gap-2">
-                            {doctor.data.doctor.skills.map((skill: string, index: number) => (
+                            {parseSkills(doctor.data.doctor.skills).map((skill: string, index: number) => (
                               <span
                                 key={index}
                                 className="px-3 py-1.5 bg-gray-50 text-gray-700 rounded-lg text-sm border border-gray-200"

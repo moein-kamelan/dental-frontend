@@ -413,3 +413,24 @@ export function getErrorMessage(
   // اما اگر response وجود نداشت و کد network error هم نبود، باز هم defaultMessage
   return defaultMessage;
 }
+
+/**
+ * Parse skills that may be a JSON string, an array, or something else.
+ * Always returns a string[].
+ */
+export function parseSkills(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw.map(String);
+  if (typeof raw === "string") {
+    const trimmed = raw.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parsed.map(String);
+      } catch {
+        /* ignore */
+      }
+    }
+    return trimmed ? [trimmed] : [];
+  }
+  return [];
+}

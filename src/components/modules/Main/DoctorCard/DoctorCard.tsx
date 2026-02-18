@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import type { Doctor } from "../../../../types/types";
-import { getImageUrl } from "../../../../utils/helpers";
+import { getImageUrl, parseSkills } from "../../../../utils/helpers";
 import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 
 interface DoctorCardProps {
@@ -31,7 +31,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
     return null;
   }
 
-  const skills = doctor.skills?.slice(0, 2).join("، ") || "";
+  const skills = parseSkills(doctor.skills).slice(0, 2).join("، ");
   const averageRating = doctor.stats?.averageRating;
   const totalReviews = doctor.stats?.totalReviews || 0;
   const successfulAppointments = doctor.stats?.successfulAppointments || 0;

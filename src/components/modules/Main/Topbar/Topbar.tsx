@@ -1,29 +1,30 @@
 import { useGetSettings } from '../../../../services/useSettings'
 import { useGetAllClinics } from '../../../../services/useClinics'
+import { useClinicSelection } from '../../../../contexts/useClinicSelection'
 
 function Topbar() {
   const { data: settingsData } = useGetSettings()
-  const { data: clinicsData } = useGetAllClinics(1, 2)
+  const { data: clinicsData } = useGetAllClinics(1, 100)
+  const { selectedClinic, openModal: openClinicModal } = useClinicSelection()
   const settings = settingsData?.data?.settings
   
   const clinics = clinicsData?.data?.clinics || []
-  // Get the first clinic (oldest - first created)
-  // Since clinics are ordered by createdAt desc, we need to get the last one for oldest
-  // Or we can sort to get oldest first
+  // Get the first clinic (oldest - first created) as fallback
   const sortedClinics = [...clinics].sort((a, b) => {
     if (!a.createdAt || !b.createdAt) return 0;
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
   const firstClinic = sortedClinics[0] || null;
 
-  // Get phone numbers from first clinic - handle JSON string, array, or string with separator
+  // اگر کلینیکی انتخاب شده، از اطلاعات آن استفاده کن؛ در غیر این صورت fallback قدیمی
+  const activeClinic = selectedClinic || firstClinic;
+
+  // Get phone numbers from clinic - handle JSON string, array, or string with separator
   const getPhoneNumbersFromString = (phoneStr: string | string[] | undefined): string[] => {
     if (!phoneStr) return [];
     if (Array.isArray(phoneStr)) return phoneStr.filter(p => p && p.trim());
     
-    // Try to parse as JSON first (in case it's stored as JSON string)
     if (typeof phoneStr === 'string') {
-      // Check if it looks like a JSON array
       const trimmed = phoneStr.trim();
       if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
         try {
@@ -35,20 +36,19 @@ function Topbar() {
           // If JSON parse fails, continue to separator splitting
         }
       }
-      // Split by common separators: comma, pipe, semicolon, or newline
       return trimmed.split(/[,|;|\n]/).map(p => p.trim()).filter(p => p);
     }
     
     return [];
   };
   
-  const firstClinicPhones = getPhoneNumbersFromString(firstClinic?.phoneNumber);
+  const activeClinicPhones = getPhoneNumbersFromString(activeClinic?.phoneNumber);
   
   // Fallback to settings if no clinic phone numbers
   const fallbackPhone = settings?.phoneNumber || '123456789'
   
-  const email = settings?.email // Only use email from settings, no fallback
-  const address = firstClinic?.address || settings?.address || 'شیراز. خیابان نیایش. ساختمان پزشکان'
+  const email = settings?.email
+  const address = activeClinic?.address || settings?.address || 'شیراز. خیابان نیایش. ساختمان پزشکان'
   
   // Social media links from settings
   const facebook = settings?.facebook
@@ -154,12 +154,12 @@ function Topbar() {
 
           {/* Contact Info - Right side */}
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4 order-1">
-            {/* Mobile: Phone numbers from first clinic */}
+            {/* Mobile: Phone numbers from active clinic */}
             <div className="flex md:hidden items-center gap-2 sm:gap-3 text-xs sm:text-sm leading-none flex-wrap">
-              {firstClinicPhones.length > 0 ? (
+              {activeClinicPhones.length > 0 ? (
                 <>
                   <i className="fas fa-phone-alt text-[10px]"></i>
-                  {firstClinicPhones.map((phone, index) => (
+                  {activeClinicPhones.map((phone, index) => (
                     <div key={index} className="flex items-center gap-1.5">
                       {index > 0 && <span className="opacity-60">|</span>}
                       <a href={`tel:${phone}`} className="leading-none whitespace-nowrap font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
@@ -180,10 +180,10 @@ function Topbar() {
             
             {/* Desktop: Phone numbers, Email, Address */}
             <ul className="hidden md:flex flex-wrap gap-3 lg:gap-4 text-xs sm:text-sm leading-none items-center">
-              {firstClinicPhones.length > 0 ? (
+              {activeClinicPhones.length > 0 ? (
                 <li className="flex items-center gap-1.5">
                   <i className="fas fa-phone-alt text-[10px]"></i>
-                  {firstClinicPhones.map((phone, index) => (
+                  {activeClinicPhones.map((phone, index) => (
                     <div key={index} className="flex items-center gap-1.5">
                       {index > 0 && <span className="opacity-60">|</span>}
                       <a href={`tel:${phone}`} className="leading-none hover:text-white/80 transition-colors font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>
@@ -215,6 +215,19 @@ function Topbar() {
                 </li>
               )}
             </ul>
+
+            {/* Clinic switch badge */}
+            {selectedClinic && (
+              <button
+                onClick={openClinicModal}
+                className="hidden md:flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/15 hover:bg-white/25 transition-all duration-200 text-[11px] leading-none cursor-pointer border border-white/20"
+                title="تغییر کلینیک"
+              >
+                <i className="fas fa-clinic-medical text-[9px]"></i>
+                <span className="font-medium" style={{ fontFamily: 'var(--font-vazir)' }}>{selectedClinic.name}</span>
+                <i className="fas fa-exchange-alt text-[8px] opacity-70"></i>
+              </button>
+            )}
           </div>
         </div>
       </div>

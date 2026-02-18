@@ -1,6 +1,6 @@
 import TableContainer from "../../../../modules/TableContainer/TableContainer";
 import TableSkeleton from "../../../../modules/TableSkeleton/TableSkeleton";
-import { formatJalali, getImageUrl } from "../../../../../utils/helpers";
+import { formatJalali, getImageUrl, parseSkills } from "../../../../../utils/helpers";
 import type { Doctor } from "../../../../../types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -123,9 +123,9 @@ function DoctorsManagementTable({
                     )}
                   </td>
                   <td className="text-dark font-estedad-light">
-                    {doctor.skills && doctor.skills.length > 0 ? (
+                    {parseSkills(doctor.skills).length > 0 ? (
                       <div className="flex flex-wrap gap-1">
-                        {doctor.skills.slice(0, 2).map((skill, idx) => (
+                        {parseSkills(doctor.skills).slice(0, 2).map((skill, idx) => (
                           <span
                             key={idx}
                             className="px-2 py-1 text-xs rounded-full bg-secondary/10 text-secondary text-center text-nowrap"
@@ -133,9 +133,9 @@ function DoctorsManagementTable({
                             {skill}
                           </span>
                         ))}
-                        {doctor.skills.length > 2 && (
+                        {parseSkills(doctor.skills).length > 2 && (
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-600">
-                            +{doctor.skills.length - 2}
+                            +{parseSkills(doctor.skills).length - 2}
                           </span>
                         )}
                       </div>
