@@ -35,9 +35,9 @@ function CommentsBox({
   if (isLoading) return <LoadingState />;
 
   return (
-    <div className="section-border p-4 md:p-7.5">
+    <section className="content-aside-card comments-panel p-5 md:p-8" aria-labelledby="comments-title">
       <div></div>
-      <h2 className="text-2xl font-estedad-semibold ">
+      <h2 id="comments-title" className="text-2xl font-estedad-semibold">
         دیدگاه‌ها ({totalComments})
       </h2>
 
@@ -55,9 +55,9 @@ function CommentsBox({
               className="border-t-[1.5px] border-[rgba(94,91,91,0.09)] pt-6 mt-6 "
             >
               <div className="grid  sm:grid-cols-[auto_1fr]  gap-4 ">
-                {(comment.user as any)?.profileImage ? (
+                {comment.user.profileImage ? (
                 <img
-                    src={getImageUrl((comment.user as any).profileImage)}
+                    src={getImageUrl(comment.user.profileImage)}
                     alt={`${comment.user.firstName} ${comment.user.lastName}`}
                     className="size-20 rounded-full shrink-0 justify-self-center object-cover"
                   />
@@ -159,7 +159,7 @@ function CommentsBox({
           </button>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 

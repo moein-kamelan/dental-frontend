@@ -12,7 +12,7 @@ function RecentPosts({
 }) {
   const recentPosts = [...(articles || []), ...(services || [])].slice(0, 3);
   return (
-    <div className="section-border  p-6">
+    <aside className="content-aside-card recent-posts-panel p-6" aria-label="مطالب جدید">
       <h5 className="main-header mb-4">پست‌های جدید</h5>
       <ul className="space-y-4">
         {recentPosts.map((recentPost: Article | Service) => (
@@ -34,7 +34,7 @@ function RecentPosts({
           </Link>
         ))}
       </ul>
-    </div>
+    </aside>
   );
 }
 

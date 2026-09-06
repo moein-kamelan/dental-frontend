@@ -64,10 +64,11 @@ function CommentForm({
   };
 
   return (
-    <div className="p-4 md:p-7.5 section-border rounded-[10px]">
-      <h2 className="text-2xl font-estedad-semibold text-dark mb-6">
+    <section className="content-form-card comment-form p-5 md:p-8" aria-labelledby="comment-form-title">
+      <h2 id="comment-form-title" className="text-2xl font-estedad-semibold text-dark mb-2">
         ارسال دیدگاه
       </h2>
+      <p className="text-paragray mb-6">تجربه خود را برای دیگر مراجعه‌کنندگان بنویسید.</p>
       <Formik
         initialValues={{
           content: "",
@@ -142,7 +143,7 @@ function CommentForm({
           </form>
         )}
       </Formik>
-    </div>
+    </section>
   );
 }
 

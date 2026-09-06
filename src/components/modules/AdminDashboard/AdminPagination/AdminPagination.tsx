@@ -63,7 +63,7 @@ function AdminPagination({ meta, onPageChange }: AdminPaginationProps) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center w-fit mx-auto items-center gap-4 bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-purple-200">
+    <nav className="admin-pagination flex flex-col sm:flex-row justify-center w-fit max-w-full mx-auto items-center gap-4 p-4" aria-label="صفحه‌بندی جدول">
       {/* اطلاعات صفحه */}
       <div className="flex items-center gap-2 text-sm font-estedad-light text-dark">
         <span>
@@ -148,7 +148,7 @@ function AdminPagination({ meta, onPageChange }: AdminPaginationProps) {
           </span>
         </form>
       </div>
-    </div>
+    </nav>
   );
 }
 

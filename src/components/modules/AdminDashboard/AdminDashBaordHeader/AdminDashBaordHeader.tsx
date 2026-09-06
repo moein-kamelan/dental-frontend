@@ -44,7 +44,7 @@ function AdminDashBaordHeader({
     };
   }, [isDropdownOpen]);
   return (
-    <div className="relative pb-6 mb-8">
+    <header className="admin-page-header relative pb-6 mb-8">
       <div className="flex flex-col lg:flex-row  justify-between max-lg:items-start flex-wrap gap-x-2.5 gap-y-4">
         <div className="flex items-center gap-3">
           {/* دکمه باز/بسته کردن سایدبار */}
@@ -107,8 +107,8 @@ function AdminDashBaordHeader({
                 }`}
               ></i>
               {(user?.role === "ADMIN" || user?.role === "SECRETARY") && (
-                <span className="absolute -top-2 -right-2 text-lg bg-white rounded-full p-1 shadow-md">
-                  {user?.role === "ADMIN" ? "👑" : "📋"}
+                <span className="admin-role-badge absolute -top-2 -right-2 text-xs bg-white rounded-full px-2 py-1 shadow-md">
+                  {user?.role === "ADMIN" ? "مدیر" : "منشی"}
                 </span>
               )}
             </button>
@@ -204,7 +204,7 @@ function AdminDashBaordHeader({
       {/* دایره‌های تزئینی در ابتدا و انتهای border */}
       <div className="absolute bottom-0 left-0 w-3 h-3 -translate-x-1/2 translate-y-1/2 bg-linear-to-r from-purple-400 to-purple-600 rounded-full shadow-md shadow-purple-500/50"></div>
       <div className="absolute bottom-0 right-0 w-3 h-3 translate-x-1/2 translate-y-1/2 bg-linear-to-r from-purple-400 to-purple-600 rounded-full shadow-md shadow-purple-500/50"></div>
-    </div>
+    </header>
   );
 }
 

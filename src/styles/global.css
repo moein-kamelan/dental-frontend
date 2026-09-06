@@ -514,6 +514,179 @@ button {
   border-radius: 2.5rem 2.5rem 0 0;
 }
 
+/* Unified content surfaces */
+.content-aside-card,
+.content-form-card {
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid rgba(11, 79, 92, .12);
+  border-radius: 1.5rem;
+  box-shadow: 0 14px 40px rgba(18, 54, 63, .08);
+}
+
+.category-panel .main-header,
+.comments-panel h2,
+.comment-form h2 {
+  color: var(--color-dark);
+}
+
+.category-link {
+  border-radius: .875rem;
+  min-height: 48px;
+}
+
+.category-link:hover,
+.category-link:focus-visible {
+  color: var(--color-secondary);
+  background: rgba(14, 116, 144, .08);
+}
+
+.comments-panel > div + div,
+.comments-panel > div + article {
+  border-color: rgba(11, 79, 92, .10) !important;
+}
+
+.comment-card { overflow: hidden; }
+.comment-form textarea { min-height: 132px; resize: vertical; }
+
+.tags-panel a,
+.recent-posts-panel a {
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.tags-panel a:hover,
+.tags-panel a:focus-visible {
+  color: var(--color-primary);
+  border-color: rgba(14,116,144,.3) !important;
+  background: rgba(14,116,144,.07);
+}
+
+.main-pagination {
+  margin-block: 2rem;
+  padding: 1rem;
+  border: 1px solid rgba(11,79,92,.12);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 8px 24px rgba(18,54,63,.06);
+}
+
+.main-pagination button:not(:disabled) { min-width: 44px; min-height: 44px; }
+
+/* Unified admin dashboard language */
+.admin-shell {
+  --admin-border: rgba(11, 79, 92, .13);
+  --admin-muted: #edf7f8;
+  --admin-hover: rgba(14, 116, 144, .07);
+  color: var(--color-dark);
+}
+
+.admin-sidebar {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(56, 178, 172, .22), transparent 16rem),
+    linear-gradient(165deg, #073f49 0%, #0b5864 52%, #08705e 100%);
+  box-shadow: -18px 0 45px rgba(7, 63, 73, .16);
+}
+
+.admin-page-header {
+  background: rgba(255, 255, 255, .72);
+  border: 1px solid var(--admin-border);
+  border-radius: 1.25rem;
+  padding: 1rem 1.25rem 1.35rem;
+  box-shadow: 0 10px 34px rgba(18, 54, 63, .07);
+  backdrop-filter: blur(14px);
+}
+
+.admin-page-header > div:nth-last-child(-n+4) {
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-accent)) !important;
+  box-shadow: none !important;
+}
+
+.admin-role-badge { color: var(--color-primary); border: 1px solid var(--admin-border); }
+
+.admin-table-shell {
+  background: rgba(255, 255, 255, .96);
+  border: 1px solid var(--admin-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 38px rgba(18, 54, 63, .08);
+}
+
+.admin-table-shell table { min-width: 760px; border-collapse: collapse; }
+.admin-table-shell thead {
+  border-bottom: 1px solid var(--admin-border) !important;
+  background: linear-gradient(180deg, #f4fbfb, #eaf6f6);
+}
+.admin-table-shell th {
+  color: var(--color-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.admin-table-shell td { color: var(--color-dark); vertical-align: middle; }
+.admin-table-shell tbody tr { transition: background-color .18s ease; }
+.admin-table-shell tbody tr:hover { background: var(--admin-hover) !important; }
+.admin-table-shell tbody tr:last-child td { border-bottom: 0; }
+
+.admin-pagination {
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--admin-border);
+  border-radius: 1rem;
+  box-shadow: 0 8px 26px rgba(18,54,63,.06);
+}
+
+.admin-pagination button:not(:disabled) { min-width: 44px; min-height: 44px; }
+
+.admin-shell form:not(.contents) {
+  accent-color: var(--color-secondary);
+}
+
+.admin-shell label { color: var(--color-dark); font-weight: 600; }
+.admin-shell input:not([type="checkbox"]):not([type="radio"]),
+.admin-shell textarea,
+.admin-shell select {
+  min-height: 46px;
+  border-radius: .875rem !important;
+  border: 1px solid var(--admin-border) !important;
+}
+
+.admin-shell textarea { min-height: 120px; }
+
+.admin-shell [class*="bg-purple"],
+.admin-shell [class*="bg-violet"],
+.admin-shell [class*="bg-indigo"] {
+  background-color: var(--color-secondary) !important;
+}
+
+.admin-shell [class*="text-purple"],
+.admin-shell [class*="text-violet"],
+.admin-shell [class*="text-indigo"] { color: var(--color-secondary) !important; }
+
+.admin-shell [class*="border-purple"],
+.admin-shell [class*="border-violet"],
+.admin-shell [class*="border-indigo"] { border-color: rgba(14, 116, 144, .28) !important; }
+
+.admin-shell [class*="from-purple"],
+.admin-shell [class*="via-purple"],
+.admin-shell [class*="to-purple"],
+.admin-shell [class*="from-violet"],
+.admin-shell [class*="to-violet"] {
+  --tw-gradient-from: #0b4f5c var(--tw-gradient-from-position) !important;
+  --tw-gradient-via: #0e7490 var(--tw-gradient-via-position) !important;
+  --tw-gradient-to: #078a70 var(--tw-gradient-to-position) !important;
+}
+
+.admin-shell [class*="hover:bg-purple"]:hover,
+.admin-shell [class*="hover:bg-violet"]:hover,
+.admin-shell [class*="hover:bg-indigo"]:hover { background-color: var(--color-primary) !important; }
+
+.admin-shell [class*="shadow-purple"],
+.admin-shell [class*="shadow-violet"] { --tw-shadow-color: rgba(14, 116, 144, .18) !important; }
+
+.admin-shell [role="dialog"],
+.admin-shell .fixed.inset-0 > [class*="bg-white"] {
+  border: 1px solid var(--admin-border);
+  border-radius: 1.25rem !important;
+  box-shadow: 0 28px 80px rgba(7, 63, 73, .24) !important;
+  overflow: hidden;
+}
+
 input:not([type="checkbox"]):not([type="radio"]), textarea, select {
   background-color: rgba(255,255,255,.92);
   border-color: rgba(11,79,92,.18) !important;
@@ -538,6 +711,8 @@ input:not([type="checkbox"]):not([type="radio"]):focus, textarea:focus, select:f
   .site-hero { min-height: auto; padding-top: 2rem; }
   .site-footer { border-radius: 1.75rem 1.75rem 0 0; }
   .surface-card:hover { transform: none; }
+  .admin-page-header { padding: .875rem; border-radius: 1rem; }
+  .admin-table-shell { border-radius: 1rem; }
 }
 
 .main-btn::before {
@@ -641,15 +816,15 @@ input:not([type="checkbox"]):not([type="radio"]):focus, textarea:focus, select:f
 
 @utility main-header {
   font-family: var(--font-vazir);
-  @apply text-2xl relative font-bold text-dark pb-2.5 border-b-2 border-[#18181817] mb-6 after:absolute after:content-[''] after:bg-accent after:top-full  after:-translate-y-px after:h-1 after:left-0 after:right-0 after:w-40;
+  @apply text-2xl relative font-bold text-dark pb-3 border-b border-main-border-color mb-6 after:absolute after:content-[''] after:bg-accent after:top-full after:-translate-y-px after:h-[3px] after:right-0 after:w-20 after:rounded-full;
 }
 
 @utility section-border {
-  @apply border-[2px] border-[#5e5b5b17] rounded-[10px];
+  @apply border border-main-border-color rounded-3xl bg-white shadow-[0_14px_40px_rgba(18,54,63,0.08)];
 }
 
 @utility purple-btn {
-  @apply px-8 py-3 bg-purple-500 hover:bg-purple-600 border-2 border-purple-700 text-white rounded-md transition font-estedad-semibold;
+  @apply px-8 py-3 bg-primary hover:bg-secondary border-2 border-primary text-white rounded-xl transition font-estedad-semibold;
 }
 
 .swiper {
@@ -808,9 +983,9 @@ input[type="number"] {
 
 /* Custom scrollbar for admin dashboard tables (inspired by playground design) */
 .custom-scrollbar {
-  --sb-track-color: #e3cae6;
-  --sb-thumb-color: #d48cde;
-  --sb-size: 16px;
+  --sb-track-color: #e7f3f4;
+  --sb-thumb-color: #65aeb7;
+  --sb-size: 12px;
 
   /* Firefox - auto gives thicker scrollbar than thin */
   scrollbar-width: auto;
@@ -880,32 +1055,32 @@ input[type="number"] {
 }
 
 .admin-modal-scrollbar::-webkit-scrollbar-track {
-  background: rgba(147, 51, 234, 0.1);
+  background: rgba(14, 116, 144, 0.1);
   border-radius: 10px;
   margin: 8px 0;
 }
 
 .admin-modal-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #9333ea 0%, #a855f7 50%, #c084fc 100%);
+  background: linear-gradient(180deg, #0b4f5c 0%, #0e7490 55%, #38b2ac 100%);
   border-radius: 10px;
-  border: 2px solid rgba(147, 51, 234, 0.2);
+  border: 2px solid rgba(14, 116, 144, 0.18);
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(147, 51, 234, 0.3);
+  box-shadow: 0 2px 4px rgba(14, 116, 144, 0.2);
 }
 
 .admin-modal-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #c084fc 0%, #a855f7 50%, #9333ea 100%);
-  box-shadow: 0 4px 8px rgba(168, 85, 247, 0.5);
+  background: linear-gradient(180deg, #38b2ac 0%, #0e7490 50%, #0b4f5c 100%);
+  box-shadow: 0 4px 8px rgba(14, 116, 144, 0.28);
   transform: scaleY(1.1);
 }
 
 .admin-modal-scrollbar::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(180deg, #7e22ce 0%, #9333ea 100%);
+  background: linear-gradient(180deg, #073f49 0%, #0b4f5c 100%);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Firefox scrollbar styles for admin modal */
 .admin-modal-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #9333ea rgba(147, 51, 234, 0.1);
+  scrollbar-color: #0e7490 rgba(14, 116, 144, 0.1);
 }

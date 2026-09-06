@@ -7,7 +7,6 @@ function AdminDashboardSidebar() {
   const { isSidebarOpen, toggleSidebar } = useAdminDashboardHeader();
   const { data: user } = useAppSelector((state) => state.user);
   const isAdmin = user?.role === "ADMIN";
-  const isSecretary = user?.role === "SECRETARY";
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
@@ -22,7 +21,7 @@ function AdminDashboardSidebar() {
   return (
     <aside
       id="sidebar"
-      className={`max-md:fixed max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 ease-in-out bg-linear-to-b from-purple-600 to-purple-400 text-white flex flex-col overflow-hidden ${
+      className={`admin-sidebar max-md:fixed max-md:top-0 max-md:h-screen md:h-full z-50 transition-all duration-300 ease-in-out text-white flex flex-col overflow-hidden ${
         isSidebarOpen
           ? "max-md:right-0 w-64"
           : "max-md:-right-full md:w-0 md:min-w-0 w-0 min-w-0"
@@ -44,7 +43,7 @@ function AdminDashboardSidebar() {
       >
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-            <i className="fas fa-cube text-purple-500 text-xl"></i>
+            <i className="fas fa-tooth text-primary text-xl"></i>
           </div>
           <h1 className="text-xl font-estedad-semibold">پنل مدیریت</h1>
         </div>

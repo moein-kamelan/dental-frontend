@@ -2,7 +2,7 @@ import React from 'react'
 
 function TagsBox() {
   return (
-    <div className=" section-border text-dark p-6">
+    <aside className="content-aside-card tags-panel text-dark p-6" aria-label="برچسب مقالات">
                 <h5 className="main-header">برچسب مقالات</h5>
                 <ul className="flex items-center flex-wrap gap-2">
                   <li>
@@ -61,7 +61,7 @@ function TagsBox() {
                     </a>
                   </li>
                 </ul>
-              </div>
+              </aside>
   )
 }
 

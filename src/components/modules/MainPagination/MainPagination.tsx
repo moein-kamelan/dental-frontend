@@ -63,7 +63,7 @@ function MainPagination({ meta, onPageChange }: MainPaginationProps) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+    <nav className="main-pagination flex flex-col sm:flex-row justify-center items-center gap-4" aria-label="صفحه‌بندی محتوا">
       {/* اطلاعات صفحه */}
       <div className="flex items-center gap-2 text-sm text-gray-600">
         <span>
@@ -73,7 +73,7 @@ function MainPagination({ meta, onPageChange }: MainPaginationProps) {
       </div>
 
       {/* کنترل‌های صفحه‌بندی */}
-      <div className="flex justify-center gap-2 items-center">
+      <div className="flex justify-center flex-wrap gap-2 items-center">
         {/* دکمه صفحه قبل */}
         <button
           onClick={() => handlePageChange(page - 1)}
@@ -149,7 +149,7 @@ function MainPagination({ meta, onPageChange }: MainPaginationProps) {
           <span className="text-sm text-gray-600">از {totalPages}</span>
         </form>
       </div>
-    </div>
+    </nav>
   );
 }
 
