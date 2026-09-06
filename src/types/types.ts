@@ -12,6 +12,7 @@ export interface Clinic {
   phoneNumber: string[]; // آرایه شماره تلفن‌ها
   description?: string;
   image?: string | null;
+  heroBackground?: string | null;
   latitude?: number | null;
   longitude?: number | null;
   workingHours?: Record<string, string | null>;

@@ -37,6 +37,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const { mutateAsync: createClinic } = useCreateClinic();
   const { mutateAsync: updateClinic } = useUpdateClinic();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const heroBackgroundInputRef = useRef<HTMLInputElement>(null);
   const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!clinic?.id;
@@ -72,6 +73,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       longitude: number | null;
       workingHours: Record<string, TimeRange[]>;
       image: File | null;
+      heroBackground: File | null;
       eitaaChatId: string | null;
     },
     resetForm: () => void
@@ -142,6 +144,9 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
       // Handle image upload
       if (values.image instanceof File) {
         formData.append("image", values.image);
+      }
+      if (values.heroBackground instanceof File) {
+        formData.append("heroBackground", values.heroBackground);
       }
       // #region agent log
       fetch(
@@ -403,6 +408,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         })(),
         description: clinic?.description || "",
         image: null as File | null,
+        heroBackground: null as File | null,
         latitude: clinic?.latitude ?? null,
         longitude: clinic?.longitude ?? null,
         eitaaChatId: clinic?.eitaaChatId || null,
@@ -460,6 +466,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
             phoneNumbers: values.phoneNumbers,
             description: values.description,
             image: values.image,
+            heroBackground: values.heroBackground,
             latitude:
               values.latitude === null || values.latitude === undefined
                 ? null
@@ -636,6 +643,41 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                     : null
                 }
               />
+            </div>
+
+            <div>
+              <label className="block text-dark font-estedad-lightbold mb-2 mr-4">
+                تصویر پس‌زمینه هیرو
+              </label>
+              <p className="text-xs text-paragray mb-3 mr-4">
+                تصویر افقی با کیفیت مناسب انتخاب کنید؛ فیلتر خوانایی متن به‌صورت خودکار اعمال می‌شود.
+              </p>
+              <div className="flex items-center gap-4 flex-wrap">
+                <input
+                  ref={heroBackgroundInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={(event) => formik.setFieldValue("heroBackground", event.target.files?.[0] || null)}
+                />
+                <button
+                  type="button"
+                  onClick={() => heroBackgroundInputRef.current?.click()}
+                  className="px-8 py-3 rounded-lg font-estedad-medium bg-secondary text-white hover:opacity-90 transition-opacity"
+                >
+                  انتخاب تصویر هیرو
+                </button>
+                {formik.values.heroBackground instanceof File && (
+                  <span className="text-sm text-dark">{formik.values.heroBackground.name}</span>
+                )}
+                {clinic?.heroBackground && !(formik.values.heroBackground instanceof File) && (
+                  <img
+                    src={getImageUrl(clinic.heroBackground)}
+                    alt={`پس‌زمینه هیرو ${clinic.name}`}
+                    className="h-24 w-40 rounded-lg object-cover"
+                  />
+                )}
+              </div>
             </div>
 
             <div>

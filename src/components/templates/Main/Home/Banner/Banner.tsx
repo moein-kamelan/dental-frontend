@@ -15,6 +15,7 @@ import { useGetAllDoctors } from "../../../../../services/useDoctors";
 import type { HeroSlider } from "../../../../../types/types";
 import BannerSlide from "./BannerSlide/BannerSlide";
 import { useClinicSelection } from "../../../../../contexts/useClinicSelection";
+import { getImageUrl } from "../../../../../utils/helpers";
 function Banner() {
   const [displayYearsExperience, setDisplayYearsExperience] = useState(0);
   const [displayTotalDoctors, setDisplayTotalDoctors] = useState(0);
@@ -71,8 +72,21 @@ function Banner() {
   }, [yearsOfExperience, totalDoctors, activeClinics]);
 
   return (
-    <motion.section className="bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30   xl:max-h-full lg:max-h-[600px] lg:h-[calc(100vh-96px)] pt-5 overflow-hidden">
-      <div className="container mx-auto px-4 h-full ">
+    <motion.section className="relative bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 xl:max-h-full lg:max-h-[600px] lg:h-[calc(100vh-96px)] pt-5 overflow-hidden">
+      {selectedClinic?.heroBackground && (
+        <div className="absolute inset-0" aria-hidden="true">
+          <img
+            src={getImageUrl(selectedClinic.heroBackground)}
+            alt=""
+            className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-linear-to-l from-white/96 via-white/84 to-secondary/55" />
+          <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-white/35" />
+        </div>
+      )}
+      <div className="container relative z-10 mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
             className="space-y-6 xl:-translate-y-16 max-md:text-center"
