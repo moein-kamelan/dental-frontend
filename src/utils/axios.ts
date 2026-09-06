@@ -92,6 +92,13 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+axiosInstance.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    config.headers.set("X-Clinic-Host", window.location.hostname);
+  }
+  return config;
+});
+
 // متغیرهای lazy برای جلوگیری از circular dependency
 let storeInstance: AppStore | null = null;
 let fetchCsrfTokenAction: AsyncThunk<string | null, void, object> | null = null;

@@ -7,6 +7,7 @@ export interface Clinic {
   id: string;
   name: string;
   slug: string;
+  domain?: string | null;
   address: string;
   phoneNumber: string[]; // آرایه شماره تلفن‌ها
   description?: string;

@@ -9,6 +9,7 @@ import {
   ClinicSelectionContext,
   type ClinicSelectionContextValue,
 } from "./ClinicSelectionContextValue";
+import { useGetCurrentClinic } from "../services/useClinics";
 
 const STORAGE_KEY = "selectedClinic";
 const DISMISS_KEY = "clinicSelectionDismissed";
@@ -16,6 +17,16 @@ const DISMISS_KEY = "clinicSelectionDismissed";
 export function ClinicSelectionProvider({ children }: PropsWithChildren) {
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { data: currentClinicResponse } = useGetCurrentClinic();
+  const domainClinic = currentClinicResponse?.data?.clinic as Clinic | undefined;
+
+  useEffect(() => {
+    if (domainClinic) {
+      setSelectedClinic(domainClinic);
+      setIsModalOpen(false);
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, [domainClinic]);
 
   useEffect(() => {
     try {
@@ -25,16 +36,16 @@ export function ClinicSelectionProvider({ children }: PropsWithChildren) {
         if (parsed && typeof parsed.id === "string") {
           setSelectedClinic(parsed as Clinic);
         }
-      } else if (!sessionStorage.getItem(DISMISS_KEY)) {
+      } else if (!domainClinic && !sessionStorage.getItem(DISMISS_KEY)) {
         setIsModalOpen(true);
       }
     } catch (error) {
       console.error("Failed to read stored clinic selection", error);
     }
-  }, []);
+  }, [domainClinic]);
 
   useEffect(() => {
-    if (selectedClinic) return;
+    if (selectedClinic || domainClinic) return;
     try {
       if (!sessionStorage.getItem(DISMISS_KEY)) {
         setIsModalOpen(true);
@@ -42,9 +53,10 @@ export function ClinicSelectionProvider({ children }: PropsWithChildren) {
     } catch (error) {
       console.error("Failed to check clinic selection dismissal", error);
     }
-  }, [selectedClinic]);
+  }, [selectedClinic, domainClinic]);
 
   const selectClinic = (clinic: Clinic) => {
+    if (domainClinic && clinic.id !== domainClinic.id) return;
     setSelectedClinic(clinic);
     setIsModalOpen(false);
     try {
@@ -56,6 +68,7 @@ export function ClinicSelectionProvider({ children }: PropsWithChildren) {
   };
 
   const clearSelection = () => {
+    if (domainClinic) return;
     setSelectedClinic(null);
     try {
       localStorage.removeItem(STORAGE_KEY);
@@ -66,6 +79,7 @@ export function ClinicSelectionProvider({ children }: PropsWithChildren) {
   };
 
   const openModal = () => {
+    if (domainClinic) return;
     setIsModalOpen(true);
     try {
       sessionStorage.removeItem(DISMISS_KEY);

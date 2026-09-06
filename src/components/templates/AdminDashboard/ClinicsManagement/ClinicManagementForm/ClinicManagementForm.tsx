@@ -43,6 +43,9 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("نام کلینیک الزامی است"),
+    domain: Yup.string()
+      .matches(/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/i, "دامنه معتبر نیست؛ مثال: clinic.example.com")
+      .nullable(),
     address: Yup.string().required("آدرس الزامی است"),
     phoneNumbers: Yup.array().of(Yup.string().required("شماره تلفن الزامی است")).min(1, "حداقل یک شماره تلفن الزامی است"),
     description: Yup.string(),
@@ -61,6 +64,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
   const handleSubmit = async (
     values: {
       name: string;
+      domain: string;
       address: string;
       phoneNumbers: string[];
       description: string;
@@ -75,6 +79,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
     try {
       const formData = new FormData();
       formData.append("name", values.name);
+      formData.append("domain", values.domain.trim().toLowerCase());
       formData.append("address", values.address);
       // Send phone numbers as JSON string (filter out empty values)
       const validPhoneNumbers = values.phoneNumbers.filter(phone => phone && phone.trim() !== '');
@@ -351,6 +356,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
     <Formik
       initialValues={{
         name: clinic?.name || "",
+        domain: clinic?.domain || "",
         address: clinic?.address || "",
         phoneNumbers: (() => {
           // Parse phone numbers from various formats
@@ -449,6 +455,7 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
         await handleSubmit(
           {
             name: values.name,
+            domain: values.domain,
             address: values.address,
             phoneNumbers: values.phoneNumbers,
             description: values.description,
@@ -484,6 +491,18 @@ function ClinicManagementForm({ clinic }: { clinic?: Clinic }) {
                 errorMessage={
                   formik.touched.name && formik.errors.name
                     ? formik.errors.name
+                    : null
+                }
+              />
+
+              <CustomInput
+                labelText="دامنه کلینیک"
+                placeholder="clinic.example.com"
+                className="bg-white"
+                {...formik.getFieldProps("domain")}
+                errorMessage={
+                  formik.touched.domain && formik.errors.domain
+                    ? formik.errors.domain
                     : null
                 }
               />

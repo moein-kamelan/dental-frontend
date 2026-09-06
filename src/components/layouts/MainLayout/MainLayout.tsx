@@ -6,8 +6,10 @@ import Footer from "../../modules/Main/Footer/Footer";
 import AuthModal from "../../modules/Main/AuthModal/AuthModal";
 import AppointmentModal from "../../modules/Main/AppointmentModal/AppointmentModal";
 import ClinicSelectionModal from "../../modules/Main/ClinicSelectionModal/ClinicSelectionModal";
+import { useClinicSelection } from "../../../contexts/useClinicSelection";
 
 function MainLayout() {
+  const { selectedClinic } = useClinicSelection();
   useEffect(() => {
     let goftinoWidget: HTMLElement | null = null;
 
@@ -124,7 +126,7 @@ function MainLayout() {
         <i className="fas fa-arrow-alt-up"></i>
       </div>
 
-      <ClinicSelectionModal />
+      {!selectedClinic?.domain && <ClinicSelectionModal />}
       <AuthModal />
       <AppointmentModal />
     </div>

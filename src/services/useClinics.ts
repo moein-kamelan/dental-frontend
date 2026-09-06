@@ -19,6 +19,15 @@ export const useGetAllClinics = (page: number = 1, limit: number = 10) => {
   });
 };
 
+export const useGetCurrentClinic = () => {
+  return useQuery({
+    queryKey: ["clinic", "current", window.location.hostname],
+    queryFn: async () => (await axiosInstance.get("/clinics/current")).data,
+    retry: false,
+    staleTime: 1000 * 60 * 10,
+  });
+};
+
 export const useGetClinicById = (id: string) => {
   return useQuery({
     queryKey: ["clinic", id],
