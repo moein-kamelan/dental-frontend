@@ -6,7 +6,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
 
   return (
     <motion.div
-      className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 overflow-hidden transition-all duration-300"
+      className="surface-card bg-white overflow-hidden"
       whileHover={{ scale: 1.01 }}
       initial={false}
     >

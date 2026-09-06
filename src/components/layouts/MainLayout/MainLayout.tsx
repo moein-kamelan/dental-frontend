@@ -112,7 +112,7 @@ function MainLayout() {
   }, []);
 
   return (
-    <div className="">
+    <div className="site-shell min-h-screen">
       <Topbar />
       <Navbar />
 

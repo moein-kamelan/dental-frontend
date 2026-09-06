@@ -108,7 +108,7 @@ function AdminDashboardLayoutContent() {
   }, []);
 
   return (
-    <div className="transition-colors duration-200 font-estedad-medium">
+    <div className="admin-shell transition-colors duration-200 font-estedad-medium">
       {/* <!-- Overlay --> */}
       <div
         onClick={toggleSidebar}
@@ -123,7 +123,7 @@ function AdminDashboardLayoutContent() {
         <AdminDashboardSidebar />
 
         {/* <!-- Main Content --> */}
-        <div className="flex-1 bg-[url('/images/dashboard-bg-pattern.png')] bg-no-repeat bg-cover p-4 md:p-8 overflow-auto">
+        <div className="flex-1 bg-[radial-gradient(circle_at_top_right,rgba(14,116,144,0.10),transparent_30rem)] bg-[#f3fafb] p-4 md:p-8 overflow-auto">
           {/* <!-- Quick Stats --> */}
           <AdminDashboardHeaderWrapper />
           <Outlet />

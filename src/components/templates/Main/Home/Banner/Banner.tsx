@@ -72,7 +72,7 @@ function Banner() {
   }, [yearsOfExperience, totalDoctors, activeClinics]);
 
   return (
-    <motion.section className="relative bg-linear-to-br from-secondary/20 via-secondary/10 to-accent/30 xl:max-h-full lg:max-h-[600px] lg:h-[calc(100vh-96px)] pt-5 overflow-hidden">
+    <motion.section className="site-hero relative xl:max-h-full lg:h-[calc(100vh-110px)] pt-5 overflow-hidden">
       {selectedClinic?.heroBackground && (
         <div className="absolute inset-0" aria-hidden="true">
           <img
@@ -82,25 +82,25 @@ function Banner() {
             loading="eager"
             fetchPriority="high"
           />
-          <div className="absolute inset-0 bg-linear-to-l from-white/96 via-white/84 to-secondary/55" />
-          <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-white/35" />
+          <div className="absolute inset-0 bg-linear-to-l from-[#f8ffff]/98 via-[#effafa]/88 to-primary/45" />
+          <div className="absolute inset-0 bg-linear-to-b from-white/10 via-transparent to-[#f3fafb]/55" />
         </div>
       )}
       <div className="container relative z-10 mx-auto px-4 h-full ">
         <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-8 items-center h-full">
           <motion.div
-            className="space-y-6 xl:-translate-y-16 max-md:text-center"
+            className="space-y-6 xl:-translate-y-10 max-md:text-center"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <div className="custom-sub-title max-md:mx-auto">
-              <span>خوش آمدید</span>
+            <div className="custom-sub-title max-md:mx-auto rounded-full bg-white/70 border border-secondary/15 px-5 py-2 shadow-sm backdrop-blur-md">
+              <span>مراقبت دقیق، لبخند ماندگار</span>
             </div>
-            <h1 className="text-4xl sm:text-[42px] lg:text-[38px] xl:text-[52px] custom-title mt-[22px] mb-4 leading-tight xl:max-w-[526px] max-md:text-center">
+            <h1 className="text-4xl sm:text-[44px] lg:text-[44px] xl:text-[58px] custom-title mt-[22px] mb-4 leading-[1.25] xl:max-w-[620px] max-md:text-center tracking-[-0.025em]">
               {settings?.data?.settings?.siteTitle ?? "عنوان سایت"}
             </h1>
-            <p className="text-paragray text-lg xl:max-w-[526px] font-estedad-light">
+            <p className="text-paragray text-base md:text-lg xl:max-w-[570px] font-estedad-light leading-8">
               {settings?.data?.settings?.description ?? ""}
             </p>
             <button
@@ -111,8 +111,8 @@ function Banner() {
               <i className="fas fa-arrow-left absolute left-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 -translate-x-2 transition-all duration-200 text-sm"></i>
             </button>
 
-            <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-8 pt-8">
-              <div>
+            <div className="flex flex-wrap gap-y-4 max-md:justify-center gap-x-3 pt-6">
+              <div className="min-w-28 rounded-2xl border border-primary/10 bg-white/65 px-5 py-3 shadow-sm backdrop-blur-md">
                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
                   <span className="text-2xl">+</span>
                   {displayYearsExperience}
@@ -121,7 +121,7 @@ function Banner() {
                   تجربه کاری
                 </p>
               </div>
-              <div>
+              <div className="min-w-28 rounded-2xl border border-primary/10 bg-white/65 px-5 py-3 shadow-sm backdrop-blur-md">
                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
                   {displayTotalDoctors}
                 </motion.h3>
@@ -129,7 +129,7 @@ function Banner() {
                   پزشک فعال
                 </p>
               </div>
-              <div>
+              <div className="min-w-28 rounded-2xl border border-primary/10 bg-white/65 px-5 py-3 shadow-sm backdrop-blur-md">
                 <motion.h3 className="text-[32px] md:text-[40px] font-estedad-semibold  text-dark text-center">
                   {displayActiveClinics}
                 </motion.h3>

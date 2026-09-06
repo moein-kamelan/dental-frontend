@@ -101,7 +101,7 @@ function Breadcrumb({ title, items, searchForm }: BreadcrumbProps) {
     title || breadcrumbItems[breadcrumbItems.length - 1]?.label || "صفحه";
 
   return (
-    <section className="py-3 md:py-4 mb-4">
+    <section className="page-heading py-3 md:py-4 mb-4">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between"

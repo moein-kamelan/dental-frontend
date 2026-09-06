@@ -69,7 +69,7 @@ function Navbar() {
     }
   };
   return (
-    <nav className="sticky top-0 left-0 right-0 z-50 bg-white shadow-md h-16 sm:h-18 md:h-[76px] w-full">
+    <nav className="site-navbar sticky top-0 left-0 right-0 z-50 bg-white h-16 sm:h-18 md:h-[76px] w-full">
       <div className="container mx-auto px-3 sm:px-4 h-full">
         <div className="flex items-center justify-between py-2 sm:py-3 md:py-4 h-full">
           <NavLink

@@ -59,7 +59,7 @@ function Topbar() {
   const eitaa = settings?.eitaa
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/85 via-primary/85 to-primary text-white h-[32px] flex items-center">
+    <section className="site-topbar relative overflow-hidden text-white h-[34px] flex items-center">
       <div className="container mx-auto px-3 sm:px-4 relative z-10 w-full">
         <div className="flex flex-wrap justify-between items-center gap-2 sm:gap-3">
           {/* Social Media - Left side (mobile and desktop) */}

@@ -71,7 +71,7 @@ function Footer() {
   ].filter((link) => link.url);
 
   return (
-    <footer className="relative bg-gradient-to-br from-primary via-primary/95 to-accent text-white mt-12 md:mt-16 overflow-hidden">
+    <footer className="site-footer relative text-white mt-12 md:mt-20 overflow-hidden">
       <div className="container mx-auto px-4 pt-8 md:pt-12 pb-6 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8">

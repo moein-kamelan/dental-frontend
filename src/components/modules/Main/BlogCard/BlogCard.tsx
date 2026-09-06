@@ -32,7 +32,7 @@ function BlogCard({ article }: BlogCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-[0_8px_24px_rgba(42,122,122,0.15)] transition group/card cursor-pointer border border-transparent hover:border-secondary/20"
+      className="surface-card flex flex-col bg-white overflow-hidden group/card cursor-pointer"
     >
       <div className="relative h-64">
         {article?.coverImage ? (
