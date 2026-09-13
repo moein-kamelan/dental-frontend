@@ -98,7 +98,9 @@ function Banner() {
               <span>مراقبت دقیق، لبخند ماندگار</span>
             </div>
             <h1 className="text-4xl sm:text-[44px] lg:text-[44px] xl:text-[58px] custom-title mt-[22px] mb-4 leading-[1.25] xl:max-w-[620px] max-md:text-center tracking-[-0.025em]">
-              {settings?.data?.settings?.siteTitle ?? "عنوان سایت"}
+              {selectedClinic
+                ? `کلینیک دندان پزشکی ${selectedClinic.name}`
+                : settings?.data?.settings?.siteTitle ?? "عنوان سایت"}
             </h1>
             <p className="text-paragray text-base md:text-lg xl:max-w-[570px] font-estedad-light leading-8">
               {settings?.data?.settings?.description ?? ""}
