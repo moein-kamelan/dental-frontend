@@ -396,7 +396,7 @@ body {
   background-attachment: fixed;
 }
 
-/* Override all estedad fonts to use Vazir */
+/* Keep legacy typography utilities while rendering the whole interface with Vazirmatn. */
 .font-estedad-verybold,
 .font-estedad-lightbold,
 .font-estedad-bold,
@@ -404,8 +404,45 @@ body {
 .font-estedad-medium,
 .font-estedad-light,
 .font-estedad-extralight,
-[class*="font-estedad"] {
+[class*="font-estedad"],
+[class*="font-iran-"] {
   font-family: var(--font-vazir) !important;
+}
+
+.font-estedad-verybold,
+.font-estedad-bold,
+.font-iran-yekan-bold,
+.font-iran-sans-bold {
+  font-weight: 800;
+}
+
+.font-estedad-lightbold {
+  font-weight: 700;
+}
+
+.font-estedad-semibold {
+  font-weight: 600;
+}
+
+.font-estedad-medium,
+.font-iran-yekan-medium,
+.font-iran-sans-normal {
+  font-weight: 500;
+}
+
+.font-estedad-light,
+.font-iran-sans-light {
+  font-weight: 300;
+}
+
+.font-estedad-extralight,
+.font-iran-sans-ultralight {
+  font-weight: 200;
+}
+
+.font-estedad-thin,
+.font-iran-yekan-thin {
+  font-weight: 100;
 }
 
 /* Apply Vazir font to all text elements by default */
