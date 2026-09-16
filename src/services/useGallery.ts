@@ -4,10 +4,11 @@ import { axiosInstance } from "../utils/axios";
 export const useGetAllGallery = (
   page: number = 1,
   limit: number = 10,
-  published?: string | boolean
+  published?: string | boolean,
+  clinicId?: string
 ) => {
   return useQuery({
-    queryKey: ["gallery", page, limit, published],
+    queryKey: ["gallery", page, limit, published, clinicId || null],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: page.toString(),
@@ -17,6 +18,7 @@ export const useGetAllGallery = (
       if (published !== undefined) {
         params.append("published", published.toString());
       }
+      if (clinicId) params.append("clinicId", clinicId);
 
       const response = await axiosInstance.get(`/gallery?${params.toString()}`);
       return response.data;

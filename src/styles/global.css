@@ -359,21 +359,21 @@ figure img {
 
   --breakpoint-xs: 480px;
 
-  --font-iran-yekan-bold: "iran-yekan-bold";
-  --font-iran-yekan-thin: "iran-yekan-thin";
-  --font-iran-yekan-medium: "iran-yekan-medium";
+  --font-iran-yekan-bold: "Vazirmatn", sans-serif;
+  --font-iran-yekan-thin: "Vazirmatn", sans-serif;
+  --font-iran-yekan-medium: "Vazirmatn", sans-serif;
 
-  --font-iran-sans-normal: "iran-normal";
-  --font-iran-sans-light: "iran-light";
-  --font-iran-sans-bold: "iran-bold";
-  --font-iran-sans-ultralight: "iran-ultralight";
+  --font-iran-sans-normal: "Vazirmatn", sans-serif;
+  --font-iran-sans-light: "Vazirmatn", sans-serif;
+  --font-iran-sans-bold: "Vazirmatn", sans-serif;
+  --font-iran-sans-ultralight: "Vazirmatn", sans-serif;
 
-  --font-estedad-verybold: "estedad-verybold";
-  --font-estedad-lightbold: "estedad-lightbold";
-  --font-estedad-light: "estedad-light";
-  --font-estedad-extralight: "estedad-extralight";
-  --font-estedad-medium: "estedad-medium";
-  --font-estedad-semibold: "estedad-semibold";
+  --font-estedad-verybold: "Vazirmatn", sans-serif;
+  --font-estedad-lightbold: "Vazirmatn", sans-serif;
+  --font-estedad-light: "Vazirmatn", sans-serif;
+  --font-estedad-extralight: "Vazirmatn", sans-serif;
+  --font-estedad-medium: "Vazirmatn", sans-serif;
+  --font-estedad-semibold: "Vazirmatn", sans-serif;
   
   --font-vazir: "Vazirmatn", "Vazir", sans-serif;
 }
@@ -613,8 +613,36 @@ button {
   --admin-border: rgba(11, 79, 92, .13);
   --admin-muted: #edf7f8;
   --admin-hover: rgba(14, 116, 144, .07);
+  --admin-surface: #ffffff;
+  --admin-canvas: #f3fafb;
+  --admin-text: #12363f;
+  --admin-subtle-text: #526a72;
+  --admin-brand: #0e7490;
+  --admin-brand-dark: #0b4f5c;
   color: var(--color-dark);
+  background: var(--admin-canvas);
 }
+
+.admin-shell :where(button, input, textarea, select) { font-family: var(--font-vazir) !important; }
+.admin-shell :where(.bg-white) { color: var(--admin-text); }
+.admin-shell :where(.text-gray-500, .text-gray-600, .text-gray-700) { color: var(--admin-subtle-text) !important; }
+
+.admin-welcome {
+  background: linear-gradient(135deg, #0b4f5c 0%, #0e7490 55%, #078a70 100%);
+  color: #fff;
+  box-shadow: 0 16px 36px rgba(11, 79, 92, .18);
+}
+.admin-welcome h2,
+.admin-welcome p,
+.admin-welcome i { color: #fff !important; }
+
+.admin-brand-button {
+  background: linear-gradient(135deg, #0b4f5c, #078a70) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.16);
+}
+.admin-brand-button:hover { background: linear-gradient(135deg, #083f49, #066b59) !important; }
+.admin-title { color: var(--admin-brand-dark) !important; }
 
 .admin-sidebar {
   background:
@@ -684,6 +712,16 @@ button {
 }
 
 .admin-shell textarea { min-height: 120px; }
+
+.admin-shell :where(input, textarea, select, [class*="control"]) {
+  color: var(--admin-text) !important;
+  background-color: #fff !important;
+}
+.admin-shell :where(input, textarea)::placeholder { color: #748990 !important; opacity: 1; }
+.admin-shell :where(button, a):focus-visible {
+  outline: 3px solid rgba(14,116,144,.3);
+  outline-offset: 2px;
+}
 
 .admin-shell [class*="bg-purple"],
 .admin-shell [class*="bg-violet"],

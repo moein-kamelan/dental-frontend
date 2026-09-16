@@ -4,10 +4,12 @@ import { useGetSettings } from "../../../../services/useSettings";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../../../../utils/helpers";
 import DevelopersModal from "./DevelopersModal";
+import { useClinicSelection } from "../../../../contexts/useClinicSelection";
 
 function Footer() {
   const { data: settings, isLoading: isSettingsLoading } = useGetSettings();
   const [isDevelopersModalOpen, setIsDevelopersModalOpen] = useState(false);
+  const { selectedClinic } = useClinicSelection();
 
   const socialLinks = [
     {
@@ -89,11 +91,13 @@ function Footer() {
               <div className="mb-4 w-40 h-16 overflow-hidden">
                 <img
                   src={
-                    settings?.data?.settings?.logo
+                    selectedClinic?.image
+                      ? getImageUrl(selectedClinic.image)
+                      : settings?.data?.settings?.logo
                       ? getImageUrl(settings.data.settings.logo)
                       : "/images/main-logo.png"
                   }
-                  alt="logo"
+                  alt={selectedClinic?.name ? `لوگوی ${selectedClinic.name}` : "لوگوی سایت"}
                   className="w-[180px] h-16 object-contain object-left filter brightness-0 invert"
                 />
               </div>
@@ -250,7 +254,7 @@ function Footer() {
           viewport={{ once: true }}
         >
           <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-right">
-            تمامی حقوق متعلق به کلینیک دندان پزشکی طاها می‌باشد © ۱۴۰۴
+            تمامی حقوق متعلق به {selectedClinic?.name || settings?.data?.settings?.siteName || "کلینیک دندان‌پزشکی"} می‌باشد © ۱۴۰۴
           </p>
           <p className="text-white/70 font-estedad-light text-xs md:text-sm text-center md:text-left">
             ساخته شده با <i className="fas fa-heart text-accent mx-1"></i>{" "}

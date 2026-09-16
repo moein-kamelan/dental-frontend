@@ -11,6 +11,7 @@ import { useLogout } from "../../../../services/useAuth";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
 import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 import { getImageUrl } from "../../../../utils/helpers";
+import { useClinicSelection } from "../../../../contexts/useClinicSelection";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
   const { openModal: openAppointmentModal } = useAppointmentModal();
+  const { selectedClinic } = useClinicSelection();
 
   // Close user menu dropdown when user logs out
   useEffect(() => {
@@ -86,7 +88,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           />
 
           <motion.div
-            className="fixed top-0 right-0 h-full w-[280px] sm:w-80 max-w-[90vw] bg-white shadow-2xl z-50 lg:hidden flex flex-col"
+            className="fixed inset-y-0 right-0 h-dvh w-full sm:w-[360px] max-w-full bg-white shadow-2xl z-50 lg:hidden flex flex-col overflow-hidden"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -102,19 +104,21 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 <NavLink
                   to="/home"
                   onClick={handleLinkClick}
-                  className="w-32 sm:w-40 shrink-0"
+                  className="w-36 sm:w-44 h-14 shrink-0 flex items-center"
                 >
                   {isSettingsLoading ? (
                     <div className="w-full h-10 bg-gray-200 animate-pulse rounded" />
                   ) : (
                     <img
                       src={
-                        settings?.data?.settings?.logo
+                        selectedClinic?.image
+                          ? getImageUrl(selectedClinic.image)
+                          : settings?.data?.settings?.logo
                           ? getImageUrl(settings.data.settings.logo)
                           : "/images/main-logo.png"
                       }
-                      alt="logo"
-                      className="w-full object-contain"
+                      alt={selectedClinic?.name ? `لوگوی ${selectedClinic.name}` : "لوگوی سایت"}
+                      className="w-full h-full object-contain object-right"
                     />
                   )}
                 </NavLink>

@@ -11,17 +11,20 @@ import { useGetServiceByIdentifier } from "../../../services/useServices";
 import { getImageUrl } from "../../../utils/helpers";
 import SEO from "../../../components/SEO/SEO";
 import { generateServiceSchema } from "../../../utils/structuredData";
+import DoctorCard from "../../../components/modules/Main/DoctorCard/DoctorCard";
+import { useClinicSelection } from "../../../contexts/useClinicSelection";
 
 function ServiceDetails() {
   const { slug } = useParams();
   const { data: service, isLoading } = useGetServiceByIdentifier(slug as string);
+  const { selectedClinic } = useClinicSelection();
 
   if (isLoading)
     return <LoadingState text="در حال بارگذاری جزئیات خدمات..." />;
 
   const serviceTitle = service?.data?.service?.title
-    ? `${service.data.service.title} - کلینیک دندان پزشکی طاها`
-    : "خدمات دندانپزشکی - کلینیک دندان پزشکی طاها";
+    ? `${service.data.service.title} - ${selectedClinic?.name || "کلینیک دندان‌پزشکی"}`
+    : `خدمات دندانپزشکی - ${selectedClinic?.name || "کلینیک دندان‌پزشکی"}`;
 
   const serviceDescription = service?.data?.service?.description
     ? service.data.service.description
@@ -42,7 +45,7 @@ function ServiceDetails() {
           : undefined,
         url: `${siteUrl}/services/${slug}`,
         provider: {
-          name: "کلینیک دندان پزشکی طاها",
+          name: selectedClinic?.name || "کلینیک دندان‌پزشکی",
           url: `${siteUrl}/home`,
         },
         areaServed: "ایران",
@@ -103,6 +106,26 @@ function ServiceDetails() {
                   </div>
                 </div>
               </div>
+
+              <section className="rounded-3xl border border-main-border-color bg-white p-5 md:p-8 shadow-sm" aria-labelledby="service-doctors-title">
+                <div className="mb-6">
+                  <span className="text-accent text-sm font-semibold">تیم درمان</span>
+                  <h2 id="service-doctors-title" className="mt-2 text-2xl md:text-3xl font-bold text-dark">
+                    پزشکان ارائه‌دهنده این خدمت
+                  </h2>
+                </div>
+                {service?.data?.service?.doctors?.length ? (
+                  <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                    {service.data.service.doctors.map((doctor: import("../../../types/types").Doctor) => (
+                      <DoctorCard key={doctor.id} doctor={doctor} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl bg-background-warm px-5 py-8 text-center text-paragray">
+                    در حال حاضر پزشکی برای این خدمت در این کلینیک ثبت نشده است.
+                  </div>
+                )}
+              </section>
 
               <CommentsBox serviceId={service?.data?.service?.id} />
               <CommentForm serviceId={service?.data?.service?.id} />

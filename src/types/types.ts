@@ -38,6 +38,7 @@ export interface Doctor {
   clinics?: {
     clinic: Clinic;
   }[];
+  services?: { service: Pick<Service, "id" | "title" | "slug"> }[];
   workingDays?: Record<string, Record<string, string | null>>; // { clinicId: { day: "14:00-18:00" | null } }
   isAppointmentEnabled?: boolean; // آیا امکان نوبت‌گیری برای این پزشک فعال است
   _count?: {
@@ -96,6 +97,7 @@ export interface Service {
   durationMinutes?: number;
   coverImage?: string;
   categories?: Category[];
+  doctors?: Doctor[];
   createdAt: string;
   updatedAt: string;
 }
@@ -161,6 +163,8 @@ export interface Gallery {
   image: string;
   order: number;
   published: boolean;
+  clinicId: string;
+  clinic?: Pick<Clinic, "id" | "name" | "domain">;
   createdAt?: string;
   updatedAt?: string;
 }

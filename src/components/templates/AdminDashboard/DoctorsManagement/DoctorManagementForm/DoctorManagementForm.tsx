@@ -10,11 +10,12 @@ import {
   useUpdateDoctor,
 } from "../../../../../services/useDoctors";
 import { useGetAllClinics } from "../../../../../services/useClinics";
+import { useGetAllServices } from "../../../../../services/useServices";
 import {
   showSuccessToast,
   showErrorToast,
 } from "../../../../../utils/toastify";
-import type { OptionType, Clinic, Doctor } from "../../../../../types/types";
+import type { OptionType, Clinic, Doctor, Service } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import TextEditor from "../../../../modules/AdminDashboard/TextEditor/TextEditor";
 import { getImageUrl } from "../../../../../utils/helpers";
@@ -63,6 +64,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
   const { mutateAsync: createDoctor } = useCreateDoctor();
   const { mutateAsync: updateDoctor } = useUpdateDoctor();
   const { data: clinicsData } = useGetAllClinics(1, 100);
+  const { data: servicesData } = useGetAllServices(1, 100);
   const [removeImage, setRemoveImage] = useState(false);
 
   const isEditMode = !!doctor?.id;
@@ -74,6 +76,10 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         label: clinic.name,
       })) || [],
     [clinicsData?.data?.clinics]
+  );
+  const serviceOptions: OptionType[] = useMemo(
+    () => servicesData?.data?.services?.map((service: Service) => ({ value: service.id, label: service.title })) || [],
+    [servicesData?.data?.services]
   );
 
   const validationSchema = useMemo(
@@ -91,6 +97,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
           .of(Yup.string())
           .min(1, "انتخاب حداقل یک کلینیک الزامی است")
           .required("انتخاب کلینیک الزامی است"),
+        serviceIds: Yup.array().of(Yup.string()),
         workingDays: Yup.object(),
       }),
     []
@@ -105,6 +112,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       skills: string[];
       medicalLicenseNo: string;
       clinicIds: string[];
+      serviceIds: string[];
       workingDays: Record<string, Record<string, TimeRange[]>>; // { clinicId: { day: TimeRange[] } }
       profileImage: File | null;
       isAppointmentEnabled: boolean;
@@ -129,6 +137,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
       if (values.clinicIds && values.clinicIds.length > 0) {
         formData.append("clinicIds", JSON.stringify(values.clinicIds));
       }
+      formData.append("serviceIds", JSON.stringify(values.serviceIds || []));
 
       if (values.workingDays && values.clinicIds.length > 0) {
         // تبدیل به فرمت موردنظر: {"clinicId": {"saturday": "14:00-15:00 & 15:00-16:00", "sunday": null, ...}}
@@ -223,6 +232,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
         clinicIds:
           doctor?.clinics?.map((clinic) => clinic.clinic.id) ||
           ([] as string[]),
+        serviceIds: doctor?.services?.map((relation) => relation.service.id) || ([] as string[]),
         isAppointmentEnabled: doctor?.isAppointmentEnabled ?? false,
         workingDays: (() => {
           // تبدیل داده‌های ورودی به ساختار جدید: { clinicId: { day: TimeRange[] } }
@@ -304,6 +314,7 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
             skills: values.skills,
             medicalLicenseNo: values.medicalLicenseNo,
             clinicIds: values.clinicIds,
+            serviceIds: values.serviceIds,
             workingDays: values.workingDays,
             profileImage: values.profileImage,
             isAppointmentEnabled: values.isAppointmentEnabled,
@@ -491,6 +502,25 @@ function DoctorManagementForm({ doctor }: { doctor?: Doctor }) {
                     )}
                 </div>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-dark font-semibold mb-2 mr-4">خدمات قابل ارائه</label>
+              <Select<OptionType, true>
+                isMulti
+                options={serviceOptions}
+                value={serviceOptions.filter((option) => formik.values.serviceIds.includes(option.value))}
+                onChange={(selected) => formik.setFieldValue("serviceIds", selected.map((option) => option.value))}
+                onBlur={() => formik.setFieldTouched("serviceIds", true)}
+                placeholder="یک یا چند خدمت را انتخاب کنید"
+                components={{ DropdownIndicator }}
+                classNamePrefix="admin-select"
+                classNames={{
+                  control: () => "!min-h-[52px] !rounded-xl !border !border-main-border-color !bg-white !px-3",
+                  menu: () => "!z-50 !rounded-xl !overflow-hidden !bg-white !shadow-xl",
+                  option: ({ isFocused, isSelected }) => isSelected ? "!bg-primary !text-white" : isFocused ? "!bg-background-warm !text-dark" : "!bg-white !text-dark",
+                }}
+              />
             </div>
 
             {/* فعال بودن نوبت‌گیری */}

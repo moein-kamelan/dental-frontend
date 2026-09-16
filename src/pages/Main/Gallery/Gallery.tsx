@@ -35,31 +35,6 @@ function Gallery() {
   const images = galleryData?.data?.images || [];
   const hasImages = images.length > 0;
 
-  // Debug: Log images data
-  useEffect(() => {
-    if (galleryData?.data?.images) {
-      console.log("Gallery images:", galleryData.data.images);
-      galleryData.data.images.forEach((img: Gallery, index: number) => {
-        const imageUrl = img.image ? getImageUrl(img.image) : "NO IMAGE";
-        console.log(`Image ${index + 1}:`, {
-          id: img.id,
-          title: img.title,
-          image: img.image,
-          imageUrl: imageUrl,
-          hasImage: !!img.image,
-          imageType: typeof img.image,
-        });
-        // Test if image URL is accessible
-        if (img.image) {
-          const testImg = new Image();
-          testImg.onload = () => console.log(`✅ Image ${index + 1} loaded successfully:`, imageUrl);
-          testImg.onerror = () => console.error(`❌ Image ${index + 1} failed to load:`, imageUrl);
-          testImg.src = imageUrl;
-        }
-      });
-    }
-  }, [galleryData]);
-
   const handleImageClick = (image: Gallery) => {
     setSelectedImage(image);
   };

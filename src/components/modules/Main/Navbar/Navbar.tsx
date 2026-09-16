@@ -11,6 +11,7 @@ import { useLogout } from "../../../../services/useAuth";
 import { useAuthModal } from "../../../../contexts/useAuthModal";
 import { useAppointmentModal } from "../../../../contexts/useAppointmentModal";
 import { getImageUrl } from "../../../../utils/helpers";
+import { useClinicSelection } from "../../../../contexts/useClinicSelection";
 
 function Navbar() {
   const user = useAppSelector((state) => state.user.data);
@@ -24,6 +25,7 @@ function Navbar() {
   const { mutateAsync: logout } = useLogout();
   const { openModal } = useAuthModal();
   const { openModal: openAppointmentModal } = useAppointmentModal();
+  const { selectedClinic } = useClinicSelection();
 
   // Close dropdown when user logs out
   useEffect(() => {
@@ -81,11 +83,13 @@ function Navbar() {
             ) : (
               <img
                 src={
-                  settings?.data?.settings?.logo
+                  selectedClinic?.image
+                    ? getImageUrl(selectedClinic.image)
+                    : settings?.data?.settings?.logo
                     ? getImageUrl(settings.data.settings.logo)
                     : "/images/main-logo.png"
                 }
-                alt="logo"
+                alt={selectedClinic?.name ? `لوگوی ${selectedClinic.name}` : "لوگوی سایت"}
                 className="h-full w-full object-contain"
               />
             )}

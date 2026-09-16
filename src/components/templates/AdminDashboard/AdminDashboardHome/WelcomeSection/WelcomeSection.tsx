@@ -7,7 +7,7 @@ function WelcomeSection() {
   const isSecretary = user?.role === "SECRETARY";
   
   return (
-    <div className="bg-linear-to-r from-purple-400 to-purple-600  rounded-xl p-4 md:p-6 mb-8 text-white">
+    <div className="admin-welcome rounded-2xl p-5 md:p-7 mb-8">
     <div className="flex items-center justify-between">
       <div>
         <h2 className="text-xl md:text-2xl font-iran-yekan-bold mb-2">خوش آمدید {formattedName ? `${formattedName} عزیز` : ''}!

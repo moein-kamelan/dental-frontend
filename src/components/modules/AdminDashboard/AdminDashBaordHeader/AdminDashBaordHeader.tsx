@@ -50,7 +50,7 @@ function AdminDashBaordHeader({
           {/* دکمه باز/بسته کردن سایدبار */}
           <button
             onClick={toggleSidebar}
-            className="flex items-center justify-center w-10 h-10 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:from-purple-500 hover:via-purple-600 hover:to-purple-700 group"
+            className="admin-brand-button flex items-center justify-center w-11 h-11 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 group"
             aria-label={isSidebarOpen ? "بستن منو" : "باز کردن منو"}
           >
             <i
@@ -68,7 +68,7 @@ function AdminDashBaordHeader({
             </button>
           ) : (
             <h2 className="text-xl  font-estedad-semibold relative inline-block group">
-              <span className="relative z-10 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="admin-title relative z-10">
                 {title}
               </span>
             </h2>
@@ -189,7 +189,7 @@ function AdminDashBaordHeader({
           {/* دکمه بازگشت به صفحه اصلی */}
           <button
             onClick={() => navigate("/home")}
-            className="flex items-center gap-2 bg-linear-to-r from-purple-400 via-purple-500 to-purple-600 text-white px-3 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 group hover:from-purple-500 hover:via-purple-600 hover:to-purple-700 text-sm lg:text-base"
+            className="admin-brand-button flex items-center gap-2 px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 group text-sm lg:text-base"
           >
             <i className="fas fa-home group-hover:scale-110 transition-transform duration-200"></i>
             <span className="font-iran-yekan-medium">صفحه اصلی</span>

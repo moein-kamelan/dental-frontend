@@ -16,6 +16,8 @@ import {
 import { getImageUrl } from "../../../../../utils/helpers";
 import type { Gallery } from "../../../../../types/types";
 import { useQueryClient } from "@tanstack/react-query";
+import { useGetAllClinics } from "../../../../../services/useClinics";
+import type { Clinic } from "../../../../../types/types";
 
 function GalleryManagementForm({ image }: { image?: Gallery }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,6 +28,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
   const { mutateAsync: createGallery } = useCreateGallery();
   const { mutateAsync: updateGallery } = useUpdateGallery();
   const { mutateAsync: bulkCreateGallery } = useBulkCreateGallery();
+  const { data: clinicsData } = useGetAllClinics(1, 100);
 
   const isEditMode = !!image?.id;
 
@@ -38,6 +41,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
           .integer("ترتیب باید عدد صحیح باشد")
           .min(0, "ترتیب نمی‌تواند منفی باشد"),
         published: Yup.boolean(),
+        clinicId: Yup.string().required("انتخاب کلینیک الزامی است"),
         galleryImage: Yup.mixed()
           .nullable()
           .test("file-required", "تصویر الزامی است", function (value) {
@@ -50,7 +54,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
             return value !== null && value !== undefined && value !== "";
           }),
       }),
-    [isEditMode]
+    [isEditMode, image?.image]
   );
 
   const handleSubmit = async (
@@ -60,6 +64,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
       order: number;
       published: boolean;
       galleryImage: File | null;
+      clinicId: string;
     },
     resetForm: () => void
   ) => {
@@ -87,6 +92,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
 
       formData.append("order", values.order.toString());
       formData.append("published", values.published.toString());
+      formData.append("clinicId", values.clinicId);
 
       if (values.galleryImage) {
         formData.append("galleryImage", values.galleryImage);
@@ -143,7 +149,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
     }
   };
 
-  const handleBulkUpload = async (files: FileList | null) => {
+  const handleBulkUpload = async (files: FileList | null, clinicId: string) => {
     if (!files || files.length === 0) {
       showErrorToast("لطفاً حداقل یک تصویر انتخاب کنید");
       return;
@@ -160,6 +166,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
       
       // Set published to true by default
       formData.append("published", "true");
+      formData.append("clinicId", clinicId);
 
       await bulkCreateGallery(formData);
       showSuccessToast(`${files.length} تصویر با موفقیت آپلود شد`);
@@ -191,11 +198,13 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={{
         title: image?.title || "",
         description: image?.description || "",
         order: image?.order ?? 0,
         published: image?.published ?? true,
+        clinicId: image?.clinicId || clinicsData?.data?.clinics?.[0]?.id || "",
         galleryImage: null as File | null,
       }}
       validationSchema={validationSchema}
@@ -207,6 +216,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
             order: values.order,
             published: values.published,
             galleryImage: values.galleryImage,
+            clinicId: values.clinicId,
           },
           resetForm
         );
@@ -218,6 +228,21 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
 
         return (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="gallery-clinic" className="block text-dark font-semibold mb-2 mr-4">کلینیک <span className="text-red-500">*</span></label>
+              <select
+                id="gallery-clinic"
+                name="clinicId"
+                value={formik.values.clinicId}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full min-h-12 rounded-xl border border-main-border-color bg-white px-4 text-dark focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
+              >
+                <option value="">انتخاب کلینیک</option>
+                {clinicsData?.data?.clinics?.map((clinic: Clinic) => <option key={clinic.id} value={clinic.id}>{clinic.name}</option>)}
+              </select>
+              {formik.touched.clinicId && typeof formik.errors.clinicId === "string" && <p className="mt-1 mr-4 text-xs text-red-500">{formik.errors.clinicId}</p>}
+            </div>
             <CustomInput
               labelText="عنوان"
               placeholder="عنوان تصویر را وارد کنید"
@@ -298,7 +323,7 @@ function GalleryManagementForm({ image }: { image?: Gallery }) {
                   multiple
                   className="hidden "
                   onChange={(e) => {
-                    handleBulkUpload(e.target.files);
+                    handleBulkUpload(e.target.files, formik.values.clinicId);
                   }}
                 />
                 {!isEditMode && (

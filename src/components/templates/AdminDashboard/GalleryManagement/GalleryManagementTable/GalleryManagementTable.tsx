@@ -52,6 +52,7 @@ function GalleryManagementTable({
               <th>ردیف</th>
               <th>تصویر</th>
               <th>عنوان</th>
+              <th>کلینیک</th>
               <th>توضیحات</th>
               <th>ترتیب</th>
               <th>وضعیت</th>
@@ -61,10 +62,10 @@ function GalleryManagementTable({
           </thead>
           <tbody className="divide-y divide-main-border-color">
             {isLoadingImages ? (
-              <TableSkeleton rows={5} columns={8} />
+              <TableSkeleton rows={5} columns={9} />
             ) : images.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center p-8 font-estedad-light">
+                <td colSpan={9} className="text-center p-8 font-estedad-light">
                   تصویری یافت نشد
                 </td>
               </tr>
@@ -117,6 +118,7 @@ function GalleryManagementTable({
                       )}
                     </div>
                   </td>
+                  <td className="text-dark font-medium text-nowrap">{image.clinic?.name || "-"}</td>
                   <td className="">
                     <p className="font-estedad-light line-clamp-2 max-w-[300px] min-w-[220px]">
                       {image.title || "-"}
